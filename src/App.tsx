@@ -3,7 +3,7 @@ import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   ComposedChart, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
-  ScatterChart, Scatter, ZAxis
+  ScatterChart, Scatter, ZAxis, ReferenceLine
 } from 'recharts';
 import {
   BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator,
@@ -13,8 +13,14 @@ import {
 import {
   historicalData, taxEvents, segmentDataFY24, defaultAssumptions,
   globalTobaccoComparison, budgetCheatSheet, sharesOutstanding, sotpData,
-  generateProjections, calculateDCF, type ProjectionAssumptions
+  type ProjectionAssumptions
 } from './data/itcData';
+import {
+  calculateDCF,
+  calculateSotpSummary,
+  generateProjections,
+  simulateTaxImpact,
+} from './utils/itcModel';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'projections' | 'playbook' | 'global';
@@ -491,22 +497,20 @@ function TaxAnalyzer() {
   const [simHike, setSimHike] = useState(12);
 
   const latest = historicalData[historicalData.length - 1];
+  const taxImpact = useMemo(() => simulateTaxImpact(simHike, latest), [simHike, latest]);
+  const {
+    priceIncrease,
+    volumeImpactShort,
+    volumeImpactLong,
+    revenueImpact,
+    newCigEbit,
+    newEbitMargin,
+    stockReactionEstimate,
+  } = taxImpact;
 
-  // Simulate impact
-  const elasticityShort = -0.4;
-  const elasticityLong = -0.6;
-  const passThroughPct = 85;
+  const priorCigEbit = latest.cigaretteRevenue * (latest.cigaretteEbitMargin / 100);
+  const ebitImpact = ((newCigEbit - priorCigEbit) / priorCigEbit) * 100;
 
-  const priceIncrease = simHike * (passThroughPct / 100);
-  const volumeImpactShort = -(priceIncrease * Math.abs(elasticityShort));
-  const volumeImpactLong = -(priceIncrease * Math.abs(elasticityLong));
-  const revenueImpact = priceIncrease + volumeImpactShort;
-  const newCigRevenue = latest.cigaretteRevenue * (1 + revenueImpact / 100);
-  const marginPressure = simHike > 16 ? (simHike - 16) * 0.5 : 0;
-  const newEbitMargin = Math.max(55, latest.cigaretteEbitMargin - marginPressure);
-  newCigRevenue * (newEbitMargin / 100);
-
-  const stockReactionEstimate = simHike === 0 ? 6 : simHike <= 10 ? 3 : simHike <= 16 ? -1 : simHike <= 20 ? -4 : -8;
 
   const stockReactionData = taxEvents.map(e => ({
     year: e.year,
@@ -551,12 +555,14 @@ function TaxAnalyzer() {
           </div>
 
           {/* Results */}
-          <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-3">
             <MetricCard title="Price Increase" value={`${priceIncrease.toFixed(1)}%`} subtitle="Passed to consumers" color="gold" trend={priceIncrease} />
             <MetricCard title="Volume Impact (Short)" value={`${volumeImpactShort.toFixed(1)}%`} subtitle="Decline expected" color="red" trend={volumeImpactShort} />
             <MetricCard title="Volume Impact (Long)" value={`${volumeImpactLong.toFixed(1)}%`} subtitle="Long-term effect" color="red" trend={volumeImpactLong} />
             <MetricCard title="Revenue Impact" value={`${revenueImpact.toFixed(1)}%`} subtitle="Cigarette segment" color={revenueImpact >= 0 ? 'green' : 'red'} trend={revenueImpact} />
             <MetricCard title="New EBIT Margin" value={`${newEbitMargin.toFixed(1)}%`} subtitle={`vs ${latest.cigaretteEbitMargin}% prior`} color={newEbitMargin >= latest.cigaretteEbitMargin ? 'green' : 'red'} trend={newEbitMargin - latest.cigaretteEbitMargin} />
+            <MetricCard title="New Cig EBIT" value={fmt(newCigEbit)} subtitle="Post-hike estimate" color={ebitImpact >= 0 ? 'green' : 'red'} trend={ebitImpact} />
+            <MetricCard title="EBIT Impact" value={`${ebitImpact >= 0 ? '+' : ''}${ebitImpact.toFixed(1)}%`} subtitle="vs prior EBIT" color={ebitImpact >= 0 ? 'green' : 'red'} trend={ebitImpact} />
             <MetricCard title="Est. Stock Reaction" value={`${stockReactionEstimate >= 0 ? '+' : ''}${stockReactionEstimate}%`} subtitle="Budget day est." color={stockReactionEstimate >= 0 ? 'green' : 'red'} trend={stockReactionEstimate} />
           </div>
         </div>
@@ -638,23 +644,26 @@ function TaxAnalyzer() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // VALUATION TOOL
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function Valuation() {
+function Valuation({ assumptions }: { assumptions: ProjectionAssumptions }) {
   const [tab, setTab] = useState<'sotp' | 'dcf'>('sotp');
   const [dcfWacc, setDcfWacc] = useState(10.5);
   const [dcfTerminal, setDcfTerminal] = useState(5.5);
 
   const latest = historicalData[historicalData.length - 1];
-  const projAssumptions = { ...defaultAssumptions };
-  const projections = generateProjections(projAssumptions, latest);
+  const projections = useMemo(() => generateProjections(assumptions, latest), [assumptions, latest]);
   const dcfResult = useMemo(() => calculateDCF(projections, dcfWacc, dcfTerminal), [projections, dcfWacc, dcfTerminal]);
+  const sotpSummary = useMemo(() => calculateSotpSummary(sotpData, latest), [latest]);
+  const {
+    totalBase: totalSotpBase,
+    totalLow: totalSotpLow,
+    totalHigh: totalSotpHigh,
+    netCash,
+    perShareBase: sotpPerShareBase,
+    perShareLow: sotpPerShareLow,
+    perShareHigh: sotpPerShareHigh,
+  } = sotpSummary;
 
-  const totalSotpBase = sotpData.reduce((a, s) => a + s.value, 0);
-  const totalSotpLow = sotpData.reduce((a, s) => a + s.valueLow, 0);
-  const totalSotpHigh = sotpData.reduce((a, s) => a + s.valueHigh, 0);
-  const netCash = 22000;
-  const sotpPerShareBase = (totalSotpBase + netCash) / sharesOutstanding;
-  const sotpPerShareLow = (totalSotpLow + netCash) / sharesOutstanding;
-  const sotpPerShareHigh = (totalSotpHigh + netCash) / sharesOutstanding;
+  const dcfError = !dcfResult.isValid ? 'Terminal growth must stay below WACC.' : null;
 
   const sotpBarData = sotpData.map(s => ({
     name: s.segment.replace(/ \(.*\)/, ''),
@@ -674,14 +683,12 @@ function Valuation() {
 
       {tab === 'sotp' && (
         <div className="space-y-4">
-          {/* Summary Cards */}
           <div className="grid grid-cols-3 gap-3">
             <MetricCard title="Bear Case" value={rupee(sotpPerShareLow)} subtitle="₹3 L Cr off mcap" color="red" />
             <MetricCard title="Base Case" value={rupee(sotpPerShareBase)} subtitle={`${totalSotpBase + netCash > 550000 ? 'Upside' : 'Downside'}`} color="blue" />
             <MetricCard title="Bull Case" value={rupee(sotpPerShareHigh)} subtitle="Premium valuations" color="green" />
           </div>
 
-          {/* SOTP Bar Chart */}
           <div className="glass-card p-5">
             <h3 className="text-sm font-semibold text-gray-300 mb-4">Segment Valuation Range (₹'000 Cr)</h3>
             <ResponsiveContainer width="100%" height={300}>
@@ -697,7 +704,6 @@ function Valuation() {
             </ResponsiveContainer>
           </div>
 
-          {/* SOTP Table */}
           <div className="glass-card overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
@@ -756,7 +762,6 @@ function Valuation() {
       {tab === 'dcf' && (
         <div className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {/* DCF Controls */}
             <div className="glass-card p-5 space-y-4">
               <h3 className="text-sm font-semibold text-gray-300">DCF Assumptions</h3>
               <div>
@@ -767,13 +772,13 @@ function Valuation() {
                 <label className="text-sm text-gray-400 block mb-2">Terminal Growth: <span className="text-blue-400 font-bold">{dcfTerminal}%</span></label>
                 <input type="range" min={3} max={8} step={0.5} value={dcfTerminal} onChange={e => setDcfTerminal(Number(e.target.value))} className="w-full" />
               </div>
+              {dcfError && <p className="text-xs text-red-400">{dcfError}</p>}
             </div>
 
-            {/* DCF Results */}
             <div className="lg:col-span-2 grid grid-cols-3 gap-3">
-              <MetricCard title="Enterprise Value" value={fmt(dcfResult.enterpriseValue)} subtitle="PV of all cash flows" color="blue" />
-              <MetricCard title="Equity Value" value={fmt(dcfResult.equityValue)} subtitle="+ Net cash" color="green" />
-              <MetricCard title="Fair Value / Share" value={rupee(dcfResult.perShareValue)} subtitle={`₹{${sharesOutstanding} Cr shares}`} color="gold" />
+              <MetricCard title="Enterprise Value" value={dcfResult.isValid ? fmt(dcfResult.enterpriseValue) : '—'} subtitle="PV of all cash flows" color="blue" />
+              <MetricCard title="Equity Value" value={dcfResult.isValid ? fmt(dcfResult.equityValue) : '—'} subtitle="+ Net cash" color="green" />
+              <MetricCard title="Fair Value / Share" value={dcfResult.isValid ? rupee(dcfResult.perShareValue) : '—'} subtitle={`₹{${sharesOutstanding} Cr shares}`} color="gold" />
             </div>
           </div>
 
@@ -791,7 +796,6 @@ function Valuation() {
             </ResponsiveContainer>
           </div>
 
-          {/* Projection Table */}
           <div className="glass-card overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
@@ -814,7 +818,7 @@ function Valuation() {
                     <td className="text-right p-3 text-gray-300">{fmt(p.netProfit)}</td>
                     <td className="text-right p-3 text-gray-300">{rupee(p.eps)}</td>
                     <td className="text-right p-3 text-gray-300">{fmt(p.freeCashFlow)}</td>
-                    <td className="text-right p-3 text-yellow-300">{fmt(dcfResult.pvCashFlows[i])}</td>
+                    <td className="text-right p-3 text-yellow-300">{dcfResult.isValid ? fmt(dcfResult.pvCashFlows[i]) : '—'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -829,9 +833,10 @@ function Valuation() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // FUTURE PROJECTIONS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function Projections() {
-  const [assumptions, setAssumptions] = useState<ProjectionAssumptions>(defaultAssumptions);
-
+function Projections({ assumptions, setAssumptions }: {
+  assumptions: ProjectionAssumptions;
+  setAssumptions: React.Dispatch<React.SetStateAction<ProjectionAssumptions>>;
+}) {
   const latest = historicalData[historicalData.length - 1];
   const projections = useMemo(() => generateProjections(assumptions, latest), [assumptions, latest]);
 
@@ -1022,9 +1027,6 @@ function Projections() {
     </div>
   );
 }
-
-// Need ReferenceLine import
-import { ReferenceLine } from 'recharts';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // BUDGET PLAYBOOK
@@ -1315,6 +1317,7 @@ function GlobalCompare() {
 export default function App() {
   const [section, setSection] = useState<Section>('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [assumptions, setAssumptions] = useState<ProjectionAssumptions>(defaultAssumptions);
 
   const renderSection = useCallback(() => {
     switch (section) {
@@ -1322,12 +1325,12 @@ export default function App() {
       case 'financials': return <Financials />;
       case 'segments': return <Segments />;
       case 'tax': return <TaxAnalyzer />;
-      case 'valuation': return <Valuation />;
-      case 'projections': return <Projections />;
+      case 'valuation': return <Valuation assumptions={assumptions} />;
+      case 'projections': return <Projections assumptions={assumptions} setAssumptions={setAssumptions} />;
       case 'playbook': return <Playbook />;
       case 'global': return <GlobalCompare />;
     }
-  }, [section]);
+  }, [section, assumptions]);
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#0a0f1a]">
