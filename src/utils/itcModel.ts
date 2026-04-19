@@ -985,7 +985,7 @@ export function runMonteCarloSimulation(
     p25: round(percentile(sorted, 25), 2),
     p75: round(percentile(sorted, 75), 2),
     p95: round(percentile(sorted, 95), 2),
-    probUpside: round(probUpside * 100, 1),
+    probUpside: round(probUpside, 4),
     histogram,
   };
 }

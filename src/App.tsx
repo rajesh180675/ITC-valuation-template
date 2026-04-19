@@ -1,5 +1,5 @@
 import { useCallback, useState, type ReactNode } from 'react';
-import { BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator, Target, Globe, Activity, Menu, X } from 'lucide-react';
+import { BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator, Target, Globe, Activity, Menu, X, Brain } from 'lucide-react';
 import { defaultAssumptions, type ProjectionAssumptions } from './data/itcData';
 import { DashboardSection } from '@/components/itc/DashboardSection';
 import { FinancialsSection } from '@/components/itc/FinancialsSection';
@@ -9,8 +9,9 @@ import { ProjectionsSection } from '@/components/itc/ProjectionsSection';
 import { SegmentsSection } from '@/components/itc/SegmentsSection';
 import { TaxAnalyzerSection } from '@/components/itc/TaxAnalyzerSection';
 import { ValuationSection } from '@/components/itc/ValuationSection';
+import { AdvancedValuationSection } from '@/components/itc/AdvancedValuationSection';
 
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'projections' | 'playbook' | 'global';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'projections' | 'playbook' | 'global';
 
 interface NavItem {
   id: Section;
@@ -24,6 +25,7 @@ const NAV: NavItem[] = [
   { id: 'segments', label: 'Segments', icon: <PieIcon size={18} /> },
   { id: 'tax', label: 'Tax Analyzer', icon: <Shield size={18} /> },
   { id: 'valuation', label: 'Valuation', icon: <Calculator size={18} /> },
+  { id: 'advanced', label: 'Advanced Lab', icon: <Brain size={18} /> },
   { id: 'projections', label: 'Projections', icon: <TrendingUp size={18} /> },
   { id: 'playbook', label: 'Budget Playbook', icon: <Target size={18} /> },
   { id: 'global', label: 'Global Compare', icon: <Globe size={18} /> },
@@ -46,6 +48,8 @@ export default function App() {
         return <TaxAnalyzerSection />;
       case 'valuation':
         return <ValuationSection assumptions={assumptions} setAssumptions={setAssumptions} />;
+      case 'advanced':
+        return <AdvancedValuationSection assumptions={assumptions} />;
       case 'projections':
         return <ProjectionsSection assumptions={assumptions} setAssumptions={setAssumptions} />;
       case 'playbook':
