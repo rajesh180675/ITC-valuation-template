@@ -577,14 +577,23 @@ export function relativeValuation(profile: CompanyProfile): GenericRelativeValRe
     };
   };
 
-  const companyEvEbitda = (profile.currentMarketPrice * profile.sharesOutstandingCr - profile.netCashCr) / Math.max(1, base.ebitda);
+  // Implied EV = market cap - net cash; net cash positive means net cash
+  const marketCap = profile.currentMarketPrice * profile.sharesOutstandingCr;
+  const ev = marketCap - profile.netCashCr;
+  const companyEvEbitda = ev / Math.max(1, base.ebitda);
   const companyPe = profile.currentMarketPrice / Math.max(0.01, base.eps);
-  const companyEvSales = (profile.currentMarketPrice * profile.sharesOutstandingCr - profile.netCashCr) / Math.max(1, base.revenue);
+  const companyEvSales = ev / Math.max(1, base.revenue);
+
+  // Proxy peer EV/Sales: evEbitda × (EBITDA margin proxy). Use a sector-
+  // conservative 18% margin assumption (overridden if caller supplies peer
+  // revenue/ebitda in future). For cross-company work this keeps the metric
+  // consistent even though absolute level is indicative.
+  const peerEvSales = (p: GenericPeer) => p.evEbitda * 0.18;
 
   return [
     buildResult('EV/EBITDA', p => p.evEbitda, companyEvEbitda),
     buildResult('P/E', p => p.pe, companyPe),
-    buildResult('EV/Sales', p => p.marketCapCr / Math.max(1, p.marketCapCr * (p.evEbitda / Math.max(1, p.pe * 0.6))), companyEvSales),
+    buildResult('EV/Sales', peerEvSales, companyEvSales),
   ];
 }
 

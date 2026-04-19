@@ -9,8 +9,6 @@ import { COMPANY_PROFILES, getCompany, type CompanyProfile } from '@/data/compan
 import { buildCompanySnapshot, runMonteCarlo, valueWithAssumptions, type CompanySnapshot } from '@/utils/genericModel';
 import { SectionHeader, MetricCard, ChartTooltip, fmt, fmtN } from '@/components/itc/shared';
 
-const COLORS = ['#C2410C', '#1D4ED8', '#0F766E', '#B45309', '#991B1B'];
-
 interface CompanyUniverseSectionProps {
   initialCompanyId?: string;
 }
@@ -367,7 +365,6 @@ function MonteCarloPanel({ profile }: { profile: CompanyProfile }) {
             <XAxis dataKey="bucket" stroke="#9CA3AF" tick={{ fontSize: 9 }} angle={-40} textAnchor="end" height={60} />
             <YAxis stroke="#9CA3AF" />
             <Tooltip content={<ChartTooltip />} />
-            <ReferenceLine x={undefined} />
             <Bar dataKey="count" fill={profile.accentColor} radius={[2, 2, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
@@ -798,5 +795,3 @@ function InsightCard({ title, items, icon, tone }: { title: string; items: strin
   );
 }
 
-// Avoid unused imports warnings
-void COLORS;
