@@ -35,14 +35,23 @@ export function generateProjections(assumptions: ProjectionAssumptions, baseData
   let prev = { ...baseData };
 
   for (let i = 1; i <= 7; i++) {
-    const cigRev = prev.cigaretteRevenue * (1 + assumptions.cigaretteRevenueGrowth / 100);
+    const elasticityShort = -0.4;
+    const passThroughPct = 85;
+    const priceIncrease = assumptions.annualNccdHike * (passThroughPct / 100);
+    const volumeImpact = -(priceIncrease * Math.abs(elasticityShort));
+    const cigaretteGrowthAfterTax = assumptions.cigaretteRevenueGrowth + (priceIncrease + volumeImpact);
+
+    const cigRev = prev.cigaretteRevenue * (1 + cigaretteGrowthAfterTax / 100);
     const fmcgRev = prev.fmcgRevenue * (1 + assumptions.fmcgRevenueGrowth / 100);
     const hotelRev = prev.hotelsRevenue * (1 + assumptions.hotelsRevenueGrowth / 100);
     const paperRev = prev.paperRevenue * (1 + assumptions.paperRevenueGrowth / 100);
     const agriRev = prev.agriRevenue * (1 + assumptions.agriRevenueGrowth / 100);
 
     const totalRev = cigRev + fmcgRev + hotelRev + paperRev + agriRev;
-    const cigEbit = cigRev * (assumptions.cigaretteEbitMargin / 100);
+    const marginPressure = assumptions.annualNccdHike > 16 ? (assumptions.annualNccdHike - 16) * 0.5 : 0;
+    const adjustedCigMargin = Math.max(55, assumptions.cigaretteEbitMargin - marginPressure);
+
+    const cigEbit = cigRev * (adjustedCigMargin / 100);
     const fmcgEbit = fmcgRev * (assumptions.fmcgEbitdaMargin / 100);
     const hotelEbit = hotelRev * 0.27;
     const paperEbit = paperRev * 0.27;
@@ -53,7 +62,7 @@ export function generateProjections(assumptions: ProjectionAssumptions, baseData
     const yearNum = 2024 + i;
     const fcf = ebitda * (1 - assumptions.capexPercent / 100) * 0.7;
     const dps = prev.dps * 1.08;
-    const eps = netProfit / sharesOutstanding * 100;
+    const eps = netProfit / sharesOutstanding;
 
     const newEntry: YearlyData = {
       year: String(yearNum),
@@ -72,14 +81,14 @@ export function generateProjections(assumptions: ProjectionAssumptions, baseData
       dps: Math.round(dps * 100) / 100,
       roe: Math.round((netProfit / (prev.totalAssets * 0.6)) * 100 * 10) / 10,
       roce: Math.round((totalEbit / prev.totalAssets) * 100 * 10) / 10,
-      cigaretteEbitMargin: assumptions.cigaretteEbitMargin,
+      cigaretteEbitMargin: Math.round(adjustedCigMargin * 10) / 10,
       fmcgEbitdaMargin: assumptions.fmcgEbitdaMargin,
       freeCashFlow: Math.round(fcf),
       totalAssets: Math.round(prev.totalAssets * 1.04),
       netDebt: Math.round(prev.netDebt - fcf * 0.4),
       taxHikePct: assumptions.annualNccdHike,
       stockPriceHigh: Math.round(prev.stockPriceHigh * (1 + assumptions.cigaretteRevenueGrowth / 200)),
-      stockPriceLow: Math.round(prev.stockPriceHigh * 0.85),
+      stockPriceLow: Math.round(prev.stockPriceLow * (1 + cigaretteGrowthAfterTax / 250)),
       dividendYield: Math.round((dps / (prev.stockPriceHigh * 0.9)) * 100 * 10) / 10,
       peRatio: Math.round((prev.stockPriceHigh * 0.9 / eps) * 10) / 10,
       cigaretteVolumeIndex: Math.min(110, prev.cigaretteVolumeIndex + 1),

@@ -778,7 +778,7 @@ function Valuation({ assumptions }: { assumptions: ProjectionAssumptions }) {
             <div className="lg:col-span-2 grid grid-cols-3 gap-3">
               <MetricCard title="Enterprise Value" value={dcfResult.isValid ? fmt(dcfResult.enterpriseValue) : '—'} subtitle="PV of all cash flows" color="blue" />
               <MetricCard title="Equity Value" value={dcfResult.isValid ? fmt(dcfResult.equityValue) : '—'} subtitle="+ Net cash" color="green" />
-              <MetricCard title="Fair Value / Share" value={dcfResult.isValid ? rupee(dcfResult.perShareValue) : '—'} subtitle={`₹{${sharesOutstanding} Cr shares}`} color="gold" />
+              <MetricCard title="Fair Value / Share" value={dcfResult.isValid ? rupee(dcfResult.perShareValue) : '—'} subtitle={`${sharesOutstanding} Cr shares`} color="gold" />
             </div>
           </div>
 
