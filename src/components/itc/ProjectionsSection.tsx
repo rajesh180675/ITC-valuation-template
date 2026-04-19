@@ -1,6 +1,6 @@
 import { useMemo, type Dispatch, type SetStateAction } from 'react';
 import {
-  AreaChart, Area, BarChart, Bar, LineChart, Line, ComposedChart,
+  AreaChart, Area, Bar, LineChart, Line, ComposedChart,
   CartesianGrid, Tooltip, XAxis, YAxis, ResponsiveContainer, ReferenceLine,
 } from 'recharts';
 import { TrendingUp, Zap } from 'lucide-react';

@@ -285,7 +285,7 @@ export function ValuationSection({
                             key={`${terminalGrowth}-${wacc}`}
                             className={`text-right p-3 ${point?.isBase ? 'text-blue-300 font-bold' : 'text-gray-300'}`}
                           >
-                            {point?.perShareValue === null ? '—' : rupee(point.perShareValue)}
+                            {!point || point.perShareValue === null ? '—' : rupee(point.perShareValue)}
                           </td>
                         );
                       })}

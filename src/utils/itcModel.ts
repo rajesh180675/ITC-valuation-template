@@ -10,6 +10,8 @@ import { sharesOutstanding } from '@/data/itcData';
 export const MODEL_ASSUMPTIONS = Object.freeze({
   projectionYears: 7,
   cigaretteLongTermElasticity: -0.6,
+  cigaretteShortTermElasticity: -0.4,
+  cigarettePassThroughRate: 85, // % of tax hike passed through to consumers in the tax simulator
   cigaretteMarginPressureThreshold: 16,
   cigaretteMarginPressurePerPoint: 0.5,
   cigaretteMarginFloor: 55,
@@ -402,7 +404,7 @@ function validateProjectionInput(baseData: YearlyData): void {
   ];
 
   for (const [field, label] of numericFields) {
-    assertFiniteNumber(baseData[field], label);
+    assertFiniteNumber(baseData[field] as number, label);
   }
 }
 
@@ -427,7 +429,7 @@ export function generateProjectionDetails(
 
   const details: ProjectionDetail[] = [];
   let prev = { ...baseData };
-  let prevInfotechEbit = MODEL_ASSUMPTIONS.infotechStartingEbit;
+  let prevInfotechEbit: number = MODEL_ASSUMPTIONS.infotechStartingEbit;
 
   for (let i = 1; i <= MODEL_ASSUMPTIONS.projectionYears; i++) {
     const yearNum = MODEL_ASSUMPTIONS.startingYear + i;
@@ -775,9 +777,8 @@ export function simulateTaxImpact(simHike: number, latestData: YearlyData): TaxI
   assertFiniteNumber(simHike, 'simHike');
   validateProjectionInput(latestData);
 
-  const passThroughRate = 85;
-  const priceIncrease = simHike * (passThroughRate / 100);
-  const volumeImpactShort = priceIncrease * -0.4;
+  const priceIncrease = simHike * (MODEL_ASSUMPTIONS.cigarettePassThroughRate / 100);
+  const volumeImpactShort = priceIncrease * MODEL_ASSUMPTIONS.cigaretteShortTermElasticity;
   const volumeImpactLong = priceIncrease * MODEL_ASSUMPTIONS.cigaretteLongTermElasticity;
   const revenueImpact = priceIncrease + volumeImpactShort;
   const newCigRevenue = latestData.cigaretteRevenue * (1 + revenueImpact / 100);
@@ -1020,8 +1021,8 @@ export function calculateReverseDCF(
     }
   };
 
-  let lo = MODEL_ASSUMPTIONS.reverseGrowthMin;
-  let hi = MODEL_ASSUMPTIONS.reverseGrowthMax;
+  let lo: number = MODEL_ASSUMPTIONS.reverseGrowthMin;
+  let hi: number = MODEL_ASSUMPTIONS.reverseGrowthMax;
   let iterations = 0;
   let lastMid = (lo + hi) / 2;
   let lastValue = tryGrowth(lastMid);
