@@ -22,7 +22,7 @@ export function CompanyUniverseSection({ initialCompanyId = 'itc' }: CompanyUniv
     <div>
       <SectionHeader
         title="Company Universe Lab"
-        subtitle="Apply the same DCF, scenarios, Monte Carlo, reverse DCF, relative valuation, DDM and EVA framework to ITC, TCS, HUL, Kansai Nerolac and VST Industries."
+        subtitle="Apply the same DCF, scenarios, Monte Carlo, reverse DCF, relative valuation, DDM and EVA framework to ITC, TCS, HUL, Kansai Nerolac, VST Industries, Reliance, HDFC Bank, Infosys, Maruti Suzuki and Sun Pharma."
         icon={<Building2 size={22} />}
       />
 

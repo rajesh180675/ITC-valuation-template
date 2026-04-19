@@ -1,5 +1,6 @@
 // Multi-company financial profiles for generic valuation framework.
-// Covers: ITC, TCS, HUL, Kansai Nerolac, VST Industries.
+// Covers: ITC, TCS, HUL, Kansai Nerolac, VST Industries, Reliance Industries,
+// HDFC Bank, Infosys, Maruti Suzuki, Sun Pharma.
 //
 // Data sources: FY21-FY25 published annual results; H1 FY26 filings where
 // available. Numbers in INR crore unless otherwise noted. Share counts in
@@ -54,7 +55,24 @@ export interface GenericAssumptions {
 export interface GenericPeer {
   name: string;
   ticker: string;
-  category: 'IndianFMCG' | 'GlobalTobacco' | 'IndianTobacco' | 'IndianIT' | 'GlobalIT' | 'IndianPaints' | 'GlobalPaints' | 'IndianStaples';
+  category:
+    | 'IndianFMCG'
+    | 'GlobalTobacco'
+    | 'IndianTobacco'
+    | 'IndianIT'
+    | 'GlobalIT'
+    | 'IndianPaints'
+    | 'GlobalPaints'
+    | 'IndianStaples'
+    | 'IndianBank'
+    | 'GlobalBank'
+    | 'IndianOilGas'
+    | 'GlobalOilGas'
+    | 'IndianAuto'
+    | 'GlobalAuto'
+    | 'IndianPharma'
+    | 'GlobalPharma'
+    | 'IndianRetail';
   marketCapCr: number;
   evEbitda: number;
   pe: number;
@@ -511,9 +529,429 @@ const VST: CompanyProfile = {
 };
 
 // ==========================================================================
+// RELIANCE INDUSTRIES (consolidated; post Oct-2024 1:1 bonus share count)
+// ==========================================================================
+const RELIANCE: CompanyProfile = {
+  id: 'reliance',
+  ticker: 'RELIANCE',
+  name: 'Reliance Industries',
+  sector: 'Oil-to-Chemicals / Digital / Retail',
+  tagline: 'India\'s largest conglomerate: O2C cash cow funding Jio + Retail flywheel',
+  accentColor: '#1E3A8A',
+  currentMarketPrice: 1285,
+  targetPriceRange: { low: 1180, base: 1460, high: 1680 },
+  sharesOutstandingCr: 1353,
+  netCashCr: -110000, // net debt ~₹1.1L Cr
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 486326, ebitda: 97580,  ebit: 71200,  pat: 53739, eps: 39.7, dps: 3.5, capex: 79792, operatingCashFlow: 85350, freeCashFlow: 5558,   netDebt: 161035, totalAssets: 1321212, investedCapital: 698000 },
+    { fy: 'FY22', revenue: 721634, ebitda: 125687, ebit: 92300,  pat: 67845, eps: 50.1, dps: 4.0, capex: 98887, operatingCashFlow: 110920, freeCashFlow: 12033,  netDebt: 138803, totalAssets: 1482720, investedCapital: 742000 },
+    { fy: 'FY23', revenue: 876396, ebitda: 154691, ebit: 110700, pat: 73670, eps: 54.4, dps: 4.5, capex: 141809, operatingCashFlow: 135460, freeCashFlow: -6349, netDebt: 110218, totalAssets: 1599589, investedCapital: 815000 },
+    { fy: 'FY24', revenue: 901064, ebitda: 178677, ebit: 125000, pat: 79020, eps: 58.4, dps: 5.0, capex: 131851, operatingCashFlow: 158200, freeCashFlow: 26349,  netDebt: 116281, totalAssets: 1716623, investedCapital: 872000 },
+    { fy: 'FY25', revenue: 964693, ebitda: 183422, ebit: 128000, pat: 80787, eps: 59.7, dps: 5.5, capex: 113324, operatingCashFlow: 169440, freeCashFlow: 56116,  netDebt: 110220, totalAssets: 1800000, investedCapital: 905000 },
+  ],
+  segments: [
+    { name: 'Oil-to-Chemicals', fy25Revenue: 574000, fy25Ebit: 51660, fy25Margin: 9.0,  targetMultiple: 7,  multipleLow: 6,  multipleHigh: 9,  growthOutlook: 'Stable cash flow; refining margins cyclical', share: 59.5 },
+    { name: 'Digital Services (Jio)', fy25Revenue: 131000, fy25Ebit: 32750, fy25Margin: 25.0, targetMultiple: 18, multipleLow: 15, multipleHigh: 22, growthOutlook: 'Tariff hike tailwind; 5G monetization + home broadband', share: 13.6 },
+    { name: 'Retail', fy25Revenue: 330000, fy25Ebit: 19800, fy25Margin: 6.0,  targetMultiple: 28, multipleLow: 22, multipleHigh: 35, growthOutlook: 'Store rationalization done; omni + quick-commerce push', share: 27.0 }, // share intentionally high - segment figures include inter-segment
+    { name: 'Oil & Gas E&P', fy25Revenue: 24000,  fy25Ebit: 14160, fy25Margin: 59.0, targetMultiple: 5,  multipleLow: 4,  multipleHigh: 7,  growthOutlook: 'KG-D6 plateau; price-cap risk', share: 2.5 },
+    { name: 'Media & Others', fy25Revenue: 15000, fy25Ebit: 750,   fy25Margin: 5.0,  targetMultiple: 10, multipleLow: 8,  multipleHigh: 14, growthOutlook: 'JioHotstar scale post-merger; ad cycle weak', share: 1.6 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 9.0,
+    revenueGrowthY1: 7.0,
+    terminalGrowth: 5.0,
+    targetEbitdaMargin: 20,
+    taxRate: 25,
+    wacc: 11.5,
+    costOfEquity: 12.5,
+    daPercentRevenue: 5.5,
+    capexPercentRevenue: 11,
+    workingCapitalIntensity: 8,
+    projectionYears: 7,
+    payoutRatio: 12,
+    dividendGrowthNearTerm: 10,
+    dividendGrowthTerminal: 5,
+    conglomerateDiscount: 15,
+  },
+  peers: [
+    { name: 'Indian Oil Corp', ticker: 'IOC',       category: 'IndianOilGas', marketCapCr: 180000, evEbitda: 5.5, pe: 8,  dividendYield: 6.5, roic: 12, note: 'Largest refiner' },
+    { name: 'BPCL',            ticker: 'BPCL',      category: 'IndianOilGas', marketCapCr: 130000, evEbitda: 5,   pe: 7,  dividendYield: 5.5, roic: 14, note: 'Refining + marketing' },
+    { name: 'ONGC',            ticker: 'ONGC',      category: 'IndianOilGas', marketCapCr: 340000, evEbitda: 4,   pe: 7,  dividendYield: 4.5, roic: 13, note: 'E&P major' },
+    { name: 'Bharti Airtel',   ticker: 'BHARTIARTL',category: 'IndianOilGas', marketCapCr: 950000, evEbitda: 12,  pe: 45, dividendYield: 0.6, roic: 14, note: 'Telecom comp to Jio' },
+    { name: 'DMart',           ticker: 'DMART',     category: 'IndianRetail', marketCapCr: 260000, evEbitda: 55,  pe: 85, dividendYield: 0.0, roic: 20, note: 'Value retail' },
+    { name: 'ExxonMobil',      ticker: 'XOM',       category: 'GlobalOilGas', marketCapCr: 4500000,evEbitda: 6,   pe: 14, dividendYield: 3.4, roic: 18, note: 'Global integrated' },
+    { name: 'Shell',           ticker: 'SHEL',      category: 'GlobalOilGas', marketCapCr: 2000000,evEbitda: 5,   pe: 11, dividendYield: 4.0, roic: 14, note: 'European super-major' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (GRM Collapse)',   probability: 0.22, description: 'Singapore GRM <$5, retail growth halved, Jio ARPU stalls',            color: '#DC2626', overrides: { revenueGrowthCAGR: 4.0, targetEbitdaMargin: 17, wacc: 12.5 } },
+    { id: 'base',   label: 'Base',                  probability: 0.50, description: 'Jio tariff hike flows through, retail recovery, O2C mid-cycle',        color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (Listing Unlock)', probability: 0.22, description: 'Jio/Retail listings crystallize SOTP, O2C margin expansion',            color: '#16A34A', overrides: { revenueGrowthCAGR: 12, targetEbitdaMargin: 23, wacc: 10.5 } },
+    { id: 'stress', label: 'Capex + Leverage Shock',probability: 0.06, description: 'New energy capex overshoots with slow monetization; debt balloons',     color: '#7C2D12', overrides: { revenueGrowthCAGR: 3.0, targetEbitdaMargin: 15, wacc: 13 } },
+  ],
+  keyDrivers: [
+    'Jio ARPU uplift from Jul-2024 tariff hike (+20%)',
+    'Retail store productivity and quick-commerce ramp',
+    'O2C downstream spreads + chemicals cycle',
+    'Potential Jio + Retail listings crystallizing SOTP',
+    'New energy giga-factories (solar, batteries, H2)',
+  ],
+  keyRisks: [
+    'Capex intensity vs FCF conversion',
+    'Refining margin cyclicality',
+    'Telecom price-war recurrence',
+    'Regulatory cap on domestic gas price',
+  ],
+  recentHighlights: [
+    'FY25 revenue ₹9.65L Cr (+7% YoY); PAT ₹80,787 Cr',
+    '1:1 bonus issue Oct-2024; share count doubled',
+    'Jio ARPU ₹203 in Q3 FY26 (+5.9% QoQ post-tariff hike)',
+    'Reliance Retail revenue +15% YoY in FY25; 3.3K store expansion',
+  ],
+  thesisShort: 'SOTP-driven compounder where Jio + Retail re-rating offsets O2C cyclicality; listings are the obvious catalyst.',
+};
+
+// ==========================================================================
+// HDFC BANK (post HDFC Ltd merger, July 2023 - consolidated)
+// Revenue line = Net Interest Income + Other Income (total operating revenue)
+// EBIT proxy = Pre-Provision Operating Profit (PPOP); D&A small for banks
+// ==========================================================================
+const HDFCBANK: CompanyProfile = {
+  id: 'hdfcbank',
+  ticker: 'HDFCBANK',
+  name: 'HDFC Bank',
+  sector: 'Private Banking / BFSI',
+  tagline: 'India\'s largest private bank; merger cost synergies + NIM recovery',
+  accentColor: '#0B4F9C',
+  currentMarketPrice: 1790,
+  targetPriceRange: { low: 1680, base: 1980, high: 2250 },
+  sharesOutstandingCr: 764,
+  netCashCr: 0, // banks: not meaningful; leave neutral for EV bridge
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 90085,  ebitda: 55200,  ebit: 53330,  pat: 31117, eps: 56.6,  dps: 6.5,  capex: 1250, operatingCashFlow: 33000, freeCashFlow: 31750, netDebt: 0, totalAssets: 1746871, investedCapital: 203169 },
+    { fy: 'FY22', revenue: 101520, ebitda: 61350,  ebit: 59480,  pat: 36961, eps: 66.8,  dps: 15.5, capex: 1380, operatingCashFlow: 39000, freeCashFlow: 37620, netDebt: 0, totalAssets: 2068535, investedCapital: 246772 },
+    { fy: 'FY23', revenue: 118058, ebitda: 69310,  ebit: 67440,  pat: 44109, eps: 79.3,  dps: 19.0, capex: 1540, operatingCashFlow: 46500, freeCashFlow: 44960, netDebt: 0, totalAssets: 2466081, investedCapital: 280200 },
+    { fy: 'FY24', revenue: 157774, ebitda: 86200,  ebit: 84265,  pat: 60812, eps: 82.0,  dps: 19.5, capex: 2100, operatingCashFlow: 63800, freeCashFlow: 61700, netDebt: 0, totalAssets: 3617623, investedCapital: 437250 },
+    { fy: 'FY25', revenue: 188360, ebitda: 102500, ebit: 100460, pat: 67347, eps: 88.1,  dps: 22.0, capex: 2380, operatingCashFlow: 72000, freeCashFlow: 69620, netDebt: 0, totalAssets: 3898400, investedCapital: 478500 },
+  ],
+  segments: [
+    { name: 'Retail Banking',     fy25Revenue: 108000, fy25Ebit: 58100, fy25Margin: 53.8, targetMultiple: 16, multipleLow: 13, multipleHigh: 19, growthOutlook: 'Unsecured + mortgage cross-sell; deposit mobilization key', share: 57.3 },
+    { name: 'Wholesale Banking',  fy25Revenue: 47000,  fy25Ebit: 25850, fy25Margin: 55.0, targetMultiple: 12, multipleLow: 10, multipleHigh: 15, growthOutlook: 'Corporate credit cycle + transaction banking',               share: 25.0 },
+    { name: 'Treasury',           fy25Revenue: 22000,  fy25Ebit: 11440, fy25Margin: 52.0, targetMultiple: 9,  multipleLow: 7,  multipleHigh: 11, growthOutlook: 'Yield curve normalization',                                    share: 11.7 },
+    { name: 'Other Banking Ops',  fy25Revenue: 11360,  fy25Ebit: 5070,  fy25Margin: 44.6, targetMultiple: 14, multipleLow: 11, multipleHigh: 18, growthOutlook: 'Cards, FX, distribution of third-party products',             share: 6.0 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 13,
+    revenueGrowthY1: 10,
+    terminalGrowth: 5.5,
+    targetEbitdaMargin: 55,
+    taxRate: 25,
+    wacc: 12,
+    costOfEquity: 13.0,
+    daPercentRevenue: 1.0,
+    capexPercentRevenue: 1.3,
+    workingCapitalIntensity: 0,
+    projectionYears: 7,
+    payoutRatio: 25,
+    dividendGrowthNearTerm: 12,
+    dividendGrowthTerminal: 6,
+    conglomerateDiscount: 0,
+  },
+  peers: [
+    { name: 'ICICI Bank',     ticker: 'ICICIBANK', category: 'IndianBank', marketCapCr: 890000,  evEbitda: 10, pe: 20, dividendYield: 0.9, roic: 18, note: 'Closest peer; superior ROA' },
+    { name: 'Axis Bank',      ticker: 'AXISBANK',  category: 'IndianBank', marketCapCr: 360000,  evEbitda: 8,  pe: 14, dividendYield: 0.1, roic: 14, note: 'Citi retail integration' },
+    { name: 'Kotak Mahindra', ticker: 'KOTAKBANK', category: 'IndianBank', marketCapCr: 380000,  evEbitda: 11, pe: 19, dividendYield: 0.1, roic: 16, note: 'Highest-quality private bank' },
+    { name: 'State Bank of India', ticker: 'SBIN', category: 'IndianBank', marketCapCr: 710000,  evEbitda: 6,  pe: 10, dividendYield: 1.8, roic: 13, note: 'PSU leader' },
+    { name: 'IndusInd Bank',  ticker: 'INDUSINDBK',category: 'IndianBank', marketCapCr: 68000,   evEbitda: 6,  pe: 8,  dividendYield: 1.2, roic: 12, note: 'Mid-size; under stress' },
+    { name: 'JPMorgan Chase', ticker: 'JPM',       category: 'GlobalBank', marketCapCr: 5400000, evEbitda: 9,  pe: 13, dividendYield: 2.3, roic: 15, note: 'US mega-bank' },
+    { name: 'Bank of America',ticker: 'BAC',       category: 'GlobalBank', marketCapCr: 2800000, evEbitda: 8,  pe: 12, dividendYield: 2.5, roic: 11, note: 'US diversified' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (NIM Squeeze)',  probability: 0.25, description: 'Deposit costs stay elevated, credit cost normalizes to 80bps',     color: '#DC2626', overrides: { revenueGrowthCAGR: 8,  targetEbitdaMargin: 48, wacc: 13 } },
+    { id: 'base',   label: 'Base',                 probability: 0.50, description: 'Merger synergies flow through, NIM recovers to 3.6%, CD ratio down',color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (Re-rating)',     probability: 0.18, description: 'Credit cycle rebounds, unsecured grows 25%+, CASA >45%',            color: '#16A34A', overrides: { revenueGrowthCAGR: 17, targetEbitdaMargin: 58, wacc: 11 } },
+    { id: 'stress', label: 'Credit Cycle Stress',  probability: 0.07, description: 'Unsecured + microfinance delinquencies, slippages spike, ROE sub-15%',color: '#7C2D12', overrides: { revenueGrowthCAGR: 6,  targetEbitdaMargin: 42, wacc: 13.5 } },
+  ],
+  keyDrivers: [
+    'Merger cost synergies (target ₹3-4K Cr p.a.)',
+    'CD ratio normalization from 105% to ~90%',
+    'Branch expansion monetization (+900/yr)',
+    'NIM recovery to 3.6-3.8%',
+    'Digital + Payzapp re-launch + cards CAGR',
+  ],
+  keyRisks: [
+    'Unsecured retail asset quality',
+    'Deposit mobilization pace',
+    'Microfinance slippage contagion',
+    'Regulatory: priority sector + LCR tightening',
+  ],
+  recentHighlights: [
+    'FY25 PAT ₹67,347 Cr; ROA 1.8%, ROE 14.4%',
+    'CD ratio improved to 96% from 110% at merger',
+    'Deposits +15% YoY, advances +8% YoY',
+    'Total dividend ₹22/share in FY25 (final ₹22)',
+  ],
+  thesisShort: 'Best-in-class deposit franchise post-merger; CD ratio normalisation + NIM recovery unlock multi-year compounding at cycle-low multiples.',
+};
+
+// ==========================================================================
+// INFOSYS
+// ==========================================================================
+const INFY: CompanyProfile = {
+  id: 'infy',
+  ticker: 'INFY',
+  name: 'Infosys',
+  sector: 'IT Services',
+  tagline: 'Global #3 Indian IT; digital & GenAI focused with strong capital return',
+  accentColor: '#155E75',
+  currentMarketPrice: 1540,
+  targetPriceRange: { low: 1420, base: 1700, high: 1950 },
+  sharesOutstandingCr: 415.2,
+  netCashCr: 30000,
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 100472, ebitda: 27810, ebit: 25378, pat: 19351, eps: 45.6,  dps: 27.0, capex: 2110, operatingCashFlow: 23400, freeCashFlow: 21290, netDebt: -24500, totalAssets: 91384,  investedCapital: 55200 },
+    { fy: 'FY22', revenue: 121641, ebitda: 30995, ebit: 28211, pat: 22110, eps: 52.5,  dps: 31.0, capex: 2380, operatingCashFlow: 24800, freeCashFlow: 22420, netDebt: -22600, totalAssets: 100178, investedCapital: 59300 },
+    { fy: 'FY23', revenue: 146767, ebitda: 35480, ebit: 31288, pat: 24095, eps: 57.6,  dps: 34.0, capex: 2620, operatingCashFlow: 26600, freeCashFlow: 23980, netDebt: -25400, totalAssets: 110837, investedCapital: 62100 },
+    { fy: 'FY24', revenue: 153670, ebitda: 35960, ebit: 31892, pat: 26233, eps: 63.4,  dps: 46.0, capex: 2830, operatingCashFlow: 28900, freeCashFlow: 26070, netDebt: -28700, totalAssets: 119420, investedCapital: 65800 },
+    { fy: 'FY25', revenue: 162990, ebitda: 38060, ebit: 33960, pat: 26713, eps: 64.3,  dps: 43.0, capex: 3050, operatingCashFlow: 30500, freeCashFlow: 27450, netDebt: -30000, totalAssets: 124600, investedCapital: 69200 },
+  ],
+  segments: [
+    { name: 'Financial Services',         fy25Revenue: 45600, fy25Ebit: 9500, fy25Margin: 20.8, targetMultiple: 20, multipleLow: 17, multipleHigh: 23, growthOutlook: 'BFSI recovery driven by US + Europe banking', share: 28.0 },
+    { name: 'Retail, CPG & Logistics',    fy25Revenue: 23800, fy25Ebit: 4900, fy25Margin: 20.6, targetMultiple: 18, multipleLow: 15, multipleHigh: 21, growthOutlook: 'Discretionary pressure; premium retail steady', share: 14.6 },
+    { name: 'Communications',             fy25Revenue: 19400, fy25Ebit: 3900, fy25Margin: 20.1, targetMultiple: 17, multipleLow: 14, multipleHigh: 20, growthOutlook: 'Telecom capex weak; cloud migration ongoing',  share: 11.9 },
+    { name: 'Energy, Utilities & Resources',fy25Revenue: 20100, fy25Ebit: 4260, fy25Margin: 21.2, targetMultiple: 19, multipleLow: 16, multipleHigh: 22, growthOutlook: 'Energy transition + digital twin pipeline',   share: 12.3 },
+    { name: 'Manufacturing',              fy25Revenue: 24400, fy25Ebit: 5080, fy25Margin: 20.8, targetMultiple: 21, multipleLow: 18, multipleHigh: 24, growthOutlook: 'ER&D + ISV spend resilient',                     share: 15.0 },
+    { name: 'Life Sciences & Hi-Tech',    fy25Revenue: 14700, fy25Ebit: 3250, fy25Margin: 22.1, targetMultiple: 22, multipleLow: 19, multipleHigh: 25, growthOutlook: 'Pharma IT + GenAI productization',              share: 9.0 },
+    { name: 'Others',                     fy25Revenue: 14990, fy25Ebit: 3070, fy25Margin: 20.5, targetMultiple: 17, multipleLow: 14, multipleHigh: 20, growthOutlook: 'India + Finacle platform',                     share: 9.2 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 8.0,
+    revenueGrowthY1: 5.5,
+    terminalGrowth: 5.0,
+    targetEbitdaMargin: 25,
+    taxRate: 26,
+    wacc: 11.5,
+    costOfEquity: 12.0,
+    daPercentRevenue: 2.5,
+    capexPercentRevenue: 1.8,
+    workingCapitalIntensity: 16,
+    projectionYears: 7,
+    payoutRatio: 85,
+    dividendGrowthNearTerm: 9,
+    dividendGrowthTerminal: 5,
+    conglomerateDiscount: 0,
+  },
+  peers: [
+    { name: 'TCS',         ticker: 'TCS',      category: 'IndianIT', marketCapCr: 1240000,evEbitda: 18, pe: 26, dividendYield: 3.7, roic: 50, note: 'Larger peer' },
+    { name: 'HCL Tech',    ticker: 'HCLTECH',  category: 'IndianIT', marketCapCr: 440000, evEbitda: 17, pe: 25, dividendYield: 3.5, roic: 28, note: 'Infra + engineering' },
+    { name: 'Wipro',       ticker: 'WIPRO',    category: 'IndianIT', marketCapCr: 260000, evEbitda: 14, pe: 22, dividendYield: 1.2, roic: 18, note: 'Turnaround' },
+    { name: 'LTIMindtree', ticker: 'LTIM',     category: 'IndianIT', marketCapCr: 170000, evEbitda: 22, pe: 32, dividendYield: 1.0, roic: 30, note: 'Mid-tier digital' },
+    { name: 'Tech Mahindra',ticker: 'TECHM',   category: 'IndianIT', marketCapCr: 150000, evEbitda: 15, pe: 28, dividendYield: 2.4, roic: 14, note: 'Telecom-heavy' },
+    { name: 'Accenture',   ticker: 'ACN',      category: 'GlobalIT', marketCapCr: 2700000,evEbitda: 17, pe: 28, dividendYield: 1.6, roic: 30, note: 'Global consulting' },
+    { name: 'Cognizant',   ticker: 'CTSH',     category: 'GlobalIT', marketCapCr: 320000, evEbitda: 11, pe: 17, dividendYield: 1.5, roic: 20, note: 'Turnaround' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (Discretionary Freeze)', probability: 0.25, description: 'BFSI capex cut extended; wage-revision hits margin 250bps', color: '#DC2626', overrides: { revenueGrowthCAGR: 3.0, targetEbitdaMargin: 21, wacc: 12.5 } },
+    { id: 'base',   label: 'Base',                        probability: 0.48, description: 'Steady BFSI recovery, margin band 20-22%, large-deal TCV stable', color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (GenAI Lift)',           probability: 0.20, description: 'Topaz / GenAI monetization + productivity pricing; growth 11%+', color: '#16A34A', overrides: { revenueGrowthCAGR: 11, targetEbitdaMargin: 27, wacc: 11 } },
+    { id: 'stress', label: 'Onshoring Shock',             probability: 0.07, description: 'US H-1B + visa regulation; Europe near-shore push cuts offshore share', color: '#7C2D12', overrides: { revenueGrowthCAGR: 1.5, targetEbitdaMargin: 19, wacc: 13 } },
+  ],
+  keyDrivers: [
+    'Large-deal TCV pipeline + renewal cadence',
+    'Topaz / GenAI framework monetization',
+    'BFSI (28%) vertical recovery',
+    'Margin defense via pyramid, utilization, automation',
+    'Capital return: 85% payout policy active',
+  ],
+  keyRisks: [
+    'Discretionary spend deferral in BFSI + Hi-Tech',
+    'Wage inflation vs pricing power',
+    'US onshoring / visa regulation',
+    'GenAI commoditization of routine work',
+  ],
+  recentHighlights: [
+    'FY25 revenue ₹1.63L Cr (+6.1% YoY CC)',
+    'FY25 op margin 21.1%; FCF yield ~4%',
+    'Q2 FY26 large-deal TCV $3.1bn',
+    'Interim + final dividend ₹43/sh + buy-back announced',
+  ],
+  thesisShort: 'Quality franchise with superior capital return; entry point attractive as BFSI & GenAI pipeline converts.',
+};
+
+// ==========================================================================
+// MARUTI SUZUKI
+// ==========================================================================
+const MARUTI: CompanyProfile = {
+  id: 'maruti',
+  ticker: 'MARUTI',
+  name: 'Maruti Suzuki India',
+  sector: 'Automobile - Passenger Vehicles',
+  tagline: 'India\'s largest car maker; SUV catch-up + hybrid bridge to EV',
+  accentColor: '#B91C1C',
+  currentMarketPrice: 12200,
+  targetPriceRange: { low: 11400, base: 13400, high: 15200 },
+  sharesOutstandingCr: 31.44,
+  netCashCr: 52000,
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 70332,  ebitda: 5310,  ebit: 1795,  pat: 4389,  eps: 145.3, dps: 45.0,  capex: 2800, operatingCashFlow: 6400,  freeCashFlow: 3600,  netDebt: -41900, totalAssets: 77900,  investedCapital: 39500 },
+    { fy: 'FY22', revenue: 88330,  ebitda: 6960,  ebit: 3200,  pat: 3880,  eps: 128.5, dps: 60.0,  capex: 3100, operatingCashFlow: 6200,  freeCashFlow: 3100,  netDebt: -41100, totalAssets: 85300,  investedCapital: 42400 },
+    { fy: 'FY23', revenue: 117523, ebitda: 12470, ebit: 8900,  pat: 8050,  eps: 266.5, dps: 90.0,  capex: 4250, operatingCashFlow: 11800, freeCashFlow: 7550,  netDebt: -44100, totalAssets: 95400,  investedCapital: 47100 },
+    { fy: 'FY24', revenue: 141858, ebitda: 17340, ebit: 13280, pat: 13352, eps: 441.8, dps: 125.0, capex: 5600, operatingCashFlow: 16500, freeCashFlow: 10900, netDebt: -48500, totalAssets: 108900, investedCapital: 52400 },
+    { fy: 'FY25', revenue: 152000, ebitda: 18850, ebit: 14100, pat: 14500, eps: 460.0, dps: 135.0, capex: 7500, operatingCashFlow: 18000, freeCashFlow: 10500, netDebt: -52000, totalAssets: 118500, investedCapital: 56200 },
+  ],
+  segments: [
+    { name: 'Passenger Vehicles - Domestic', fy25Revenue: 114800, fy25Ebit: 11700, fy25Margin: 10.2, targetMultiple: 22, multipleLow: 19, multipleHigh: 25, growthOutlook: 'SUV share catch-up; CNG + hybrid mix lifts ASP',    share: 75.5 },
+    { name: 'Exports',                       fy25Revenue: 21400,  fy25Ebit: 2140,  fy25Margin: 10.0, targetMultiple: 18, multipleLow: 15, multipleHigh: 22, growthOutlook: 'Record 3.3L units; Africa + LatAm scale',          share: 14.1 },
+    { name: 'Spares, Services & Accessories',fy25Revenue: 11500,  fy25Ebit: 1720,  fy25Margin: 15.0, targetMultiple: 24, multipleLow: 20, multipleHigh: 28, growthOutlook: 'Parc-driven annuity; margin-accretive',            share: 7.6 },
+    { name: 'Others (Used Cars, Finance co.)',fy25Revenue: 4300,  fy25Ebit: 430,   fy25Margin: 10.0, targetMultiple: 15, multipleLow: 12, multipleHigh: 18, growthOutlook: 'True Value pre-owned scaling',                      share: 2.8 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 10,
+    revenueGrowthY1: 6,
+    terminalGrowth: 5.0,
+    targetEbitdaMargin: 14,
+    taxRate: 25,
+    wacc: 12,
+    costOfEquity: 13.0,
+    daPercentRevenue: 3.2,
+    capexPercentRevenue: 5.0,
+    workingCapitalIntensity: 4,
+    projectionYears: 7,
+    payoutRatio: 30,
+    dividendGrowthNearTerm: 10,
+    dividendGrowthTerminal: 5,
+    conglomerateDiscount: 0,
+  },
+  peers: [
+    { name: 'Tata Motors',    ticker: 'TATAMOTORS',category: 'IndianAuto', marketCapCr: 270000,  evEbitda: 6,  pe: 11, dividendYield: 1.0, roic: 14, note: 'JLR + PV + CV' },
+    { name: 'Mahindra & Mahindra',ticker: 'M&M',   category: 'IndianAuto', marketCapCr: 380000,  evEbitda: 14, pe: 28, dividendYield: 0.7, roic: 15, note: 'SUV leader' },
+    { name: 'Hyundai Motor India',ticker: 'HYUNDAI',category: 'IndianAuto', marketCapCr: 160000, evEbitda: 20, pe: 25, dividendYield: 2.0, roic: 30, note: '#2 PV; IPO Oct-24' },
+    { name: 'Eicher Motors',  ticker: 'EICHERMOT', category: 'IndianAuto', marketCapCr: 140000,  evEbitda: 22, pe: 30, dividendYield: 1.0, roic: 35, note: 'RE + VECV' },
+    { name: 'Bajaj Auto',     ticker: 'BAJAJ-AUTO',category: 'IndianAuto', marketCapCr: 260000,  evEbitda: 20, pe: 30, dividendYield: 2.0, roic: 30, note: '2W + 3W + exports' },
+    { name: 'Hero MotoCorp',  ticker: 'HEROMOTOCO',category: 'IndianAuto', marketCapCr: 95000,   evEbitda: 13, pe: 19, dividendYield: 3.6, roic: 25, note: '2W leader' },
+    { name: 'Toyota Motor',   ticker: 'TM',        category: 'GlobalAuto', marketCapCr: 2300000, evEbitda: 9,  pe: 11, dividendYield: 2.7, roic: 11, note: 'Global leader' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (Demand Stall)',       probability: 0.25, description: 'PV industry flat, SUV share loss continues, margin -150bps',   color: '#DC2626', overrides: { revenueGrowthCAGR: 4, targetEbitdaMargin: 11, wacc: 13 } },
+    { id: 'base',   label: 'Base',                       probability: 0.50, description: 'Industry ~5% growth, SUV share recovers to 25%, stable margin',color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (Hybrid Wave)',         probability: 0.18, description: 'Hybrid + CNG drive ASP +8%, SUV share >27%, export record',    color: '#16A34A', overrides: { revenueGrowthCAGR: 14, targetEbitdaMargin: 16, wacc: 11 } },
+    { id: 'stress', label: 'EV Disruption Shock',        probability: 0.07, description: 'Chinese EVs + Tata/M&M EV aggressive pricing hurts Maruti mix',color: '#7C2D12', overrides: { revenueGrowthCAGR: 2, targetEbitdaMargin: 10, wacc: 13.5 } },
+  ],
+  keyDrivers: [
+    'SUV share catch-up (Grand Vitara, Brezza, Fronx, Jimny)',
+    'CNG + strong hybrid tech as EV bridge',
+    'Export acceleration (3.3L units in FY25)',
+    'Kharkhoda plant capacity ramp (+1M units)',
+    'Gujarat plant acquisition from SMC',
+  ],
+  keyRisks: [
+    'EV transition disrupts ICE economics',
+    'Rural demand slowdown',
+    'Regulatory: CAFE-III fuel efficiency',
+    'Input cost spikes (steel, PM, chips)',
+  ],
+  recentHighlights: [
+    'FY25 revenue ₹1.52L Cr; PAT ₹14,500 Cr (+8.6% YoY)',
+    'FY25 wholesale 22L units (record); exports 3.3L',
+    'SUV share reached 22% in FY25',
+    'Dividend ₹135/sh; Gujarat plant acquisition Apr-2025',
+  ],
+  thesisShort: 'Largest PV maker with SUV + export tailwinds and fortress balance sheet; hybrid bridge buys time before EV scale.',
+};
+
+// ==========================================================================
+// SUN PHARMACEUTICAL INDUSTRIES
+// ==========================================================================
+const SUNPHARMA: CompanyProfile = {
+  id: 'sunpharma',
+  ticker: 'SUNPHARMA',
+  name: 'Sun Pharmaceutical Industries',
+  sector: 'Pharmaceuticals',
+  tagline: 'India\'s largest pharma; specialty Rx + US generics + emerging markets',
+  accentColor: '#B45309',
+  currentMarketPrice: 1760,
+  targetPriceRange: { low: 1620, base: 1950, high: 2200 },
+  sharesOutstandingCr: 239.9,
+  netCashCr: 14000,
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 33497, ebitda: 7680,  ebit: 5960,  pat: 2904,  eps: 12.1, dps: 7.5,  capex: 1350, operatingCashFlow: 6850,  freeCashFlow: 5500,  netDebt: -5200,  totalAssets: 70800, investedCapital: 47500 },
+    { fy: 'FY22', revenue: 38654, ebitda: 9520,  ebit: 7830,  pat: 3273,  eps: 13.6, dps: 12.0, capex: 1480, operatingCashFlow: 7650,  freeCashFlow: 6170,  netDebt: -7100,  totalAssets: 74500, investedCapital: 49200 },
+    { fy: 'FY23', revenue: 43886, ebitda: 11280, ebit: 9260,  pat: 8514,  eps: 35.5, dps: 13.5, capex: 1620, operatingCashFlow: 9450,  freeCashFlow: 7830,  netDebt: -9800,  totalAssets: 79100, investedCapital: 51500 },
+    { fy: 'FY24', revenue: 48497, ebitda: 13340, ebit: 10990, pat: 9577,  eps: 39.9, dps: 17.5, capex: 1780, operatingCashFlow: 11200, freeCashFlow: 9420,  netDebt: -11900, totalAssets: 83700, investedCapital: 53800 },
+    { fy: 'FY25', revenue: 52041, ebitda: 14720, ebit: 12290, pat: 10928, eps: 45.6, dps: 20.0, capex: 2050, operatingCashFlow: 12400, freeCashFlow: 10350, netDebt: -14000, totalAssets: 88200, investedCapital: 56100 },
+  ],
+  segments: [
+    { name: 'Global Specialty',      fy25Revenue: 10410, fy25Ebit: 2810, fy25Margin: 27.0, targetMultiple: 20, multipleLow: 17, multipleHigh: 24, growthOutlook: 'Ilumya, Cequa, Winlevi scale-up; R&D pipeline key', share: 20.0 },
+    { name: 'US Generics',           fy25Revenue: 13540, fy25Ebit: 2570, fy25Margin: 19.0, targetMultiple: 9,  multipleLow: 7,  multipleHigh: 12, growthOutlook: 'Price stability + complex generics launches',       share: 26.0 },
+    { name: 'India Branded',         fy25Revenue: 16910, fy25Ebit: 4230, fy25Margin: 25.0, targetMultiple: 28, multipleLow: 24, multipleHigh: 32, growthOutlook: 'Chronic + sub-chronic; field-force expansion',      share: 32.5 },
+    { name: 'Emerging Markets',      fy25Revenue: 8450,  fy25Ebit: 1770, fy25Margin: 21.0, targetMultiple: 14, multipleLow: 11, multipleHigh: 17, growthOutlook: 'RoW + Japan; FX and regulatory swings',             share: 16.2 },
+    { name: 'API / Others',          fy25Revenue: 2730,  fy25Ebit: 410,  fy25Margin: 15.0, targetMultiple: 11, multipleLow: 9,  multipleHigh: 14, growthOutlook: 'Captive + third-party API supply',                  share: 5.3 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 9.5,
+    revenueGrowthY1: 8.0,
+    terminalGrowth: 5.0,
+    targetEbitdaMargin: 30,
+    taxRate: 22,
+    wacc: 11.5,
+    costOfEquity: 12.5,
+    daPercentRevenue: 4.8,
+    capexPercentRevenue: 4.2,
+    workingCapitalIntensity: 15,
+    projectionYears: 7,
+    payoutRatio: 45,
+    dividendGrowthNearTerm: 10,
+    dividendGrowthTerminal: 5,
+    conglomerateDiscount: 0,
+  },
+  peers: [
+    { name: 'Dr. Reddy\'s Labs', ticker: 'DRREDDY',  category: 'IndianPharma', marketCapCr: 105000, evEbitda: 14, pe: 22, dividendYield: 0.8, roic: 18, note: 'Global generics + biosimilars' },
+    { name: 'Cipla',             ticker: 'CIPLA',    category: 'IndianPharma', marketCapCr: 118000, evEbitda: 15, pe: 25, dividendYield: 0.9, roic: 17, note: 'India + US + South Africa' },
+    { name: 'Lupin',             ticker: 'LUPIN',    category: 'IndianPharma', marketCapCr: 90000,  evEbitda: 16, pe: 28, dividendYield: 0.5, roic: 14, note: 'US respiratory franchise' },
+    { name: 'Torrent Pharma',    ticker: 'TORNTPHARM',category:'IndianPharma', marketCapCr: 110000, evEbitda: 22, pe: 45, dividendYield: 0.7, roic: 22, note: 'India-focused, brand-heavy' },
+    { name: 'Divi\'s Labs',      ticker: 'DIVISLAB', category: 'IndianPharma', marketCapCr: 155000, evEbitda: 35, pe: 55, dividendYield: 0.6, roic: 18, note: 'CDMO + API' },
+    { name: 'Pfizer',            ticker: 'PFE',      category: 'GlobalPharma', marketCapCr: 1550000,evEbitda: 9,  pe: 12, dividendYield: 6.0, roic: 10, note: 'Post-COVID reset' },
+    { name: 'Novartis',          ticker: 'NVS',      category: 'GlobalPharma', marketCapCr: 2100000,evEbitda: 13, pe: 19, dividendYield: 3.5, roic: 18, note: 'Innovative pharma pure-play' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (Specialty Miss)',   probability: 0.22, description: 'Ilumya growth stalls, US pricing renewed pressure, R&D overrun',  color: '#DC2626', overrides: { revenueGrowthCAGR: 5, targetEbitdaMargin: 26, wacc: 12.5 } },
+    { id: 'base',   label: 'Base',                     probability: 0.50, description: 'Specialty 15%+, India 10-12%, US stable, margin defended at 28-30%', color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (Pipeline Hits)',     probability: 0.22, description: 'Specialty crosses $1.5bn run-rate; complex generics launches',     color: '#16A34A', overrides: { revenueGrowthCAGR: 13, targetEbitdaMargin: 33, wacc: 10.5 } },
+    { id: 'stress', label: 'US FDA Warning Shock',     probability: 0.06, description: 'Halol / Mohali OAI triggers supply disruption, margin -400bps',   color: '#7C2D12', overrides: { revenueGrowthCAGR: 2, targetEbitdaMargin: 23, wacc: 13 } },
+  ],
+  keyDrivers: [
+    'Global Specialty franchise scaling >$1bn',
+    'Ilumya + Cequa share gains + Winlevi',
+    'India branded formulations >11% growth',
+    'Complex generics + 505(b)(2) filings',
+    'Emerging markets + Japan resilience',
+  ],
+  keyRisks: [
+    'US FDA compliance (Halol, Mohali)',
+    'Specialty R&D overruns or pipeline failures',
+    'US generics price erosion recurrence',
+    'INR/USD + EM FX volatility',
+  ],
+  recentHighlights: [
+    'FY25 revenue ₹52,041 Cr (+7.3%); PAT ₹10,928 Cr (+14%)',
+    'Global Specialty FY25 revenue $1.2bn (+16%)',
+    'Ilumya FY25 $673m (+22%); Cequa $185m',
+    'Dividend ₹20/sh FY25; R&D intensity 7.5%',
+  ],
+  thesisShort: 'Specialty franchise compounding alongside resilient India + US; FDA clearance + pipeline optionality drive multiple re-rating.',
+};
+
+// ==========================================================================
 // REGISTRY
 // ==========================================================================
-export const COMPANY_PROFILES: CompanyProfile[] = [ITC, TCS, HUL, NEROLAC, VST];
+export const COMPANY_PROFILES: CompanyProfile[] = [
+  ITC, TCS, HUL, NEROLAC, VST,
+  RELIANCE, HDFCBANK, INFY, MARUTI, SUNPHARMA,
+];
 
 export const COMPANY_BY_ID: Readonly<Record<string, CompanyProfile>> = Object.freeze(
   Object.fromEntries(COMPANY_PROFILES.map(c => [c.id, c])),
