@@ -1,5 +1,5 @@
 // Multi-company financial profiles for generic valuation framework.
-// Covers: ITC, TCS, HUL, Kansai Nerolac, VST Industries.
+// Covers: ITC, TCS, HUL, Kansai Nerolac, VST Industries, Infosys.
 //
 // Data sources: FY21-FY25 published annual results; H1 FY26 filings where
 // available. Numbers in INR crore unless otherwise noted. Share counts in
@@ -511,9 +511,94 @@ const VST: CompanyProfile = {
 };
 
 // ==========================================================================
+// INFOSYS
+// ==========================================================================
+const INFOSYS: CompanyProfile = {
+  id: 'infosys',
+  ticker: 'INFY',
+  name: 'Infosys',
+  sector: 'IT Services - Business & IT Services',
+  tagline: 'Diversified IT services leader with FS dominance and emerging GenAI capabilities',
+  accentColor: '#0066CC',
+  currentMarketPrice: 160,
+  targetPriceRange: { low: 155, base: 185, high: 215 },
+  sharesOutstandingCr: 415.43,
+  netCashCr: 18500,
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 121255, ebitda: 26100, ebit: 24800, pat: 16309, eps: 39.2, dps: 31.00, capex: 2800, operatingCashFlow: 18200, freeCashFlow: 15400, netDebt: -9800, totalAssets: 145000, investedCapital: 95000 },
+    { fy: 'FY22', revenue: 138717, ebitda: 29400, ebit: 27600, pat: 16311, eps: 39.2, dps: 33.00, capex: 3100, operatingCashFlow: 19800, freeCashFlow: 16700, netDebt: -12200, totalAssets: 158000, investedCapital: 102000 },
+    { fy: 'FY23', revenue: 161222, ebitda: 33800, ebit: 31400, pat: 20110, eps: 48.3, dps: 38.50, capex: 3500, operatingCashFlow: 21200, freeCashFlow: 17700, netDebt: -14500, totalAssets: 178000, investedCapital: 112000 },
+    { fy: 'FY24', revenue: 154144, ebitda: 32100, ebit: 29800, pat: 18803, eps: 45.2, dps: 36.50, capex: 3800, operatingCashFlow: 19900, freeCashFlow: 16100, netDebt: -16200, totalAssets: 185000, investedCapital: 118000 },
+    { fy: 'FY25', revenue: 160000, ebitda: 33600, ebit: 31200, pat: 20940, eps: 50.4, dps: 37.00, capex: 4200, operatingCashFlow: 21100, freeCashFlow: 16900, netDebt: -18500, totalAssets: 198000, investedCapital: 125000 },
+  ],
+  segments: [
+    { name: 'Financial Services', fy25Revenue: 45440, fy25Ebit: 11352, fy25Margin: 25.0, targetMultiple: 18, multipleLow: 16, multipleHigh: 20, growthOutlook: 'Digitalization, cloud migration, regulatory tech', share: 28.4 },
+    { name: 'Manufacturing', fy25Revenue: 26560, fy25Ebit: 5840, fy25Margin: 22.0, targetMultiple: 16, multipleLow: 14, multipleHigh: 18, growthOutlook: 'PLM, supply chain digitalization', share: 16.6 },
+    { name: 'Communications', fy25Revenue: 22880, fy25Ebit: 4576, fy25Margin: 20.0, targetMultiple: 15, multipleLow: 13, multipleHigh: 17, growthOutlook: '5G, IoT, network modernization', share: 14.3 },
+    { name: 'Retail & Media', fy25Revenue: 16000, fy25Ebit: 3360, fy25Margin: 21.0, targetMultiple: 14, multipleLow: 12, multipleHigh: 16, growthOutlook: 'Omnichannel, personalization', share: 10.0 },
+    { name: 'Health Care', fy25Revenue: 19200, fy25Ebit: 3840, fy25Margin: 20.0, targetMultiple: 17, multipleLow: 15, multipleHigh: 19, growthOutlook: 'Clinical data analytics, interoperability', share: 12.0 },
+    { name: 'Energy, Utilities & Resources', fy25Revenue: 14400, fy25Ebit: 2592, fy25Margin: 18.0, targetMultiple: 14, multipleLow: 12, multipleHigh: 16, growthOutlook: 'Energy transition, smart grid', share: 9.0 },
+    { name: 'Other', fy25Revenue: 15920, fy25Ebit: 1642, fy25Margin: 10.3, targetMultiple: 12, multipleLow: 10, multipleHigh: 14, growthOutlook: 'Diversified smaller segments', share: 10.0 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 7.5,
+    revenueGrowthY1: 6.0,
+    terminalGrowth: 4.0,
+    targetEbitdaMargin: 21.5,
+    taxRate: 13.5,
+    wacc: 10.5,
+    costOfEquity: 11.5,
+    daPercentRevenue: 2.2,
+    capexPercentRevenue: 2.6,
+    workingCapitalIntensity: 3.0,
+    projectionYears: 7,
+    payoutRatio: 51.7,
+    dividendGrowthNearTerm: 8,
+    dividendGrowthTerminal: 4,
+    conglomerateDiscount: 2,
+  },
+  peers: [
+    { name: 'TCS', ticker: 'TCS', category: 'IndianIT', marketCapCr: 1440000, evEbitda: 23, pe: 29, dividendYield: 2.0, roic: 38, note: 'Domestic IT leader' },
+    { name: 'HCL Technologies', ticker: 'HCLTECH', category: 'IndianIT', marketCapCr: 380000, evEbitda: 18, pe: 22, dividendYield: 1.5, roic: 28, note: 'Services growth' },
+    { name: 'Wipro', ticker: 'WIPRO', category: 'IndianIT', marketCapCr: 288000, evEbitda: 14, pe: 16, dividendYield: 2.2, roic: 20, note: 'Conservative, FS exposure' },
+    { name: 'Accenture', ticker: 'ACN', category: 'GlobalIT', marketCapCr: 2200000, evEbitda: 22, pe: 28, dividendYield: 1.2, roic: 32, note: 'Consulting + technology' },
+    { name: 'IBM', ticker: 'IBM', category: 'GlobalIT', marketCapCr: 280000, evEbitda: 15, pe: 21, dividendYield: 3.2, roic: 15, note: 'Legacy + cloud transition' },
+    { name: 'Cognizant', ticker: 'CTSH', category: 'GlobalIT', marketCapCr: 350000, evEbitda: 14, pe: 17, dividendYield: 2.0, roic: 25, note: 'BFSI-dependent' },
+  ],
+  scenarios: [
+    { id: 'bear', label: 'Bear (Recession)', probability: 0.25, description: 'Global BFSI contraction; IT spending cut; 2% growth; margin compress to 19%', color: '#DC2626', overrides: { revenueGrowthCAGR: 2, targetEbitdaMargin: 19, wacc: 11.5 } },
+    { id: 'base', label: 'Base', probability: 0.48, description: 'Steady 6-7% growth; digitalization offsets headcount inflation; 21-22% margin', color: '#2563EB', overrides: {} },
+    { id: 'bull', label: 'Bull (GenAI Adoption)', probability: 0.20, description: 'GenAI-led demand surge; consulting uplift; 12% growth; margin 23%', color: '#16A34A', overrides: { revenueGrowthCAGR: 12, targetEbitdaMargin: 23, wacc: 9.5 } },
+    { id: 'stress', label: 'Attrition Shock', probability: 0.07, description: 'Talent wars; 5% attrition + wage inflation; margin 17%', color: '#7C2D12', overrides: { revenueGrowthCAGR: 3, targetEbitdaMargin: 17, wacc: 12 } },
+  ],
+  keyDrivers: [
+    'Digital transformation spending in BFSI (28% of revenue)',
+    'Cloud adoption and migration revenue',
+    'AI/GenAI advisory and implementation',
+    'Manufacturing and supply chain digitalization',
+    'Talent retention & utilization rate',
+  ],
+  keyRisks: [
+    'BFSI concentration (28% revenue); regulatory/recession exposure',
+    'Wage inflation driven by talent scarcity',
+    'Visa/immigration policy headwinds (H1B caps)',
+    'Margin pressure from transition to higher-growth segments',
+    'GenAI commodity risk: automation of routine coding tasks',
+  ],
+  recentHighlights: [
+    'Q2 FY26 revenue $5,076M (+2.9% YoY), 21.0% margin',
+    'Interim dividend ₹23/share; annual guidance 2-3% growth',
+    'Constant currency: FY25 +4.2% growth, 21.1% margin',
+    'Segment FS still 28.4% of FY25 revenue at ₹45.4B',
+  ],
+  thesisShort: 'Quality compounder at fair valuation; GenAI emerging as material upside; BFSI concentration is key risk.',
+};
+
+// ==========================================================================
 // REGISTRY
 // ==========================================================================
-export const COMPANY_PROFILES: CompanyProfile[] = [ITC, TCS, HUL, NEROLAC, VST];
+export const COMPANY_PROFILES: CompanyProfile[] = [ITC, TCS, HUL, NEROLAC, VST, INFOSYS];
 
 export const COMPANY_BY_ID: Readonly<Record<string, CompanyProfile>> = Object.freeze(
   Object.fromEntries(COMPANY_PROFILES.map(c => [c.id, c])),

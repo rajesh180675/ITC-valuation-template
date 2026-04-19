@@ -22,9 +22,9 @@ import {
 // ===========================================================================
 
 describe('company registry', () => {
-  it('contains all five required companies', () => {
+  it('contains all six required companies', () => {
     const ids = COMPANY_PROFILES.map(c => c.id).sort();
-    expect(ids).toEqual(['hul', 'itc', 'nerolac', 'tcs', 'vst']);
+    expect(ids).toEqual(['hul', 'infosys', 'itc', 'nerolac', 'tcs', 'vst']);
   });
 
   it('has non-empty historical, segments, peers, scenarios for every profile', () => {
@@ -200,7 +200,7 @@ describe.each(COMPANY_PROFILES)('model - $ticker ($name)', (profile) => {
 // ===========================================================================
 
 describe('cross-company invariants', () => {
-  it('snapshots run for all 5 companies without throwing', () => {
+  it('snapshots run for all 6 companies without throwing', () => {
     for (const p of COMPANY_PROFILES) {
       expect(() => buildCompanySnapshot(p)).not.toThrow();
     }
