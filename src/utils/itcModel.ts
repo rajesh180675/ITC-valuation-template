@@ -3,21 +3,116 @@ import { sharesOutstanding } from '@/data/itcData';
 
 export const MODEL_ASSUMPTIONS = Object.freeze({
   projectionYears: 7,
-  cigarettePassThroughRate: 0.85,
-  cigaretteShortTermElasticity: -0.4,
   cigaretteLongTermElasticity: -0.6,
   cigaretteMarginPressureThreshold: 16,
   cigaretteMarginPressurePerPoint: 0.5,
   cigaretteMarginFloor: 55,
-  operatingEbitdaMultiplier: 1.05,
   hotelsEbitMargin: 0.27,
   paperEbitMargin: 0.27,
   agriEbitMargin: 0.09,
-  ebitdaToNetProfitMultiplier: 0.85,
-  ebitdaToFreeCashFlowMultiplier: 0.7,
+  terminalCashTaxRate: 0.96,
+  depreciationPercentOfRevenue: 2.4,
   maxCigaretteVolumeIndex: 110,
+  minCigaretteVolumeIndex: 55,
   startingYear: 2024,
+  fmcgMarginFloor: 8,
+  infotechStartingEbit: 500,
+  infotechGrowthFactor: 0.6,
+  sensitivityStep: 1,
 } as const);
+
+export interface ProjectionDetail {
+  year: string;
+  fy: string;
+  totalRevenue: number;
+  cigaretteRevenue: number;
+  fmcgRevenue: number;
+  hotelsRevenue: number;
+  paperRevenue: number;
+  agriRevenue: number;
+  cigarettePriceIncrease: number;
+  cigaretteVolumeGrowth: number;
+  cigaretteRevenueGrowth: number;
+  cigaretteEbitMargin: number;
+  fmcgEbitdaMargin: number;
+  cigaretteEbit: number;
+  fmcgEbit: number;
+  hotelsEbit: number;
+  paperEbit: number;
+  agriEbit: number;
+  infotechEbit: number;
+  ebit: number;
+  depreciation: number;
+  ebitda: number;
+  nopat: number;
+  capex: number;
+  workingCapitalInvestment: number;
+  fcff: number;
+  terminalYear: boolean;
+  summary: YearlyData;
+}
+
+export interface DCFResult {
+  enterpriseValue: number;
+  equityValue: number;
+  perShareValue: number;
+  pvCashFlows: number[];
+  terminalValue: number;
+  pvTerminalValue: number;
+  terminalValueWeight: number;
+  explicitForecastWeight: number;
+  impliedExitEbitdaMultiple: number;
+  isValid: boolean;
+  validationErrors: string[];
+}
+
+export interface SOTPSummary {
+  totalBase: number;
+  totalLow: number;
+  totalHigh: number;
+  netCash: number;
+  perShareBase: number;
+  perShareLow: number;
+  perShareHigh: number;
+}
+
+export interface DynamicSotpLine {
+  segment: string;
+  ebit: number;
+  multiple: number;
+  multipleLow: number;
+  multipleHigh: number;
+  value: number;
+  valueLow: number;
+  valueHigh: number;
+  basis: string;
+}
+
+export interface DynamicSotpSummary extends SOTPSummary {
+  conglomerateDiscount: number;
+  discountValueBase: number;
+  discountValueLow: number;
+  discountValueHigh: number;
+  lines: DynamicSotpLine[];
+}
+
+export interface TaxImpactResult {
+  priceIncrease: number;
+  volumeImpactShort: number;
+  volumeImpactLong: number;
+  revenueImpact: number;
+  newCigRevenue: number;
+  newEbitMargin: number;
+  newCigEbit: number;
+  stockReactionEstimate: number;
+}
+
+export interface SensitivityPoint {
+  wacc: number;
+  terminalGrowth: number;
+  perShareValue: number | null;
+  isBase: boolean;
+}
 
 function assertFiniteNumber(value: number, label: string): void {
   if (!Number.isFinite(value)) {
@@ -25,20 +120,36 @@ function assertFiniteNumber(value: number, label: string): void {
   }
 }
 
+function round(value: number, decimals = 0): number {
+  const factor = 10 ** decimals;
+  return Math.round(value * factor) / factor;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
 function validateProjectionAssumptions(assumptions: ProjectionAssumptions): void {
   const numericFields: Array<[keyof ProjectionAssumptions, string]> = [
     ['cigaretteRevenueGrowth', 'cigaretteRevenueGrowth'],
+    ['cigaretteVolumeGrowth', 'cigaretteVolumeGrowth'],
     ['fmcgRevenueGrowth', 'fmcgRevenueGrowth'],
     ['hotelsRevenueGrowth', 'hotelsRevenueGrowth'],
     ['paperRevenueGrowth', 'paperRevenueGrowth'],
     ['agriRevenueGrowth', 'agriRevenueGrowth'],
     ['cigaretteEbitMargin', 'cigaretteEbitMargin'],
     ['fmcgEbitdaMargin', 'fmcgEbitdaMargin'],
+    ['fmcgMarginTarget', 'fmcgMarginTarget'],
     ['taxRate', 'taxRate'],
     ['capexPercent', 'capexPercent'],
+    ['workingCapitalPercent', 'workingCapitalPercent'],
     ['terminalGrowth', 'terminalGrowth'],
     ['wacc', 'wacc'],
     ['annualNccdHike', 'annualNccdHike'],
+    ['cigarettePassThroughRate', 'cigarettePassThroughRate'],
+    ['cigaretteTaxElasticity', 'cigaretteTaxElasticity'],
+    ['illicitTradeDrag', 'illicitTradeDrag'],
+    ['conglomerateDiscount', 'conglomerateDiscount'],
   ];
 
   for (const [field, label] of numericFields) {
@@ -53,10 +164,25 @@ function validateProjectionAssumptions(assumptions: ProjectionAssumptions): void
     throw new Error('capexPercent must be between 0 and 100.');
   }
 
+  if (assumptions.workingCapitalPercent < 0 || assumptions.workingCapitalPercent > 20) {
+    throw new Error('workingCapitalPercent must be between 0 and 20.');
+  }
+
+  if (assumptions.cigarettePassThroughRate < 0 || assumptions.cigarettePassThroughRate > 120) {
+    throw new Error('cigarettePassThroughRate must be between 0 and 120.');
+  }
+
+  if (assumptions.fmcgMarginTarget < assumptions.fmcgEbitdaMargin) {
+    throw new Error('fmcgMarginTarget must be greater than or equal to fmcgEbitdaMargin.');
+  }
+
   if (assumptions.wacc <= 0) {
     throw new Error('wacc must be greater than 0.');
   }
 
+  if (assumptions.terminalGrowth < 0) {
+    throw new Error('terminalGrowth must be non-negative.');
+  }
 }
 
 function validateProjectionInput(baseData: YearlyData): void {
@@ -86,113 +212,173 @@ function validateProjectionInput(baseData: YearlyData): void {
   }
 }
 
-export interface DCFResult {
-  enterpriseValue: number;
-  equityValue: number;
-  perShareValue: number;
-  pvCashFlows: number[];
-  isValid: boolean;
-  validationErrors: string[];
+function buildDynamicSotpLine(
+  line: SOTPValuation,
+  projectedEbit: number,
+): DynamicSotpLine {
+  return {
+    ...line,
+    ebit: round(projectedEbit),
+    value: round(projectedEbit * line.multiple),
+    valueLow: round(projectedEbit * line.multipleLow),
+    valueHigh: round(projectedEbit * line.multipleHigh),
+  };
 }
 
-export interface SOTPSummary {
-  totalBase: number;
-  totalLow: number;
-  totalHigh: number;
-  netCash: number;
-  perShareBase: number;
-  perShareLow: number;
-  perShareHigh: number;
-}
-
-export interface TaxImpactResult {
-  priceIncrease: number;
-  volumeImpactShort: number;
-  volumeImpactLong: number;
-  revenueImpact: number;
-  newCigRevenue: number;
-  newEbitMargin: number;
-  newCigEbit: number;
-  stockReactionEstimate: number;
-}
-
-export function generateProjections(assumptions: ProjectionAssumptions, baseData: YearlyData): YearlyData[] {
+export function generateProjectionDetails(
+  assumptions: ProjectionAssumptions,
+  baseData: YearlyData,
+): ProjectionDetail[] {
   validateProjectionAssumptions(assumptions);
   validateProjectionInput(baseData);
 
-  const projections: YearlyData[] = [];
+  const details: ProjectionDetail[] = [];
   let prev = { ...baseData };
+  let prevInfotechEbit = MODEL_ASSUMPTIONS.infotechStartingEbit;
 
   for (let i = 1; i <= MODEL_ASSUMPTIONS.projectionYears; i++) {
-    const priceIncrease = assumptions.annualNccdHike * MODEL_ASSUMPTIONS.cigarettePassThroughRate;
-    const volumeImpact = -(priceIncrease * Math.abs(MODEL_ASSUMPTIONS.cigaretteShortTermElasticity));
-    const cigaretteGrowthAfterTax = assumptions.cigaretteRevenueGrowth + (priceIncrease + volumeImpact);
+    const yearNum = MODEL_ASSUMPTIONS.startingYear + i;
+    const progress = i / MODEL_ASSUMPTIONS.projectionYears;
+    const priceIncrease = assumptions.annualNccdHike * (assumptions.cigarettePassThroughRate / 100);
+    const taxVolumeImpact = priceIncrease * assumptions.cigaretteTaxElasticity;
+    const cigaretteVolumeGrowth =
+      assumptions.cigaretteVolumeGrowth + taxVolumeImpact - assumptions.illicitTradeDrag;
+    const cigaretteRevenueGrowth =
+      assumptions.cigaretteRevenueGrowth + assumptions.cigaretteVolumeGrowth + priceIncrease + taxVolumeImpact - assumptions.illicitTradeDrag;
 
-    const cigRev = prev.cigaretteRevenue * (1 + cigaretteGrowthAfterTax / 100);
-    const fmcgRev = prev.fmcgRevenue * (1 + assumptions.fmcgRevenueGrowth / 100);
-    const hotelRev = prev.hotelsRevenue * (1 + assumptions.hotelsRevenueGrowth / 100);
-    const paperRev = prev.paperRevenue * (1 + assumptions.paperRevenueGrowth / 100);
-    const agriRev = prev.agriRevenue * (1 + assumptions.agriRevenueGrowth / 100);
+    const cigaretteRevenue = prev.cigaretteRevenue * (1 + cigaretteRevenueGrowth / 100);
+    const fmcgRevenue = prev.fmcgRevenue * (1 + assumptions.fmcgRevenueGrowth / 100);
+    const hotelsRevenue = prev.hotelsRevenue * (1 + assumptions.hotelsRevenueGrowth / 100);
+    const paperRevenue = prev.paperRevenue * (1 + assumptions.paperRevenueGrowth / 100);
+    const agriRevenue = prev.agriRevenue * (1 + assumptions.agriRevenueGrowth / 100);
+    const totalRevenue = cigaretteRevenue + fmcgRevenue + hotelsRevenue + paperRevenue + agriRevenue;
 
-    const totalRev = cigRev + fmcgRev + hotelRev + paperRev + agriRev;
     const marginPressure =
       assumptions.annualNccdHike > MODEL_ASSUMPTIONS.cigaretteMarginPressureThreshold
         ? (assumptions.annualNccdHike - MODEL_ASSUMPTIONS.cigaretteMarginPressureThreshold) *
           MODEL_ASSUMPTIONS.cigaretteMarginPressurePerPoint
         : 0;
-    const adjustedCigMargin = Math.max(MODEL_ASSUMPTIONS.cigaretteMarginFloor, assumptions.cigaretteEbitMargin - marginPressure);
+    const cigaretteEbitMargin = clamp(
+      assumptions.cigaretteEbitMargin - marginPressure,
+      MODEL_ASSUMPTIONS.cigaretteMarginFloor,
+      75,
+    );
+    const fmcgEbitdaMargin = round(
+      assumptions.fmcgEbitdaMargin +
+        (assumptions.fmcgMarginTarget - assumptions.fmcgEbitdaMargin) * progress,
+      1,
+    );
 
-    const cigEbit = cigRev * (adjustedCigMargin / 100);
-    const fmcgEbit = fmcgRev * (assumptions.fmcgEbitdaMargin / 100);
-    const hotelEbit = hotelRev * MODEL_ASSUMPTIONS.hotelsEbitMargin;
-    const paperEbit = paperRev * MODEL_ASSUMPTIONS.paperEbitMargin;
-    const agriEbit = agriRev * MODEL_ASSUMPTIONS.agriEbitMargin;
-    const totalEbit = cigEbit + fmcgEbit + hotelEbit + paperEbit + agriEbit;
-    const ebitda = totalEbit * MODEL_ASSUMPTIONS.operatingEbitdaMultiplier;
-    const netProfit = ebitda * (1 - assumptions.taxRate / 100) * MODEL_ASSUMPTIONS.ebitdaToNetProfitMultiplier;
-    const yearNum = MODEL_ASSUMPTIONS.startingYear + i;
-    const fcf = ebitda * (1 - assumptions.capexPercent / 100) * MODEL_ASSUMPTIONS.ebitdaToFreeCashFlowMultiplier;
-    const dps = prev.dps * 1.08;
+    const cigaretteEbit = cigaretteRevenue * (cigaretteEbitMargin / 100);
+    const fmcgEbit = fmcgRevenue * (Math.max(MODEL_ASSUMPTIONS.fmcgMarginFloor, fmcgEbitdaMargin) / 100);
+    const hotelsEbit = hotelsRevenue * MODEL_ASSUMPTIONS.hotelsEbitMargin;
+    const paperEbit = paperRevenue * MODEL_ASSUMPTIONS.paperEbitMargin;
+    const agriEbit = agriRevenue * MODEL_ASSUMPTIONS.agriEbitMargin;
+    const infotechGrowth = Math.max(6, assumptions.fmcgRevenueGrowth * MODEL_ASSUMPTIONS.infotechGrowthFactor);
+    const infotechEbit = prevInfotechEbit * (1 + infotechGrowth / 100);
+    const ebit = cigaretteEbit + fmcgEbit + hotelsEbit + paperEbit + agriEbit + infotechEbit;
+
+    const depreciation = totalRevenue * (MODEL_ASSUMPTIONS.depreciationPercentOfRevenue / 100);
+    const ebitda = ebit + depreciation;
+    const nopat = ebit * (1 - assumptions.taxRate / 100);
+    const capex = totalRevenue * (assumptions.capexPercent / 100);
+    const workingCapitalInvestment = Math.max(totalRevenue - prev.revenue, 0) * (assumptions.workingCapitalPercent / 100);
+    const fcff = nopat + depreciation - capex - workingCapitalInvestment;
+    const netProfit = nopat * MODEL_ASSUMPTIONS.terminalCashTaxRate;
+    const totalAssets = prev.totalAssets + capex - depreciation + workingCapitalInvestment;
+    const netDebt = prev.netDebt - fcff * 0.45;
     const eps = netProfit / sharesOutstanding;
+    const peRatio = round(Math.max(14, prev.peRatio - assumptions.conglomerateDiscount * 0.1 + assumptions.fmcgMarginTarget * 0.15), 1);
+    const stockPriceHigh = round(eps * peRatio);
+    const stockPriceLow = round(stockPriceHigh * 0.8);
+    const dps = round(eps * 0.72, 2);
+    const dividendYield = round((dps / Math.max(stockPriceHigh, 1)) * 100, 1);
+    const cigaretteVolumeIndex = clamp(
+      round(prev.cigaretteVolumeIndex * (1 + cigaretteVolumeGrowth / 100)),
+      MODEL_ASSUMPTIONS.minCigaretteVolumeIndex,
+      MODEL_ASSUMPTIONS.maxCigaretteVolumeIndex,
+    );
 
-    const newEntry: YearlyData = {
+    const summary: YearlyData = {
       year: String(yearNum),
       fy: `FY${yearNum}E`,
-      revenue: Math.round(totalRev),
-      cigaretteRevenue: Math.round(cigRev),
-      fmcgRevenue: Math.round(fmcgRev),
-      hotelsRevenue: Math.round(hotelRev),
-      paperRevenue: Math.round(paperRev),
-      agriRevenue: Math.round(agriRev),
-      ebitda: Math.round(ebitda),
-      ebitdaMargin: Math.round((ebitda / totalRev) * 100 * 10) / 10,
-      netProfit: Math.round(netProfit),
-      netMargin: Math.round((netProfit / totalRev) * 100 * 10) / 10,
-      eps: Math.round(eps * 100) / 100,
-      dps: Math.round(dps * 100) / 100,
-      roe: Math.round((netProfit / (prev.totalAssets * 0.6)) * 100 * 10) / 10,
-      roce: Math.round((totalEbit / prev.totalAssets) * 100 * 10) / 10,
-      cigaretteEbitMargin: Math.round(adjustedCigMargin * 10) / 10,
-      fmcgEbitdaMargin: assumptions.fmcgEbitdaMargin,
-      freeCashFlow: Math.round(fcf),
-      totalAssets: Math.round(prev.totalAssets * 1.04),
-      netDebt: Math.round(prev.netDebt - fcf * 0.4),
+      revenue: round(totalRevenue),
+      cigaretteRevenue: round(cigaretteRevenue),
+      fmcgRevenue: round(fmcgRevenue),
+      hotelsRevenue: round(hotelsRevenue),
+      paperRevenue: round(paperRevenue),
+      agriRevenue: round(agriRevenue),
+      ebitda: round(ebitda),
+      ebitdaMargin: round((ebitda / totalRevenue) * 100, 1),
+      netProfit: round(netProfit),
+      netMargin: round((netProfit / totalRevenue) * 100, 1),
+      eps: round(eps, 2),
+      dps,
+      roe: round((netProfit / Math.max(totalAssets * 0.6, 1)) * 100, 1),
+      roce: round((ebit / Math.max(totalAssets, 1)) * 100, 1),
+      cigaretteEbitMargin: round(cigaretteEbitMargin, 1),
+      fmcgEbitdaMargin,
+      freeCashFlow: round(fcff),
+      totalAssets: round(totalAssets),
+      netDebt: round(netDebt),
       taxHikePct: assumptions.annualNccdHike,
-      stockPriceHigh: Math.round(prev.stockPriceHigh * (1 + assumptions.cigaretteRevenueGrowth / 200)),
-      stockPriceLow: Math.round(prev.stockPriceLow * (1 + cigaretteGrowthAfterTax / 250)),
-      dividendYield: Math.round((dps / (prev.stockPriceHigh * 0.9)) * 100 * 10) / 10,
-      peRatio: Math.round((prev.stockPriceHigh * 0.9 / eps) * 10) / 10,
-      cigaretteVolumeIndex: Math.min(MODEL_ASSUMPTIONS.maxCigaretteVolumeIndex, prev.cigaretteVolumeIndex + 1),
+      stockPriceHigh,
+      stockPriceLow,
+      dividendYield,
+      peRatio,
+      cigaretteVolumeIndex,
     };
 
-    projections.push(newEntry);
-    prev = newEntry;
+    details.push({
+      year: summary.year,
+      fy: summary.fy,
+      totalRevenue: round(totalRevenue),
+      cigaretteRevenue: round(cigaretteRevenue),
+      fmcgRevenue: round(fmcgRevenue),
+      hotelsRevenue: round(hotelsRevenue),
+      paperRevenue: round(paperRevenue),
+      agriRevenue: round(agriRevenue),
+      cigarettePriceIncrease: round(priceIncrease, 1),
+      cigaretteVolumeGrowth: round(cigaretteVolumeGrowth, 1),
+      cigaretteRevenueGrowth: round(cigaretteRevenueGrowth, 1),
+      cigaretteEbitMargin: round(cigaretteEbitMargin, 1),
+      fmcgEbitdaMargin,
+      cigaretteEbit: round(cigaretteEbit),
+      fmcgEbit: round(fmcgEbit),
+      hotelsEbit: round(hotelsEbit),
+      paperEbit: round(paperEbit),
+      agriEbit: round(agriEbit),
+      infotechEbit: round(infotechEbit),
+      ebit: round(ebit),
+      depreciation: round(depreciation),
+      ebitda: round(ebitda),
+      nopat: round(nopat),
+      capex: round(capex),
+      workingCapitalInvestment: round(workingCapitalInvestment),
+      fcff: round(fcff),
+      terminalYear: i === MODEL_ASSUMPTIONS.projectionYears,
+      summary,
+    });
+
+    prev = summary;
+    prevInfotechEbit = infotechEbit;
   }
 
-  return projections;
+  return details;
 }
 
-export function calculateDCF(projections: YearlyData[], wacc: number, terminalGrowth: number): DCFResult {
+export function generateProjections(
+  assumptions: ProjectionAssumptions,
+  baseData: YearlyData,
+): YearlyData[] {
+  return generateProjectionDetails(assumptions, baseData).map(detail => detail.summary);
+}
+
+export function calculateDCF(
+  projections: YearlyData[],
+  wacc: number,
+  terminalGrowth: number,
+): DCFResult {
   const validationErrors: string[] = [];
 
   if (projections.length === 0) {
@@ -206,6 +392,10 @@ export function calculateDCF(projections: YearlyData[], wacc: number, terminalGr
     validationErrors.push('WACC must be greater than 0.');
   }
 
+  if (terminalGrowth < 0) {
+    validationErrors.push('Terminal growth must be non-negative.');
+  }
+
   if (terminalGrowth >= wacc) {
     validationErrors.push('Terminal growth must stay below WACC.');
   }
@@ -216,6 +406,11 @@ export function calculateDCF(projections: YearlyData[], wacc: number, terminalGr
       equityValue: 0,
       perShareValue: 0,
       pvCashFlows: projections.map(() => 0),
+      terminalValue: 0,
+      pvTerminalValue: 0,
+      terminalValueWeight: 0,
+      explicitForecastWeight: 0,
+      impliedExitEbitdaMultiple: 0,
       isValid: false,
       validationErrors,
     };
@@ -227,25 +422,33 @@ export function calculateDCF(projections: YearlyData[], wacc: number, terminalGr
   for (let i = 0; i < projections.length; i++) {
     const discountFactor = Math.pow(1 + wacc / 100, i + 1);
     const pv = projections[i].freeCashFlow / discountFactor;
-    pvCashFlows.push(Math.round(pv));
+    pvCashFlows.push(round(pv));
     totalPV += pv;
   }
 
-  const lastFCF = projections[projections.length - 1].freeCashFlow;
+  const lastProjection = projections[projections.length - 1];
+  const lastFCF = lastProjection.freeCashFlow;
   const terminalValue = lastFCF * (1 + terminalGrowth / 100) / (wacc / 100 - terminalGrowth / 100);
   const terminalPvFactor = Math.pow(1 + wacc / 100, projections.length);
   const pvTerminalValue = terminalValue / terminalPvFactor;
-  const lastData = projections[projections.length - 1];
-  const netCash = lastData.netDebt < 0 ? Math.abs(lastData.netDebt) : -lastData.netDebt;
+  const netCash = lastProjection.netDebt < 0 ? Math.abs(lastProjection.netDebt) : -lastProjection.netDebt;
   const enterpriseValue = totalPV + pvTerminalValue;
   const equityValue = enterpriseValue + netCash;
   const perShareValue = equityValue / sharesOutstanding;
+  const terminalValueWeight = enterpriseValue > 0 ? pvTerminalValue / enterpriseValue : 0;
+  const explicitForecastWeight = enterpriseValue > 0 ? totalPV / enterpriseValue : 0;
+  const impliedExitEbitdaMultiple = lastProjection.ebitda > 0 ? terminalValue / lastProjection.ebitda : 0;
 
   return {
-    enterpriseValue: Math.round(enterpriseValue),
-    equityValue: Math.round(equityValue),
-    perShareValue: Math.round(perShareValue * 100) / 100,
+    enterpriseValue: round(enterpriseValue),
+    equityValue: round(equityValue),
+    perShareValue: round(perShareValue, 2),
     pvCashFlows,
+    terminalValue: round(terminalValue),
+    pvTerminalValue: round(pvTerminalValue),
+    terminalValueWeight: round(terminalValueWeight * 100, 1),
+    explicitForecastWeight: round(explicitForecastWeight * 100, 1),
+    impliedExitEbitdaMultiple: round(impliedExitEbitdaMultiple, 1),
     isValid: true,
     validationErrors: [],
   };
@@ -268,13 +471,99 @@ export function calculateSotpSummary(sotpData: SOTPValuation[], latestData: Year
   };
 }
 
+export function calculateDynamicSotpSummary(
+  projectionDetails: ProjectionDetail[],
+  sotpData: SOTPValuation[],
+  conglomerateDiscount: number,
+): DynamicSotpSummary {
+  const lastProjection = projectionDetails[projectionDetails.length - 1];
+  const lines = sotpData.map(line => {
+    switch (line.segment) {
+      case 'Cigarettes':
+        return buildDynamicSotpLine(line, lastProjection.cigaretteEbit);
+      case 'FMCG (Non-Cigarette)':
+        return buildDynamicSotpLine(line, lastProjection.fmcgEbit);
+      case 'Hotels (Demerged)':
+        return buildDynamicSotpLine(line, lastProjection.hotelsEbit);
+      case 'Paperboards & Packaging':
+        return buildDynamicSotpLine(line, lastProjection.paperEbit);
+      case 'Agri-Business':
+        return buildDynamicSotpLine(line, lastProjection.agriEbit);
+      case 'ITC Infotech':
+        return buildDynamicSotpLine(line, lastProjection.infotechEbit);
+      default:
+        return buildDynamicSotpLine(line, line.ebit);
+    }
+  });
+
+  const totalBeforeDiscountBase = lines.reduce((sum, line) => sum + line.value, 0);
+  const totalBeforeDiscountLow = lines.reduce((sum, line) => sum + line.valueLow, 0);
+  const totalBeforeDiscountHigh = lines.reduce((sum, line) => sum + line.valueHigh, 0);
+  const discountFactor = 1 - conglomerateDiscount / 100;
+  const totalBase = round(totalBeforeDiscountBase * discountFactor);
+  const totalLow = round(totalBeforeDiscountLow * discountFactor);
+  const totalHigh = round(totalBeforeDiscountHigh * discountFactor);
+  const discountValueBase = round(totalBeforeDiscountBase - totalBase);
+  const discountValueLow = round(totalBeforeDiscountLow - totalLow);
+  const discountValueHigh = round(totalBeforeDiscountHigh - totalHigh);
+  const netCash = lastProjection.summary.netDebt < 0 ? Math.abs(lastProjection.summary.netDebt) : -lastProjection.summary.netDebt;
+
+  return {
+    totalBase,
+    totalLow,
+    totalHigh,
+    netCash,
+    perShareBase: round((totalBase + netCash) / sharesOutstanding, 2),
+    perShareLow: round((totalLow + netCash) / sharesOutstanding, 2),
+    perShareHigh: round((totalHigh + netCash) / sharesOutstanding, 2),
+    conglomerateDiscount,
+    discountValueBase,
+    discountValueLow,
+    discountValueHigh,
+    lines,
+  };
+}
+
+export function buildDcfSensitivity(
+  projections: YearlyData[],
+  baseWacc: number,
+  baseTerminalGrowth: number,
+): SensitivityPoint[] {
+  const points: SensitivityPoint[] = [];
+  const waccValues = [
+    round(baseWacc - MODEL_ASSUMPTIONS.sensitivityStep, 1),
+    round(baseWacc, 1),
+    round(baseWacc + MODEL_ASSUMPTIONS.sensitivityStep, 1),
+  ];
+  const terminalValues = [
+    round(baseTerminalGrowth - MODEL_ASSUMPTIONS.sensitivityStep, 1),
+    round(baseTerminalGrowth, 1),
+    round(baseTerminalGrowth + MODEL_ASSUMPTIONS.sensitivityStep, 1),
+  ];
+
+  for (const terminalGrowth of terminalValues) {
+    for (const wacc of waccValues) {
+      const result = calculateDCF(projections, wacc, terminalGrowth);
+      points.push({
+        wacc,
+        terminalGrowth,
+        perShareValue: result.isValid ? result.perShareValue : null,
+        isBase: wacc === round(baseWacc, 1) && terminalGrowth === round(baseTerminalGrowth, 1),
+      });
+    }
+  }
+
+  return points;
+}
+
 export function simulateTaxImpact(simHike: number, latestData: YearlyData): TaxImpactResult {
   assertFiniteNumber(simHike, 'simHike');
   validateProjectionInput(latestData);
 
-  const priceIncrease = simHike * MODEL_ASSUMPTIONS.cigarettePassThroughRate;
-  const volumeImpactShort = -(priceIncrease * Math.abs(MODEL_ASSUMPTIONS.cigaretteShortTermElasticity));
-  const volumeImpactLong = -(priceIncrease * Math.abs(MODEL_ASSUMPTIONS.cigaretteLongTermElasticity));
+  const passThroughRate = 85;
+  const priceIncrease = simHike * (passThroughRate / 100);
+  const volumeImpactShort = priceIncrease * -0.4;
+  const volumeImpactLong = priceIncrease * MODEL_ASSUMPTIONS.cigaretteLongTermElasticity;
   const revenueImpact = priceIncrease + volumeImpactShort;
   const newCigRevenue = latestData.cigaretteRevenue * (1 + revenueImpact / 100);
   const marginPressure =
@@ -287,13 +576,13 @@ export function simulateTaxImpact(simHike: number, latestData: YearlyData): TaxI
   const stockReactionEstimate = simHike === 0 ? 6 : simHike <= 10 ? 3 : simHike <= 16 ? -1 : simHike <= 20 ? -4 : -8;
 
   return {
-    priceIncrease,
-    volumeImpactShort,
-    volumeImpactLong,
-    revenueImpact,
-    newCigRevenue,
-    newEbitMargin,
-    newCigEbit,
+    priceIncrease: round(priceIncrease, 1),
+    volumeImpactShort: round(volumeImpactShort, 1),
+    volumeImpactLong: round(volumeImpactLong, 1),
+    revenueImpact: round(revenueImpact, 1),
+    newCigRevenue: round(newCigRevenue),
+    newEbitMargin: round(newEbitMargin, 1),
+    newCigEbit: round(newCigEbit, 1),
     stockReactionEstimate,
   };
 }

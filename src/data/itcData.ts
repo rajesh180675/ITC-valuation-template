@@ -96,32 +96,46 @@ export const segmentDataFY24: SegmentData[] = [
 
 export interface ProjectionAssumptions {
   cigaretteRevenueGrowth: number;
+  cigaretteVolumeGrowth: number;
   fmcgRevenueGrowth: number;
   hotelsRevenueGrowth: number;
   paperRevenueGrowth: number;
   agriRevenueGrowth: number;
   cigaretteEbitMargin: number;
   fmcgEbitdaMargin: number;
+  fmcgMarginTarget: number;
   taxRate: number;
   capexPercent: number;
+  workingCapitalPercent: number;
   terminalGrowth: number;
   wacc: number;
   annualNccdHike: number;
+  cigarettePassThroughRate: number;
+  cigaretteTaxElasticity: number;
+  illicitTradeDrag: number;
+  conglomerateDiscount: number;
 }
 
 export const defaultAssumptions: ProjectionAssumptions = {
   cigaretteRevenueGrowth: 6,
+  cigaretteVolumeGrowth: 1.5,
   fmcgRevenueGrowth: 13,
   hotelsRevenueGrowth: 8,
   paperRevenueGrowth: 6,
   agriRevenueGrowth: 7,
   cigaretteEbitMargin: 66,
   fmcgEbitdaMargin: 14,
+  fmcgMarginTarget: 18,
   taxRate: 25,
   capexPercent: 8,
+  workingCapitalPercent: 1.5,
   terminalGrowth: 5.5,
   wacc: 10.5,
   annualNccdHike: 12,
+  cigarettePassThroughRate: 85,
+  cigaretteTaxElasticity: -0.4,
+  illicitTradeDrag: 0.6,
+  conglomerateDiscount: 5,
 };
 
 export interface SOTPValuation {

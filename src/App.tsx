@@ -45,7 +45,7 @@ export default function App() {
       case 'tax':
         return <TaxAnalyzerSection />;
       case 'valuation':
-        return <ValuationSection assumptions={assumptions} />;
+        return <ValuationSection assumptions={assumptions} setAssumptions={setAssumptions} />;
       case 'projections':
         return <ProjectionsSection assumptions={assumptions} setAssumptions={setAssumptions} />;
       case 'playbook':
