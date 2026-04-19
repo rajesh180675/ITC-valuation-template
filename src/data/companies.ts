@@ -1,7 +1,8 @@
 // Multi-company financial profiles for generic valuation framework.
 // Covers: ITC, TCS, HUL, Kansai Nerolac, VST Industries, Reliance Industries,
 // HDFC Bank, Infosys, Maruti Suzuki, Sun Pharma, Bharti Airtel, Larsen & Toubro,
-// Bajaj Finance, Asian Paints, NTPC.
+// Bajaj Finance, Asian Paints, NTPC, ICICI Bank, Tata Steel, Titan Company,
+// UltraTech Cement, Mahindra & Mahindra.
 //
 // Data sources: FY21-FY25 published annual results; H1 FY26 filings where
 // available. Numbers in INR crore unless otherwise noted. Share counts in
@@ -85,7 +86,14 @@ export interface GenericPeer {
     | 'IndianNBFC'
     | 'GlobalNBFC'
     | 'IndianUtilities'
-    | 'GlobalUtilities';
+    | 'GlobalUtilities'
+    | 'IndianMetals'
+    | 'GlobalMetals'
+    | 'IndianCement'
+    | 'GlobalCement'
+    | 'IndianJewellery'
+    | 'GlobalLuxury'
+    | 'IndianConsumerDisc';
   marketCapCr: number;
   evEbitda: number;
   pe: number;
@@ -1398,12 +1406,446 @@ const NTPC: CompanyProfile = {
 };
 
 // ==========================================================================
+// ICICI BANK (Consolidated; private-bank peer to HDFC Bank)
+// Sector-appropriate proxies (banks):
+//   revenue = Total Operating Income (NII + Other Income)
+//   ebitda  = Pre-Provision Operating Profit (PPOP)
+//   ebit    = PPOP - provisions (PBT proxy); D&A small
+// ==========================================================================
+const ICICIBANK: CompanyProfile = {
+  id: 'icicibank',
+  ticker: 'ICICIBANK',
+  name: 'ICICI Bank',
+  sector: 'Private Banking / BFSI',
+  tagline: 'Best-in-class ROA among large private banks; digital + subsidiary value',
+  accentColor: '#B45309',
+  currentMarketPrice: 1250,
+  targetPriceRange: { low: 1170, base: 1380, high: 1560 },
+  sharesOutstandingCr: 705.7,
+  netCashCr: 0,
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 77914,  ebitda: 44920, ebit: 27930, pat: 18384, eps: 26.6, dps: 2.0,  capex: 1390, operatingCashFlow: 24150, freeCashFlow: 22760, netDebt: 0, totalAssets: 1230434, investedCapital: 146908 },
+    { fy: 'FY22', revenue: 86375,  ebitda: 50480, ebit: 37650, pat: 25110, eps: 36.1, dps: 5.0,  capex: 1530, operatingCashFlow: 31480, freeCashFlow: 29950, netDebt: 0, totalAssets: 1411298, investedCapital: 169500 },
+    { fy: 'FY23', revenue: 109231, ebitda: 58015, ebit: 48700, pat: 34037, eps: 48.9, dps: 8.0,  capex: 1720, operatingCashFlow: 42200, freeCashFlow: 40480, netDebt: 0, totalAssets: 1584207, investedCapital: 198500 },
+    { fy: 'FY24', revenue: 133928, ebitda: 72460, ebit: 61200, pat: 44256, eps: 63.1, dps: 10.0, capex: 1960, operatingCashFlow: 54680, freeCashFlow: 52720, netDebt: 0, totalAssets: 1878500, investedCapital: 232200 },
+    { fy: 'FY25', revenue: 158970, ebitda: 85020, ebit: 72250, pat: 51029, eps: 72.3, dps: 11.0, capex: 2210, operatingCashFlow: 63520, freeCashFlow: 61310, netDebt: 0, totalAssets: 2151000, investedCapital: 267400 },
+  ],
+  segments: [
+    { name: 'Retail Banking',       fy25Revenue: 87430, fy25Ebit: 37860, fy25Margin: 43.3, targetMultiple: 18, multipleLow: 15, multipleHigh: 22, growthOutlook: 'Secured retail leading; unsecured slowing controlled',  share: 55.0 },
+    { name: 'Wholesale Banking',    fy25Revenue: 30890, fy25Ebit: 17100, fy25Margin: 55.4, targetMultiple: 13, multipleLow: 11, multipleHigh: 16, growthOutlook: 'Corporate + transaction banking; capex cycle tailwind', share: 19.4 },
+    { name: 'Treasury',             fy25Revenue: 22500, fy25Ebit: 10100, fy25Margin: 44.9, targetMultiple: 10, multipleLow: 8,  multipleHigh: 12, growthOutlook: 'Yield normalisation + FX + bonds',                         share: 14.2 },
+    { name: 'Insurance (Life + GI)',fy25Revenue: 12970, fy25Ebit: 4200,  fy25Margin: 32.4, targetMultiple: 20, multipleLow: 17, multipleHigh: 24, growthOutlook: 'ICICI Pru Life + ICICI Lombard stakes',                  share: 8.2 },
+    { name: 'Others (AMC, BSE, etc.)',fy25Revenue: 5180, fy25Ebit: 2990, fy25Margin: 57.7, targetMultiple: 22, multipleLow: 18, multipleHigh: 28, growthOutlook: 'ICICI Prudential AMC + Securities + Venture capital',    share: 3.2 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 14,
+    revenueGrowthY1: 12,
+    terminalGrowth: 5.5,
+    targetEbitdaMargin: 55,
+    taxRate: 25,
+    wacc: 12.0,
+    costOfEquity: 13.0,
+    daPercentRevenue: 1.0,
+    capexPercentRevenue: 1.4,
+    workingCapitalIntensity: 0,
+    projectionYears: 7,
+    payoutRatio: 17,
+    dividendGrowthNearTerm: 15,
+    dividendGrowthTerminal: 6,
+    conglomerateDiscount: 0,
+  },
+  peers: [
+    { name: 'HDFC Bank',        ticker: 'HDFCBANK',   category: 'IndianBank', marketCapCr: 1370000,evEbitda: 11, pe: 20, dividendYield: 1.2, roic: 14, note: 'Larger private bank peer' },
+    { name: 'Axis Bank',        ticker: 'AXISBANK',   category: 'IndianBank', marketCapCr: 360000, evEbitda: 8,  pe: 14, dividendYield: 0.1, roic: 14, note: 'Citi retail integration' },
+    { name: 'Kotak Mahindra',   ticker: 'KOTAKBANK',  category: 'IndianBank', marketCapCr: 380000, evEbitda: 11, pe: 19, dividendYield: 0.1, roic: 16, note: 'Premium franchise' },
+    { name: 'State Bank of India', ticker: 'SBIN',    category: 'IndianBank', marketCapCr: 710000, evEbitda: 6,  pe: 10, dividendYield: 1.8, roic: 13, note: 'PSU leader' },
+    { name: 'IndusInd Bank',    ticker: 'INDUSINDBK', category: 'IndianBank', marketCapCr: 68000,  evEbitda: 6,  pe: 8,  dividendYield: 1.2, roic: 10, note: 'Mid-size private' },
+    { name: 'Federal Bank',     ticker: 'FEDERALBNK', category: 'IndianBank', marketCapCr: 50000,  evEbitda: 7,  pe: 10, dividendYield: 1.1, roic: 13, note: 'South-India mid-cap' },
+    { name: 'JPMorgan Chase',   ticker: 'JPM',        category: 'GlobalBank', marketCapCr: 5400000,evEbitda: 9,  pe: 13, dividendYield: 2.3, roic: 15, note: 'US mega-bank' },
+    { name: 'DBS Bank',         ticker: 'D05.SI',     category: 'GlobalBank', marketCapCr: 940000, evEbitda: 9,  pe: 11, dividendYield: 5.0, roic: 14, note: 'SGX peer' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (Credit Cycle)',   probability: 0.22, description: 'Credit cost normalises to 100bps; NIM -25bps on rate cuts; growth slows to 10%',     color: '#DC2626', overrides: { revenueGrowthCAGR: 9,  targetEbitdaMargin: 50, wacc: 13 } },
+    { id: 'base',   label: 'Base',                   probability: 0.52, description: 'Loan growth 14-15%, NIM 4.2-4.4%, ROA 2.3%+, PPOP compounding in line with book',     color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (Franchise Premium)',probability: 0.20, description: 'ROA holds 2.5%; subsidiary re-rating; best-in-class digital + secured retail mix',  color: '#16A34A', overrides: { revenueGrowthCAGR: 17, targetEbitdaMargin: 58, wacc: 11 } },
+    { id: 'stress', label: 'Unsecured Retail Shock', probability: 0.06, description: 'PL + credit card slippages spike; provisioning doubles; ROE sub-15%',               color: '#7C2D12', overrides: { revenueGrowthCAGR: 7,  targetEbitdaMargin: 45, wacc: 13.5 } },
+  ],
+  keyDrivers: [
+    'Best-in-class ROA (2.4%) and ROE (18%+) among large banks',
+    'Secured retail mix (mortgages + vehicle) >60% of retail',
+    '360-degree digital + iMobile Pay franchise',
+    'Subsidiary value: ICICI Pru Life, Lombard, AMC, Securities',
+    'Lowest cost-income ratio among private peers (~40%)',
+  ],
+  keyRisks: [
+    'Unsecured retail delinquency cycle',
+    'NIM compression on repo rate cuts',
+    'Corporate credit slippage re-emergence',
+    'Regulatory: priority-sector + draft project-finance norms',
+  ],
+  recentHighlights: [
+    'FY25 PAT ₹51,029 Cr (+15% YoY); ROA 2.4%, ROE 18.6%',
+    'Loan book +13.9% YoY; deposits +14.0% YoY',
+    'GNPA 1.67%, NNPA 0.39% (best among peers)',
+    'Final dividend ₹11/sh; subsidiary dividends strong',
+  ],
+  thesisShort: 'Best-operating private bank with sustainable >2% ROA, subsidiary optionality and franchise premium versus HDFC Bank on growth differential.',
+};
+
+// ==========================================================================
+// TATA STEEL (Consolidated; India steel + Europe restructuring + Netherlands)
+// Cyclical - FY21/FY22 benefited from post-COVID steel super-cycle
+// ==========================================================================
+const TATASTEEL: CompanyProfile = {
+  id: 'tatasteel',
+  ticker: 'TATASTEEL',
+  name: 'Tata Steel',
+  sector: 'Metals & Mining - Steel',
+  tagline: 'India steel cash engine; UK transition + Netherlands cost-out drive European turnaround',
+  accentColor: '#1E293B',
+  currentMarketPrice: 145,
+  targetPriceRange: { low: 125, base: 165, high: 195 },
+  sharesOutstandingCr: 1249.0,
+  netCashCr: -80000,
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 156477, ebitda: 30892, ebit: 22100,  pat: 8190,  eps: 6.6,   dps: 25.0, capex: 7710, operatingCashFlow: 32700, freeCashFlow: 24990, netDebt: 75389,  totalAssets: 247616, investedCapital: 170500 },
+    { fy: 'FY22', revenue: 243959, ebitda: 63830, ebit: 52100,  pat: 41749, eps: 34.2,  dps: 51.0, capex: 11580,operatingCashFlow: 49720, freeCashFlow: 38140, netDebt: 54989,  totalAssets: 278180, investedCapital: 178500 },
+    { fy: 'FY23', revenue: 243353, ebitda: 33110, ebit: 22180,  pat: 8075,  eps: 6.6,   dps: 36.0, capex: 14850,operatingCashFlow: 35400, freeCashFlow: 20550, netDebt: 67810,  totalAssets: 285210, investedCapital: 191200 },
+    { fy: 'FY24', revenue: 229171, ebitda: 23460, ebit: 11900,  pat: -4910, eps: -3.9,  dps: 3.6,  capex: 18050,operatingCashFlow: 26740, freeCashFlow: 8690,  netDebt: 77580,  totalAssets: 298440, investedCapital: 205700 },
+    { fy: 'FY25', revenue: 218543, ebitda: 25200, ebit: 14850,  pat: 3174,  eps: 2.5,   dps: 3.6,  capex: 15000,operatingCashFlow: 30150, freeCashFlow: 15150, netDebt: 80000,  totalAssets: 310000, investedCapital: 218000 },
+  ],
+  segments: [
+    { name: 'India Steel (TSLP + TSBSL + KPO)', fy25Revenue: 130120, fy25Ebit: 19500, fy25Margin: 15.0, targetMultiple: 8, multipleLow: 6, multipleHigh: 10, growthOutlook: 'KPO Phase-2 (5->8 MTPA) ramp; captive iron-ore advantage', share: 59.5 },
+    { name: 'Europe - Netherlands',              fy25Revenue: 43710,  fy25Ebit: -1750, fy25Margin: -4.0, targetMultiple: 5, multipleLow: 3, multipleHigh: 7,  growthOutlook: 'Green steel DRI transition; CBAM protection',             share: 20.0 },
+    { name: 'Europe - UK',                       fy25Revenue: 21850,  fy25Ebit: -2200, fy25Margin: -10.1,targetMultiple: 3, multipleLow: 2, multipleHigh: 5,  growthOutlook: 'Port Talbot EAF transition; blast furnaces shut Sep-24',   share: 10.0 },
+    { name: 'South-East Asia (Thailand)',        fy25Revenue: 11000,  fy25Ebit: 380,   fy25Margin: 3.5,  targetMultiple: 5, multipleLow: 4, multipleHigh: 7,  growthOutlook: 'Mature; rebar + wire rod',                                share: 5.0 },
+    { name: 'Mining & Others',                   fy25Revenue: 11860,  fy25Ebit: 1130,  fy25Margin: 9.5,  targetMultiple: 7, multipleLow: 5, multipleHigh: 9,  growthOutlook: 'Captive iron-ore + coal + ferro alloys',                 share: 5.4 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 6,
+    revenueGrowthY1: 4,
+    terminalGrowth: 4.5,
+    targetEbitdaMargin: 15,
+    taxRate: 25,
+    wacc: 12.0,
+    costOfEquity: 13.5,
+    daPercentRevenue: 5.5,
+    capexPercentRevenue: 7,
+    workingCapitalIntensity: 18,
+    projectionYears: 8, // longer for cyclical + capex build
+    payoutRatio: 30,
+    dividendGrowthNearTerm: 10,
+    dividendGrowthTerminal: 5,
+    conglomerateDiscount: 15,
+  },
+  peers: [
+    { name: 'JSW Steel',          ticker: 'JSWSTEEL',  category: 'IndianMetals', marketCapCr: 230000, evEbitda: 12, pe: 30, dividendYield: 0.9, roic: 10, note: 'Domestic #2; growth-focused' },
+    { name: 'SAIL',               ticker: 'SAIL',      category: 'IndianMetals', marketCapCr: 52000,  evEbitda: 9,  pe: 18, dividendYield: 1.6, roic: 6,  note: 'PSU steel; flat + long' },
+    { name: 'Jindal Steel & Power',ticker: 'JINDALSTEL',category: 'IndianMetals', marketCapCr: 95000,  evEbitda: 9,  pe: 18, dividendYield: 0.2, roic: 11, note: 'Long products + Angul expansion' },
+    { name: 'Hindalco',           ticker: 'HINDALCO',  category: 'IndianMetals', marketCapCr: 145000, evEbitda: 6,  pe: 12, dividendYield: 0.5, roic: 11, note: 'Aluminium + Novelis' },
+    { name: 'Vedanta',            ticker: 'VEDL',      category: 'IndianMetals', marketCapCr: 165000, evEbitda: 5,  pe: 12, dividendYield: 9.0, roic: 15, note: 'Diversified metals + oil' },
+    { name: 'ArcelorMittal',      ticker: 'MT',        category: 'GlobalMetals', marketCapCr: 230000, evEbitda: 5,  pe: 12, dividendYield: 2.3, roic: 8,  note: 'Global steel major' },
+    { name: 'Nippon Steel',       ticker: '5401.T',    category: 'GlobalMetals', marketCapCr: 250000, evEbitda: 4,  pe: 7,  dividendYield: 5.0, roic: 7,  note: 'Japan steel' },
+    { name: 'POSCO Holdings',     ticker: 'PKX',       category: 'GlobalMetals', marketCapCr: 210000, evEbitda: 6,  pe: 13, dividendYield: 3.5, roic: 5,  note: 'Korea; EV battery materials' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (China Dumping)',     probability: 0.25, description: 'China exports flood market, HRC ₹48K, EU losses deepen, net debt swells', color: '#DC2626', overrides: { revenueGrowthCAGR: 2,  targetEbitdaMargin: 10, wacc: 13 } },
+    { id: 'base',   label: 'Base',                      probability: 0.50, description: 'Safeguard duty in India; KPO ramp; UK EAF commission FY28; EU breakeven',  color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (Cycle Recovery)',     probability: 0.20, description: 'China stimulus + infra spend; HRC ₹58K; India margin 18%+; EU EBITDA-positive',color: '#16A34A', overrides: { revenueGrowthCAGR: 10, targetEbitdaMargin: 19, wacc: 11 } },
+    { id: 'stress', label: 'Global Recession',          probability: 0.05, description: 'HRC <₹45K, FCF turns negative, debt covenants tested, UK restructuring overruns',color: '#7C2D12', overrides: { revenueGrowthCAGR: -2, targetEbitdaMargin: 7,  wacc: 14 } },
+  ],
+  keyDrivers: [
+    'Kalinganagar Phase-2 commissioning (5->8 MTPA in India)',
+    'Port Talbot EAF transition (capex £1.25bn; UK govt £500m grant)',
+    'Netherlands DRI + CBAM protection for green steel',
+    'India captive iron-ore + coking coal cost advantage',
+    'Safeguard duty + anti-dumping supports domestic realisation',
+  ],
+  keyRisks: [
+    'China steel export dumping',
+    'UK/Netherlands transition cost overruns',
+    'Coking coal volatility + CBAM compliance',
+    'Net debt >₹80K Cr; rating agency watch',
+    'Cyclical margin swings (FY22 EBITDA ₹64K vs FY24 ₹23K)',
+  ],
+  recentHighlights: [
+    'FY25 revenue ₹2.19L Cr; PAT turns positive (₹3,174 Cr)',
+    'India EBITDA/t ~₹12.5K; Europe EBITDA/t ~-$20',
+    'Port Talbot blast furnaces closed Sep-2024',
+    'KPO expansion to 8 MTPA expected FY26-end',
+  ],
+  thesisShort: 'India steel cash engine funds Europe green transition; asymmetric pay-off if Port Talbot EAF executes on time and safeguards hold.',
+};
+
+// ==========================================================================
+// TITAN COMPANY (Consolidated; Jewellery + Watches + Eyewear + Caratlane)
+// ==========================================================================
+const TITAN: CompanyProfile = {
+  id: 'titan',
+  ticker: 'TITAN',
+  name: 'Titan Company',
+  sector: 'Consumer Discretionary - Jewellery & Lifestyle',
+  tagline: 'Tanishq-led jewellery compounder + emerging lifestyle portfolio; premium consumer proxy',
+  accentColor: '#9F1239',
+  currentMarketPrice: 3520,
+  targetPriceRange: { low: 3280, base: 3800, high: 4350 },
+  sharesOutstandingCr: 88.78,
+  netCashCr: -6200,
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 21644, ebitda: 2260, ebit: 1720, pat: 974,  eps: 11.0,  dps: 4.0,  capex: 260,  operatingCashFlow: 3480, freeCashFlow: 3220, netDebt: 2680,  totalAssets: 15320, investedCapital: 6200  },
+    { fy: 'FY22', revenue: 28799, ebitda: 3620, ebit: 2970, pat: 2174, eps: 24.5,  dps: 7.5,  capex: 380,  operatingCashFlow: 1940, freeCashFlow: 1560, netDebt: 3090,  totalAssets: 17980, investedCapital: 7450  },
+    { fy: 'FY23', revenue: 40575, ebitda: 4780, ebit: 3900, pat: 3274, eps: 36.9,  dps: 10.0, capex: 640,  operatingCashFlow: 2540, freeCashFlow: 1900, netDebt: 2410,  totalAssets: 21200, investedCapital: 8920  },
+    { fy: 'FY24', revenue: 51617, ebitda: 5630, ebit: 4440, pat: 3496, eps: 39.4,  dps: 11.0, capex: 1180, operatingCashFlow: 2710, freeCashFlow: 1530, netDebt: 5250,  totalAssets: 27000, investedCapital: 11400 },
+    { fy: 'FY25', revenue: 58220, ebitda: 6180, ebit: 4780, pat: 3333, eps: 37.5,  dps: 11.0, capex: 1620, operatingCashFlow: 3420, freeCashFlow: 1800, netDebt: 6200,  totalAssets: 32200, investedCapital: 13500 },
+  ],
+  segments: [
+    { name: 'Jewellery (Tanishq + Mia + Zoya)', fy25Revenue: 49490, fy25Ebit: 5440, fy25Margin: 11.0, targetMultiple: 38, multipleLow: 32, multipleHigh: 45, growthOutlook: '20-22% CAGR; formalisation + wedding premium',         share: 85.0 },
+    { name: 'Watches & Wearables',              fy25Revenue: 4070,  fy25Ebit: 390,  fy25Margin: 9.6,  targetMultiple: 22, multipleLow: 18, multipleHigh: 28, growthOutlook: 'Premium analog + smart catch-up; Helios flagship',      share: 7.0 },
+    { name: 'Eyecare (Titan Eye+)',             fy25Revenue: 1800,  fy25Ebit: 180,  fy25Margin: 10.0, targetMultiple: 20, multipleLow: 16, multipleHigh: 25, growthOutlook: 'Store expansion + online channel',                       share: 3.1 },
+    { name: 'CaratLane',                        fy25Revenue: 3620,  fy25Ebit: 180,  fy25Margin: 5.0,  targetMultiple: 30, multipleLow: 24, multipleHigh: 38, growthOutlook: 'Digital-first; 100% stake from Aug-2023',                share: 6.2 },
+    { name: 'Emerging (Taneira, IRTH, Skinn)',  fy25Revenue: 1240,  fy25Ebit: -110, fy25Margin: -8.9, targetMultiple: 15, multipleLow: 10, multipleHigh: 22, growthOutlook: 'Indian dress wear + fragrances + handbags incubation',    share: 2.1 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 17,
+    revenueGrowthY1: 14,
+    terminalGrowth: 6.0,
+    targetEbitdaMargin: 12.5,
+    taxRate: 26,
+    wacc: 11.5,
+    costOfEquity: 12.5,
+    daPercentRevenue: 2.4,
+    capexPercentRevenue: 2.8,
+    workingCapitalIntensity: 28, // jewellery inventory-heavy
+    projectionYears: 7,
+    payoutRatio: 30,
+    dividendGrowthNearTerm: 10,
+    dividendGrowthTerminal: 6,
+    conglomerateDiscount: 0,
+  },
+  peers: [
+    { name: 'Kalyan Jewellers',   ticker: 'KALYANKJIL',category: 'IndianJewellery', marketCapCr: 48000,  evEbitda: 32, pe: 60, dividendYield: 0.3, roic: 17, note: 'Fastest-growing branded jewellery' },
+    { name: 'Senco Gold',         ticker: 'SENCO',     category: 'IndianJewellery', marketCapCr: 8500,   evEbitda: 18, pe: 40, dividendYield: 0.3, roic: 15, note: 'East India jeweller' },
+    { name: 'Rajesh Exports',     ticker: 'RAJESHEXPO',category: 'IndianJewellery', marketCapCr: 5500,   evEbitda: 4,  pe: 6,  dividendYield: 0.2, roic: 8,  note: 'B2B refiner + retail' },
+    { name: 'Thangamayil Jewellery',ticker: 'THANGAMAYL',category: 'IndianJewellery', marketCapCr: 6000, evEbitda: 28, pe: 45, dividendYield: 0.2, roic: 20, note: 'Tamil Nadu regional' },
+    { name: 'PC Jeweller',        ticker: 'PCJEWELLER',category: 'IndianJewellery', marketCapCr: 4000,   evEbitda: 12, pe: -1, dividendYield: 0.0, roic: -3, note: 'Restructuring' },
+    { name: 'DMart',              ticker: 'DMART',     category: 'IndianRetail',    marketCapCr: 260000, evEbitda: 55, pe: 85, dividendYield: 0.0, roic: 20, note: 'Value retail proxy' },
+    { name: 'Trent',              ticker: 'TRENT',     category: 'IndianConsumerDisc', marketCapCr: 260000, evEbitda: 95, pe: 160, dividendYield: 0.1, roic: 18, note: 'Westside + Zudio' },
+    { name: 'LVMH',               ticker: 'MC.PA',     category: 'GlobalLuxury',    marketCapCr: 2800000,evEbitda: 13, pe: 22, dividendYield: 2.0, roic: 18, note: 'Global luxury benchmark' },
+    { name: 'Tiffany & Co (LVMH)',ticker: 'MC.PA',     category: 'GlobalLuxury',    marketCapCr: 0,      evEbitda: 0,  pe: 0,  dividendYield: 0.0, roic: 0,  note: 'Benchmark brand (priv.)' },
+    { name: 'Pandora',            ticker: 'PNDORA.CO', category: 'GlobalLuxury',    marketCapCr: 85000,  evEbitda: 13, pe: 21, dividendYield: 1.7, roic: 30, note: 'Mass-premium jewellery' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (Gold Spike + Duty)',  probability: 0.22, description: 'Gold >₹90K/10g discourages buying; duty hike reversed; jewellery grows 10%', color: '#DC2626', overrides: { revenueGrowthCAGR: 11, targetEbitdaMargin: 11, wacc: 12.5 } },
+    { id: 'base',   label: 'Base',                       probability: 0.52, description: 'Jewellery 18-20% CAGR; CaratLane ramps; watches premium mix improves',       color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (Wedding + Premiumisation)',probability: 0.20, description: 'Studded share +400bps; Zoya luxury scale; international ramp to 3% of rev',color: '#16A34A', overrides: { revenueGrowthCAGR: 21, targetEbitdaMargin: 14, wacc: 10.5 } },
+    { id: 'stress', label: 'Demand Freeze + Inventory',  probability: 0.06, description: 'Gold price shock + recession; gold-scheme attrition; inventory days balloon',color: '#7C2D12', overrides: { revenueGrowthCAGR: 5,  targetEbitdaMargin: 9,  wacc: 13 } },
+  ],
+  keyDrivers: [
+    'Organised jewellery formalisation (unorganised ~60% still)',
+    'Tanishq store expansion: 527 in FY25, target 800+',
+    'Studded mix uplift (higher margin than plain gold)',
+    'CaratLane digital-first scale (100% stake Aug-2023)',
+    'International rollout (US, Dubai, Singapore, Qatar)',
+  ],
+  keyRisks: [
+    'Gold price volatility + hedging slippage',
+    'Import duty policy (July-24 duty cut hit inventory)',
+    'Competition: Kalyan, Malabar, Reliance Jewels',
+    'Wedding-season concentration',
+    'Lab-grown diamonds disrupting studded economics',
+  ],
+  recentHighlights: [
+    'FY25 revenue ₹58,220 Cr (+12.8% YoY); jewellery +13%',
+    'Tanishq added 57 stores in FY25; total 527',
+    'CaratLane revenue ₹3,620 Cr (+23%); path to 8% margin',
+    'Final + interim dividend ₹11/sh; ROCE 25%+',
+  ],
+  thesisShort: 'Premium consumer franchise riding formalisation + wedding + premiumisation; multi-year compounding with CaratLane + international as free options.',
+};
+
+// ==========================================================================
+// ULTRATECH CEMENT (Consolidated; India #1 cement; +India Cements + Kesoram)
+// ==========================================================================
+const ULTRATECH: CompanyProfile = {
+  id: 'ultratech',
+  ticker: 'ULTRACEMCO',
+  name: 'UltraTech Cement',
+  sector: 'Cement & Building Materials',
+  tagline: 'India #1 cement leader; organic + inorganic play on capex super-cycle',
+  accentColor: '#334155',
+  currentMarketPrice: 11400,
+  targetPriceRange: { low: 10600, base: 12400, high: 14200 },
+  sharesOutstandingCr: 28.87,
+  netCashCr: -12000,
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 44726, ebitda: 11680, ebit: 8530,  pat: 5382,  eps: 186.4, dps: 37.0, capex: 2670, operatingCashFlow: 11450, freeCashFlow: 8780,  netDebt: 6717,  totalAssets: 76800, investedCapital: 53400 },
+    { fy: 'FY22', revenue: 52599, ebitda: 12300, ebit: 9310,  pat: 7344,  eps: 254.4, dps: 38.0, capex: 3540, operatingCashFlow: 9640,  freeCashFlow: 6100,  netDebt: 3100,  totalAssets: 80500, investedCapital: 55200 },
+    { fy: 'FY23', revenue: 63240, ebitda: 11190, ebit: 7960,  pat: 5064,  eps: 175.4, dps: 38.0, capex: 4860, operatingCashFlow: 10480, freeCashFlow: 5620,  netDebt: 2890,  totalAssets: 88200, investedCapital: 58900 },
+    { fy: 'FY24', revenue: 70908, ebitda: 13260, ebit: 9370,  pat: 7005,  eps: 242.6, dps: 70.0, capex: 7120, operatingCashFlow: 13160, freeCashFlow: 6040,  netDebt: 4760,  totalAssets: 99100, investedCapital: 66200 },
+    { fy: 'FY25', revenue: 75940, ebitda: 13840, ebit: 9580,  pat: 6042,  eps: 209.3, dps: 77.5, capex: 9200, operatingCashFlow: 14500, freeCashFlow: 5300,  netDebt: 12000, totalAssets: 115000, investedCapital: 78400 },
+  ],
+  segments: [
+    { name: 'Grey Cement - India',        fy25Revenue: 66830, fy25Ebit: 8780, fy25Margin: 13.1, targetMultiple: 15, multipleLow: 12, multipleHigh: 18, growthOutlook: 'Capacity 157 MTPA->183 MTPA by FY27; regional pricing key', share: 88.0 },
+    { name: 'White Cement + Putty (Birla White)', fy25Revenue: 3800, fy25Ebit: 760, fy25Margin: 20.0, targetMultiple: 22, multipleLow: 18, multipleHigh: 28, growthOutlook: 'High-margin; tile-adhesive + wall-putty ramp',          share: 5.0 },
+    { name: 'RMC (Ready-mix Concrete)',   fy25Revenue: 3800,  fy25Ebit: 230,  fy25Margin: 6.1,  targetMultiple: 12, multipleLow: 10, multipleHigh: 15, growthOutlook: 'Urban infra + housing projects',                         share: 5.0 },
+    { name: 'Overseas (UAE, Bahrain)',    fy25Revenue: 1510,  fy25Ebit: 120,  fy25Margin: 7.9,  targetMultiple: 9,  multipleLow: 7,  multipleHigh: 11, growthOutlook: 'Mature GCC markets; steady',                                share: 2.0 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 11,
+    revenueGrowthY1: 9,
+    terminalGrowth: 5.5,
+    targetEbitdaMargin: 20,
+    taxRate: 25,
+    wacc: 11.0,
+    costOfEquity: 12.0,
+    daPercentRevenue: 5.5,
+    capexPercentRevenue: 7,
+    workingCapitalIntensity: 6,
+    projectionYears: 8, // cement capacity build has long lead time
+    payoutRatio: 30,
+    dividendGrowthNearTerm: 12,
+    dividendGrowthTerminal: 5.5,
+    conglomerateDiscount: 5,
+  },
+  peers: [
+    { name: 'Ambuja Cements',    ticker: 'AMBUJACEM',  category: 'IndianCement', marketCapCr: 140000, evEbitda: 18, pe: 30, dividendYield: 0.5, roic: 10, note: 'Adani-owned; #2 capacity' },
+    { name: 'ACC',               ticker: 'ACC',        category: 'IndianCement', marketCapCr: 40000,  evEbitda: 10, pe: 16, dividendYield: 3.5, roic: 11, note: 'Adani subsidiary' },
+    { name: 'Shree Cement',      ticker: 'SHREECEM',   category: 'IndianCement', marketCapCr: 100000, evEbitda: 18, pe: 50, dividendYield: 0.3, roic: 10, note: 'North-focused; low cost' },
+    { name: 'Dalmia Bharat',     ticker: 'DALBHARAT',  category: 'IndianCement', marketCapCr: 36000,  evEbitda: 12, pe: 35, dividendYield: 0.4, roic: 8,  note: 'East + South' },
+    { name: 'JK Cement',         ticker: 'JKCEMENT',   category: 'IndianCement', marketCapCr: 32000,  evEbitda: 16, pe: 40, dividendYield: 0.3, roic: 14, note: 'White cement + grey' },
+    { name: 'Birla Corp',        ticker: 'BIRLACORPN', category: 'IndianCement', marketCapCr: 9500,   evEbitda: 10, pe: 25, dividendYield: 0.8, roic: 7,  note: 'Central India' },
+    { name: 'Ramco Cements',     ticker: 'RAMCOCEM',   category: 'IndianCement', marketCapCr: 23000,  evEbitda: 13, pe: 40, dividendYield: 0.3, roic: 8,  note: 'South India leader' },
+    { name: 'Heidelberg Materials',ticker: 'HEI.DE',   category: 'GlobalCement', marketCapCr: 200000, evEbitda: 6,  pe: 10, dividendYield: 2.5, roic: 11, note: 'Global major' },
+    { name: 'Holcim',            ticker: 'HOLN.SW',    category: 'GlobalCement', marketCapCr: 540000, evEbitda: 9,  pe: 16, dividendYield: 3.5, roic: 10, note: 'Global #1' },
+    { name: 'CEMEX',             ticker: 'CX',         category: 'GlobalCement', marketCapCr: 90000,  evEbitda: 6,  pe: 13, dividendYield: 1.5, roic: 8,  note: 'Americas major' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (Price War)',         probability: 0.25, description: 'Adani aggressive pricing; realisations -5%; margin compression to ~16%',     color: '#DC2626', overrides: { revenueGrowthCAGR: 7,  targetEbitdaMargin: 16, wacc: 12 } },
+    { id: 'base',   label: 'Base',                      probability: 0.52, description: 'Capacity ramp to 183 MTPA; pricing discipline; margin recovers to 20%',     color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (Capex Super-cycle)',  probability: 0.18, description: 'Pan-India realisation +8%; India Cements integration synergies; margin 23%+',color: '#16A34A', overrides: { revenueGrowthCAGR: 14, targetEbitdaMargin: 24, wacc: 10 } },
+    { id: 'stress', label: 'Fuel + Demand Shock',       probability: 0.05, description: 'Pet-coke spike + housing slowdown; EBITDA/t falls below ₹700',              color: '#7C2D12', overrides: { revenueGrowthCAGR: 4,  targetEbitdaMargin: 14, wacc: 12.5 } },
+  ],
+  keyDrivers: [
+    'Capacity build: 157 MTPA (FY25) -> 183 MTPA by FY27',
+    'India Cements (Jul-24) + Kesoram Cement (Dec-24) acquisitions',
+    'Premium product mix (Birla Super, Super-Strong) uplift',
+    'Cost-out: WHRS + solar captive to 85% green power by FY28',
+    'Infra + affordable housing + urban real estate pipeline',
+  ],
+  keyRisks: [
+    'Adani Group aggressive capacity + pricing',
+    'Pet-coke + diesel cost volatility',
+    'Over-capacity risk if demand decelerates',
+    'Integration execution on India Cements',
+    'Regulatory: royalty, MGCM, cement classification',
+  ],
+  recentHighlights: [
+    'FY25 revenue ₹75,940 Cr (+7% YoY); volume +7.7%',
+    'India Cements acquisition (Jul-2024) for ₹7,100 Cr controlling stake',
+    'Kesoram Cement merger completed (Dec-2024)',
+    'Capacity 157 MTPA (FY25); announced 30+ MTPA brownfield',
+  ],
+  thesisShort: 'Dominant cement leader scaling inorganically to stay ahead of Adani; operating leverage + cost-out + premium mix combine into multi-year compounding.',
+};
+
+// ==========================================================================
+// MAHINDRA & MAHINDRA (Consolidated; Auto + Farm + Services + TechM)
+// ==========================================================================
+const MM: CompanyProfile = {
+  id: 'mm',
+  ticker: 'M&M',
+  name: 'Mahindra & Mahindra',
+  sector: 'Automobile - SUV + Tractors + Conglomerate',
+  tagline: 'SUV share leader + tractor #1; EV born-electric platform as structural option',
+  accentColor: '#B91C1C',
+  currentMarketPrice: 3080,
+  targetPriceRange: { low: 2820, base: 3350, high: 3800 },
+  sharesOutstandingCr: 124.4,
+  netCashCr: -75000, // consolidated includes Mahindra Finance borrowings
+  reportingCurrency: 'INR',
+  historical: [
+    { fy: 'FY21', revenue: 74878,  ebitda: 11230, ebit: 6290,  pat: -554, eps: -4.5,  dps: 8.75, capex: 2430, operatingCashFlow: 7120,  freeCashFlow: 4690,  netDebt: 59500, totalAssets: 173500, investedCapital: 98500  },
+    { fy: 'FY22', revenue: 90135,  ebitda: 13420, ebit: 8180,  pat: 4935, eps: 39.6,  dps: 11.55,capex: 3580, operatingCashFlow: 8950,  freeCashFlow: 5370,  netDebt: 55200, totalAssets: 179800, investedCapital: 103200 },
+    { fy: 'FY23', revenue: 121269, ebitda: 17290, ebit: 11420, pat: 10282,eps: 82.6,  dps: 16.25,capex: 4920, operatingCashFlow: 13400, freeCashFlow: 8480,  netDebt: 62100, totalAssets: 202100, investedCapital: 115400 },
+    { fy: 'FY24', revenue: 141820, ebitda: 20460, ebit: 14280, pat: 12110,eps: 97.4,  dps: 21.10,capex: 6340, operatingCashFlow: 14820, freeCashFlow: 8480,  netDebt: 69800, totalAssets: 221400, investedCapital: 126100 },
+    { fy: 'FY25', revenue: 159213, ebitda: 23580, ebit: 16680, pat: 13191,eps: 106.0, dps: 25.30,capex: 8150, operatingCashFlow: 16700, freeCashFlow: 8550,  netDebt: 75000, totalAssets: 244800, investedCapital: 140300 },
+  ],
+  segments: [
+    { name: 'Automotive (SUVs + LCVs + 3W)', fy25Revenue: 83420, fy25Ebit: 7510, fy25Margin: 9.0,  targetMultiple: 20, multipleLow: 17, multipleHigh: 24, growthOutlook: 'SUV share #1 at 22%; XUV700 + Thar Roxx + Scorpio-N',     share: 52.4 },
+    { name: 'Farm Equipment (Tractors)',     fy25Revenue: 29630, fy25Ebit: 4890, fy25Margin: 16.5, targetMultiple: 22, multipleLow: 18, multipleHigh: 26, growthOutlook: 'Tractor #1 at 41% share; rural recovery lever',          share: 18.6 },
+    { name: 'Financial Services (M&M Fin)',  fy25Revenue: 15950, fy25Ebit: 3030, fy25Margin: 19.0, targetMultiple: 14, multipleLow: 11, multipleHigh: 17, growthOutlook: 'Diversifying beyond vehicle finance',                      share: 10.0 },
+    { name: 'Tech Mahindra (stake ~26%)',    fy25Revenue: 22120, fy25Ebit: 2430, fy25Margin: 11.0, targetMultiple: 18, multipleLow: 14, multipleHigh: 22, growthOutlook: 'Services margin recovery; TCV momentum',                 share: 13.9 },
+    { name: 'Auto-Electric (BEVs + LMM)',    fy25Revenue: 3980,  fy25Ebit: -400, fy25Margin: -10.1,targetMultiple: 10, multipleLow: 6,  multipleHigh: 15, growthOutlook: 'BE 6 + XEV 9e ramp; born-electric platform',              share: 2.5 },
+    { name: 'Others (Holidays, Agri, etc.)', fy25Revenue: 4110,  fy25Ebit: 820,  fy25Margin: 20.0, targetMultiple: 12, multipleLow: 10, multipleHigh: 16, growthOutlook: 'Club Mahindra + agri solutions',                          share: 2.6 },
+  ],
+  assumptions: {
+    revenueGrowthCAGR: 12,
+    revenueGrowthY1: 11,
+    terminalGrowth: 5.5,
+    targetEbitdaMargin: 16,
+    taxRate: 25,
+    wacc: 12.0,
+    costOfEquity: 13.0,
+    daPercentRevenue: 4.5,
+    capexPercentRevenue: 5.5,
+    workingCapitalIntensity: 6,
+    projectionYears: 7,
+    payoutRatio: 22,
+    dividendGrowthNearTerm: 15,
+    dividendGrowthTerminal: 6,
+    conglomerateDiscount: 18, // holding-co + listed subs discount
+  },
+  peers: [
+    { name: 'Maruti Suzuki',  ticker: 'MARUTI',    category: 'IndianAuto', marketCapCr: 385000, evEbitda: 22, pe: 26, dividendYield: 1.1, roic: 25, note: 'PV leader' },
+    { name: 'Tata Motors',    ticker: 'TATAMOTORS',category: 'IndianAuto', marketCapCr: 270000, evEbitda: 6,  pe: 11, dividendYield: 1.0, roic: 14, note: 'JLR + EV' },
+    { name: 'Hyundai Motor India',ticker: 'HYUNDAI',category: 'IndianAuto', marketCapCr: 160000, evEbitda: 20, pe: 25, dividendYield: 2.0, roic: 30, note: 'PV #2; IPO Oct-24' },
+    { name: 'Eicher Motors',  ticker: 'EICHERMOT', category: 'IndianAuto', marketCapCr: 140000, evEbitda: 22, pe: 30, dividendYield: 1.0, roic: 35, note: 'RE + VECV' },
+    { name: 'Ashok Leyland',  ticker: 'ASHOKLEY',  category: 'IndianAuto', marketCapCr: 65000,  evEbitda: 12, pe: 22, dividendYield: 2.2, roic: 15, note: 'CV #2' },
+    { name: 'Escorts Kubota', ticker: 'ESCORTS',   category: 'IndianAuto', marketCapCr: 34000,  evEbitda: 20, pe: 28, dividendYield: 0.3, roic: 15, note: 'Tractors + construction eq' },
+    { name: 'Toyota Motor',   ticker: 'TM',        category: 'GlobalAuto', marketCapCr: 2300000,evEbitda: 9,  pe: 11, dividendYield: 2.7, roic: 11, note: 'Global leader' },
+    { name: 'Deere & Co',     ticker: 'DE',        category: 'GlobalAuto', marketCapCr: 1000000,evEbitda: 12, pe: 15, dividendYield: 1.5, roic: 20, note: 'Tractor benchmark' },
+  ],
+  scenarios: [
+    { id: 'bear',   label: 'Bear (Rural + EV Capex)',   probability: 0.25, description: 'Tractor recovery stalls; EV ramp capex burns; SUV share loss begins',      color: '#DC2626', overrides: { revenueGrowthCAGR: 6,  targetEbitdaMargin: 13, wacc: 13 } },
+    { id: 'base',   label: 'Base',                       probability: 0.50, description: 'SUV #1 maintained; tractor cycle recovers; BE 6/XEV 9e ramp as planned', color: '#2563EB', overrides: {} },
+    { id: 'bull',   label: 'Bull (EV + SUV Double)',     probability: 0.20, description: 'Born-electric platform scales; SUV share 25%; TechM turnaround complete', color: '#16A34A', overrides: { revenueGrowthCAGR: 16, targetEbitdaMargin: 18, wacc: 11 } },
+    { id: 'stress', label: 'Monsoon Fail + EV Shock',    probability: 0.05, description: 'Tractor demand halves; BYD + Chinese EVs disrupt 20-30L segment',        color: '#7C2D12', overrides: { revenueGrowthCAGR: 2,  targetEbitdaMargin: 11, wacc: 13.5 } },
+  ],
+  keyDrivers: [
+    'SUV #1 status (22% share); XUV700, Thar, Scorpio, BE 6',
+    'Tractor leader (41% share); rural + mechanisation cycle',
+    'Born-electric INGLO platform (BE 6 + XEV 9e) launched Nov-24',
+    'Mahindra Finance turnaround + balance sheet quality',
+    'Tech Mahindra services margin inflection',
+  ],
+  keyRisks: [
+    'SUV market competition (Tata + Hyundai + Toyota)',
+    'Rural demand and tractor cyclicality',
+    'EV execution + margin dilution from BEV mix',
+    'TechM BFSI + telecom vertical exposure',
+    'Holding-co / promoter-less conglomerate discount',
+  ],
+  recentHighlights: [
+    'FY25 revenue ₹1.59L Cr (+12% YoY); PAT ₹13,191 Cr (+9%)',
+    'SUV #1 with 22% PV market share',
+    'Tractor market share 41.6% (record)',
+    'BE 6 + XEV 9e launched Nov-2024 on INGLO platform',
+  ],
+  thesisShort: 'SUV + tractor duopoly economics with built-in EV option value; conglomerate discount narrows as subsidiaries compound independently.',
+};
+
+// ==========================================================================
 // REGISTRY
 // ==========================================================================
 export const COMPANY_PROFILES: CompanyProfile[] = [
   ITC, TCS, HUL, NEROLAC, VST,
   RELIANCE, HDFCBANK, INFY, MARUTI, SUNPHARMA,
   AIRTEL, LT, BAJFIN, ASIAN, NTPC,
+  ICICIBANK, TATASTEEL, TITAN, ULTRATECH, MM,
 ];
 
 export const COMPANY_BY_ID: Readonly<Record<string, CompanyProfile>> = Object.freeze(
