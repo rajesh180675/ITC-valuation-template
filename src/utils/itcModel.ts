@@ -149,6 +149,51 @@ export function buildSensexSectorSummary(companies: SensexConstituent[]) {
   return [...grouped.values()].sort((a, b) => b.weightPct - a.weightPct);
 }
 
+export interface SensexIndexPoint {
+  fy: string;
+  toplineCr: number;
+  netProfitCr: number;
+  avgRoePct: number;
+  avgOperatingMarginPct: number | null;
+  constituents: number;
+}
+
+export function buildSensexIndexTimeSeries(companies: SensexConstituent[]): SensexIndexPoint[] {
+  if (companies.length === 0) return [];
+  const fyList = companies[0].history.map((h) => h.fy);
+
+  return fyList.map((fy, index) => {
+    let topline = 0;
+    let profit = 0;
+    let roeSum = 0;
+    let roeCount = 0;
+    let marginSum = 0;
+    let marginCount = 0;
+
+    companies.forEach((company) => {
+      const row = company.history[index];
+      if (!row) return;
+      topline += row.toplineCr;
+      profit += row.netProfitCr;
+      roeSum += row.roePct;
+      roeCount += 1;
+      if (typeof row.operatingMarginPct === 'number') {
+        marginSum += row.operatingMarginPct;
+        marginCount += 1;
+      }
+    });
+
+    return {
+      fy,
+      toplineCr: Math.round(topline),
+      netProfitCr: Math.round(profit),
+      avgRoePct: roeCount ? Math.round((roeSum / roeCount) * 10) / 10 : 0,
+      avgOperatingMarginPct: marginCount ? Math.round((marginSum / marginCount) * 10) / 10 : null,
+      constituents: companies.length,
+    };
+  });
+}
+
 export interface SensitivityPoint {
   wacc: number;
   terminalGrowth: number;
