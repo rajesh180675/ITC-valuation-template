@@ -15,18 +15,13 @@ import {
   globalTobaccoComparison, budgetCheatSheet, sharesOutstanding, sotpData,
   type ProjectionAssumptions
 } from './data/itcData';
-import { sensexConstituents, SENSEX_FISCAL_YEARS } from './data/sensexData';
 import {
-  buildSensexIndexTimeSeries,
-  buildSensexSectorSummary,
-  calculateCagr,
   calculateDCF,
   calculateSotpSummary,
   generateProjections,
-  getLatestSensexFinancial,
-  getPrimaryValuationLabel,
   simulateTaxImpact,
 } from './utils/itcModel';
+import { SensexUniverseSection } from './components/sensex/SensexUniverseSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'projections' | 'playbook' | 'global' | 'sensex';

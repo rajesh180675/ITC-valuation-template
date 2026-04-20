@@ -627,8 +627,8 @@ function ImpliedVsRealizedScatter({ data, rangePeriods }: { data: any[]; rangePe
       <ResponsiveContainer width="100%" height={380}>
         <ScatterChart margin={{ top: 10, right: 30, bottom: 10, left: 0 }}>
           <CartesianGrid strokeDasharray="2 4" stroke="#1c2940" />
-          <XAxis type="number" dataKey="x" name="Implied g" unit="%" domain={[xMin, xMax]} tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }} />
-          <YAxis type="number" dataKey="y" name="Delivered CAGR" unit="%" domain={[xMin, xMax]} tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }} />
+          <XAxis type="number" dataKey="x" name="Implied g" unit="%" domain={[Math.floor(xMin), Math.ceil(xMax)]} tickFormatter={(v: number) => Math.round(v).toString()} tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }} />
+          <YAxis type="number" dataKey="y" name="Delivered CAGR" unit="%" domain={[Math.floor(xMin), Math.ceil(xMax)]} tickFormatter={(v: number) => Math.round(v).toString()} tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }} />
           <ZAxis type="number" dataKey="z" range={[40, 400]} />
           <ReferenceLine segment={[{ x: xMin, y: xMin }, { x: xMax, y: xMax }]} stroke="#d4a843" strokeDasharray="4 4" opacity={0.7} />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} content={({ active, payload }: any) => {
