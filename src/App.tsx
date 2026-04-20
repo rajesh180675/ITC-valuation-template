@@ -8,7 +8,7 @@ import {
 import {
   BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator,
   Target, Globe, BookOpen, Activity, ArrowUpRight, ArrowDownRight,
-  Menu, X, Layers, Zap, Info, AlertTriangle
+  Menu, X, Layers, Zap, Info, AlertTriangle, Brain, Building2
 } from 'lucide-react';
 import {
   historicalData, taxEvents, segmentDataFY24, defaultAssumptions,
@@ -842,7 +842,7 @@ function Valuation({ assumptions }: { assumptions: ProjectionAssumptions }) {
   );
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━��━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━��━━━━━━━━━━━━━━━━━━━��━━━━━━━━━━━━━━━━━━━
 // FUTURE PROJECTIONS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function Projections({ assumptions, setAssumptions }: {
