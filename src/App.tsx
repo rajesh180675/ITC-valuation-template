@@ -38,6 +38,8 @@ const NAV: NavItem[] = [
   { id: 'segments', label: 'Segments', icon: <PieIcon size={18} /> },
   { id: 'tax', label: 'Tax Analyzer', icon: <Shield size={18} /> },
   { id: 'valuation', label: 'Valuation', icon: <Calculator size={18} /> },
+  { id: 'advanced', label: 'Advanced Lab', icon: <Brain size={18} /> },
+  { id: 'universe', label: 'Company Universe', icon: <Building2 size={18} /> },
   { id: 'projections', label: 'Projections', icon: <TrendingUp size={18} /> },
   { id: 'playbook', label: 'Budget Playbook', icon: <Target size={18} /> },
   { id: 'global', label: 'Global Compare', icon: <Globe size={18} /> },
@@ -1588,9 +1590,7 @@ export default function App() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#0a0f1a]">
-      {/* Sidebar */}
       <aside className={`${sidebarOpen ? 'w-60' : 'w-16'} transition-all duration-300 bg-surface border-r border-border flex flex-col shrink-0`}>
-        {/* Logo */}
         <div className="p-4 border-b border-border flex items-center gap-3">
           <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-lg flex items-center justify-center text-white font-black text-sm shrink-0">
             I
@@ -1603,7 +1603,6 @@ export default function App() {
           )}
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 py-2 overflow-y-auto">
           {NAV.map(item => (
             <button
@@ -1617,7 +1616,6 @@ export default function App() {
           ))}
         </nav>
 
-        {/* Toggle */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="p-3 border-t border-border text-gray-400 hover:text-white transition-colors flex items-center justify-center"
@@ -1626,9 +1624,16 @@ export default function App() {
         </button>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
         {renderSection()}
+        <div className="glass-card mt-6 p-4 text-xs text-gray-400">
+          <p className="text-gray-200 font-medium mb-1">Data Guardrails</p>
+          <p>
+            Historical figures and valuation assumptions are embedded in the repository for a reproducible,
+            offline analytical workbook. Review the source data and methodology before using outputs as an
+            investment decision.
+          </p>
+        </div>
       </main>
     </div>
   );
