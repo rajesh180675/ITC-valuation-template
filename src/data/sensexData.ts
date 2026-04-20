@@ -48,14 +48,25 @@ interface SensexSeed {
   latestRocePct?: number;
 }
 
-const FISCAL_YEARS = ['FY2020', 'FY2021', 'FY2022', 'FY2023', 'FY2024'] as const;
+const FISCAL_YEARS = [
+  'FY2011', 'FY2012', 'FY2013', 'FY2014', 'FY2015', 'FY2016', 'FY2017',
+  'FY2018', 'FY2019', 'FY2020', 'FY2021', 'FY2022', 'FY2023', 'FY2024',
+] as const;
+
+export const SENSEX_FISCAL_YEARS = FISCAL_YEARS;
 
 function round1(value: number) {
   return Math.round(value * 10) / 10;
 }
 
 function scaleBack(latest: number, cagrPct: number, yearsBack: number) {
-  return Math.round(latest / Math.pow(1 + cagrPct / 100, yearsBack));
+  // Recent 4 years use the stated CAGR; older years dampen to ~65% to reflect
+  // a maturing growth profile and avoid unrealistically low values at FY2011.
+  const recent = Math.min(yearsBack, 4);
+  const far = Math.max(0, yearsBack - 4);
+  const midValue = latest / Math.pow(1 + cagrPct / 100, recent);
+  const dampenedCagr = cagrPct * 0.65;
+  return Math.round(midValue / Math.pow(1 + dampenedCagr / 100, far));
 }
 
 function interpolate(start: number, end: number, index: number, totalSteps: number) {
@@ -65,9 +76,9 @@ function interpolate(start: number, end: number, index: number, totalSteps: numb
 
 function buildHistory(seed: SensexSeed): SensexYearFinancial[] {
   const periods = FISCAL_YEARS.length - 1;
-  const firstRoe = Math.max(seed.reportingType === 'financial' ? 8 : 6, seed.latestRoePct - 4.5);
-  const firstOperatingMargin = seed.latestOperatingMarginPct === undefined ? undefined : Math.max(6, seed.latestOperatingMarginPct - 3.5);
-  const firstRoce = seed.latestRocePct === undefined ? undefined : Math.max(8, seed.latestRocePct - 4);
+  const firstRoe = Math.max(seed.reportingType === 'financial' ? 9 : 7, seed.latestRoePct - 7);
+  const firstOperatingMargin = seed.latestOperatingMarginPct === undefined ? undefined : Math.max(6, seed.latestOperatingMarginPct - 5);
+  const firstRoce = seed.latestRocePct === undefined ? undefined : Math.max(8, seed.latestRocePct - 6);
 
   return FISCAL_YEARS.map((fy, index) => ({
     fy,
