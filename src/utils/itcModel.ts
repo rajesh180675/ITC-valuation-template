@@ -874,9 +874,9 @@ export function simulateTaxImpact(simHike: number, latestData: YearlyData): TaxI
     newEbitMargin: round(newEbitMargin, 1),
     newCigEbit: round(newCigEbit, 1),
     stockReactionEstimate,
-    passThroughPct,
-    elasticityShort,
-    elasticityLong,
+    passThroughPct: MODEL_ASSUMPTIONS.cigarettePassThroughRate,
+    elasticityShort: MODEL_ASSUMPTIONS.cigaretteShortTermElasticity,
+    elasticityLong: MODEL_ASSUMPTIONS.cigaretteLongTermElasticity,
   };
 }
 
