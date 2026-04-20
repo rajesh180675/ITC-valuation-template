@@ -1,10 +1,5 @@
-import type {
-  PeerMultiple,
-  ProjectionAssumptions,
-  SOTPValuation,
-  ValuationScenario,
-  YearlyData,
-} from '@/data/itcData';
+import type { ProjectionAssumptions, SOTPValuation, YearlyData } from '@/data/itcData';
+import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
 import { sharesOutstanding } from '@/data/itcData';
 
 export const MODEL_ASSUMPTIONS = Object.freeze({
@@ -122,6 +117,36 @@ export interface TaxImpactResult {
   newEbitMargin: number;
   newCigEbit: number;
   stockReactionEstimate: number;
+  passThroughPct: number;
+  elasticityShort: number;
+  elasticityLong: number;
+}
+
+export function calculateCagr(start: number, end: number, periods: number): number {
+  if (start <= 0 || end <= 0 || periods <= 0) return 0;
+  return (Math.pow(end / start, 1 / periods) - 1) * 100;
+}
+
+export function getLatestSensexFinancial(company: SensexConstituent): SensexYearFinancial {
+  return company.history[company.history.length - 1];
+}
+
+export function getPrimaryValuationLabel(company: SensexConstituent): string {
+  return company.valuationMetric === 'pb' ? 'P/B' : 'P/E';
+}
+
+export function buildSensexSectorSummary(companies: SensexConstituent[]) {
+  const grouped = new Map<string, { sector: string; count: number; marketCapCr: number; weightPct: number }>();
+
+  companies.forEach((company) => {
+    const current = grouped.get(company.sector) ?? { sector: company.sector, count: 0, marketCapCr: 0, weightPct: 0 };
+    current.count += 1;
+    current.marketCapCr += company.marketCapCr;
+    current.weightPct += company.weightPct;
+    grouped.set(company.sector, current);
+  });
+
+  return [...grouped.values()].sort((a, b) => b.weightPct - a.weightPct);
 }
 
 export interface SensitivityPoint {
@@ -804,6 +829,9 @@ export function simulateTaxImpact(simHike: number, latestData: YearlyData): TaxI
     newEbitMargin: round(newEbitMargin, 1),
     newCigEbit: round(newCigEbit, 1),
     stockReactionEstimate,
+    passThroughPct,
+    elasticityShort,
+    elasticityLong,
   };
 }
 
