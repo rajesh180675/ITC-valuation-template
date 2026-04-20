@@ -22,9 +22,11 @@ import {
   simulateTaxImpact,
 } from './utils/itcModel';
 import { SensexUniverseSection } from './components/sensex/SensexUniverseSection';
+import { AdvancedValuationSection } from './components/itc/AdvancedValuationSection';
+import { CompanyUniverseSection } from './components/companies/CompanyUniverseSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'projections' | 'playbook' | 'global' | 'sensex';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
@@ -1331,6 +1333,8 @@ export default function App() {
       case 'segments': return <Segments />;
       case 'tax': return <TaxAnalyzer />;
       case 'valuation': return <Valuation assumptions={assumptions} />;
+      case 'advanced': return <AdvancedValuationSection assumptions={assumptions} />;
+      case 'universe': return <CompanyUniverseSection />;
       case 'projections': return <Projections assumptions={assumptions} setAssumptions={setAssumptions} />;
       case 'playbook': return <Playbook />;
       case 'global': return <GlobalCompare />;
