@@ -15,15 +15,20 @@ import {
   globalTobaccoComparison, budgetCheatSheet, sharesOutstanding, sotpData,
   type ProjectionAssumptions
 } from './data/itcData';
+import { sensexConstituents } from './data/sensexData';
 import {
+  buildSensexSectorSummary,
+  calculateCagr,
   calculateDCF,
   calculateSotpSummary,
   generateProjections,
+  getLatestSensexFinancial,
+  getPrimaryValuationLabel,
   simulateTaxImpact,
 } from './utils/itcModel';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'projections' | 'playbook' | 'global';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'projections' | 'playbook' | 'global' | 'sensex';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
@@ -36,6 +41,7 @@ const NAV: NavItem[] = [
   { id: 'projections', label: 'Projections', icon: <TrendingUp size={18} /> },
   { id: 'playbook', label: 'Budget Playbook', icon: <Target size={18} /> },
   { id: 'global', label: 'Global Compare', icon: <Globe size={18} /> },
+  { id: 'sensex', label: 'Sensex Universe', icon: <Layers size={18} /> },
 ];
 
 
@@ -506,6 +512,9 @@ function TaxAnalyzer() {
     newCigEbit,
     newEbitMargin,
     stockReactionEstimate,
+    passThroughPct,
+    elasticityShort,
+    elasticityLong,
   } = taxImpact;
 
   const priorCigEbit = latest.cigaretteRevenue * (latest.cigaretteEbitMargin / 100);
@@ -1194,6 +1203,250 @@ function Playbook() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // GLOBAL COMPARISON
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function SensexUniverse() {
+  const [filter, setFilter] = useState<'all' | 'financial' | 'nonFinancial'>('all');
+  const [selectedId, setSelectedId] = useState(sensexConstituents[0]?.id ?? '');
+
+  const filteredCompanies = useMemo(() => {
+    if (filter === 'all') return sensexConstituents;
+    return sensexConstituents.filter(company => company.reportingType === filter);
+  }, [filter]);
+
+  const selectedCompany = useMemo(
+    () => filteredCompanies.find(company => company.id === selectedId) ?? filteredCompanies[0] ?? sensexConstituents[0],
+    [filteredCompanies, selectedId],
+  );
+
+  const sectorSummary = useMemo(() => buildSensexSectorSummary(filteredCompanies), [filteredCompanies]);
+  const totalMarketCap = filteredCompanies.reduce((sum, company) => sum + company.marketCapCr, 0);
+  const financialWeight = filteredCompanies
+    .filter(company => company.reportingType === 'financial')
+    .reduce((sum, company) => sum + company.weightPct, 0);
+  const largestSector = sectorSummary[0];
+  const medianPatCagr = useMemo(() => {
+    const values = filteredCompanies
+      .map((company) => calculateCagr(company.history[0].netProfitCr, getLatestSensexFinancial(company).netProfitCr, company.history.length - 1))
+      .sort((a, b) => a - b);
+
+    if (values.length === 0) return 0;
+    const mid = Math.floor(values.length / 2);
+    return values.length % 2 === 0 ? (values[mid - 1] + values[mid]) / 2 : values[mid];
+  }, [filteredCompanies]);
+  const averageRoe = useMemo(() => {
+    if (filteredCompanies.length === 0) return 0;
+    return filteredCompanies.reduce((sum, company) => sum + getLatestSensexFinancial(company).roePct, 0) / filteredCompanies.length;
+  }, [filteredCompanies]);
+
+  const topWeightData = [...filteredCompanies]
+    .sort((a, b) => b.weightPct - a.weightPct)
+    .slice(0, 10)
+    .map((company) => ({ name: company.ticker, weightPct: company.weightPct, color: company.color }));
+
+  const companyRows = filteredCompanies.map((company) => {
+    const first = company.history[0];
+    const latest = getLatestSensexFinancial(company);
+    return {
+      company,
+      latest,
+      toplineCagr: calculateCagr(first.toplineCr, latest.toplineCr, company.history.length - 1),
+      profitCagr: calculateCagr(first.netProfitCr, latest.netProfitCr, company.history.length - 1),
+      valuationLabel: getPrimaryValuationLabel(company),
+    };
+  });
+
+  const selectedLatest = selectedCompany ? getLatestSensexFinancial(selectedCompany) : null;
+  const selectedFirst = selectedCompany?.history[0];
+  const selectedPatCagr = selectedCompany && selectedFirst && selectedLatest
+    ? calculateCagr(selectedFirst.netProfitCr, selectedLatest.netProfitCr, selectedCompany.history.length - 1)
+    : 0;
+  const selectedHistoryChart = selectedCompany?.history.map((item) => ({
+    fy: item.fy,
+    Topline: item.toplineCr,
+    'Net Profit': item.netProfitCr,
+  })) ?? [];
+
+  return (
+    <div className="animate-fadeIn space-y-6">
+      <SectionHeader title="Sensex Universe" subtitle="Current Sensex constituents with 5-year financial snapshots and mixed-sector valuation context" icon={<Layers size={22} />} />
+
+      <div className="flex gap-2 border-b border-border pb-0 overflow-x-auto">
+        {([
+          { id: 'all', label: 'All Constituents' },
+          { id: 'nonFinancial', label: 'Non-Financials' },
+          { id: 'financial', label: 'Financials' },
+        ] as const).map(option => (
+          <button key={option.id} onClick={() => setFilter(option.id)} className={`tab-btn px-4 py-2 text-sm font-medium whitespace-nowrap ${filter === option.id ? 'active' : 'text-gray-400'}`}>
+            {option.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <MetricCard title="Constituents" value={String(filteredCompanies.length)} subtitle="Current members" color="blue" />
+        <MetricCard title="Total Market Cap" value={fmt(totalMarketCap)} subtitle="Universe size" color="green" />
+        <MetricCard title="Financial Weight" value={`${fmtN(financialWeight, 1)}%`} subtitle="Index mix" color="gold" />
+        <MetricCard title="Largest Sector" value={largestSector?.sector ?? '—'} subtitle={largestSector ? `${fmtN(largestSector.weightPct, 1)}% weight` : '—'} color="purple" />
+        <MetricCard title="Median 5Y PAT CAGR" value={`${fmtN(medianPatCagr, 1)}%`} subtitle="Across filtered set" color="green" trend={medianPatCagr} />
+        <MetricCard title="Avg FY24 ROE" value={`${fmtN(averageRoe, 1)}%`} subtitle="Latest annual view" color="blue" trend={averageRoe} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="glass-card p-5">
+          <h3 className="text-sm font-semibold text-gray-300 mb-4">Sector Weight Summary (%)</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={sectorSummary}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
+              <XAxis dataKey="sector" tick={{ fill: '#64748b', fontSize: 10 }} angle={-20} textAnchor="end" height={70} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
+              <Tooltip content={<ChartTooltip />} />
+              <Bar dataKey="weightPct" name="Weight %" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="glass-card p-5">
+          <h3 className="text-sm font-semibold text-gray-300 mb-4">Top Constituent Weights (%)</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={topWeightData} layout="vertical">
+              <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
+              <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} />
+              <YAxis dataKey="name" type="category" tick={{ fill: '#94a3b8', fontSize: 10 }} width={90} />
+              <Tooltip content={<ChartTooltip />} />
+              <Bar dataKey="weightPct" name="Weight %" radius={[0, 4, 4, 0]}>
+                {topWeightData.map((entry) => (
+                  <Cell key={entry.name} fill={entry.color} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      <div className="glass-card overflow-x-auto">
+        <h3 className="text-sm font-semibold text-gray-300 p-4 pb-0">Constituent Comparison Table</h3>
+        <table className="w-full text-xs mt-3">
+          <thead>
+            <tr className="border-b border-border">
+              <th className="text-left p-3 text-gray-400 font-medium sticky left-0 bg-surface-2 z-10 min-w-[180px]">Company</th>
+              <th className="text-left p-3 text-gray-400 font-medium">Sector</th>
+              <th className="text-center p-3 text-gray-400 font-medium">Type</th>
+              <th className="text-right p-3 text-gray-400 font-medium">Weight %</th>
+              <th className="text-right p-3 text-gray-400 font-medium">MCap</th>
+              <th className="text-right p-3 text-gray-400 font-medium">FY24 Topline</th>
+              <th className="text-right p-3 text-gray-400 font-medium">5Y Topline CAGR</th>
+              <th className="text-right p-3 text-gray-400 font-medium">5Y PAT CAGR</th>
+              <th className="text-right p-3 text-gray-400 font-medium">FY24 ROE</th>
+              <th className="text-right p-3 text-gray-400 font-medium">FY24 ROCE</th>
+              <th className="text-right p-3 text-gray-400 font-medium">Valuation</th>
+              <th className="text-right p-3 text-gray-400 font-medium">Div Yield</th>
+            </tr>
+          </thead>
+          <tbody>
+            {companyRows.map(({ company, latest, toplineCagr, profitCagr, valuationLabel }) => {
+              const isSelected = company.id === selectedCompany?.id;
+              return (
+                <tr
+                  key={company.id}
+                  onClick={() => setSelectedId(company.id)}
+                  className={`border-b border-border/50 hover:bg-surface-3/50 cursor-pointer ${isSelected ? 'bg-blue-500/10' : ''}`}
+                >
+                  <td className="p-3 sticky left-0 bg-surface-2 z-10">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: company.color }} />
+                      <div>
+                        <div className="text-gray-200 font-medium">{company.name}</div>
+                        <div className="text-[10px] text-gray-500">{company.ticker}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="p-3 text-gray-300">{company.sector}</td>
+                  <td className="text-center p-3">
+                    <span className={`px-2 py-1 rounded text-[10px] font-medium ${company.reportingType === 'financial' ? 'bg-blue-500/20 text-blue-300' : 'bg-emerald-500/20 text-emerald-300'}`}>
+                      {company.reportingType === 'financial' ? 'BFSI' : 'Corp'}
+                    </span>
+                  </td>
+                  <td className="text-right p-3 text-gray-300">{fmtN(company.weightPct, 1)}%</td>
+                  <td className="text-right p-3 text-gray-300">{fmt(company.marketCapCr)}</td>
+                  <td className="text-right p-3 text-gray-300">{fmt(latest.toplineCr)}</td>
+                  <td className={`text-right p-3 ${toplineCagr >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>{fmtN(toplineCagr, 1)}%</td>
+                  <td className={`text-right p-3 ${profitCagr >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>{fmtN(profitCagr, 1)}%</td>
+                  <td className="text-right p-3 text-gray-300">{fmtN(latest.roePct, 1)}%</td>
+                  <td className="text-right p-3 text-gray-300">{latest.rocePct !== undefined ? `${fmtN(latest.rocePct, 1)}%` : '—'}</td>
+                  <td className="text-right p-3 text-gray-300">{valuationLabel} {fmtN(company.valuationMultiple, 1)}x</td>
+                  <td className="text-right p-3 text-gray-300">{fmtN(company.dividendYieldPct, 1)}%</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {selectedCompany && selectedLatest && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div>
+              <h3 className="text-lg font-bold text-white">{selectedCompany.name}</h3>
+              <p className="text-sm text-gray-400">{selectedCompany.ticker} · {selectedCompany.sector} · {selectedCompany.reportingType === 'financial' ? 'Financial reporting profile' : 'Operating company profile'}</p>
+            </div>
+            <div className="text-xs text-gray-400">Click another row to refresh the company drill-down.</div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <MetricCard title="Market Cap" value={fmt(selectedCompany.marketCapCr)} subtitle={`CMP ₹${selectedCompany.cmp}`} color="blue" />
+            <MetricCard title="Index Weight" value={`${fmtN(selectedCompany.weightPct, 1)}%`} subtitle="Current weight" color="gold" />
+            <MetricCard title="Valuation" value={`${getPrimaryValuationLabel(selectedCompany)} ${fmtN(selectedCompany.valuationMultiple, 1)}x`} subtitle="Primary market lens" color="purple" />
+            <MetricCard title="5Y PAT CAGR" value={`${fmtN(selectedPatCagr, 1)}%`} subtitle={`${selectedCompany.history[0].fy} to ${selectedLatest.fy}`} color={selectedPatCagr >= 0 ? 'green' : 'red'} trend={selectedPatCagr} />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="glass-card p-5">
+              <h3 className="text-sm font-semibold text-gray-300 mb-4">5-Year Topline vs Net Profit</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <ComposedChart data={selectedHistoryChart}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
+                  <XAxis dataKey="fy" tick={{ fill: '#64748b', fontSize: 11 }} />
+                  <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
+                  <Tooltip content={<ChartTooltip />} />
+                  <Bar dataKey="Topline" fill={selectedCompany.color} opacity={0.55} radius={[3, 3, 0, 0]} />
+                  <Line type="monotone" dataKey="Net Profit" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="glass-card overflow-x-auto">
+              <h3 className="text-sm font-semibold text-gray-300 p-4 pb-0">5-Year Annual History</h3>
+              <table className="w-full text-xs mt-3">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left p-3 text-gray-400">FY</th>
+                    <th className="text-right p-3 text-gray-400">Topline</th>
+                    <th className="text-right p-3 text-gray-400">Net Profit</th>
+                    <th className="text-right p-3 text-gray-400">ROE</th>
+                    <th className="text-right p-3 text-gray-400">Op Margin</th>
+                    <th className="text-right p-3 text-gray-400">ROCE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedCompany.history.map((item) => (
+                    <tr key={item.fy} className="border-b border-border/50 hover:bg-surface-3/50">
+                      <td className="p-3 text-gray-300 font-medium">{item.fy}</td>
+                      <td className="text-right p-3 text-gray-300">{fmt(item.toplineCr)}</td>
+                      <td className="text-right p-3 text-gray-300">{fmt(item.netProfitCr)}</td>
+                      <td className="text-right p-3 text-gray-300">{fmtN(item.roePct, 1)}%</td>
+                      <td className="text-right p-3 text-gray-300">{item.operatingMarginPct !== undefined ? `${fmtN(item.operatingMarginPct, 1)}%` : '—'}</td>
+                      <td className="text-right p-3 text-gray-300">{item.rocePct !== undefined ? `${fmtN(item.rocePct, 1)}%` : '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function GlobalCompare() {
   const radarData = globalTobaccoComparison.map(c => ({
     country: c.country,
@@ -1329,6 +1582,7 @@ export default function App() {
       case 'projections': return <Projections assumptions={assumptions} setAssumptions={setAssumptions} />;
       case 'playbook': return <Playbook />;
       case 'global': return <GlobalCompare />;
+      case 'sensex': return <SensexUniverse />;
     }
   }, [section, assumptions]);
 
