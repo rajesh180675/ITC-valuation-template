@@ -8,7 +8,7 @@ import {
 import {
   BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator,
   Target, Globe, BookOpen, Activity, ArrowUpRight, ArrowDownRight,
-  Menu, X, Layers, Zap, Info, AlertTriangle, Brain, Building2
+  Menu, X, Layers, Zap, Info, AlertTriangle, Brain, Building2, Briefcase
 } from 'lucide-react';
 import {
   historicalData, taxEvents, segmentDataFY24, defaultAssumptions,
@@ -24,9 +24,10 @@ import {
 import { SensexUniverseSection } from './components/sensex/SensexUniverseSection';
 import { AdvancedValuationSection } from './components/itc/AdvancedValuationSection';
 import { CompanyUniverseSection } from './components/companies/CompanyUniverseSection';
+import { RalphSection } from './components/ralph/RalphSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'ralph';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
@@ -42,6 +43,7 @@ const NAV: NavItem[] = [
   { id: 'playbook', label: 'Budget Playbook', icon: <Target size={18} /> },
   { id: 'global', label: 'Global Compare', icon: <Globe size={18} /> },
   { id: 'sensex', label: 'Sensex Universe', icon: <Layers size={18} /> },
+  { id: 'ralph', label: 'Ralph Lab', icon: <Briefcase size={18} /> },
 ];
 
 
@@ -1339,6 +1341,7 @@ export default function App() {
       case 'playbook': return <Playbook />;
       case 'global': return <GlobalCompare />;
       case 'sensex': return <SensexUniverseSection />;
+      case 'ralph': return <RalphSection />;
     }
   }, [section, assumptions]);
 

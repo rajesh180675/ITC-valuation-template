@@ -149,6 +149,15 @@ input[type="range"]::-moz-range-thumb {
   border-bottom-color: #3b82f6;
 }
 
+.ralph-cell {
+  transition: background-color 0.15s ease, filter 0.15s ease;
+}
+
+.ralph-cell:hover {
+  filter: brightness(1.25);
+  cursor: default;
+}
+
 select {
   background-color: #1c2940;
   border: 1px solid #2a3a52;
