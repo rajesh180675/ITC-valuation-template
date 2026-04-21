@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { defaultAssumptions, historicalData, taxEvents } from '@/data/itcData';
-import { buildCatalystTimeline, buildIdeaLabReport, buildRiskRegister, summarizeFiveYearCagr } from '@/utils/ideaLab';
+import { buildCatalystTimeline, buildExecutionPlan, buildIdeaLabReport, buildRiskRegister, summarizeFiveYearCagr } from '@/utils/ideaLab';
 
 describe('ideaLab utilities', () => {
   it('creates a deterministic high-level report', () => {
@@ -12,6 +12,7 @@ describe('ideaLab utilities', () => {
     expect(report.pillarScores).toHaveLength(5);
     expect(report.riskRegister.length).toBeGreaterThan(0);
     expect(report.catalystTimeline.length).toBe(6);
+    expect(report.executionPlan).toHaveLength(3);
   });
 
   it('ranks risk register by descending score', () => {
@@ -31,5 +32,14 @@ describe('ideaLab utilities', () => {
     const catalysts = buildCatalystTimeline(taxEvents);
     expect(catalysts.some((c) => c.impact === 'Positive')).toBe(true);
     expect(catalysts.some((c) => c.impact === 'Negative')).toBe(true);
+  });
+
+  it('prioritizes execution-plan tasks from highest urgency', () => {
+    const riskRegister = buildRiskRegister(defaultAssumptions);
+    const plan = buildExecutionPlan(60, -6, riskRegister);
+
+    expect(plan).toHaveLength(3);
+    expect(plan[0].priority).toBe('High');
+    expect(plan.some((item) => item.owner === 'Risk Agent')).toBe(true);
   });
 });

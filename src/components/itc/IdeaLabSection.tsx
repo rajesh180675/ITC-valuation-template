@@ -15,6 +15,12 @@ function recommendationColor(label: string): string {
   return 'bg-red-500/20 text-red-300 border-red-500/40';
 }
 
+function priorityColor(priority: string): string {
+  if (priority === 'High') return 'bg-red-500/20 text-red-300 border-red-500/40';
+  if (priority === 'Medium') return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40';
+  return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+}
+
 export function IdeaLabSection({ assumptions = defaultAssumptions }: { assumptions?: ProjectionAssumptions }) {
   const report = useMemo(
     () => buildIdeaLabReport(assumptions, historicalData, taxEvents),
@@ -166,6 +172,24 @@ export function IdeaLabSection({ assumptions = defaultAssumptions }: { assumptio
               Upside vs market: <span className={report.scenario.upsideVsMarket >= 0 ? 'text-emerald-300' : 'text-red-300'}>{report.scenario.upsideVsMarket.toFixed(1)}%</span>
             </p>
           </div>
+        </div>
+      </div>
+
+      <div className="glass-card p-5">
+        <h3 className="text-sm font-semibold text-gray-300 mb-3">Sub-agent Execution Plan</h3>
+        <div className="space-y-3">
+          {report.executionPlan.map((item) => (
+            <div key={item.id} className="p-3 rounded-lg bg-surface-3/50 border border-border/60">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <p className="text-sm font-medium text-white">{item.title}</p>
+                <span className={`text-[11px] px-2 py-1 rounded border ${priorityColor(item.priority)}`}>
+                  {item.priority}
+                </span>
+              </div>
+              <p className="text-xs text-gray-400 mb-1">{item.owner}</p>
+              <p className="text-xs text-gray-300">{item.action}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

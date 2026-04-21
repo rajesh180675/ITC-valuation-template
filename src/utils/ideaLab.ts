@@ -46,6 +46,15 @@ export interface IdeaLabReport {
   riskRegister: RiskRegisterItem[];
   catalystTimeline: CatalystItem[];
   scenario: ScenarioAnalysisResult;
+  executionPlan: ExecutionPlanItem[];
+}
+
+export interface ExecutionPlanItem {
+  id: string;
+  title: string;
+  owner: 'Risk Agent' | 'Valuation Agent' | 'Growth Agent';
+  priority: 'High' | 'Medium' | 'Low';
+  action: string;
 }
 
 function clamp(value: number, low: number, high: number): number {
@@ -193,6 +202,7 @@ export function buildIdeaLabReport(
       score >= 55 && expectedReturnPct >= -5 ? 'Hold' : 'Reduce';
 
   const scoreNudgeFromDcf = clamp((dcf.perShareValue - scenario.basePerShare) / 25, -6, 6);
+  const executionPlan = buildExecutionPlan(score, expectedReturnPct, riskRegister);
 
   return {
     overallScore: round(score + scoreNudgeFromDcf),
@@ -203,7 +213,45 @@ export function buildIdeaLabReport(
     riskRegister,
     catalystTimeline,
     scenario,
+    executionPlan,
   };
+}
+
+export function buildExecutionPlan(
+  score: number,
+  expectedReturnPct: number,
+  riskRegister: RiskRegisterItem[],
+): ExecutionPlanItem[] {
+  const topRisk = riskRegister[0];
+
+  const plan: ExecutionPlanItem[] = [
+    {
+      id: 'risk-watch',
+      title: 'Stress-test top risk',
+      owner: 'Risk Agent',
+      priority: topRisk?.score >= 6 ? 'High' : 'Medium',
+      action: topRisk
+        ? `${topRisk.risk} — run monthly stress scenarios and track mitigation completion.`
+        : 'Run monthly stress scenarios across tax, demand, and margin assumptions.',
+    },
+    {
+      id: 'valuation-rebase',
+      title: 'Rebase fair-value range',
+      owner: 'Valuation Agent',
+      priority: expectedReturnPct >= 10 ? 'Low' : expectedReturnPct >= -5 ? 'Medium' : 'High',
+      action: 'Refresh bear/base/bull fair values each quarter and update position sizing thresholds.',
+    },
+    {
+      id: 'growth-checkpoints',
+      title: 'Track operating checkpoints',
+      owner: 'Growth Agent',
+      priority: score >= 70 ? 'Medium' : 'High',
+      action: 'Monitor FMCG margin bridge and cigarette volume trend versus plan; flag 2-quarter slippage.',
+    },
+  ];
+
+  const rank = { High: 3, Medium: 2, Low: 1 } as const;
+  return plan.sort((a, b) => rank[b.priority] - rank[a.priority]);
 }
 
 export function summarizeFiveYearCagr(data: YearlyData[]): { revenueCagr: number; profitCagr: number } {
