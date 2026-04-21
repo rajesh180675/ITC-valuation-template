@@ -22,13 +22,14 @@ import {
   simulateTaxImpact,
 } from './utils/itcModel';
 import { SensexUniverseSection } from './components/sensex/SensexUniverseSection';
+import { Nifty250UniverseSection } from './components/sensex/Nifty250UniverseSection';
 import { AdvancedValuationSection } from './components/itc/AdvancedValuationSection';
 import { CompanyUniverseSection } from './components/companies/CompanyUniverseSection';
 import { RalphSection } from './components/ralph/RalphSection';
 import { IdeaLabSection } from './components/itc/IdeaLabSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'ralph';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'ralph';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
@@ -45,6 +46,7 @@ const NAV: NavItem[] = [
   { id: 'playbook', label: 'Budget Playbook', icon: <Target size={18} /> },
   { id: 'global', label: 'Global Compare', icon: <Globe size={18} /> },
   { id: 'sensex', label: 'Sensex Universe', icon: <Layers size={18} /> },
+  { id: 'nifty250', label: 'Nifty 250 Universe', icon: <Layers size={18} /> },
   { id: 'ralph', label: 'Ralph Lab', icon: <Briefcase size={18} /> },
 ];
 
@@ -1344,6 +1346,7 @@ export default function App() {
       case 'playbook': return <Playbook />;
       case 'global': return <GlobalCompare />;
       case 'sensex': return <SensexUniverseSection />;
+      case 'nifty250': return <Nifty250UniverseSection />;
       case 'ralph': return <RalphSection />;
     }
   }, [section, assumptions]);
