@@ -25,9 +25,10 @@ import { SensexUniverseSection } from './components/sensex/SensexUniverseSection
 import { AdvancedValuationSection } from './components/itc/AdvancedValuationSection';
 import { CompanyUniverseSection } from './components/companies/CompanyUniverseSection';
 import { RalphSection } from './components/ralph/RalphSection';
+import { IdeaLabSection } from './components/itc/IdeaLabSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'ralph';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'ralph';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
@@ -38,6 +39,7 @@ const NAV: NavItem[] = [
   { id: 'tax', label: 'Tax Analyzer', icon: <Shield size={18} /> },
   { id: 'valuation', label: 'Valuation', icon: <Calculator size={18} /> },
   { id: 'advanced', label: 'Advanced Lab', icon: <Brain size={18} /> },
+  { id: 'ideaLab', label: 'Idea Lab', icon: <Zap size={18} /> },
   { id: 'universe', label: 'Company Universe', icon: <Building2 size={18} /> },
   { id: 'projections', label: 'Projections', icon: <TrendingUp size={18} /> },
   { id: 'playbook', label: 'Budget Playbook', icon: <Target size={18} /> },
@@ -1336,6 +1338,7 @@ export default function App() {
       case 'tax': return <TaxAnalyzer />;
       case 'valuation': return <Valuation assumptions={assumptions} />;
       case 'advanced': return <AdvancedValuationSection assumptions={assumptions} />;
+      case 'ideaLab': return <IdeaLabSection assumptions={assumptions} />;
       case 'universe': return <CompanyUniverseSection />;
       case 'projections': return <Projections assumptions={assumptions} setAssumptions={setAssumptions} />;
       case 'playbook': return <Playbook />;
