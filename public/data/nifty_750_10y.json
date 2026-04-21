@@ -1,0 +1,134 @@
+{
+  "generatedAt": "2026-04-21T00:00:00Z",
+  "batches": [
+    {
+      "indexSlug": "niftysmallcap250",
+      "indexName": "Nifty Smallcap 250",
+      "asOfDate": "2026-04-21",
+      "companies": [
+        {
+          "symbol": "NSMALL1",
+          "companyName": "Smallcap Manufacturing 1",
+          "sector": "Industrials",
+          "reportingType": "nonFinancial",
+          "financials": [
+            {"fiscalYear":"FY2017","revenueCr":2100,"netProfitCr":160,"roePct":10.8,"pe":21.1,"debtToEquity":0.9},
+            {"fiscalYear":"FY2018","revenueCr":2310,"netProfitCr":181,"roePct":11.4,"pe":22.3,"debtToEquity":0.9},
+            {"fiscalYear":"FY2019","revenueCr":2535,"netProfitCr":205,"roePct":12.1,"pe":23.8,"debtToEquity":0.8},
+            {"fiscalYear":"FY2020","revenueCr":2400,"netProfitCr":162,"roePct":10.2,"pe":20.4,"debtToEquity":1.0},
+            {"fiscalYear":"FY2021","revenueCr":2688,"netProfitCr":222,"roePct":12.8,"pe":26.1,"debtToEquity":0.8},
+            {"fiscalYear":"FY2022","revenueCr":3010,"netProfitCr":271,"roePct":14.1,"pe":27.7,"debtToEquity":0.7},
+            {"fiscalYear":"FY2023","revenueCr":3290,"netProfitCr":305,"roePct":14.7,"pe":24.9,"debtToEquity":0.7},
+            {"fiscalYear":"FY2024","revenueCr":3600,"netProfitCr":356,"roePct":15.8,"pe":25.2,"debtToEquity":0.6},
+            {"fiscalYear":"FY2025","revenueCr":3890,"netProfitCr":392,"roePct":16.3,"pe":27.4,"debtToEquity":0.6},
+            {"fiscalYear":"FY2026","revenueCr":4200,"netProfitCr":438,"roePct":17.2,"pe":28.1,"debtToEquity":0.5}
+          ]
+        },
+        {
+          "symbol": "NSMALL2",
+          "companyName": "Smallcap Retail 2",
+          "sector": "Consumer Discretionary",
+          "reportingType": "nonFinancial",
+          "financials": [
+            {"fiscalYear":"FY2017","revenueCr":1800,"netProfitCr":122,"roePct":11.2,"pe":30.1,"debtToEquity":0.7},
+            {"fiscalYear":"FY2018","revenueCr":1970,"netProfitCr":137,"roePct":11.7,"pe":31.2,"debtToEquity":0.7},
+            {"fiscalYear":"FY2019","revenueCr":2210,"netProfitCr":159,"roePct":12.4,"pe":33.5,"debtToEquity":0.7},
+            {"fiscalYear":"FY2020","revenueCr":2040,"netProfitCr":118,"roePct":9.4,"pe":29.0,"debtToEquity":0.8},
+            {"fiscalYear":"FY2021","revenueCr":2395,"netProfitCr":171,"roePct":12.6,"pe":36.8,"debtToEquity":0.7},
+            {"fiscalYear":"FY2022","revenueCr":2750,"netProfitCr":212,"roePct":14.0,"pe":40.1,"debtToEquity":0.6},
+            {"fiscalYear":"FY2023","revenueCr":3090,"netProfitCr":249,"roePct":15.1,"pe":38.4,"debtToEquity":0.6},
+            {"fiscalYear":"FY2024","revenueCr":3460,"netProfitCr":290,"roePct":16.2,"pe":39.0,"debtToEquity":0.5},
+            {"fiscalYear":"FY2025","revenueCr":3770,"netProfitCr":325,"roePct":16.9,"pe":41.2,"debtToEquity":0.5},
+            {"fiscalYear":"FY2026","revenueCr":4120,"netProfitCr":368,"roePct":17.8,"pe":42.5,"debtToEquity":0.4}
+          ]
+        }
+      ]
+    },
+    {
+      "indexSlug": "niftylargemidcap250",
+      "indexName": "Nifty LargeMidcap 250",
+      "asOfDate": "2026-04-21",
+      "companies": [
+        {
+          "symbol": "NLM250A",
+          "companyName": "Largemid Banking A",
+          "sector": "Financials",
+          "reportingType": "financial",
+          "financials": [
+            {"fiscalYear":"FY2017","revenueCr":12000,"netProfitCr":1800,"roePct":13.0,"pb":2.1},
+            {"fiscalYear":"FY2018","revenueCr":13200,"netProfitCr":2050,"roePct":13.6,"pb":2.2},
+            {"fiscalYear":"FY2019","revenueCr":14600,"netProfitCr":2320,"roePct":14.1,"pb":2.3},
+            {"fiscalYear":"FY2020","revenueCr":15100,"netProfitCr":1900,"roePct":11.4,"pb":1.8},
+            {"fiscalYear":"FY2021","revenueCr":16350,"netProfitCr":2480,"roePct":13.3,"pb":2.2},
+            {"fiscalYear":"FY2022","revenueCr":18200,"netProfitCr":3050,"roePct":14.7,"pb":2.4},
+            {"fiscalYear":"FY2023","revenueCr":20500,"netProfitCr":3760,"roePct":15.9,"pb":2.6},
+            {"fiscalYear":"FY2024","revenueCr":22800,"netProfitCr":4320,"roePct":16.5,"pb":2.8},
+            {"fiscalYear":"FY2025","revenueCr":24800,"netProfitCr":4880,"roePct":17.0,"pb":2.9},
+            {"fiscalYear":"FY2026","revenueCr":27100,"netProfitCr":5510,"roePct":17.6,"pb":3.0}
+          ]
+        },
+        {
+          "symbol": "NLM250B",
+          "companyName": "Largemid Tech B",
+          "sector": "Information Technology",
+          "reportingType": "nonFinancial",
+          "financials": [
+            {"fiscalYear":"FY2017","revenueCr":9800,"netProfitCr":1580,"roePct":20.1,"pe":23.0,"debtToEquity":0.1},
+            {"fiscalYear":"FY2018","revenueCr":10850,"netProfitCr":1750,"roePct":20.7,"pe":24.1,"debtToEquity":0.1},
+            {"fiscalYear":"FY2019","revenueCr":12040,"netProfitCr":1970,"roePct":21.4,"pe":25.9,"debtToEquity":0.1},
+            {"fiscalYear":"FY2020","revenueCr":12610,"netProfitCr":1900,"roePct":18.2,"pe":22.8,"debtToEquity":0.2},
+            {"fiscalYear":"FY2021","revenueCr":13900,"netProfitCr":2260,"roePct":20.3,"pe":30.4,"debtToEquity":0.1},
+            {"fiscalYear":"FY2022","revenueCr":15520,"netProfitCr":2690,"roePct":22.1,"pe":32.7,"debtToEquity":0.1},
+            {"fiscalYear":"FY2023","revenueCr":17100,"netProfitCr":2980,"roePct":22.4,"pe":28.8,"debtToEquity":0.1},
+            {"fiscalYear":"FY2024","revenueCr":18800,"netProfitCr":3320,"roePct":23.0,"pe":29.5,"debtToEquity":0.1},
+            {"fiscalYear":"FY2025","revenueCr":20100,"netProfitCr":3580,"roePct":22.6,"pe":31.1,"debtToEquity":0.1},
+            {"fiscalYear":"FY2026","revenueCr":21950,"netProfitCr":3960,"roePct":23.4,"pe":31.8,"debtToEquity":0.1}
+          ]
+        }
+      ]
+    },
+    {
+      "indexSlug": "niftymicrocap250",
+      "indexName": "Nifty Microcap 250",
+      "asOfDate": "2026-04-21",
+      "companies": [
+        {
+          "symbol": "NMICRO1",
+          "companyName": "Microcap Engineering 1",
+          "sector": "Industrials",
+          "reportingType": "nonFinancial",
+          "financials": [
+            {"fiscalYear":"FY2017","revenueCr":640,"netProfitCr":42,"roePct":9.4,"pe":17.3,"debtToEquity":1.2},
+            {"fiscalYear":"FY2018","revenueCr":700,"netProfitCr":47,"roePct":9.9,"pe":18.2,"debtToEquity":1.1},
+            {"fiscalYear":"FY2019","revenueCr":765,"netProfitCr":54,"roePct":10.8,"pe":19.8,"debtToEquity":1.1},
+            {"fiscalYear":"FY2020","revenueCr":710,"netProfitCr":38,"roePct":7.8,"pe":15.7,"debtToEquity":1.3},
+            {"fiscalYear":"FY2021","revenueCr":810,"netProfitCr":58,"roePct":11.2,"pe":21.4,"debtToEquity":1.0},
+            {"fiscalYear":"FY2022","revenueCr":930,"netProfitCr":71,"roePct":12.6,"pe":24.0,"debtToEquity":0.9},
+            {"fiscalYear":"FY2023","revenueCr":1035,"netProfitCr":81,"roePct":13.4,"pe":22.9,"debtToEquity":0.9},
+            {"fiscalYear":"FY2024","revenueCr":1160,"netProfitCr":95,"roePct":14.7,"pe":23.3,"debtToEquity":0.8},
+            {"fiscalYear":"FY2025","revenueCr":1260,"netProfitCr":105,"roePct":15.1,"pe":24.9,"debtToEquity":0.8},
+            {"fiscalYear":"FY2026","revenueCr":1390,"netProfitCr":120,"roePct":16.0,"pe":25.6,"debtToEquity":0.7}
+          ]
+        },
+        {
+          "symbol": "NMICRO2",
+          "companyName": "Microcap Specialty Chem 2",
+          "sector": "Chemicals",
+          "reportingType": "nonFinancial",
+          "financials": [
+            {"fiscalYear":"FY2017","revenueCr":520,"netProfitCr":51,"roePct":12.1,"pe":24.4,"debtToEquity":0.6},
+            {"fiscalYear":"FY2018","revenueCr":570,"netProfitCr":57,"roePct":12.7,"pe":25.2,"debtToEquity":0.6},
+            {"fiscalYear":"FY2019","revenueCr":640,"netProfitCr":66,"roePct":13.8,"pe":27.3,"debtToEquity":0.6},
+            {"fiscalYear":"FY2020","revenueCr":600,"netProfitCr":49,"roePct":10.3,"pe":21.7,"debtToEquity":0.7},
+            {"fiscalYear":"FY2021","revenueCr":680,"netProfitCr":73,"roePct":14.4,"pe":29.6,"debtToEquity":0.5},
+            {"fiscalYear":"FY2022","revenueCr":780,"netProfitCr":89,"roePct":15.8,"pe":33.0,"debtToEquity":0.5},
+            {"fiscalYear":"FY2023","revenueCr":870,"netProfitCr":98,"roePct":16.1,"pe":30.6,"debtToEquity":0.5},
+            {"fiscalYear":"FY2024","revenueCr":980,"netProfitCr":112,"roePct":17.4,"pe":31.1,"debtToEquity":0.4},
+            {"fiscalYear":"FY2025","revenueCr":1090,"netProfitCr":126,"roePct":18.2,"pe":33.8,"debtToEquity":0.4},
+            {"fiscalYear":"FY2026","revenueCr":1210,"netProfitCr":142,"roePct":19.1,"pe":34.9,"debtToEquity":0.4}
+          ]
+        }
+      ]
+    }
+  ]
+}
