@@ -127,6 +127,10 @@ export interface CompanyProfile {
   tagline: string;
   accentColor: string; // hex for charts/badges
   currentMarketPrice: number;
+  currentMarketPriceCmp?: number;
+  dividendYieldPct?: number;
+  beta?: number;
+  pct52wHigh?: number;
   targetPriceRange: { low: number; base: number; high: number };
   sharesOutstandingCr: number;
   netCashCr: number; // positive = net cash
