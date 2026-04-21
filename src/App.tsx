@@ -8,7 +8,7 @@ import {
 import {
   BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator,
   Target, Globe, BookOpen, Activity, ArrowUpRight, ArrowDownRight,
-  Menu, X, Layers, Zap, Info, AlertTriangle, Brain, Building2, Briefcase
+  Menu, X, Layers, Zap, Info, AlertTriangle, Brain, Building2, Briefcase, Database
 } from 'lucide-react';
 import {
   historicalData, taxEvents, segmentDataFY24, defaultAssumptions,
@@ -23,13 +23,14 @@ import {
 } from './utils/itcModel';
 import { SensexUniverseSection } from './components/sensex/SensexUniverseSection';
 import { Nifty250UniverseSection } from './components/sensex/Nifty250UniverseSection';
+import { NiftyIndexDataSection } from './components/sensex/NiftyIndexDataSection';
 import { AdvancedValuationSection } from './components/itc/AdvancedValuationSection';
 import { CompanyUniverseSection } from './components/companies/CompanyUniverseSection';
 import { RalphSection } from './components/ralph/RalphSection';
 import { IdeaLabSection } from './components/itc/IdeaLabSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'ralph';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'ralph';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
@@ -47,6 +48,7 @@ const NAV: NavItem[] = [
   { id: 'global', label: 'Global Compare', icon: <Globe size={18} /> },
   { id: 'sensex', label: 'Sensex Universe', icon: <Layers size={18} /> },
   { id: 'nifty250', label: 'Nifty 250 Universe', icon: <Layers size={18} /> },
+  { id: 'nifty750data', label: 'Nifty 750 Data Hub', icon: <Database size={18} /> },
   { id: 'ralph', label: 'Ralph Lab', icon: <Briefcase size={18} /> },
 ];
 
@@ -1347,6 +1349,7 @@ export default function App() {
       case 'global': return <GlobalCompare />;
       case 'sensex': return <SensexUniverseSection />;
       case 'nifty250': return <Nifty250UniverseSection />;
+      case 'nifty750data': return <NiftyIndexDataSection />;
       case 'ralph': return <RalphSection />;
     }
   }, [section, assumptions]);
