@@ -14,7 +14,7 @@ const DEFAULT_HOLDINGS: PortfolioHolding[] = [
   { companyId: 'hdfcbank', allocationPct: 15 },
   { companyId: 'hul', allocationPct: 15 },
   { companyId: 'reliance', allocationPct: 15 },
-  { companyId: 'infosys', allocationPct: 15 },
+  { companyId: 'infy', allocationPct: 15 },
 ];
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#ef4444', '#84cc16'];

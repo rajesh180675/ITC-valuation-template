@@ -1,4 +1,4 @@
-import { getCompany } from '@/data/companies';
+import { getCompany, getCompanyOrNull } from '@/data/companies';
 import { MACRO_SENSITIVITIES, type MacroFactor } from '@/data/ralphData';
 import { buildCompanySnapshot } from '@/utils/genericModel';
 import { buildScreenerRows, getRalphBeta, getRalphDividendYield, getRalphPe } from '@/utils/ralphScreener';
@@ -41,14 +41,22 @@ function round(n: number, p = 1): number {
 }
 
 function revCagr3(companyId: string): number {
-  const h = getCompany(companyId).historical;
+  const profile = getCompanyOrNull(companyId);
+  if (!profile) return 0;
+  const h = profile.historical;
   if (h.length < 4) return 0;
   return (Math.pow(h.at(-1)!.revenue / h.at(-4)!.revenue, 1 / 3) - 1) * 100;
 }
 
+/**
+ * Normalize holdings to sum to 1 while silently dropping any entry whose
+ * companyId is not present in COMPANY_PROFILES. This keeps the Ralph Lab tab
+ * resilient to stale state (e.g. a renamed id) rather than crashing on render.
+ */
 export function normalizeHoldings(holdings: PortfolioHolding[]) {
-  const totalWeight = holdings.reduce((sum, h) => sum + h.allocationPct, 0);
-  return totalWeight > 0 ? holdings.map(h => ({ ...h, w: h.allocationPct / totalWeight })) : [];
+  const valid = holdings.filter(h => getCompanyOrNull(h.companyId) !== null);
+  const totalWeight = valid.reduce((sum, h) => sum + h.allocationPct, 0);
+  return totalWeight > 0 ? valid.map(h => ({ ...h, w: h.allocationPct / totalWeight })) : [];
 }
 
 export function calcPortfolioMetrics(holdings: PortfolioHolding[]): PortfolioMetrics {

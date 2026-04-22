@@ -1,5 +1,5 @@
 import { COMPANY_PROFILES, type CompanyProfile } from '@/data/companies';
-import { sensexConstituents } from '@/data/sensexData';
+import { sensexConstituents, type SensexConstituent } from '@/data/sensexData';
 import { FACTOR_CONFIG, COMPOSITE_WEIGHTS, type FactorConfig } from '@/data/ralphData';
 
 export interface ScreenerRow {
@@ -36,24 +36,22 @@ export interface ScreenerRow {
 type RawScreenerRow = Omit<ScreenerRow, 'qualityScore' | 'valueScore' | 'growthScore' | 'momentumScore' | 'safetyScore' | 'compositeScore' | 'rank'>;
 type FactorId = FactorConfig['id'];
 
-const TICKER_ALIASES: Record<string, string> = {
-  HDFCBANK: 'HDFCBANK',
-  INFY: 'INFY',
-  BHARTIARTL: 'BHARTIARTL',
-  LT: 'LT',
-  BAJFINANCE: 'BAJFINANCE',
-  BAJAJFINSV: 'BAJAJFINSV',
-  MANDM: 'M&M',
-};
+// Sensex peer metadata is looked up by exact ticker. Every Sensex constituent
+// in this project uses the same ticker string as the matching entry in
+// COMPANY_PROFILES (e.g. 'INFY', 'M&M', 'BAJFINANCE'), so a direct ticker map
+// is both correct and O(1). Profiles with no Sensex peer (VSTIND, KANSAINER)
+// simply return undefined and fall through to profile-level fallbacks below.
+const SENSEX_BY_TICKER: ReadonlyMap<string, SensexConstituent> = new Map(
+  sensexConstituents.map(c => [c.ticker, c] as const),
+);
 
 function round(n: number, p = 1): number {
   const f = 10 ** p;
   return Math.round(n * f) / f;
 }
 
-function sensexMeta(profile: CompanyProfile) {
-  const ticker = TICKER_ALIASES[profile.ticker] ?? profile.ticker;
-  return sensexConstituents.find(c => c.ticker === ticker || c.name.toLowerCase().includes(profile.name.toLowerCase().split(' ')[0] ?? ''));
+function sensexMeta(profile: CompanyProfile): SensexConstituent | undefined {
+  return SENSEX_BY_TICKER.get(profile.ticker);
 }
 
 export function getRalphBeta(profile: CompanyProfile): number {

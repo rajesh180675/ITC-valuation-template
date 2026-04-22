@@ -6,7 +6,7 @@ import { getRalphBeta } from '@/utils/ralphScreener';
 import { RalphCard } from '@/components/ralph/shared/RalphCard';
 
 export function CapitalAllocatorTab() {
-  const [companyIds, setCompanyIds] = useState<string[]>(['itc', 'hul', 'tcs', 'hdfcbank', 'reliance', 'infosys', 'asianpaints', 'titan']);
+  const [companyIds, setCompanyIds] = useState<string[]>(['itc', 'hul', 'tcs', 'hdfcbank', 'reliance', 'infy', 'asian', 'titan']);
   const [highlightMethod, setHighlightMethod] = useState<AllocationMethod>('max_sharpe');
   const results = useMemo(() => compareAllocations(companyIds), [companyIds]);
   const highlighted = results.find(result => result.method === highlightMethod) ?? results[0]!;
