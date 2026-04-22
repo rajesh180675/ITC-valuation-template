@@ -11,7 +11,8 @@
     "build": "vite build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:nifty750": "node scripts/generate_nifty_750_10y.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",
