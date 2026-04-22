@@ -2892,3 +2892,12 @@ export function getCompany(id: string): CompanyProfile {
   if (!c) throw new Error(`Unknown company id: ${id}`);
   return c;
 }
+
+/**
+ * Non-throwing variant of {@link getCompany}. Useful for UI code that reads
+ * from user-editable state (portfolio holdings, saved filters, URL params)
+ * where a stale or unknown id must not break the entire page.
+ */
+export function getCompanyOrNull(id: string): CompanyProfile | null {
+  return COMPANY_BY_ID[id] ?? null;
+}
