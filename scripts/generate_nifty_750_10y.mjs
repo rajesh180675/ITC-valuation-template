@@ -7,7 +7,7 @@
  *   {
  *     generatedAt, source, batches: [
  *       { indexSlug, indexName, asOfDate, companies: [
- *           { symbol, companyName, sector, reportingType, financials: [
+ *           { symbol, name, sector, reportingType, financials: [
  *               { fiscalYear, revenueCr, netProfitCr, roePct, pe?, pb?, debtToEquity? }
  *           ] }
  *       ] }
@@ -226,11 +226,11 @@ function buildCompany(seed, cohort, cohortRank, globalRank) {
 
   const rankStr = String(cohortRank).padStart(3, '0');
   const symbol = `${seed.prefix}${cohort.prefix}${rankStr}`;
-  const companyName = `${seed.name} ${cohort.prefix === 'LM' ? 'LargeMid' : cohort.prefix === 'SC' ? 'Smallcap' : 'Microcap'} ${cohortRank}`;
+  const name = `${seed.name} ${cohort.prefix === 'LM' ? 'LargeMid' : cohort.prefix === 'SC' ? 'Smallcap' : 'Microcap'} ${cohortRank}`;
 
   return {
     symbol,
-    companyName,
+    name,
     sector: seed.name,
     reportingType: seed.reporting,
     financials: buildFinancials(seed, latestRevCr),
