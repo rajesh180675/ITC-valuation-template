@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
-  Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ComposedChart, Line, LineChart,
+  Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ComposedChart, Line,
   ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis,
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
 } from 'recharts';
@@ -138,7 +138,7 @@ function Kpi({ label, value, sub, tone, gold, smallValue }: {
   );
 }
 
-/* ════════════════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════════════════���═══
  * OVERVIEW TAB
  * ══════════════════════════════════════════════════════════════════════ */
 function OverviewTab() {
@@ -276,7 +276,7 @@ function OverviewTab() {
 
 /* ════════════════════════════════════════════════════════════════════════
  * REGIMES TAB
- * ══════════════════════════════════════════════════════════════════════ */
+ * ═══════════════════��══════════════════════════════════════════════════ */
 function RegimesTab() {
   const monthlyChart = regimes.map(r => ({
     id: r.id,
