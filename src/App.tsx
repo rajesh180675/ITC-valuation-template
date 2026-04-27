@@ -30,9 +30,10 @@ import { CompanyUniverseSection } from './components/companies/CompanyUniverseSe
 import { RalphSection } from './components/ralph/RalphSection';
 import { IdeaLabSection } from './components/itc/IdeaLabSection';
 import { DeepDive55YSection } from './components/deepdive/DeepDive55YSection';
+import { IndianITDeepDiveSection } from './components/itservices/IndianITDeepDiveSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'ralph' | 'deepdive55y';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'ralph' | 'deepdive55y' | 'itDeepDive';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
@@ -53,6 +54,7 @@ const NAV: NavItem[] = [
   { id: 'nifty750data', label: 'Nifty 750 Data Hub', icon: <Database size={18} /> },
   { id: 'ralph', label: 'Ralph Lab', icon: <Briefcase size={18} /> },
   { id: 'deepdive55y', label: '55Y Deep Dive', icon: <BookOpen size={18} /> },
+  { id: 'itDeepDive', label: 'IT Services Lab', icon: <Cpu size={18} /> },
 ];
 
 
@@ -704,7 +706,7 @@ function Valuation({ assumptions }: { assumptions: ProjectionAssumptions }) {
       {tab === 'sotp' && (
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-3">
-            <MetricCard title="Bear Case" value={rupee(sotpPerShareLow)} subtitle="₹3 L Cr off mcap" color="red" />
+            <MetricCard title="Bear Case" value={rupee(sotpPerShareLow)} subtitle="��3 L Cr off mcap" color="red" />
             <MetricCard title="Base Case" value={rupee(sotpPerShareBase)} subtitle={`${totalSotpBase + netCash > 550000 ? 'Upside' : 'Downside'}`} color="blue" />
             <MetricCard title="Bull Case" value={rupee(sotpPerShareHigh)} subtitle="Premium valuations" color="green" />
           </div>
@@ -1331,7 +1333,7 @@ function GlobalCompare() {
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // MAIN APP
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━��━━━
 export default function App() {
   const [section, setSection] = useState<Section>('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -1355,6 +1357,7 @@ export default function App() {
       case 'nifty750data': return <NiftyIndexDataSection />;
       case 'ralph': return <RalphSection />;
       case 'deepdive55y': return <DeepDive55YSection />;
+      case 'itDeepDive': return <IndianITDeepDiveSection />;
     }
   }, [section, assumptions]);
 
