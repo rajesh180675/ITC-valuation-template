@@ -21,6 +21,16 @@ import {
 import type { CompanyKey, CompanyAutopsy } from '@/data/indianITDeepDive';
 import type { ReactElement } from 'react';
 import { ChartTooltip, fmt } from '@/components/itc/shared';
+import {
+  IT_COMPANIES, IT_COMPANIES_BY_TICKER,
+  type ITCompanyData,
+} from '@/data/itCompanyBaselines';
+import {
+  threeStageDCF, reverseDCF, ddm, monteCarlo, tornado, runScenarios,
+  applyAIOverlay, impliedIRR, decisionFromMoS, triangulate,
+  type ThreeStageDCFParams, type DDMParams, type MonteCarloInputs,
+  type AIOverlayInputs, type ScenarioCase,
+} from '@/valuation/itEngine';
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* Local helpers                                                              */
@@ -114,7 +124,7 @@ const TABS: { id: Tab; label: string; icon: ReactElement }[] = [
 export function IndianITDeepDiveSection() {
   const [tab, setTab] = useState<Tab>('overview');
   const [autopsyKey, setAutopsyKey] = useState<CompanyKey>('infosys');
-  const [valKey, setValKey] = useState<CompanyKey>('infosys');
+  const [valTicker, setValTicker] = useState<string>('TCS');
 
   return (
     <div className="animate-fadeIn space-y-6">
@@ -138,7 +148,7 @@ export function IndianITDeepDiveSection() {
       {tab === 'disruption' && <DisruptionTab />}
       {tab === 'big5'       && <Big5Tab />}
       {tab === 'autopsy'    && <AutopsyTab activeKey={autopsyKey} onSelect={setAutopsyKey} />}
-      {tab === 'valuation'  && <ValuationLab activeKey={valKey} onSelect={setValKey} />}
+      {tab === 'valuation'  && <ValuationLab activeTicker={valTicker} onSelect={setValTicker} />}
       {tab === 'scenarios'  && <ScenariosTab />}
       {tab === 'philosophy' && <PhilosophyTab />}
     </div>
@@ -583,7 +593,7 @@ function WagesChart() {
   );
 }
 
-/* ────────────────────────────���───────────────────────────────────────────── */
+/* ────────────────────────────���─────────��─────────────────────────────────── */
 /* Tab 3 — Big 5 + Tier 2                                                     */
 /* ────────────────────────────────────────────────────────────────────────── */
 
