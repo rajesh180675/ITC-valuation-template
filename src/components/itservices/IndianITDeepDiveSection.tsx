@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
-  Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ComposedChart, Line,
+  Bar, BarChart, CartesianGrid, Cell, ComposedChart, Line,
   ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, RadialBar,
   RadialBarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, RadarChart,
   Legend,
@@ -19,7 +19,8 @@ import {
   STRUCTURAL_PILLARS, THREE_WAVES, TIER2, WAGE_POLARIZATION,
 } from '@/data/indianITDeepDive';
 import type { CompanyKey, CompanyAutopsy } from '@/data/indianITDeepDive';
-import { ChartTooltip, fmt, fmtN } from '@/components/itc/shared';
+import type { ReactElement } from 'react';
+import { ChartTooltip, fmt } from '@/components/itc/shared';
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* Local helpers                                                              */
@@ -56,7 +57,6 @@ const RATING_COLOR: Record<string, string> = {
 };
 
 const fmtPct = (n: number, d = 1) => `${n >= 0 ? '+' : ''}${n.toFixed(d)}%`;
-const fmtUSDb = (n: number, d = 1) => `$${n.toFixed(d)}B`;
 const fmtCurr = (n: number, currency: 'INR' | 'USD') =>
   currency === 'INR' ? `₹${n.toFixed(0)}` : `$${n.toFixed(2)}`;
 
@@ -101,7 +101,7 @@ type Tab =
   | 'overview' | 'disruption' | 'big5' | 'autopsy'
   | 'valuation' | 'scenarios' | 'philosophy';
 
-const TABS: { id: Tab; label: string; icon: JSX.Element }[] = [
+const TABS: { id: Tab; label: string; icon: ReactElement }[] = [
   { id: 'overview',   label: 'Industry Overview', icon: <BookOpen size={14} /> },
   { id: 'disruption', label: 'AI Disruption',     icon: <Zap size={14} /> },
   { id: 'big5',       label: 'Big 5 + Tier 2',    icon: <Layers size={14} /> },
@@ -357,7 +357,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-function SectionCard({ title, icon, children, action }: { title: string; icon?: JSX.Element; children: React.ReactNode; action?: React.ReactNode }) {
+function SectionCard({ title, icon, children, action }: { title: string; icon?: ReactElement; children: React.ReactNode; action?: React.ReactNode }) {
   return (
     <div className="premium-card p-4 lg:p-5">
       <div className="flex items-center justify-between gap-2 mb-3">
@@ -583,7 +583,7 @@ function WagesChart() {
   );
 }
 
-/* ────────────────────────────────────────────────────────────────────────── */
+/* ────────────────────────────���───────────────────────────────────────────── */
 /* Tab 3 — Big 5 + Tier 2                                                     */
 /* ────────────────────────────────────────────────────────────────────────── */
 
@@ -958,7 +958,7 @@ function MarginBridgeChart({ co }: { co: CompanyAutopsy }) {
             <Tooltip content={<ChartTooltip />} />
             <Bar dataKey="base"  stackId="a" fill="transparent" />
             <Bar dataKey="delta" stackId="a" radius={[3, 3, 0, 0]}>
-              {data.map((d, i) => (
+              {data.map((_, i) => (
                 <Cell key={i} fill={i === 0 || i === data.length - 1 ? PALETTE.gold : co.marginBridge[i - 1].bps >= 0 ? PALETTE.green : PALETTE.red} />
               ))}
             </Bar>
@@ -1438,18 +1438,6 @@ function ScenariosTab() {
                     <Cell key={i} fill={[PALETTE.gold, PALETTE.blue, PALETTE.green, PALETTE.amber, PALETTE.slate][i % 5]} />
                   ))}
                 </RadialBar>
-                <Legend
-                  iconSize={8}
-                  layout="vertical"
-                  verticalAlign="middle"
-                  align="right"
-                  wrapperStyle={{ fontSize: 11, color: PALETTE.muted }}
-                  payload={RECOMMENDED_PORTFOLIO.map((p, i) => ({
-                    value: `${p.ticker} (${p.allocation}%)`,
-                    type: 'square',
-                    color: [PALETTE.gold, PALETTE.blue, PALETTE.green, PALETTE.amber, PALETTE.slate][i % 5],
-                  }))}
-                />
                 <Tooltip content={<ChartTooltip />} />
               </RadialBarChart>
             </ResponsiveContainer>
