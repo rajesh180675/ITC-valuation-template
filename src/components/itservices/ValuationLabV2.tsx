@@ -7,8 +7,8 @@
    ───────────────────────────────────────────────────────────────────────────── */
 import { useMemo, useState } from 'react';
 import {
-  Bar, BarChart, CartesianGrid, Cell, ComposedChart, Line, LineChart,
-  ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, Area, AreaChart,
+  Bar, BarChart, CartesianGrid, Cell, ComposedChart, Line,
+  ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
   ReferenceArea,
 } from 'recharts';
 import { ChartTooltip } from '@/components/itc/shared';
@@ -799,7 +799,7 @@ function AIPanel({
 // ─────────────────────────────────────────────────────────────────────────────
 // Tab 7 — Tornado
 // ─────────────────────────────────────────────────────────────────────────────
-function TornadoPanel({ co, vars, dcf }: any) {
+function TornadoPanel({ vars, dcf }: any) {
   const baseFV = dcf.fairValue;
   const data = vars.map((v: any) => ({
     name: v.name,

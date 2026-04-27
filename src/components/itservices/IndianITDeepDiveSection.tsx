@@ -58,8 +58,6 @@ const RATING_COLOR: Record<string, string> = {
 };
 
 const fmtPct = (n: number, d = 1) => `${n >= 0 ? '+' : ''}${n.toFixed(d)}%`;
-const fmtCurr = (n: number, currency: 'INR' | 'USD') =>
-  currency === 'INR' ? `₹${n.toFixed(0)}` : `$${n.toFixed(2)}`;
 
 function HealthBadge({ health }: { health: string }) {
   const colors: Record<string, string> = {
@@ -584,7 +582,7 @@ function WagesChart() {
   );
 }
 
-/* ────────────────────────────���─────────��─────────────────────────────────── */
+/* ────────────────────���───────���─────────��─────────────────────────────────── */
 /* Tab 3 — Big 5 + Tier 2                                                     */
 /* ────────────────────────────────────────────────────────────────────────── */
 
