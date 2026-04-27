@@ -8,8 +8,9 @@ import {
 import {
   BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator,
   Target, Globe, BookOpen, Activity, ArrowUpRight, ArrowDownRight,
-  Menu, X, Layers, Zap, Info, AlertTriangle, Brain, Building2, Briefcase, Database
-} from 'lucide-react';
+  Menu, X, Layers, Zap, Info, AlertTriangle, Brain, Building2, Briefcase, Database,
+  Cpu
+  } from 'lucide-react';
 import {
   historicalData, taxEvents, segmentDataFY24, defaultAssumptions,
   globalTobaccoComparison, budgetCheatSheet, sharesOutstanding, sotpData,
