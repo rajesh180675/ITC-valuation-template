@@ -28,9 +28,10 @@ import { AdvancedValuationSection } from './components/itc/AdvancedValuationSect
 import { CompanyUniverseSection } from './components/companies/CompanyUniverseSection';
 import { RalphSection } from './components/ralph/RalphSection';
 import { IdeaLabSection } from './components/itc/IdeaLabSection';
+import { DeepDive55YSection } from './components/deepdive/DeepDive55YSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'ralph';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'ralph' | 'deepdive55y';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
@@ -50,6 +51,7 @@ const NAV: NavItem[] = [
   { id: 'nifty250', label: 'Nifty 250 Universe', icon: <Layers size={18} /> },
   { id: 'nifty750data', label: 'Nifty 750 Data Hub', icon: <Database size={18} /> },
   { id: 'ralph', label: 'Ralph Lab', icon: <Briefcase size={18} /> },
+  { id: 'deepdive55y', label: '55Y Deep Dive', icon: <BookOpen size={18} /> },
 ];
 
 
@@ -1351,6 +1353,7 @@ export default function App() {
       case 'nifty250': return <Nifty250UniverseSection />;
       case 'nifty750data': return <NiftyIndexDataSection />;
       case 'ralph': return <RalphSection />;
+      case 'deepdive55y': return <DeepDive55YSection />;
     }
   }, [section, assumptions]);
 
