@@ -349,3 +349,214 @@ function round1(x: number): number {
 function round2(x: number): number {
   return Math.round(x * 100) / 100;
 }
+
+/* ---------------------------------------------------------------------------
+ * Magic Formula (Greenblatt) — combined rank of capital efficiency and
+ * earnings yield. Higher composite rank = "good business at a fair price".
+ *
+ *   Capital efficiency proxy:
+ *     • Corporates → ROCE (or ROE if ROCE is missing)
+ *     • BFSI       → ROE  (ROCE is not informative for banks/insurers)
+ *
+ *   Earnings yield proxy:
+ *     • P/E names  → 1 / P/E
+ *     • P/B names  → ROE / P/B  (the bank-equivalent E/P, since EPS/Price
+ *                                 ≈ ROE × (BV/Price))
+ * ------------------------------------------------------------------------ */
+export interface MagicFormulaScore {
+  id: string;
+  ticker: string;
+  name: string;
+  sector: string;
+  capitalEfficiencyPct: number;
+  earningsYieldPct: number;
+  rankCapital: number;
+  rankYield: number;
+  rankCombined: number;
+}
+
+export function buildMagicFormulaRanks(
+  companies: SensexConstituent[],
+): MagicFormulaScore[] {
+  if (companies.length === 0) return [];
+  const last = (c: SensexConstituent) => c.history[c.history.length - 1];
+
+  const capEff = companies.map((c) => {
+    const latest = last(c);
+    if (c.reportingType === 'financial') return latest.roePct;
+    return latest.rocePct ?? latest.roePct;
+  });
+
+  const earningsYield = companies.map((c) => {
+    if (c.valuationMetric === 'pb') {
+      const pb = Math.max(0.1, c.valuationMultiple);
+      return last(c).roePct / pb;
+    }
+    const pe = Math.max(0.1, c.valuationMultiple);
+    return 100 / pe;
+  });
+
+  // Higher value = better → invert ordinal so rank #1 is best.
+  const ordCap = ordinalRanks(capEff);
+  const ordYld = ordinalRanks(earningsYield);
+
+  return companies.map((c, i) => ({
+    id: c.id,
+    ticker: c.ticker,
+    name: c.name,
+    sector: c.sector,
+    capitalEfficiencyPct: round1(capEff[i]),
+    earningsYieldPct: round1(earningsYield[i]),
+    rankCapital: ordCap[i],
+    rankYield: ordYld[i],
+    rankCombined: ordCap[i] + ordYld[i],
+  })).sort((a, b) => a.rankCombined - b.rankCombined);
+}
+
+/* ---------------------------------------------------------------------------
+ * Valuation z-score — how cheap/expensive a name is vs. its sector peers.
+ *
+ *   z = (multiple − sector median) / sector MAD
+ *
+ * Negative z = trading below sector midpoint (cheap-vs-peers); positive z =
+ * premium-vs-peers. Banks (P/B) and corporates (P/E) are z-scored within
+ * their own metric so the read is apples-to-apples.
+ * ------------------------------------------------------------------------ */
+export interface ValuationZScore {
+  id: string;
+  ticker: string;
+  sector: string;
+  multiple: number;
+  metric: 'pe' | 'pb';
+  sectorMedian: number;
+  zScore: number;
+}
+
+export function buildValuationZScores(
+  companies: SensexConstituent[],
+): Map<string, ValuationZScore> {
+  const out = new Map<string, ValuationZScore>();
+  if (companies.length === 0) return out;
+
+  // Group by sector × metric so P/E and P/B are scored separately.
+  const buckets = new Map<string, SensexConstituent[]>();
+  companies.forEach((c) => {
+    const key = `${c.sector}::${c.valuationMetric}`;
+    const arr = buckets.get(key) ?? [];
+    arr.push(c);
+    buckets.set(key, arr);
+  });
+
+  buckets.forEach((members) => {
+    if (members.length === 0) return;
+    const values = members.map((c) => c.valuationMultiple);
+    const median = quantile(values, 0.5);
+    const mad = medianAbsoluteDeviation(values, median);
+    const scale = mad > 1e-6 ? mad : (median * 0.15) || 1;
+
+    members.forEach((c) => {
+      out.set(c.id, {
+        id: c.id,
+        ticker: c.ticker,
+        sector: c.sector,
+        multiple: c.valuationMultiple,
+        metric: c.valuationMetric,
+        sectorMedian: round2(median),
+        zScore: round2((c.valuationMultiple - median) / scale),
+      });
+    });
+  });
+  return out;
+}
+
+/* ---------------------------------------------------------------------------
+ * Sector momentum grid — sector × FY heatmap of YoY weighted PAT growth.
+ * Rows = sectors (sorted by index weight); columns = fiscal years (after
+ * the first, since YoY needs t-1).
+ * ------------------------------------------------------------------------ */
+export interface SectorMomentumCell {
+  fy: string;
+  yoyPatGrowthPct: number;
+}
+export interface SectorMomentumRow {
+  sector: string;
+  weightPct: number;
+  fullPeriodCagrPct: number;
+  cells: SectorMomentumCell[];
+}
+
+export function buildSectorMomentumGrid(
+  companies: SensexConstituent[],
+): SectorMomentumRow[] {
+  if (companies.length === 0) return [];
+
+  const map = new Map<string, SensexConstituent[]>();
+  companies.forEach((c) => {
+    const arr = map.get(c.sector) ?? [];
+    arr.push(c);
+    map.set(c.sector, arr);
+  });
+
+  const yearLabels = companies[0].history.map((h) => h.fy);
+  const rows: SectorMomentumRow[] = [];
+
+  map.forEach((members, sector) => {
+    const sectorMcap = members.reduce((s, c) => s + c.marketCapCr, 0) || 1;
+    // Mcap-weighted aggregate PAT trajectory (in Cr).
+    const aggregate = yearLabels.map((_, i) =>
+      members.reduce((s, c) => s + c.history[i].netProfitCr, 0),
+    );
+    const cells: SectorMomentumCell[] = [];
+    for (let i = 1; i < aggregate.length; i++) {
+      const prev = aggregate[i - 1];
+      const curr = aggregate[i];
+      const growth = prev > 0 ? ((curr - prev) / prev) * 100 : 0;
+      cells.push({ fy: yearLabels[i], yoyPatGrowthPct: round1(growth) });
+    }
+    const fullCagr = cagr(aggregate[0], aggregate[aggregate.length - 1], aggregate.length - 1);
+    const weightPct = members.reduce((s, c) => s + c.weightPct, 0);
+    rows.push({
+      sector,
+      weightPct: round1(weightPct),
+      fullPeriodCagrPct: round1(fullCagr),
+      cells,
+    });
+
+    // suppress unused-var warning: sectorMcap kept for future weight schemes
+    void sectorMcap;
+  });
+
+  return rows.sort((a, b) => b.weightPct - a.weightPct);
+}
+
+/* ---------------------------------------------------------------------------
+ * Helpers (additional)
+ * ------------------------------------------------------------------------ */
+function ordinalRanks(values: number[]): number[] {
+  // Higher value → lower (better) rank number, i.e. rank 1 = max.
+  if (values.length === 0) return [];
+  const indexed = values.map((v, i) => ({ v, i })).sort((a, b) => b.v - a.v);
+  const ranks = new Array(values.length).fill(0);
+  indexed.forEach((entry, rank) => {
+    ranks[entry.i] = rank + 1;
+  });
+  return ranks;
+}
+
+function quantile(values: number[], q: number): number {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const pos = (sorted.length - 1) * q;
+  const base = Math.floor(pos);
+  const rest = pos - base;
+  if (sorted[base + 1] !== undefined) {
+    return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+  }
+  return sorted[base];
+}
+
+function medianAbsoluteDeviation(values: number[], median: number): number {
+  if (values.length === 0) return 0;
+  const deviations = values.map((v) => Math.abs(v - median));
+  return quantile(deviations, 0.5);
+}

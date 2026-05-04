@@ -4,9 +4,15 @@ import {
   ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip,
   XAxis, YAxis, ZAxis,
 } from 'recharts';
-import { Info } from 'lucide-react';
+import { Download, Info, ShieldCheck } from 'lucide-react';
 
-import { nifty250Constituents, NIFTY250_FISCAL_YEARS } from '@/data/nifty250Data';
+import {
+  nifty250Constituents,
+  NIFTY250_FISCAL_YEARS,
+  NIFTY250_INDEX_LABEL,
+  NIFTY250_PROVENANCE,
+  NIFTY250_CONSTITUENT_COUNT,
+} from '@/data/nifty250Data';
 import type { SensexConstituent } from '@/data/sensexData';
 import {
   buildSensexIndexTimeSeries,
@@ -16,9 +22,11 @@ import {
   getPrimaryValuationLabel,
 } from '@/utils/itcModel';
 import {
-  buildFactorScores, buildSectorAnalytics, computeConcentration,
+  buildFactorScores, buildMagicFormulaRanks, buildSectorAnalytics,
+  buildSectorMomentumGrid, buildValuationZScores, computeConcentration,
   computeDuPont, costOfEquity, earningsVolatility, impliedPerpetualGrowth,
   MARKET_PARAMS,
+  type MagicFormulaScore, type SectorMomentumRow,
 } from '@/utils/sensexAnalytics';
 import { ChartTooltip, fmt, fmtN } from '@/components/itc/shared';
 
@@ -64,6 +72,9 @@ export function Nifty250UniverseSection() {
     () => buildFactorScores(filteredCompanies, rangeStart, rangeEnd),
     [filteredCompanies, rangeStart, rangeEnd],
   );
+  const magicFormula = useMemo(() => buildMagicFormulaRanks(filteredCompanies), [filteredCompanies]);
+  const sectorMomentum = useMemo(() => buildSectorMomentumGrid(filteredCompanies), [filteredCompanies]);
+  const valuationZ = useMemo(() => buildValuationZScores(filteredCompanies), [filteredCompanies]);
 
   const rows = useMemo(() => filteredCompanies.map(company => {
     const first = company.history[rangeStart];
@@ -72,6 +83,7 @@ export function Nifty250UniverseSection() {
     const coe = costOfEquity(company.beta);
     const impliedG = impliedPerpetualGrowth(company);
     const scores = factorScores.get(company.id)!;
+    const valZ = valuationZ.get(company.id);
     return {
       company,
       first,
@@ -83,8 +95,10 @@ export function Nifty250UniverseSection() {
       gap: profitCagr - impliedG, // positive = market under-pricing growth
       scores,
       valuationLabel: getPrimaryValuationLabel(company),
+      valuationZ: valZ?.zScore ?? 0,
+      sectorMedianMultiple: valZ?.sectorMedian ?? company.valuationMultiple,
     };
-  }), [filteredCompanies, rangeStart, rangeEnd, rangePeriods, factorScores]);
+  }), [filteredCompanies, rangeStart, rangeEnd, rangePeriods, factorScores, valuationZ]);
 
   const sortedRows = useMemo(() => {
     const dir = sortDir === 'asc' ? 1 : -1;
@@ -193,6 +207,8 @@ export function Nifty250UniverseSection() {
         concentration={concentration}
       />
 
+      <DataProvenanceBanner rows={sortedRows} />
+
       <RangeSelector
         startFy={startFy} endFy={endFy} rangePeriods={rangePeriods}
         rangeStart={rangeStart} rangeEnd={rangeEnd} totalYears={totalYears}
@@ -213,12 +229,16 @@ export function Nifty250UniverseSection() {
 
       <SectorAnalyticsTable data={sectorAnalytics} />
 
+      <SectorMomentumHeatmap rows={sectorMomentum} />
+
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         <TopWeightsChart data={topWeightData} />
         <GrowthValuationScatter data={growthVsValuation} medianPatCagr={medianPatCagr} rangePeriods={rangePeriods} />
       </div>
 
       <ImpliedVsRealizedScatter data={impliedVsRealized} rangePeriods={rangePeriods} />
+
+      <MagicFormulaCard rows={magicFormula} onSelect={setSelectedId} />
 
       <FactorScorecard rows={sortedRows} selectedId={selectedCompany?.id ?? ''} onSelect={setSelectedId} />
 
@@ -272,22 +292,22 @@ function HeroBanner(props: {
         <div className="flex-1 min-w-[280px]">
           <div className="flex items-center gap-3 mb-3">
             <span className="pill"><span className="ticker-dot" /> Live Universe</span>
-            <span className="pill pill-muted">BSE SENSEX · 30 Constituents</span>
+            <span className="pill pill-muted">{NIFTY250_INDEX_LABEL} · {NIFTY250_CONSTITUENT_COUNT} Constituents</span>
             <span className="pill pill-muted">{rangeLabel}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-            Nifty 250 <span className="text-[color:var(--color-gold-light)]">Feature Universe</span>
+            Nifty LargeMidcap 250 <span className="text-[color:var(--color-gold-light)]">Feature Universe</span>
           </h2>
           <p className="text-sm text-gray-400 mt-2 max-w-2xl leading-relaxed">
-            Institutional-grade cross-sectional view of India&apos;s benchmark 30 &mdash; 14 years of fiscal history
-            (FY2011&ndash;FY2024), CAPM-derived cost of equity, reverse-Gordon implied growth, factor scores and
-            concentration diagnostics.
+            Institutional-grade cross-sectional view of {NIFTY250_CONSTITUENT_COUNT} real NSE-listed large &amp; mid-cap names &mdash;
+            10 fiscal years (FY2015&ndash;FY2024) anchored to FY24 reported financials, CAPM cost of equity,
+            reverse-Gordon implied growth, Greenblatt Magic Formula, sector momentum and valuation z-scores.
           </p>
         </div>
         <div className="flex flex-col items-end gap-3">
           <div className="segmented">
             {([
-              { id: 'all' as const, label: 'All 30' },
+              { id: 'all' as const, label: `All ${NIFTY250_CONSTITUENT_COUNT}` },
               { id: 'nonFinancial' as const, label: 'Corporates' },
               { id: 'financial' as const, label: 'BFSI' },
             ]).map(opt => (
@@ -310,7 +330,7 @@ function HeroBanner(props: {
       </div>
       <div className="hairline-divider my-5" />
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-5">
-        <Kpi label="Constituents" value={String(filteredCount)} sub="of 30 total" />
+        <Kpi label="Constituents" value={String(filteredCount)} sub={`of ${NIFTY250_CONSTITUENT_COUNT} total`} />
         <Kpi label="Market Cap" value={fmt(totalMarketCap)} sub="aggregate float" />
         <Kpi label="BFSI / Corp Mix" value={`${fmtN(bfsiWeight, 1)} / ${fmtN(corpWeight, 1)}`} sub="by index weight" tabular />
         <Kpi label="Lead Sector" value={largestSector?.sector ?? '—'} sub={largestSector ? `${fmtN(largestSector.weightPct, 1)}% weight` : '—'} gold smallValue />
@@ -741,6 +761,7 @@ function ConstituentLedger(props: {
     last: { toplineCr: number; roePct: number; rocePct?: number };
     toplineCagr: number; profitCagr: number; valuationLabel: string;
     coe: number; impliedG: number; scores: { composite: number };
+    valuationZ: number; sectorMedianMultiple: number;
   }[];
   selectedId: string;
   onSelect: (id: string) => void;
@@ -750,16 +771,68 @@ function ConstituentLedger(props: {
   toggleSort: (key: SortKey) => void;
 }) {
   const { rows, selectedId, onSelect, rangeLabel, endFy, sortCaret, toggleSort } = props;
+
+  const handleExport = () => {
+    const header = [
+      'Ticker', 'Name', 'Sector', 'Type', 'WeightPct', 'MarketCapCr', 'CMP',
+      `Topline_${endFy}_Cr`, 'ToplineCAGR_pct', 'PATCAGR_pct',
+      `ROE_${endFy}_pct`, 'Beta', 'CoE_pct', 'ValuationMetric',
+      'Multiple', 'SectorMedianMultiple', 'Z_vs_sector',
+      'ImpliedGrowth_pct', 'CompositeScore',
+    ];
+    const lines = rows.map((r) => [
+      r.company.ticker,
+      JSON.stringify(r.company.name),
+      JSON.stringify(r.company.sector),
+      r.company.reportingType === 'financial' ? 'BFSI' : 'Corp',
+      r.company.weightPct.toFixed(3),
+      r.company.marketCapCr,
+      r.company.cmp,
+      r.last.toplineCr,
+      r.toplineCagr.toFixed(2),
+      r.profitCagr.toFixed(2),
+      r.last.roePct.toFixed(2),
+      r.company.beta.toFixed(2),
+      r.coe.toFixed(2),
+      r.valuationLabel,
+      r.company.valuationMultiple.toFixed(2),
+      r.sectorMedianMultiple.toFixed(2),
+      r.valuationZ.toFixed(2),
+      r.impliedG.toFixed(2),
+      r.scores.composite.toFixed(1),
+    ].join(','));
+    const csv = [header.join(','), ...lines].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `nifty250-ledger-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="premium-card overflow-hidden">
       <div className="flex items-center justify-between p-5 pb-3 flex-wrap gap-3">
         <div>
           <h3 className="text-sm font-semibold text-white">Constituent Ledger</h3>
           <p className="text-[11px] text-gray-500 mt-0.5">
-            Sortable · CAGR across {rangeLabel} · CAPM CoE · reverse-Gordon implied growth · composite factor score
+            Sortable · CAGR across {rangeLabel} · CAPM CoE · reverse-Gordon implied growth · valuation z-score vs sector · composite factor score
           </p>
         </div>
-        <span className="pill pill-muted">{rows.length} rows</span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleExport}
+            className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-gray-200 bg-black/40 hover:bg-black/60 border border-border rounded-md px-3 py-1.5 transition"
+            aria-label="Download constituent ledger as CSV"
+          >
+            <Download size={12} /> CSV
+          </button>
+          <span className="pill pill-muted">{rows.length} rows</span>
+        </div>
       </div>
       <div className="overflow-x-auto max-h-[560px]">
         <table className="w-full sensex-table tabular-nums">
@@ -777,6 +850,7 @@ function ConstituentLedger(props: {
               <th className="text-right sort-header" onClick={() => toggleSort('beta')}>β{sortCaret('beta')}</th>
               <th className="text-right sort-header" onClick={() => toggleSort('coe')}>CoE{sortCaret('coe')}</th>
               <th className="text-right sort-header" onClick={() => toggleSort('valuation')}>Mult{sortCaret('valuation')}</th>
+              <th className="text-right" title="Z-score of valuation multiple vs sector peers (median, MAD scaled). Negative = cheaper than peers.">Z vs sector</th>
               <th className="text-right sort-header" onClick={() => toggleSort('impliedG')}>Impl. g{sortCaret('impliedG')}</th>
               <th className="text-right sort-header" onClick={() => toggleSort('composite')}>Score{sortCaret('composite')}</th>
             </tr>
@@ -810,6 +884,9 @@ function ConstituentLedger(props: {
                   <td className="text-right text-gray-300">{r.company.beta.toFixed(2)}</td>
                   <td className="text-right text-gray-300">{fmtN(r.coe, 1)}%</td>
                   <td className="text-right text-[color:var(--color-gold-light)] font-semibold">{r.valuationLabel} {fmtN(r.company.valuationMultiple, 1)}x</td>
+                  <td className={`text-right font-semibold ${r.valuationZ <= -0.5 ? 'text-emerald-300' : r.valuationZ >= 0.5 ? 'text-red-300' : 'text-gray-300'}`} title={`Sector median ${r.valuationLabel} ${r.sectorMedianMultiple.toFixed(1)}x`}>
+                    {r.valuationZ >= 0 ? '+' : ''}{r.valuationZ.toFixed(2)}σ
+                  </td>
                   <td className={`text-right font-semibold ${r.impliedG >= 4 ? 'text-amber-200' : 'text-gray-300'}`}>{fmtN(r.impliedG, 1)}%</td>
                   <td className="text-right">
                     <ScoreChip score={r.scores.composite} />
@@ -979,6 +1056,218 @@ function DuPontStack({ dp }: { dp: { npm: number; leverageAndTurnover: number; r
       <div className="mt-2 text-[11px] text-gray-300 flex items-center justify-between">
         <span>Reported ROE</span>
         <span className="tabular-nums font-semibold text-white">{fmtN(dp.roe, 1)}%</span>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * NEW: DataProvenanceBanner — transparency on data source & methodology
+ * ════════════════════════════════════════════════════════════════════════ */
+function DataProvenanceBanner({ rows }: { rows: { company: SensexConstituent }[] }) {
+  // Quick integrity tally — proves the universe is real, not synthetic.
+  const uniqueSectors = new Set(rows.map((r) => r.company.sector)).size;
+  const corp = rows.filter((r) => r.company.reportingType === 'nonFinancial').length;
+  const bfsi = rows.length - corp;
+
+  return (
+    <div className="glass-card p-5 border-l-2 border-[color:var(--color-gold-light)]">
+      <div className="flex items-start gap-4 flex-wrap">
+        <div className="flex items-center gap-2 shrink-0">
+          <ShieldCheck size={18} className="text-[color:var(--color-gold-light)]" />
+          <span className="text-sm font-semibold text-white">Data Provenance</span>
+        </div>
+        <div className="flex-1 min-w-[260px] space-y-2">
+          <p className="text-[12px] text-gray-300 leading-relaxed">
+            <span className="text-white font-semibold">Source:</span> {NIFTY250_PROVENANCE.source}
+          </p>
+          <p className="text-[12px] text-gray-400 leading-relaxed">
+            <span className="text-gray-200 font-semibold">As-of:</span> {NIFTY250_PROVENANCE.asOf}
+            <span className="mx-2 text-gray-600">·</span>
+            <span className="text-gray-200 font-semibold">Universe:</span> {rows.length} real NSE-listed names · {uniqueSectors} sectors · {corp} corporates / {bfsi} BFSI
+          </p>
+          <ul className="text-[11px] text-gray-400 leading-relaxed list-disc pl-4 space-y-0.5">
+            {NIFTY250_PROVENANCE.methodology.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+          <p className="text-[11px] text-amber-200/80 leading-relaxed pt-1">
+            <span className="font-semibold">Disclaimer:</span> {NIFTY250_PROVENANCE.disclaimer}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * NEW: SectorMomentumHeatmap — sector × FY YoY PAT growth heatmap
+ * ════════════════════════════════════════════════════════════════════════ */
+function SectorMomentumHeatmap({ rows }: { rows: SectorMomentumRow[] }) {
+  if (rows.length === 0) return null;
+  const fyLabels = rows[0].cells.map((c) => c.fy);
+
+  // Color scale: red → grey → green, capped at ±60% YoY for readability.
+  const cap = 60;
+  const colorFor = (v: number): string => {
+    const clamped = Math.max(-cap, Math.min(cap, v));
+    if (clamped >= 0) {
+      const t = clamped / cap;
+      const alpha = 0.18 + 0.62 * t;
+      return `rgba(34, 197, 94, ${alpha.toFixed(2)})`;
+    }
+    const t = -clamped / cap;
+    const alpha = 0.18 + 0.62 * t;
+    return `rgba(239, 68, 68, ${alpha.toFixed(2)})`;
+  };
+
+  return (
+    <div className="premium-card p-5">
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <div>
+          <h3 className="text-sm font-semibold text-white">Sector Momentum Heatmap</h3>
+          <p className="text-[11px] text-gray-500 mt-0.5">YoY PAT growth by sector — read rotation across cycles. Green = expansion, red = contraction.</p>
+        </div>
+        <div className="flex items-center gap-3 text-[10px] text-gray-400">
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(239,68,68,0.7)' }} />−60%+</span>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(148,163,184,0.25)' }} />~0%</span>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(34,197,94,0.7)' }} />+60%+</span>
+        </div>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-[11px] tabular-nums">
+          <thead>
+            <tr className="text-gray-500">
+              <th className="text-left py-2 px-2 sticky left-0 bg-[rgba(15,23,41,0.96)] z-10" style={{ minWidth: 180 }}>Sector</th>
+              <th className="text-right py-2 px-2">Wt</th>
+              <th className="text-right py-2 px-2">10Y CAGR</th>
+              {fyLabels.map((fy) => (
+                <th key={fy} className="text-center py-2 px-1.5 font-mono">{fy.replace('FY', '')}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.sector} className="border-t border-border/40">
+                <td className="py-1.5 px-2 text-gray-200 font-semibold sticky left-0 bg-[rgba(15,23,41,0.96)] z-10">{row.sector}</td>
+                <td className="py-1.5 px-2 text-right text-gray-400">{fmtN(row.weightPct, 1)}%</td>
+                <td className={`py-1.5 px-2 text-right font-semibold ${row.fullPeriodCagrPct >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
+                  {fmtN(row.fullPeriodCagrPct, 1)}%
+                </td>
+                {row.cells.map((cell) => (
+                  <td
+                    key={cell.fy}
+                    className="text-center font-semibold"
+                    style={{
+                      background: colorFor(cell.yoyPatGrowthPct),
+                      color: '#f8fafc',
+                      padding: '6px 4px',
+                      minWidth: 56,
+                    }}
+                    title={`${row.sector} ${cell.fy}: ${cell.yoyPatGrowthPct.toFixed(1)}% YoY`}
+                  >
+                    {fmtN(cell.yoyPatGrowthPct, 0)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * NEW: MagicFormulaCard — Greenblatt's combined-rank screen
+ * ════════════════════════════════════════════════════════════════════════ */
+function MagicFormulaCard({
+  rows,
+  onSelect,
+}: {
+  rows: MagicFormulaScore[];
+  onSelect: (id: string) => void;
+}) {
+  if (rows.length === 0) return null;
+  const top = rows.slice(0, 12);
+  const chartData = top.map((r) => ({
+    name: r.ticker,
+    capEff: r.capitalEfficiencyPct,
+    yld: r.earningsYieldPct,
+    combined: r.rankCombined,
+  }));
+
+  return (
+    <div className="premium-card p-5">
+      <div className="flex items-start justify-between mb-4 flex-wrap gap-2">
+        <div>
+          <h3 className="text-sm font-semibold text-white">Magic Formula Screen — Top 12</h3>
+          <p className="text-[11px] text-gray-500 mt-0.5">
+            Greenblatt&apos;s combined rank of capital efficiency (ROCE / ROE) + earnings yield (E/P or ROE/PB).
+            Lowest combined rank = best business at the fairest price.
+          </p>
+        </div>
+        <span className="pill pill-muted">screened across {rows.length} names</span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="overflow-x-auto">
+          <table className="w-full text-[11px] tabular-nums">
+            <thead>
+              <tr className="text-gray-500 border-b border-border/50">
+                <th className="text-left py-2">#</th>
+                <th className="text-left py-2">Name</th>
+                <th className="text-left py-2">Sector</th>
+                <th className="text-right py-2">Cap. Eff.</th>
+                <th className="text-right py-2">E/Yield</th>
+                <th className="text-right py-2">Σ rank</th>
+              </tr>
+            </thead>
+            <tbody>
+              {top.map((r, idx) => (
+                <tr
+                  key={r.id}
+                  className="border-b border-border/30 cursor-pointer hover:bg-white/5 transition"
+                  onClick={() => onSelect(r.id)}
+                >
+                  <td className="py-1.5 text-[color:var(--color-gold-light)] font-bold">{idx + 1}</td>
+                  <td className="py-1.5 text-gray-100">
+                    <div className="font-semibold text-[12px]">{r.name}</div>
+                    <div className="text-[10px] text-gray-500 font-mono">{r.ticker}</div>
+                  </td>
+                  <td className="py-1.5 text-gray-400 text-[10px]">{r.sector}</td>
+                  <td className="py-1.5 text-right text-emerald-300 font-semibold">{fmtN(r.capitalEfficiencyPct, 1)}%</td>
+                  <td className="py-1.5 text-right text-amber-200 font-semibold">{fmtN(r.earningsYieldPct, 1)}%</td>
+                  <td className="py-1.5 text-right text-white font-bold">{r.rankCombined}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <ResponsiveContainer width="100%" height={320}>
+          <ScatterChart margin={{ top: 12, right: 16, bottom: 36, left: 8 }}>
+            <CartesianGrid strokeDasharray="2 4" stroke="#1c2940" />
+            <XAxis
+              type="number" dataKey="capEff" name="Capital Efficiency"
+              tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false}
+              label={{ value: 'Capital Efficiency (ROCE / ROE %)', position: 'bottom', offset: 18, fill: '#94a3b8', fontSize: 11 }}
+            />
+            <YAxis
+              type="number" dataKey="yld" name="Earnings Yield"
+              tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false}
+              label={{ value: 'Earnings Yield (%)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }}
+            />
+            <ZAxis type="number" dataKey="combined" range={[280, 60]} />
+            <Tooltip
+              cursor={{ strokeDasharray: '3 3', stroke: '#475569' }}
+              content={<ChartTooltip />}
+            />
+            <Scatter data={chartData} fill="#d4a843">
+              {chartData.map((_, i) => (
+                <Cell key={i} fill="#d4a843" />
+              ))}
+            </Scatter>
+          </ScatterChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
