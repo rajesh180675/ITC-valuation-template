@@ -41,7 +41,7 @@ export function RalphPayoffChart({ payoff }: { payoff: StrategyPayoff }) {
           <XAxis dataKey="spot" tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={v => `${v}%`} />
           <YAxis tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={v => `${v}%`} domain={[payoff.maxLossPct - 2, payoff.maxProfitPct + 2]} />
           <Tooltip
-            formatter={(value: number) => [`${Number(value).toFixed(2)}%`, 'P&L']}
+            formatter={value => [`${Number(value ?? 0).toFixed(2)}%`, 'P&L']}
             labelFormatter={label => `Spot: ${label}%`}
             contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }}
           />

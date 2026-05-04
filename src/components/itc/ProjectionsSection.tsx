@@ -74,8 +74,8 @@ export function ProjectionsSection({
   const allData = [...historicalData, ...projections];
   const projectStartYear = historicalData[historicalData.length - 1].year;
   const dcfSnapshot = useMemo(
-    () => calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth),
-    [projections, assumptions.wacc, assumptions.terminalGrowth],
+    () => calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth, { valuationDateNetDebt: latest.netDebt }),
+    [projections, assumptions.wacc, assumptions.terminalGrowth, latest.netDebt],
   );
   const dynamicSotp = useMemo(
     () => calculateDynamicSotpSummary(projectionDetails, sotpData, assumptions.conglomerateDiscount),

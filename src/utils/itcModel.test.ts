@@ -61,7 +61,9 @@ describe('generateProjectionDetails', () => {
 describe('calculateDCF', () => {
   it('returns a valid discounted cash flow valuation and diagnostics for finite inputs', () => {
     const projections = generateProjections(defaultAssumptions, latest);
-    const result = calculateDCF(projections, defaultAssumptions.wacc, defaultAssumptions.terminalGrowth);
+    const result = calculateDCF(projections, defaultAssumptions.wacc, defaultAssumptions.terminalGrowth, {
+      valuationDateNetDebt: latest.netDebt,
+    });
 
     expect(result.isValid).toBe(true);
     expect(result.validationErrors).toEqual([]);
@@ -70,6 +72,15 @@ describe('calculateDCF', () => {
     expect(result.terminalValue).toBeGreaterThan(result.pvTerminalValue);
     expect(result.terminalValueWeight).toBeGreaterThan(0);
     expect(result.impliedExitEbitdaMultiple).toBeGreaterThan(0);
+  });
+
+  it('bridges DCF equity value from valuation-date net cash instead of terminal projected cash', () => {
+    const projections = generateProjections(defaultAssumptions, latest);
+    const result = calculateDCF(projections, defaultAssumptions.wacc, defaultAssumptions.terminalGrowth, {
+      valuationDateNetDebt: latest.netDebt,
+    });
+
+    expect(result.equityValue - result.enterpriseValue).toBeCloseTo(Math.abs(latest.netDebt), -1);
   });
 
   it('rejects empty projections and terminal growth that exceeds WACC', () => {
@@ -81,6 +92,14 @@ describe('calculateDCF', () => {
     expect(invalidGrowth.isValid).toBe(false);
     expect(invalidGrowth.validationErrors).toContain('Terminal growth must stay below WACC.');
   });
+
+  it('keeps projected EPS in rupees per share without crore-unit inflation', () => {
+    const [firstProjection] = generateProjections(defaultAssumptions, latest);
+
+    expect(firstProjection.eps).toBeCloseTo(firstProjection.netProfit / 1245, 0);
+    expect(firstProjection.eps).toBeLessThan(100);
+  });
+
 });
 
 describe('calculateDynamicSotpSummary', () => {

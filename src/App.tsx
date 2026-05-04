@@ -668,12 +668,12 @@ function TaxAnalyzer() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function Valuation({ assumptions }: { assumptions: ProjectionAssumptions }) {
   const [tab, setTab] = useState<'sotp' | 'dcf'>('sotp');
-  const [dcfWacc, setDcfWacc] = useState(10.5);
-  const [dcfTerminal, setDcfTerminal] = useState(5.5);
+  const [dcfWacc, setDcfWacc] = useState(assumptions.wacc);
+  const [dcfTerminal, setDcfTerminal] = useState(assumptions.terminalGrowth);
 
   const latest = historicalData[historicalData.length - 1];
   const projections = useMemo(() => generateProjections(assumptions, latest), [assumptions, latest]);
-  const dcfResult = useMemo(() => calculateDCF(projections, dcfWacc, dcfTerminal), [projections, dcfWacc, dcfTerminal]);
+  const dcfResult = useMemo(() => calculateDCF(projections, dcfWacc, dcfTerminal, { valuationDateNetDebt: latest.netDebt }), [projections, dcfWacc, dcfTerminal, latest.netDebt]);
   const sotpSummary = useMemo(() => calculateSotpSummary(sotpData, latest), [latest]);
   const {
     totalBase: totalSotpBase,
@@ -800,7 +800,7 @@ function Valuation({ assumptions }: { assumptions: ProjectionAssumptions }) {
             <div className="lg:col-span-2 grid grid-cols-3 gap-3">
               <MetricCard title="Enterprise Value" value={dcfResult.isValid ? fmt(dcfResult.enterpriseValue) : '—'} subtitle="PV of all cash flows" color="blue" />
               <MetricCard title="Equity Value" value={dcfResult.isValid ? fmt(dcfResult.equityValue) : '—'} subtitle="+ Net cash" color="green" />
-              <MetricCard title="Fair Value / Share" value={dcfResult.isValid ? rupee(dcfResult.perShareValue) : '—'} subtitle={`₹{${sharesOutstanding} Cr shares}`} color="gold" />
+              <MetricCard title="Fair Value / Share" value={dcfResult.isValid ? rupee(dcfResult.perShareValue) : '—'} subtitle={`${sharesOutstanding} Cr shares`} color="gold" />
             </div>
           </div>
 
@@ -905,7 +905,7 @@ function Projections({ assumptions, setAssumptions }: {
     { key: 'fmcgRevenueGrowth', label: 'FMCG Rev Growth %', min: 5, max: 20, step: 0.5, color: 'text-blue-400' },
     { key: 'cigaretteEbitMargin', label: 'Cigarette EBIT Margin %', min: 55, max: 72, step: 1, color: 'text-yellow-400' },
     { key: 'fmcgEbitdaMargin', label: 'FMCG EBITDA Margin %', min: 5, max: 22, step: 0.5, color: 'text-purple-400' },
-    { key: 'annualNccdHike', label: 'Annual NCCD Hike %', min: 0, max: 25, step: 1, color: 'text-red-400' },
+    { key: 'annualNccdHike', label: 'Annual NCCD Hike Impact %', min: 0, max: 25, step: 1, color: 'text-red-400' },
     { key: 'taxRate', label: 'Effective Tax Rate %', min: 20, max: 30, step: 0.5, color: 'text-orange-400' },
   ];
 

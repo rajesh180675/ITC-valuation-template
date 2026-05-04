@@ -103,7 +103,17 @@ export function PortfolioTab() {
         <RalphCard title="Sector Concentration">
           <ResponsiveContainer width="100%" height={280}>
             <PieChart>
-              <Pie data={sectorData} dataKey="weight" nameKey="sector" innerRadius={55} outerRadius={95} label={({ sector, weight }) => `${sector}: ${weight}%`}>
+              <Pie
+                data={sectorData}
+                dataKey="weight"
+                nameKey="sector"
+                innerRadius={55}
+                outerRadius={95}
+                label={entry => {
+                  const payload = entry.payload as { sector?: string; weight?: number } | undefined;
+                  return `${payload?.sector ?? ''}: ${payload?.weight ?? 0}%`;
+                }}
+              >
                 {sectorData.map((_, index) => <Cell key={index} fill={COLORS[index % COLORS.length]} />)}
               </Pie>
               <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937' }} />

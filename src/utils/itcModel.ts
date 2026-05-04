@@ -1,4 +1,4 @@
-import type { ProjectionAssumptions, SOTPValuation, YearlyData } from '@/data/itcData';
+import type { PeerMultiple, ProjectionAssumptions, SOTPValuation, ValuationScenario, YearlyData } from '@/data/itcData';
 import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
 import { sharesOutstanding } from '@/data/itcData';
 
@@ -653,7 +653,7 @@ export function calculateDCF(
   projections: YearlyData[],
   wacc: number,
   terminalGrowth: number,
-  options: { midYearConvention?: boolean } = {},
+  options: { midYearConvention?: boolean; valuationDateNetDebt?: number } = {},
 ): DCFResult {
   const validationErrors: string[] = [];
   const midYearConvention = options.midYearConvention ?? false;
@@ -711,7 +711,8 @@ export function calculateDCF(
   const terminalT = midYearConvention ? projections.length - 0.5 : projections.length;
   const terminalPvFactor = Math.pow(1 + wacc / 100, terminalT);
   const pvTerminalValue = terminalValue / terminalPvFactor;
-  const netCash = lastProjection.netDebt < 0 ? Math.abs(lastProjection.netDebt) : -lastProjection.netDebt;
+  const netDebtForEquityBridge = options.valuationDateNetDebt ?? lastProjection.netDebt;
+  const netCash = netDebtForEquityBridge < 0 ? Math.abs(netDebtForEquityBridge) : -netDebtForEquityBridge;
   const enterpriseValue = totalPV + pvTerminalValue;
   const equityValue = enterpriseValue + netCash;
   const perShareValue = equityValue / sharesOutstanding;
@@ -813,6 +814,7 @@ export function buildDcfSensitivity(
   projections: YearlyData[],
   baseWacc: number,
   baseTerminalGrowth: number,
+  valuationDateNetDebt?: number,
 ): SensitivityPoint[] {
   const points: SensitivityPoint[] = [];
   const waccValues = [
@@ -828,7 +830,7 @@ export function buildDcfSensitivity(
 
   for (const terminalGrowth of terminalValues) {
     for (const wacc of waccValues) {
-      const result = calculateDCF(projections, wacc, terminalGrowth);
+      const result = calculateDCF(projections, wacc, terminalGrowth, { valuationDateNetDebt });
       points.push({
         wacc,
         terminalGrowth,
@@ -894,7 +896,7 @@ export function runScenarioAnalysis(
     try {
       const details = generateProjectionDetails(assumptions, baseData);
       const projections = details.map(d => d.summary);
-      const dcf = calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth);
+      const dcf = calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth, { valuationDateNetDebt: baseData.netDebt });
       const sotp = calculateDynamicSotpSummary(details, sotpTemplate, assumptions.conglomerateDiscount);
       const dcfPerShare = dcf.isValid ? dcf.perShareValue : 0;
       const sotpPerShare = sotp.perShareBase;
@@ -1014,7 +1016,7 @@ export function runMonteCarloSimulation(
 
     try {
       const projections = generateProjections(sampled, baseData);
-      const dcf = calculateDCF(projections, sampled.wacc, sampled.terminalGrowth);
+      const dcf = calculateDCF(projections, sampled.wacc, sampled.terminalGrowth, { valuationDateNetDebt: baseData.netDebt });
       if (dcf.isValid) {
         values.push(dcf.perShareValue);
       }
@@ -1087,7 +1089,7 @@ export function calculateReverseDCF(
     const assumptions = { ...baseAssumptions, cigaretteRevenueGrowth: g };
     try {
       const projections = generateProjections(assumptions, baseData);
-      const dcf = calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth);
+      const dcf = calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth, { valuationDateNetDebt: baseData.netDebt });
       return dcf.isValid ? dcf.perShareValue : NaN;
     } catch {
       return NaN;

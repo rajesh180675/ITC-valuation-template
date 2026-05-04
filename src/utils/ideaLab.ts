@@ -187,7 +187,7 @@ export function buildIdeaLabReport(
   const latest = historicalData[historicalData.length - 1];
   const prior = historicalData[historicalData.length - 2];
   const projections = generateProjections(assumptions, latest);
-  const dcf = calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth);
+  const dcf = calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth, { valuationDateNetDebt: latest.netDebt });
   const scenario = runScenarioAnalysis(assumptions, latest, sotpData, valuationScenarios, currentMarketPrice);
   const pillars = buildInvestmentPillars(latest, prior, assumptions);
   const riskRegister = buildRiskRegister(assumptions);

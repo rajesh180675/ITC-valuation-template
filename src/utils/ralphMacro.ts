@@ -41,13 +41,15 @@ export function runMacroScenario(scenario: MacroScenario): MacroShockResult[] {
     }
     const epsImpactPct = round(totalImpact);
     const abs = Math.abs(epsImpactPct);
+    const direction: MacroShockResult['direction'] = epsImpactPct > 0.5 ? 'positive' : epsImpactPct < -0.5 ? 'negative' : 'neutral';
+    const magnitude: MacroShockResult['magnitude'] = abs > 5 ? 'high' : abs > 2 ? 'medium' : 'low';
     return {
       companyId: profile.id,
       companyName: profile.name,
       sector: profile.sector,
       epsImpactPct,
-      direction: epsImpactPct > 0.5 ? 'positive' : epsImpactPct < -0.5 ? 'negative' : 'neutral',
-      magnitude: abs > 5 ? 'high' : abs > 2 ? 'medium' : 'low',
+      direction,
+      magnitude,
     };
   }).sort((a, b) => b.epsImpactPct - a.epsImpactPct);
 }

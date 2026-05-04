@@ -29,16 +29,16 @@ export function ValuationSection({
   );
   const projections = projectionDetails.map(detail => detail.summary);
   const dcfResult = useMemo(
-    () => calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth),
-    [projections, assumptions.wacc, assumptions.terminalGrowth],
+    () => calculateDCF(projections, assumptions.wacc, assumptions.terminalGrowth, { valuationDateNetDebt: latest.netDebt }),
+    [projections, assumptions.wacc, assumptions.terminalGrowth, latest.netDebt],
   );
   const dynamicSotp = useMemo(
     () => calculateDynamicSotpSummary(projectionDetails, sotpData, assumptions.conglomerateDiscount),
     [projectionDetails, assumptions.conglomerateDiscount],
   );
   const sensitivity = useMemo(
-    () => buildDcfSensitivity(projections, assumptions.wacc, assumptions.terminalGrowth),
-    [projections, assumptions.wacc, assumptions.terminalGrowth],
+    () => buildDcfSensitivity(projections, assumptions.wacc, assumptions.terminalGrowth, latest.netDebt),
+    [projections, assumptions.wacc, assumptions.terminalGrowth, latest.netDebt],
   );
   const sensitivityRows = [...new Set(sensitivity.map(point => point.terminalGrowth))].sort((a, b) => b - a);
   const sensitivityCols = [...new Set(sensitivity.map(point => point.wacc))].sort((a, b) => a - b);

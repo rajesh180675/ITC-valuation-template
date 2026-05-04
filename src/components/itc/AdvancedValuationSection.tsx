@@ -60,8 +60,8 @@ export function AdvancedValuationSection({ assumptions }: Props) {
   const baseProjections = useMemo(() => generateProjections(assumptions, latest), [assumptions, latest]);
   const baseProjectionDetails = useMemo(() => generateProjectionDetails(assumptions, latest), [assumptions, latest]);
   const baseDcf = useMemo(
-    () => calculateDCF(baseProjections, assumptions.wacc, assumptions.terminalGrowth),
-    [baseProjections, assumptions.wacc, assumptions.terminalGrowth],
+    () => calculateDCF(baseProjections, assumptions.wacc, assumptions.terminalGrowth, { valuationDateNetDebt: latest.netDebt }),
+    [baseProjections, assumptions.wacc, assumptions.terminalGrowth, latest.netDebt],
   );
   const dynamicSotp = useMemo(
     () => calculateDynamicSotpSummary(baseProjectionDetails, sotpData, assumptions.conglomerateDiscount),
@@ -310,7 +310,7 @@ function ReverseDcfTab({ assumptions, latest }: { assumptions: ProjectionAssumpt
     const points: Array<{ growth: number; perShare: number }> = [];
     for (let g = -5; g <= 12; g += 0.5) {
       const proj = generateProjections({ ...assumptions, cigaretteRevenueGrowth: g }, latest);
-      const dcf = calculateDCF(proj, assumptions.wacc, assumptions.terminalGrowth);
+      const dcf = calculateDCF(proj, assumptions.wacc, assumptions.terminalGrowth, { valuationDateNetDebt: latest.netDebt });
       points.push({ growth: g, perShare: dcf.perShareValue });
     }
     return points;
