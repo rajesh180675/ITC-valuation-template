@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "validate": "npm run typecheck && npm run test && npm run build",
     "preview": "vite preview",
-    "generate:nifty750": "node scripts/generate_nifty_750_10y.mjs"
+    "generate:nifty750": "node scripts/build_nifty_750_official.mjs",
+    "generate:nifty750:synthetic-demo": "node scripts/generate_nifty_750_10y.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",
