@@ -9,7 +9,7 @@ import {
   BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator,
   Target, Globe, BookOpen, Activity, ArrowUpRight, ArrowDownRight,
   Menu, X, Layers, Zap, Info, AlertTriangle, Brain, Building2, Briefcase, Database,
-  Cpu
+  Cpu, Coins, Scale, Clock, Grid3x3
   } from 'lucide-react';
 import {
   historicalData, taxEvents, segmentDataFY24, defaultAssumptions,
@@ -31,17 +31,27 @@ import { RalphSection } from './components/ralph/RalphSection';
 import { IdeaLabSection } from './components/itc/IdeaLabSection';
 import { DeepDive55YSection } from './components/deepdive/DeepDive55YSection';
 import { IndianITDeepDiveSection } from './components/itservices/IndianITDeepDiveSection';
+import { DividendSection } from './components/itc/DividendSection';
+import { CapitalAllocationSection } from './components/itc/CapitalAllocationSection';
+import { WorkingCapitalSection } from './components/itc/WorkingCapitalSection';
+import { BusinessModelSection } from './components/itc/BusinessModelSection';
+import { StockPerfSection } from './components/itc/StockPerfSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'ralph' | 'deepdive55y' | 'itDeepDive';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'ralph' | 'deepdive55y' | 'itDeepDive' | 'stockPerf' | 'businessModel' | 'dividend' | 'capitalAllocation' | 'workingCapital';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
 const NAV: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: <Activity size={18} /> },
+  { id: 'stockPerf', label: 'Stock Performance', icon: <TrendingUp size={18} /> },
   { id: 'financials', label: 'Financials', icon: <BarChart3 size={18} /> },
   { id: 'segments', label: 'Segments', icon: <PieIcon size={18} /> },
+  { id: 'businessModel', label: 'Business Model', icon: <Grid3x3 size={18} /> },
   { id: 'tax', label: 'Tax Analyzer', icon: <Shield size={18} /> },
+  { id: 'dividend', label: 'Dividends', icon: <Coins size={18} /> },
+  { id: 'capitalAllocation', label: 'Capital Allocation', icon: <Scale size={18} /> },
+  { id: 'workingCapital', label: 'Working Capital', icon: <Clock size={18} /> },
   { id: 'valuation', label: 'Valuation', icon: <Calculator size={18} /> },
   { id: 'advanced', label: 'Advanced Lab', icon: <Brain size={18} /> },
   { id: 'ideaLab', label: 'Idea Lab', icon: <Zap size={18} /> },
@@ -1342,9 +1352,14 @@ export default function App() {
   const renderSection = useCallback(() => {
     switch (section) {
       case 'dashboard': return <Dashboard />;
+      case 'stockPerf': return <StockPerfSection />;
       case 'financials': return <Financials />;
       case 'segments': return <Segments />;
+      case 'businessModel': return <BusinessModelSection />;
       case 'tax': return <TaxAnalyzer />;
+      case 'dividend': return <DividendSection />;
+      case 'capitalAllocation': return <CapitalAllocationSection />;
+      case 'workingCapital': return <WorkingCapitalSection />;
       case 'valuation': return <Valuation assumptions={assumptions} />;
       case 'advanced': return <AdvancedValuationSection assumptions={assumptions} />;
       case 'ideaLab': return <IdeaLabSection assumptions={assumptions} />;

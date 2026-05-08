@@ -1,5 +1,6 @@
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 export const fmt = (n: number) => {
   if (Math.abs(n) >= 100000) return `₹${(n / 100000).toFixed(2)}L Cr`;
@@ -65,6 +66,99 @@ export function SectionHeader({ title, subtitle, icon }: { title: string; subtit
         <h2 className="text-2xl font-bold text-white">{title}</h2>
       </div>
       <p className="text-gray-400 text-sm ml-12">{subtitle}</p>
+    </div>
+  );
+}
+
+// ─── Waterfall Chart ──────────────────────────────────────────────────────────
+
+export interface WaterfallBar {
+  label: string;
+  value: number;
+  isTotal: boolean;
+  color: string;
+}
+
+export function WaterfallChart({ data, title }: { data: WaterfallBar[]; title?: string }) {
+  // Build stacked bar data: invisible baseline + visible bar
+  let running = 0;
+  const chartData = data.map((bar) => {
+    if (bar.isTotal) {
+      const d = { label: bar.label, invisible: 0, visible: bar.value, total: bar.value };
+      running = bar.value;
+      return d;
+    }
+    const invisible = bar.value >= 0 ? running : running + bar.value;
+    const d = { label: bar.label, invisible, visible: Math.abs(bar.value), total: running + bar.value };
+    running = running + bar.value;
+    return d;
+  });
+
+  return (
+    <div className="glass-card p-4">
+      {title && <h3 className="text-sm font-medium text-gray-300 mb-3">{title}</h3>}
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={chartData} margin={{ top: 10, right: 20, bottom: 10, left: 20 }}>
+          <XAxis dataKey="label" tick={{ fill: '#9ca3af', fontSize: 11 }} />
+          <YAxis tick={{ fill: '#9ca3af', fontSize: 11 }} tickFormatter={(v: number) => v >= 1000 ? `${(v / 1000).toFixed(0)}K` : `${v}`} />
+          <Tooltip content={<ChartTooltip />} />
+          <Bar dataKey="invisible" stackId="stack" fill="transparent" />
+          <Bar dataKey="visible" stackId="stack" radius={[4, 4, 0, 0]}>
+            {data.map((bar, i) => (
+              <Cell key={i} fill={bar.color} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+// ─── Financial Heatmap ────────────────────────────────────────────────────────
+
+export interface HeatmapCell {
+  metric: string;
+  year: string;
+  value: number;
+  colorBand: 'green' | 'yellow' | 'red' | 'neutral';
+}
+
+export function FinancialHeatmap({ cells, years }: { cells: HeatmapCell[]; years: string[] }) {
+  const metrics = [...new Set(cells.map(c => c.metric))];
+  const bandColor: Record<string, string> = {
+    green: 'bg-emerald-500/30 text-emerald-300',
+    yellow: 'bg-yellow-500/30 text-yellow-300',
+    red: 'bg-red-500/30 text-red-300',
+    neutral: 'bg-gray-500/20 text-gray-300',
+  };
+
+  return (
+    <div className="glass-card overflow-x-auto">
+      <table className="w-full text-xs">
+        <thead>
+          <tr className="border-b border-border">
+            <th className="text-left p-2 text-gray-400 font-medium sticky left-0 bg-surface-2 z-10 min-w-[100px]">Metric</th>
+            {years.map(y => (
+              <th key={y} className="text-right p-2 text-gray-400 font-medium min-w-[60px]">{y}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {metrics.map(m => (
+            <tr key={m} className="border-b border-border/50 hover:bg-white/5">
+              <td className="text-left p-2 text-gray-300 sticky left-0 bg-surface-2 z-10">{m}</td>
+              {years.map(y => {
+                const cell = cells.find(c => c.metric === m && c.year === y);
+                return (
+                  <td key={y} className={`text-right p-2 font-mono ${cell ? bandColor[cell.colorBand] : ''}`}>
+                    {cell ? (Math.abs(cell.value) >= 1000 ? `${(cell.value / 1000).toFixed(1)}K` : cell.value.toFixed(1)) : '—'}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

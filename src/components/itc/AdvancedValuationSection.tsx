@@ -3,7 +3,7 @@ import {
   BarChart, Bar, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis,
   LineChart, Line, ReferenceLine, ComposedChart, Area, ScatterChart, Scatter, ZAxis, Cell,
 } from 'recharts';
-import { Brain, Dice5, Compass, GitCompare, Coins, TrendingUp, Layers, Info } from 'lucide-react';
+import { Brain, Dice5, Compass, GitCompare, Coins, TrendingUp, Layers, Info, BarChart3, Flame } from 'lucide-react';
 import {
   historicalData,
   sotpData,
@@ -12,6 +12,7 @@ import {
   currentMarketPrice,
   sharesOutstanding,
   type ProjectionAssumptions,
+  type YearlyData,
 } from '../../data/itcData';
 import {
   runScenarioAnalysis,
@@ -28,14 +29,16 @@ import {
   generateProjectionDetails,
   calculateDCF,
   calculateDynamicSotpSummary,
+  buildWaterfallBridge,
+  buildFinancialHeatmap,
 } from '../../utils/itcModel';
-import { ChartTooltip, MetricCard, SectionHeader, fmt, rupee } from './shared';
+import { ChartTooltip, MetricCard, SectionHeader, fmt, rupee, WaterfallChart, FinancialHeatmap } from './shared';
 
 interface Props {
   assumptions: ProjectionAssumptions;
 }
 
-type TabId = 'scenarios' | 'montecarlo' | 'reverse' | 'peers' | 'ddm' | 'eva' | 'blended';
+type TabId = 'scenarios' | 'montecarlo' | 'reverse' | 'peers' | 'ddm' | 'eva' | 'blended' | 'bridge' | 'heatmap';
 
 const TABS: Array<{ id: TabId; label: string; icon: React.ReactNode }> = [
   { id: 'scenarios', label: 'Scenarios', icon: <Brain size={14} /> },
@@ -45,6 +48,8 @@ const TABS: Array<{ id: TabId; label: string; icon: React.ReactNode }> = [
   { id: 'ddm', label: 'DDM', icon: <Coins size={14} /> },
   { id: 'eva', label: 'EVA / ROIC', icon: <TrendingUp size={14} /> },
   { id: 'blended', label: 'Blended Bridge', icon: <Layers size={14} /> },
+  { id: 'bridge', label: 'Rev Bridge', icon: <BarChart3 size={14} /> },
+  { id: 'heatmap', label: 'Heatmap', icon: <Flame size={14} /> },
 ];
 
 export function AdvancedValuationSection({ assumptions }: Props) {
@@ -95,6 +100,8 @@ export function AdvancedValuationSection({ assumptions }: Props) {
       {tab === 'peers' && <PeersTab />}
       {tab === 'ddm' && <DdmTab />}
       {tab === 'eva' && <EvaTab assumptions={assumptions} />}
+      {tab === 'bridge' && <RevenueBridgeTab assumptions={assumptions} latest={latest} />}
+      {tab === 'heatmap' && <HeatmapTab />}
       {tab === 'blended' && (
         <BlendedBridgeTab
           assumptions={assumptions}
@@ -888,6 +895,72 @@ function Slider({
         onChange={e => onChange(Number(e.target.value))}
         className="w-full"
       />
+    </div>
+  );
+}
+
+// ─── Revenue Bridge Tab ──────────────────────────────────────────────────────
+
+function RevenueBridgeTab({ assumptions, latest }: { assumptions: ProjectionAssumptions; latest: YearlyData }) {
+  const projectionDetails = useMemo(() => generateProjectionDetails(assumptions, latest), [assumptions, latest]);
+  const waterfallData = useMemo(() => buildWaterfallBridge(latest, projectionDetails), [latest, projectionDetails]);
+
+  const chartData: Array<{ label: string; value: number; isTotal: boolean; color: string }> = waterfallData.map(b => ({
+    label: b.label,
+    value: b.value,
+    isTotal: b.isTotal,
+    color: b.color,
+  }));
+
+  return (
+    <div className="space-y-4">
+      <WaterfallChart data={chartData} title="Revenue Bridge: FY Base → FY Terminal" />
+      <div className="glass-card p-4">
+        <h3 className="text-sm font-medium text-gray-300 mb-3">Bridge Summary</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left p-2 text-gray-400">Component</th>
+                <th className="text-right p-2 text-gray-400">₹ Cr</th>
+                <th className="text-right p-2 text-gray-400">% of Base</th>
+              </tr>
+            </thead>
+            <tbody>
+              {waterfallData.map((b, i) => (
+                <tr key={i} className={`border-b border-border/50 ${b.isTotal ? 'font-bold text-white' : ''}`}>
+                  <td className="p-2 text-gray-300">{b.label}</td>
+                  <td className="p-2 text-right text-gray-300">{fmt(b.value)}</td>
+                  <td className="p-2 text-right text-gray-300">
+                    {waterfallData[0] ? ((b.value / waterfallData[0].value) * 100).toFixed(1) : '—'}%
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Heatmap Tab ──────────────────────────────────────────────────────────────
+
+function HeatmapTab() {
+  const heatmapData = useMemo(() => buildFinancialHeatmap(historicalData), []);
+  const years = historicalData.map(d => d.fy);
+
+  return (
+    <div className="space-y-4">
+      <div className="glass-card p-4">
+        <h3 className="text-sm font-medium text-gray-300 mb-2">Financial Performance Heatmap</h3>
+        <p className="text-xs text-gray-500 mb-4">
+          Color-coded grid: <span className="text-emerald-400">green</span> = top third,
+          <span className="text-yellow-400 ml-1">yellow</span> = middle third,
+          <span className="text-red-400 ml-1">red</span> = bottom third across FY2012–FY2025
+        </p>
+        <FinancialHeatmap cells={heatmapData} years={years} />
+      </div>
     </div>
   );
 }

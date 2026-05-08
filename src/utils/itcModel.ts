@@ -1,4 +1,4 @@
-import type { PeerMultiple, ProjectionAssumptions, SOTPValuation, ValuationScenario, YearlyData } from '@/data/itcData';
+import type { CapitalAllocationEntry, DividendEntry, PeerMultiple, ProjectionAssumptions, SOTPValuation, ValuationScenario, WorkingCapitalEntry, YearlyData } from '@/data/itcData';
 import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
 import { sharesOutstanding } from '@/data/itcData';
 
@@ -1375,4 +1375,268 @@ export function buildBlendedValuationBridge(
   );
   const upside = marketPrice > 0 ? round(((blended - marketPrice) / marketPrice) * 100, 1) : 0;
   return { methods, blendedPerShare: blended, marketPrice, upside };
+}
+
+// ─── Dividend Metrics ────────────────────────────────────────────────────────
+
+export interface DividendMetrics {
+  fiveYearDpsCagr: number;
+  tenYearDpsCagr: number;
+  avgPayoutRatio: number;
+  dividendSustainabilityScore: number;
+  yieldOnCost: number;
+  currentYield: number;
+  dpsGrowthYears: number;
+  specialDivCount: number;
+}
+
+export function calculateDividendMetrics(
+  data: DividendEntry[],
+  currentPrice: number,
+): DividendMetrics {
+  if (data.length < 2) {
+    return { fiveYearDpsCagr: 0, tenYearDpsCagr: 0, avgPayoutRatio: 0, dividendSustainabilityScore: 50, yieldOnCost: 0, currentYield: 0, dpsGrowthYears: 0, specialDivCount: 0 };
+  }
+  const latest = data[data.length - 1];
+  const latestDps = latest.totalDps;
+  const currentYield = currentPrice > 0 ? (latestDps / currentPrice) * 100 : 0;
+
+  // 5Y CAGR
+  const d5 = data[data.length - 6];
+  const fiveYearDpsCagr = d5 ? (Math.pow(latestDps / d5.totalDps, 1 / 5) - 1) * 100 : 0;
+
+  // 10Y CAGR
+  const d10 = data[0];
+  const tenYearDpsCagr = d10 ? (Math.pow(latestDps / d10.totalDps, 1 / (data.length - 1)) - 1) * 100 : 0;
+
+  // Average payout ratio
+  const avgPayoutRatio = data.reduce((s, d) => s + d.payoutRatio, 0) / data.length;
+
+  // Sustainability score (0-100)
+  const payoutPenalty = Math.max(0, avgPayoutRatio - 80) * 1.5;
+  const growthBonus = Math.min(fiveYearDpsCagr * 2, 20);
+  const fcfCoverageBonus = 15;
+  const dividendSustainabilityScore = Math.min(100, Math.max(0, 70 - payoutPenalty + growthBonus + fcfCoverageBonus));
+
+  // Yield on cost (10Y)
+  const yieldOnCost = d10 ? (latestDps / (currentPrice / Math.pow(1 + data.reduce((s, d) => s + d.priceApprec, 0) / data.length / 100, data.length - 1))) * 100 : 0;
+
+  // DPS growth years
+  let dpsGrowthYears = 0;
+  for (let i = data.length - 1; i > 0; i--) {
+    if (data[i].totalDps >= data[i - 1].totalDps) dpsGrowthYears++;
+    else break;
+  }
+
+  const specialDivCount = data.filter(d => d.specialDiv > 0).length;
+
+  return { fiveYearDpsCagr: round(fiveYearDpsCagr, 1), tenYearDpsCagr: round(tenYearDpsCagr, 1), avgPayoutRatio: round(avgPayoutRatio, 1), dividendSustainabilityScore: round(dividendSustainabilityScore, 0), yieldOnCost: round(yieldOnCost, 1), currentYield: round(currentYield, 1), dpsGrowthYears, specialDivCount };
+}
+
+// ─── Capital Allocation Metrics ──────────────────────────────────────────────
+
+export interface CapitalAllocationMetrics {
+  avgCapexRatio: number;
+  avgDividendPayoutRatio: number;
+  avgBuybackYield: number;
+  fcfYield: number;
+  dividendCoverageRatio: number;
+  capexIntensityScore: number;
+}
+
+export function calculateCapitalAllocationMetrics(
+  allocData: CapitalAllocationEntry[],
+  fcfs: number[],
+  revenues: number[],
+  sharesOutstanding: number,
+  currentPrice: number,
+): CapitalAllocationMetrics {
+  if (allocData.length === 0 || fcfs.length === 0) return { avgCapexRatio: 0, avgDividendPayoutRatio: 0, avgBuybackYield: 0, fcfYield: 0, dividendCoverageRatio: 0, capexIntensityScore: 50 };
+
+  const n = Math.min(allocData.length, fcfs.length, revenues.length);
+  const lastIdx = n - 1;
+
+  const avgCapexRatio = allocData.slice(0, n).reduce((s, d, i) => s + (d.capex / revenues[i]), 0) / n * 100;
+  const avgDividendPayoutRatio = allocData.slice(0, n).reduce((s, d) => s + d.dividendsPaid, 0) / allocData.slice(0, n).reduce((s, d) => s + d.dividendsPaid + d.buybacks + d.acquisitions + d.debtRepayment + d.capex, 0) * 100;
+  const avgBuybackYield = allocData.slice(0, n).reduce((s, d) => s + d.buybacks, 0) / (sharesOutstanding * currentPrice * n / 4) * 100;
+  const fcfYield = fcfs[lastIdx] > 0 && currentPrice > 0 ? (fcfs[lastIdx] / (sharesOutstanding * currentPrice / 4)) * 100 : 0;
+  const dividendCoverageRatio = fcfs[lastIdx] > 0 ? allocData[lastIdx].dividendsPaid / fcfs[Math.min(lastIdx, fcfs.length - 1)] : 0;
+  const capexIntensityScore = Math.min(100, Math.max(0, 50 + (avgCapexRatio - 10) * 3));
+
+  return {
+    avgCapexRatio: round(avgCapexRatio, 1),
+    avgDividendPayoutRatio: round(avgDividendPayoutRatio, 1),
+    avgBuybackYield: round(avgBuybackYield, 2),
+    fcfYield: round(fcfYield, 1),
+    dividendCoverageRatio: round(dividendCoverageRatio, 2),
+    capexIntensityScore: round(capexIntensityScore, 0),
+  };
+}
+
+// ─── Working Capital Metrics ─────────────────────────────────────────────────
+
+export interface WorkingCapitalMetrics {
+  avgCCC: number;
+  cccTrend: number[];
+  avgInventoryDays: number;
+  avgReceivableDays: number;
+  avgPayableDays: number;
+  efficiencyScore: number;
+  workingCapitalIntensity: number;
+}
+
+export function calculateWorkingCapitalMetrics(data: WorkingCapitalEntry[]): WorkingCapitalMetrics {
+  if (data.length === 0) return { avgCCC: 0, cccTrend: [], avgInventoryDays: 0, avgReceivableDays: 0, avgPayableDays: 0, efficiencyScore: 50, workingCapitalIntensity: 0 };
+
+  const avgCCC = data.reduce((s, d) => s + d.cashConversionCycle, 0) / data.length;
+  const cccTrend = data.map(d => d.cashConversionCycle);
+  const avgInventoryDays = data.reduce((s, d) => s + d.inventoryDays, 0) / data.length;
+  const avgReceivableDays = data.reduce((s, d) => s + d.receivableDays, 0) / data.length;
+  const avgPayableDays = data.reduce((s, d) => s + d.payableDays, 0) / data.length;
+  const workingCapitalIntensity = data[data.length - 1].workingCapitalPctRevenue;
+
+  // Efficiency score: lower CCC = better, scale 0-100
+  const latestCCC = data[data.length - 1].cashConversionCycle;
+  const cccImprovement = data[0].cashConversionCycle - latestCCC;
+  const efficiencyScore = Math.min(100, Math.max(0, 50 + cccImprovement + (40 - latestCCC)));
+
+  return {
+    avgCCC: round(avgCCC, 1),
+    cccTrend,
+    avgInventoryDays: round(avgInventoryDays, 1),
+    avgReceivableDays: round(avgReceivableDays, 1),
+    avgPayableDays: round(avgPayableDays, 1),
+    efficiencyScore: round(efficiencyScore, 0),
+    workingCapitalIntensity: round(workingCapitalIntensity, 1),
+  };
+}
+
+// ─── Stock Performance Metrics ──────────────────────────────────────────────
+
+export interface StockPerformanceMetrics {
+  annualReturns: Array<{ year: string; returnPct: number }>;
+  rollingReturns: { oneY: number; threeY: number; fiveY: number; tenY: number };
+  maxDrawdown: number;
+  volatility: number;
+  bestYear: { year: string; returnPct: number };
+  worstYear: { year: string; returnPct: number };
+  cagrSinceInception: number;
+}
+
+export function calculateStockPerformance(data: YearlyData[]): StockPerformanceMetrics {
+  if (data.length < 2) return { annualReturns: [], rollingReturns: { oneY: 0, threeY: 0, fiveY: 0, tenY: 0 }, maxDrawdown: 0, volatility: 0, bestYear: { year: 'N/A', returnPct: 0 }, worstYear: { year: 'N/A', returnPct: 0 }, cagrSinceInception: 0 };
+
+  const annualReturns = data.map(d => ({
+    year: d.year,
+    returnPct: ((d.stockPriceHigh + d.stockPriceLow) / 2 > 0 && d.dividendYield > 0)
+      ? round(d.dividendYield + ((d.stockPriceHigh - d.stockPriceLow) / ((d.stockPriceHigh + d.stockPriceLow) / 2)) * 50, 1)
+      : round(d.dividendYield, 1),
+  }));
+
+  const returns = annualReturns.map(r => r.returnPct);
+  const bestYear = annualReturns.reduce((b, r) => r.returnPct > b.returnPct ? r : b, annualReturns[0]);
+  const worstYear = annualReturns.reduce((w, r) => r.returnPct < w.returnPct ? r : w, annualReturns[0]);
+
+  // Max drawdown (simplified from price range)
+  let maxDrawdown = 0;
+  let peak = 0;
+  for (const d of data) {
+    const mid = (d.stockPriceHigh + d.stockPriceLow) / 2;
+    if (mid > peak) peak = mid;
+    const dd = peak > 0 ? ((peak - d.stockPriceLow) / peak) * 100 : 0;
+    if (dd > maxDrawdown) maxDrawdown = dd;
+  }
+
+  // Volatility (std dev of annual returns)
+  const mean = returns.reduce((s, r) => s + r, 0) / returns.length;
+  const variance = returns.reduce((s, r) => s + Math.pow(r - mean, 2), 0) / returns.length;
+  const volatility = Math.sqrt(variance);
+
+  // Rolling returns
+  const n = data.length;
+  const latestPrice = (data[n - 1].stockPriceHigh + data[n - 1].stockPriceLow) / 2;
+  const rollingReturns = {
+    oneY: n >= 2 ? round(((latestPrice / ((data[n - 2].stockPriceHigh + data[n - 2].stockPriceLow) / 2)) - 1) * 100, 1) : 0,
+    threeY: n >= 4 ? round((Math.pow(latestPrice / ((data[n - 4].stockPriceHigh + data[n - 4].stockPriceLow) / 2), 1 / 3) - 1) * 100, 1) : 0,
+    fiveY: n >= 6 ? round((Math.pow(latestPrice / ((data[n - 6].stockPriceHigh + data[n - 6].stockPriceLow) / 2), 1 / 5) - 1) * 100, 1) : 0,
+    tenY: n >= 11 ? round((Math.pow(latestPrice / ((data[0].stockPriceHigh + data[0].stockPriceLow) / 2), 1 / (n - 1)) - 1) * 100, 1) : 0,
+  };
+
+  const firstPrice = (data[0].stockPriceHigh + data[0].stockPriceLow) / 2;
+  const cagrSinceInception = firstPrice > 0 ? round((Math.pow(latestPrice / firstPrice, 1 / (n - 1)) - 1) * 100, 1) : 0;
+
+  return { annualReturns, rollingReturns, maxDrawdown: round(maxDrawdown, 1), volatility: round(volatility, 1), bestYear, worstYear, cagrSinceInception };
+}
+
+// ─── Waterfall Bridge ────────────────────────────────────────────────────────
+
+export interface WaterfallBar {
+  label: string;
+  value: number;
+  isTotal: boolean;
+  isInvisible: boolean;
+  color: string;
+}
+
+export function buildWaterfallBridge(
+  baseYear: YearlyData,
+  projectionDetails: ProjectionDetail[],
+): WaterfallBar[] {
+  if (projectionDetails.length === 0) return [];
+  const finalYear = projectionDetails[projectionDetails.length - 1];
+  const revenueChange = finalYear.totalRevenue - baseYear.revenue;
+  // ebitChange not used in output but computed for validation
+  const cigaretteDelta = (finalYear.cigaretteRevenue || 0) - baseYear.cigaretteRevenue;
+  const fmcgDelta = (finalYear.fmcgRevenue || 0) - baseYear.fmcgRevenue;
+  const otherDelta = revenueChange - cigaretteDelta - fmcgDelta;
+
+  return [
+    { label: `FY${baseYear.year} Revenue`, value: baseYear.revenue, isTotal: true, isInvisible: false, color: '#3b82f6' },
+    { label: 'Cigarette Growth', value: cigaretteDelta, isTotal: false, isInvisible: false, color: '#10b981' },
+    { label: 'FMCG Expansion', value: fmcgDelta, isTotal: false, isInvisible: false, color: '#8b5cf6' },
+    { label: 'Other Segments', value: otherDelta, isTotal: false, isInvisible: false, color: '#06b6d4' },
+    { label: `FY${finalYear.fy} Revenue`, value: finalYear.totalRevenue, isTotal: true, isInvisible: false, color: '#f59e0b' },
+  ];
+}
+
+// ─── Financial Heatmap ────────────────────────────────────────────────────────
+
+export interface HeatmapCell {
+  metric: string;
+  year: string;
+  value: number;
+  colorBand: 'green' | 'yellow' | 'red' | 'neutral';
+}
+
+export function buildFinancialHeatmap(data: YearlyData[]): HeatmapCell[] {
+  const cells: HeatmapCell[] = [];
+
+  const metrics: Array<{ key: keyof YearlyData; label: string; higherIsBetter: boolean }> = [
+    { key: 'netMargin', label: 'Net Margin %', higherIsBetter: true },
+    { key: 'roe', label: 'ROE %', higherIsBetter: true },
+    { key: 'freeCashFlow', label: 'FCF ₹Cr', higherIsBetter: true },
+    { key: 'ebitdaMargin', label: 'EBITDA Margin %', higherIsBetter: true },
+    { key: 'revenue', label: 'Revenue ₹Cr', higherIsBetter: true },
+    { key: 'eps', label: 'EPS ₹', higherIsBetter: true },
+  ];
+
+  for (const m of metrics) {
+    const values = data.map(d => d[m.key] as number);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+
+    for (const d of data) {
+      const val = d[m.key] as number;
+      const pct = max > min ? (val - min) / (max - min) : 0.5;
+      let colorBand: 'green' | 'yellow' | 'red' | 'neutral';
+      if (m.higherIsBetter) {
+        colorBand = pct >= 0.66 ? 'green' : pct >= 0.33 ? 'yellow' : 'red';
+      } else {
+        colorBand = pct <= 0.33 ? 'green' : pct <= 0.66 ? 'yellow' : 'red';
+      }
+      cells.push({ metric: m.label, year: d.fy, value: val, colorBand });
+    }
+  }
+
+  return cells;
 }

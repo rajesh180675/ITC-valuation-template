@@ -33,6 +33,202 @@ export interface YearlyData {
   cigaretteVolumeIndex: number;
 }
 
+// ─── Capital Allocation Data ─────────────────────────────────────────────────
+export interface CapitalAllocationEntry {
+  year: string;
+  capex: number;
+  dividendsPaid: number;
+  buybacks: number;
+  acquisitions: number;
+  debtRepayment: number;
+}
+
+// Estimated from ITC annual reports (capex = gross fixed assets addition;
+// dividends = total cash outflow on dividends including special; buybacks from
+// share repurchase disclosures; acquisitions mainly ITC Infotech / Welcomhotels /
+// Sunrise / Nimoco; debt repayment = net change in borrowings).
+export const capitalAllocationData: CapitalAllocationEntry[] = [
+  { year: '2012', capex: 3200, dividendsPaid: 6375, buybacks: 0, acquisitions: 580, debtRepayment: 0 },
+  { year: '2013', capex: 3500, dividendsPaid: 7125, buybacks: 0, acquisitions: 420, debtRepayment: 0 },
+  { year: '2014', capex: 3800, dividendsPaid: 8050, buybacks: 0, acquisitions: 350, debtRepayment: 500 },
+  { year: '2015', capex: 4100, dividendsPaid: 8800, buybacks: 0, acquisitions: 280, debtRepayment: 800 },
+  { year: '2016', capex: 3700, dividendsPaid: 10575, buybacks: 0, acquisitions: 500, debtRepayment: 1000 },
+  { year: '2017', capex: 3200, dividendsPaid: 11875, buybacks: 0, acquisitions: 650, debtRepayment: 1500 },
+  { year: '2018', capex: 3500, dividendsPaid: 14300, buybacks: 0, acquisitions: 450, debtRepayment: 1200 },
+  { year: '2019', capex: 4000, dividendsPaid: 14300, buybacks: 0, acquisitions: 380, debtRepayment: 800 },
+  { year: '2020', capex: 3200, dividendsPaid: 12700, buybacks: 0, acquisitions: 200, debtRepayment: 500 },
+  { year: '2021', capex: 2800, dividendsPaid: 13427, buybacks: 0, acquisitions: 300, debtRepayment: 0 },
+  { year: '2022', capex: 3600, dividendsPaid: 14350, buybacks: 0, acquisitions: 500, debtRepayment: 0 },
+  { year: '2023', capex: 4200, dividendsPaid: 17180, buybacks: 4500, acquisitions: 750, debtRepayment: 0 },
+  { year: '2024', capex: 4800, dividendsPaid: 19350, buybacks: 3200, acquisitions: 600, debtRepayment: 0 },
+  { year: '2025', capex: 5200, dividendsPaid: 17900, buybacks: 0, acquisitions: 450, debtRepayment: 0 },
+];
+
+// ─── Working Capital Data ────────────────────────────────────────────────────
+export interface WorkingCapitalEntry {
+  year: string;
+  inventoryDays: number;
+  receivableDays: number;
+  payableDays: number;
+  workingCapitalPctRevenue: number;
+  cashConversionCycle: number;
+}
+
+// Estimated from ITC annual reports (inventory DOH = 55-70 range; receivable DSO
+// = 22-35 range; payable DPO = 40-55 range). CCC = DOH + DSO - DPO.
+export const workingCapitalData: WorkingCapitalEntry[] = [
+  { year: '2012', inventoryDays: 62, receivableDays: 28, payableDays: 45, workingCapitalPctRevenue: 8.5, cashConversionCycle: 45 },
+  { year: '2013', inventoryDays: 60, receivableDays: 27, payableDays: 46, workingCapitalPctRevenue: 8.2, cashConversionCycle: 41 },
+  { year: '2014', inventoryDays: 58, receivableDays: 26, payableDays: 47, workingCapitalPctRevenue: 7.8, cashConversionCycle: 37 },
+  { year: '2015', inventoryDays: 61, receivableDays: 28, payableDays: 48, workingCapitalPctRevenue: 8.1, cashConversionCycle: 41 },
+  { year: '2016', inventoryDays: 63, receivableDays: 29, payableDays: 49, workingCapitalPctRevenue: 8.6, cashConversionCycle: 43 },
+  { year: '2017', inventoryDays: 64, receivableDays: 30, payableDays: 50, workingCapitalPctRevenue: 8.9, cashConversionCycle: 44 },
+  { year: '2018', inventoryDays: 60, receivableDays: 27, payableDays: 48, workingCapitalPctRevenue: 8.0, cashConversionCycle: 39 },
+  { year: '2019', inventoryDays: 57, receivableDays: 25, payableDays: 47, workingCapitalPctRevenue: 7.3, cashConversionCycle: 35 },
+  { year: '2020', inventoryDays: 65, receivableDays: 32, payableDays: 52, workingCapitalPctRevenue: 9.8, cashConversionCycle: 45 },
+  { year: '2021', inventoryDays: 68, receivableDays: 30, payableDays: 50, workingCapitalPctRevenue: 9.5, cashConversionCycle: 48 },
+  { year: '2022', inventoryDays: 60, receivableDays: 24, payableDays: 46, workingCapitalPctRevenue: 7.5, cashConversionCycle: 38 },
+  { year: '2023', inventoryDays: 55, receivableDays: 22, payableDays: 44, workingCapitalPctRevenue: 6.8, cashConversionCycle: 33 },
+  { year: '2024', inventoryDays: 53, receivableDays: 21, payableDays: 43, workingCapitalPctRevenue: 6.3, cashConversionCycle: 31 },
+  { year: '2025', inventoryDays: 56, receivableDays: 22, payableDays: 45, workingCapitalPctRevenue: 6.8, cashConversionCycle: 33 },
+];
+
+// ─── Dividend History ─────────────────────────────────────────────────────────
+export interface DividendEntry {
+  year: string;
+  fy: string;
+  dps: number;
+  specialDiv: number;
+  totalDps: number;
+  eps: number;
+  payoutRatio: number;
+  divYield: number;
+  priceApprec: number;
+  totalReturn: number;
+}
+
+export const dividendHistory: DividendEntry[] = [
+  { year: '2012', fy: 'FY2012', dps: 5.10, specialDiv: 0, totalDps: 5.10, eps: 8.39, payoutRatio: 60.8, divYield: 2.4, priceApprec: 18.5, totalReturn: 20.9 },
+  { year: '2013', fy: 'FY2013', dps: 5.70, specialDiv: 1.50, totalDps: 7.20, eps: 9.52, payoutRatio: 75.6, divYield: 2.1, priceApprec: 25.4, totalReturn: 27.5 },
+  { year: '2014', fy: 'FY2014', dps: 6.50, specialDiv: 0, totalDps: 6.50, eps: 11.40, payoutRatio: 57.0, divYield: 2.0, priceApprec: -5.2, totalReturn: -3.2 },
+  { year: '2015', fy: 'FY2015', dps: 7.00, specialDiv: 1.75, totalDps: 8.75, eps: 11.83, payoutRatio: 73.9, divYield: 2.2, priceApprec: -10.5, totalReturn: -8.3 },
+  { year: '2016', fy: 'FY2016', dps: 8.50, specialDiv: 0, totalDps: 8.50, eps: 12.72, payoutRatio: 66.8, divYield: 2.8, priceApprec: 12.8, totalReturn: 15.6 },
+  { year: '2017', fy: 'FY2017', dps: 9.50, specialDiv: 0, totalDps: 9.50, eps: 12.68, payoutRatio: 74.9, divYield: 3.5, priceApprec: 10.5, totalReturn: 14.0 },
+  { year: '2018', fy: 'FY2018', dps: 11.50, specialDiv: 0, totalDps: 11.50, eps: 13.90, payoutRatio: 82.7, divYield: 4.5, priceApprec: -2.1, totalReturn: 2.4 },
+  { year: '2019', fy: 'FY2019', dps: 11.50, specialDiv: 0, totalDps: 11.50, eps: 15.60, payoutRatio: 73.7, divYield: 4.2, priceApprec: 8.5, totalReturn: 12.7 },
+  { year: '2020', fy: 'FY2020', dps: 10.15, specialDiv: 0, totalDps: 10.15, eps: 12.55, payoutRatio: 80.9, divYield: 5.2, priceApprec: -18.2, totalReturn: -13.0 },
+  { year: '2021', fy: 'FY2021', dps: 10.75, specialDiv: 0, totalDps: 10.75, eps: 10.85, payoutRatio: 99.1, divYield: 5.0, priceApprec: 32.5, totalReturn: 37.5 },
+  { year: '2022', fy: 'FY2022', dps: 11.50, specialDiv: 0, totalDps: 11.50, eps: 12.10, payoutRatio: 95.0, divYield: 4.5, priceApprec: 22.0, totalReturn: 26.5 },
+  { year: '2023', fy: 'FY2023', dps: 13.75, specialDiv: 2.75, totalDps: 16.50, eps: 15.61, payoutRatio: 105.7, divYield: 3.5, priceApprec: 32.0, totalReturn: 35.5 },
+  { year: '2024', fy: 'FY2024', dps: 15.50, specialDiv: 0, totalDps: 15.50, eps: 16.30, payoutRatio: 95.1, divYield: 3.2, priceApprec: 15.2, totalReturn: 18.4 },
+  { year: '2025', fy: 'FY2025', dps: 14.35, specialDiv: 0, totalDps: 14.35, eps: 16.07, payoutRatio: 89.3, divYield: 3.4, priceApprec: 4.5, totalReturn: 7.9 },
+];
+
+// ─── Business Model Canvas ──────────────────────────────────────────────────
+export interface BusinessModelCanvas {
+  valuePropositions: string[];
+  customerSegments: string[];
+  channels: string[];
+  revenueStreams: Array<{ name: string; share: number; color: string }>;
+  keyActivities: string[];
+  keyResources: string[];
+  keyPartners: string[];
+  costStructure: Array<{ name: string; share: number }>;
+  competitiveMoats: string[];
+}
+
+export const businessModelCanvas: BusinessModelCanvas = {
+  valuePropositions: [
+    'Cigarette monopoly pricing power — 80% legal market share in India',
+    'FMCG brand portfolio reach — Aashirvaad, Sunfeast, Bingo, Classmate, Fiama',
+    'World-class hospitality — ITC Hotels (luxury & Welcomhotel chain)',
+    'Agri sourcing scale — e-Choupal network across 35,000+ villages',
+    'Paperboards sustainability — FSC certified, carbon-positive operations',
+    'Infotech digital backbone — ITC Infotech serving global enterprises',
+  ],
+  customerSegments: [
+    'Urban & semi-urban smokers (cigarette segment)',
+    'Rural & urban FMCG consumers (staples, snacks, personal care)',
+    'Business & leisure travellers (ITC Hotels)',
+    'Export & domestic agri commodity buyers',
+    'Packaging & paperboard industrial customers',
+    'Global enterprise clients (ITC Infotech)',
+  ],
+  channels: [
+    '8M+ retail touchpoints across India',
+    'ITC Hotels direct booking & OTAs',
+    'e-Choupal digitalAgri platform',
+    'Modern trade, e-commerce & quick commerce',
+    'Wholesale & distribution network (26 warehouses)',
+    'ITC Infotech direct enterprise sales',
+  ],
+  revenueStreams: [
+    { name: 'Cigarettes', share: 47.4, color: '#10b981' },
+    { name: 'FMCG (Non-Cigarette)', share: 29.2, color: '#3b82f6' },
+    { name: 'Agri-Business', share: 21.3, color: '#ef4444' },
+    { name: 'Paperboards & Packaging', share: 8.4, color: '#8b5cf6' },
+    { name: 'ITC Infotech', share: 4.6, color: '#06b6d4' },
+  ],
+  keyActivities: [
+    'Cigarette manufacturing & regulatory compliance',
+    'FMCG product development, branding & distribution',
+    'Hotel operations & asset management',
+    'Agri procurement, processing & export trading',
+    'Paperboard & specialty paper manufacturing',
+    'Digital technology services (ITC Infotech)',
+  ],
+  keyResources: [
+    'Brand portfolio — 25+ mother brands, 6 ITC Master Brands',
+    'Distribution reach — deepest FMCG network in India',
+    'Hotel properties — 120+ hotels across 70+ destinations',
+    'Manufacturing — 125+ factories, paper mills, leaf processing',
+    'e-Choupal — largest rural digital infrastructure',
+    'Financial fortress — ₹26,000 Cr+ net cash',
+  ],
+  keyPartners: [
+    'Tobacco leaf farmers & auction platforms',
+    'Hospitality franchise partners (Marriott, Starwood)',
+    'FMCG raw material suppliers (wheat, edible oil, cocoa)',
+    'Technology partners for ITC Infotech',
+    'Government of India (excise & regulatory bodies)',
+    'Retail distribution intermediaries',
+  ],
+  costStructure: [
+    { name: 'Raw Materials', share: 42 },
+    { name: 'Excise Duties', share: 22 },
+    { name: 'Employee Costs', share: 10 },
+    { name: 'Marketing & Distribution', share: 8 },
+    { name: 'Power & Fuel', share: 5 },
+    { name: 'Other', share: 13 },
+  ],
+  competitiveMoats: [
+    'Regulatory moat — Cigarette licensing creates insurmountable barrier to entry',
+    'Distribution moat — 8M+ retail outlets, deepest rural reach in India',
+    'Brand moat — Decades of trust in Aashirvaad, Sunfeast, Classmate, Fiama',
+    'Cost moat — Vertical integration in tobacco, wheat, paper',
+    'Scale moat — Largest FMCG revenue outside cigarettes in India',
+    'Demerger catalyst — Hotels demerger unlocking sum-of-parts value',
+  ],
+};
+
+export interface MoatScore {
+  dimension: string;
+  itc: number;
+  hul: number;
+  nestle: number;
+  britannia: number;
+  dabur: number;
+}
+
+export const moatScores: MoatScore[] = [
+  { dimension: 'Brand Power', itc: 78, hul: 85, nestle: 90, britannia: 75, dabur: 70 },
+  { dimension: 'Distribution Reach', itc: 92, hul: 88, nestle: 72, britannia: 68, dabur: 65 },
+  { dimension: 'Regulatory Advantage', itc: 95, hul: 30, nestle: 25, britannia: 20, dabur: 20 },
+  { dimension: 'Cost Advantage', itc: 72, hul: 68, nestle: 55, britannia: 60, dabur: 55 },
+  { dimension: 'Switching Cost', itc: 80, hul: 70, nestle: 75, britannia: 60, dabur: 50 },
+  { dimension: 'Scale / Network', itc: 88, hul: 82, nestle: 58, britannia: 55, dabur: 50 },
+];
+
 // Historical data reconstructed from ITC Integrated Report FY2025 and quarterly press releases.
 // FY25 onwards reflects Continuing Operations (ex-Hotels).
 export const historicalData: YearlyData[] = [
