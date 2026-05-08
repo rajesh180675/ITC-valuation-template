@@ -4,19 +4,118 @@ import {
   LineChart, Line, Legend, ReferenceLine, ScatterChart, Scatter, ZAxis,
   ComposedChart, Area, Cell,
 } from 'recharts';
-import { Building2, TrendingUp, AlertTriangle, Activity, Target, Crown, Layers } from 'lucide-react';
+import {
+  Building2, TrendingUp, AlertTriangle, Activity, Target, Crown, Layers,
+  Search, Download, ArrowUpDown, ArrowUp, ArrowDown, Coins, Sparkles, Gauge,
+} from 'lucide-react';
 import { COMPANY_PROFILES, getCompany, type CompanyProfile } from '@/data/companies';
-import { buildCompanySnapshot, runMonteCarlo, valueWithAssumptions, type CompanySnapshot } from '@/utils/genericModel';
+import {
+  buildCompanySnapshot, runMonteCarlo, valueWithAssumptions,
+  type CompanySnapshot,
+} from '@/utils/genericModel';
 import { SectionHeader, MetricCard, ChartTooltip, fmt, fmtN } from '@/components/itc/shared';
 
 interface CompanyUniverseSectionProps {
   initialCompanyId?: string;
 }
 
+// =============================================================================
+// Universe-wide derived rows
+// =============================================================================
+
+interface UniverseRow {
+  profile: CompanyProfile;
+  snapshot: CompanySnapshot;
+  ticker: string;
+  name: string;
+  sector: string;
+  category: string;
+  cmp: number;
+  blended: number;
+  upside: number;
+  dcf: number;
+  prob: number;
+  revCagr: number;
+  patCagr: number;
+  ebitdaMargin: number;
+  pe: number;
+  divYield: number;
+  roic: number;
+  wacc: number;
+  marketCap: number;
+  color: string;
+}
+
+// Derive a coarse category from the verbose sector string (e.g. "FMCG - Personal Care & Foods" -> "FMCG").
+function deriveCategory(sector: string): string {
+  const head = sector.split(/[/\-—]/)[0]!.trim();
+  // Group banking/NBFC variants together
+  if (/bank/i.test(head)) return 'Banking';
+  if (/nbfc|finance/i.test(head)) return 'NBFC';
+  if (/insurance/i.test(head)) return 'Insurance';
+  if (/it ?services|infotech|technolog/i.test(head)) return 'IT Services';
+  if (/cement/i.test(head)) return 'Cement';
+  if (/steel|metal/i.test(head)) return 'Metals';
+  if (/auto/i.test(head)) return 'Autos';
+  if (/pharma/i.test(head)) return 'Pharma';
+  if (/oil|gas|refining/i.test(head)) return 'Oil & Gas';
+  if (/telecom/i.test(head)) return 'Telecom';
+  if (/utilit|power/i.test(head)) return 'Utilities';
+  if (/paint/i.test(head)) return 'Paints';
+  if (/jewel|retail/i.test(head)) return 'Consumer Disc';
+  if (/port|infra/i.test(head)) return 'Infra & Ports';
+  if (/fmcg|staples|tobacco|consumer/i.test(head)) return 'FMCG / Consumer';
+  return head;
+}
+
+function buildUniverseRow(p: CompanyProfile): UniverseRow {
+  const snap = buildCompanySnapshot(p);
+  const last = p.historical[p.historical.length - 1]!;
+  const first = p.historical[0]!;
+  const years = Math.max(1, p.historical.length - 1);
+  const revCagr = (Math.pow(last.revenue / first.revenue, 1 / years) - 1) * 100;
+  const patCagr = (Math.pow(last.pat / Math.max(1, first.pat), 1 / years) - 1) * 100;
+  const ebitdaMargin = (last.ebitda / Math.max(1, last.revenue)) * 100;
+  const pe = p.currentMarketPrice / Math.max(0.01, last.eps);
+  const divYield = (last.dps / Math.max(0.01, p.currentMarketPrice)) * 100;
+  const roic = snap.eva[snap.eva.length - 1]?.roic ?? 0;
+  return {
+    profile: p,
+    snapshot: snap,
+    ticker: p.ticker,
+    name: p.name,
+    sector: p.sector,
+    category: deriveCategory(p.sector),
+    cmp: p.currentMarketPrice,
+    blended: snap.bridge.blendedPerShare,
+    upside: snap.bridge.upside,
+    dcf: snap.dcf.perShareValue,
+    prob: snap.scenarios.upsideVsMarket,
+    revCagr,
+    patCagr,
+    ebitdaMargin,
+    pe,
+    divYield,
+    roic,
+    wacc: p.assumptions.wacc,
+    marketCap: p.currentMarketPrice * p.sharesOutstandingCr,
+    color: p.accentColor,
+  };
+}
+
+// =============================================================================
+// Main section
+// =============================================================================
+
 export function CompanyUniverseSection({ initialCompanyId = 'itc' }: CompanyUniverseSectionProps) {
   const [selectedId, setSelectedId] = useState<string>(initialCompanyId);
+  const universe = useMemo(() => COMPANY_PROFILES.map(buildUniverseRow), []);
   const profile = useMemo(() => getCompany(selectedId), [selectedId]);
   const snapshot = useMemo(() => buildCompanySnapshot(profile), [profile]);
+  const selectedRow = useMemo(
+    () => universe.find(u => u.profile.id === selectedId) ?? universe[0]!,
+    [universe, selectedId],
+  );
 
   return (
     <div>
@@ -26,8 +125,10 @@ export function CompanyUniverseSection({ initialCompanyId = 'itc' }: CompanyUniv
         icon={<Building2 size={22} />}
       />
 
-      <CompanySwitcher selectedId={selectedId} onSelect={setSelectedId} />
-      <CompanyHero profile={profile} snapshot={snapshot} />
+      <UniverseStatsRibbon universe={universe} />
+      <TopPicksRibbon universe={universe} selectedId={selectedId} onSelect={setSelectedId} />
+      <CompanySwitcher universe={universe} selectedId={selectedId} onSelect={setSelectedId} />
+      <CompanyHero row={selectedRow} snapshot={snapshot} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         <HistoricalPanel profile={profile} />
@@ -54,7 +155,7 @@ export function CompanyUniverseSection({ initialCompanyId = 'itc' }: CompanyUniv
       </div>
 
       <div className="mt-6">
-        <ComparativeMatrix />
+        <ComparativeMatrix universe={universe} selectedId={selectedId} onSelect={setSelectedId} />
       </div>
 
       <div className="mt-6">
@@ -93,47 +194,293 @@ export function CompanyUniverseSection({ initialCompanyId = 'itc' }: CompanyUniv
 }
 
 // =============================================================================
-// Switcher
+// Universe stats ribbon - quick aggregate summary across all 32 companies
 // =============================================================================
 
-function CompanySwitcher({ selectedId, onSelect }: { selectedId: string; onSelect: (id: string) => void }) {
+function UniverseStatsRibbon({ universe }: { universe: UniverseRow[] }) {
+  const stats = useMemo(() => {
+    const n = universe.length;
+    const positiveUpside = universe.filter(u => u.upside > 0).length;
+    const avgUpside = universe.reduce((s, u) => s + u.upside, 0) / Math.max(1, n);
+    const totalMcap = universe.reduce((s, u) => s + u.marketCap, 0);
+    const avgYield = universe.reduce((s, u) => s + u.divYield, 0) / Math.max(1, n);
+    const avgPe = universe.reduce((s, u) => s + u.pe, 0) / Math.max(1, n);
+    return { n, positiveUpside, avgUpside, totalMcap, avgYield, avgPe };
+  }, [universe]);
+
+  const items: { label: string; value: string; sub: string }[] = [
+    { label: 'Companies covered', value: `${stats.n}`, sub: 'Sensex 30 + KNPL + VSTL' },
+    {
+      label: 'Showing upside',
+      value: `${stats.positiveUpside} / ${stats.n}`,
+      sub: `Avg blended ${stats.avgUpside >= 0 ? '+' : ''}${stats.avgUpside.toFixed(1)}%`,
+    },
+    {
+      label: 'Aggregate market cap',
+      value: fmt(stats.totalMcap),
+      sub: 'Sum of CMP × shares',
+    },
+    {
+      label: 'Avg dividend yield',
+      value: `${stats.avgYield.toFixed(2)}%`,
+      sub: `Avg trailing P/E ${stats.avgPe.toFixed(1)}x`,
+    },
+  ];
+
   return (
-    <div className="flex flex-wrap gap-2 mb-6">
-      {COMPANY_PROFILES.map(c => {
-        const active = c.id === selectedId;
-        return (
-          <button
-            key={c.id}
-            onClick={() => onSelect(c.id)}
-            className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
-              active
-                ? 'text-white shadow-lg'
-                : 'bg-surface border-border text-gray-300 hover:border-blue-500/50'
-            }`}
-            style={active ? { backgroundColor: c.accentColor, borderColor: c.accentColor } : undefined}
-          >
-            <span className="flex items-center gap-2">
-              <Building2 size={14} />
-              <span>{c.ticker}</span>
-              <span className="text-xs opacity-75 hidden sm:inline">&middot; {c.sector.split('/')[0].trim()}</span>
-            </span>
-          </button>
-        );
-      })}
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+      {items.map(it => (
+        <div key={it.label} className="rounded-lg border border-border bg-surface p-3">
+          <p className="text-[10px] uppercase tracking-wider text-gray-400">{it.label}</p>
+          <p className="text-xl font-bold text-white mt-0.5">{it.value}</p>
+          <p className="text-[11px] text-gray-400 mt-0.5">{it.sub}</p>
+        </div>
+      ))}
     </div>
   );
 }
 
 // =============================================================================
-// Hero metrics row
+// Top picks ribbon - quick discovery across upside, yield, growth
 // =============================================================================
 
-function CompanyHero({ profile, snapshot }: { profile: CompanyProfile; snapshot: CompanySnapshot }) {
+function TopPicksRibbon({
+  universe,
+  selectedId,
+  onSelect,
+}: {
+  universe: UniverseRow[];
+  selectedId: string;
+  onSelect: (id: string) => void;
+}) {
+  const topUpside = useMemo(() => [...universe].sort((a, b) => b.upside - a.upside).slice(0, 3), [universe]);
+  const topYield = useMemo(() => [...universe].sort((a, b) => b.divYield - a.divYield).slice(0, 3), [universe]);
+  const topGrowth = useMemo(() => [...universe].sort((a, b) => b.revCagr - a.revCagr).slice(0, 3), [universe]);
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">
+      <PickCard
+        title="Highest Implied Upside"
+        icon={<Sparkles size={14} className="text-emerald-400" />}
+        accent="border-emerald-500/30 bg-emerald-950/15"
+        rows={topUpside}
+        formatValue={r => `${r.upside >= 0 ? '+' : ''}${r.upside.toFixed(1)}%`}
+        valueTone={r => (r.upside > 15 ? 'text-emerald-400' : r.upside > 0 ? 'text-emerald-300' : 'text-red-400')}
+        selectedId={selectedId}
+        onSelect={onSelect}
+      />
+      <PickCard
+        title="Top Dividend Yield"
+        icon={<Coins size={14} className="text-amber-400" />}
+        accent="border-amber-500/30 bg-amber-950/15"
+        rows={topYield}
+        formatValue={r => `${r.divYield.toFixed(2)}%`}
+        valueTone={() => 'text-amber-300'}
+        selectedId={selectedId}
+        onSelect={onSelect}
+      />
+      <PickCard
+        title="Highest 5Y Revenue CAGR"
+        icon={<TrendingUp size={14} className="text-blue-400" />}
+        accent="border-blue-500/30 bg-blue-950/15"
+        rows={topGrowth}
+        formatValue={r => `${r.revCagr.toFixed(1)}%`}
+        valueTone={() => 'text-blue-300'}
+        selectedId={selectedId}
+        onSelect={onSelect}
+      />
+    </div>
+  );
+}
+
+function PickCard({
+  title, icon, accent, rows, formatValue, valueTone, selectedId, onSelect,
+}: {
+  title: string;
+  icon: React.ReactNode;
+  accent: string;
+  rows: UniverseRow[];
+  formatValue: (r: UniverseRow) => string;
+  valueTone: (r: UniverseRow) => string;
+  selectedId: string;
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <div className={`rounded-lg border ${accent} p-3`}>
+      <div className="text-[10px] uppercase tracking-wider text-gray-300 font-semibold flex items-center gap-2 mb-2">
+        {icon}
+        <span>{title}</span>
+      </div>
+      <div className="space-y-1">
+        {rows.map((r, i) => {
+          const active = selectedId === r.profile.id;
+          return (
+            <button
+              key={r.profile.id}
+              onClick={() => onSelect(r.profile.id)}
+              className={`w-full flex items-center justify-between px-2 py-1.5 rounded transition-colors text-left ${
+                active ? 'bg-black/50 ring-1 ring-white/15' : 'hover:bg-black/30'
+              }`}
+            >
+              <span className="flex items-center gap-2 min-w-0">
+                <span className="text-[10px] text-gray-500 w-3 tabular-nums">{i + 1}</span>
+                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: r.color }} />
+                <span className="text-white text-sm font-medium truncate">{r.ticker}</span>
+                <span className="text-[10px] text-gray-400 truncate hidden sm:inline">{r.category}</span>
+              </span>
+              <span className={`text-sm font-semibold tabular-nums ${valueTone(r)}`}>{formatValue(r)}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// =============================================================================
+// Enhanced switcher with search, sector filter and sort
+// =============================================================================
+
+type SortKey = 'ticker' | 'upside' | 'mcap' | 'yield' | 'cagr';
+
+function CompanySwitcher({
+  universe,
+  selectedId,
+  onSelect,
+}: {
+  universe: UniverseRow[];
+  selectedId: string;
+  onSelect: (id: string) => void;
+}) {
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState<string>('All');
+  const [sortBy, setSortBy] = useState<SortKey>('ticker');
+
+  const categories = useMemo(() => {
+    const set = new Set(universe.map(u => u.category));
+    return ['All', ...Array.from(set).sort()];
+  }, [universe]);
+
+  const filtered = useMemo(() => {
+    let rows = universe;
+    const q = search.trim().toLowerCase();
+    if (q) {
+      rows = rows.filter(
+        r =>
+          r.ticker.toLowerCase().includes(q) ||
+          r.name.toLowerCase().includes(q) ||
+          r.sector.toLowerCase().includes(q),
+      );
+    }
+    if (category !== 'All') rows = rows.filter(r => r.category === category);
+    rows = [...rows].sort((a, b) => {
+      switch (sortBy) {
+        case 'ticker': return a.ticker.localeCompare(b.ticker);
+        case 'upside': return b.upside - a.upside;
+        case 'mcap':   return b.marketCap - a.marketCap;
+        case 'yield':  return b.divYield - a.divYield;
+        case 'cagr':   return b.revCagr - a.revCagr;
+        default:       return 0;
+      }
+    });
+    return rows;
+  }, [universe, search, category, sortBy]);
+
+  return (
+    <div className="rounded-lg border border-border bg-surface p-4 mb-5">
+      <div className="flex flex-wrap items-center gap-2 mb-3">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search ticker, name or sector..."
+            className="w-full bg-black/30 border border-border rounded px-9 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500/60"
+            aria-label="Search companies"
+          />
+        </div>
+        <select
+          value={category}
+          onChange={e => setCategory(e.target.value)}
+          className="bg-black/30 border border-border rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500/60"
+          aria-label="Filter by sector"
+        >
+          {categories.map(c => (
+            <option key={c} value={c}>{c === 'All' ? 'All sectors' : c}</option>
+          ))}
+        </select>
+        <select
+          value={sortBy}
+          onChange={e => setSortBy(e.target.value as SortKey)}
+          className="bg-black/30 border border-border rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500/60"
+          aria-label="Sort companies"
+        >
+          <option value="ticker">Sort: Ticker A→Z</option>
+          <option value="upside">Sort: Upside ↓</option>
+          <option value="mcap">Sort: Market cap ↓</option>
+          <option value="yield">Sort: Div yield ↓</option>
+          <option value="cagr">Sort: Revenue CAGR ↓</option>
+        </select>
+        <span className="text-xs text-gray-400 whitespace-nowrap">
+          {filtered.length} / {universe.length}
+        </span>
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="text-center text-gray-500 text-sm py-8">No companies match the current filters.</div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+          {filtered.map(r => {
+            const active = r.profile.id === selectedId;
+            const upTone =
+              r.upside > 15 ? 'text-emerald-400'
+              : r.upside > 0 ? 'text-blue-300'
+              : r.upside > -10 ? 'text-amber-400'
+              : 'text-red-400';
+            return (
+              <button
+                key={r.profile.id}
+                onClick={() => onSelect(r.profile.id)}
+                className={`text-left p-2 rounded border transition-all ${
+                  active
+                    ? 'shadow-lg'
+                    : 'bg-black/20 border-border hover:border-blue-500/50 hover:bg-black/30'
+                }`}
+                style={
+                  active
+                    ? { borderColor: r.color, backgroundColor: `${r.color}26`, borderWidth: 1.5 }
+                    : undefined
+                }
+                aria-pressed={active}
+              >
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: r.color }} />
+                  <span className="text-white text-xs font-bold truncate">{r.ticker}</span>
+                </div>
+                <div className="text-[10px] text-gray-400 mt-0.5 truncate">{r.category}</div>
+                <div className="flex items-baseline justify-between mt-1 gap-1">
+                  <span className="text-[10px] text-gray-300 tabular-nums">₹{r.cmp.toFixed(0)}</span>
+                  <span className={`text-[10px] font-semibold tabular-nums ${upTone}`}>
+                    {r.upside >= 0 ? '+' : ''}{r.upside.toFixed(0)}%
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// =============================================================================
+// Hero metrics row - now driven by precomputed UniverseRow + CompanySnapshot
+// =============================================================================
+
+function CompanyHero({ row, snapshot }: { row: UniverseRow; snapshot: CompanySnapshot }) {
+  const profile = row.profile;
   const last = profile.historical[profile.historical.length - 1]!;
-  const first = profile.historical[0]!;
-  const years = profile.historical.length - 1;
-  const revCagr = (Math.pow(last.revenue / first.revenue, 1 / years) - 1) * 100;
-  const patCagr = (Math.pow(last.pat / Math.max(1, first.pat), 1 / years) - 1) * 100;
 
   const upsideBlended = snapshot.bridge.upside;
   const toneColor =
@@ -143,8 +490,8 @@ function CompanyHero({ profile, snapshot }: { profile: CompanyProfile; snapshot:
     <div>
       <div className="rounded-lg border border-border bg-surface p-5 mb-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+          <div className="min-w-0">
+            <h3 className="text-2xl font-bold text-white flex items-center gap-3 flex-wrap">
               <span
                 className="w-3 h-3 rounded-full inline-block"
                 style={{ backgroundColor: profile.accentColor }}
@@ -154,32 +501,40 @@ function CompanyHero({ profile, snapshot }: { profile: CompanyProfile; snapshot:
               <span className="text-sm font-normal text-gray-400 px-2 py-0.5 rounded bg-black/30 border border-border">
                 {profile.ticker}
               </span>
+              <span
+                className="text-xs font-medium px-2 py-0.5 rounded border"
+                style={{ borderColor: `${profile.accentColor}66`, color: profile.accentColor, backgroundColor: `${profile.accentColor}14` }}
+              >
+                {row.category}
+              </span>
             </h3>
             <p className="text-gray-400 text-sm mt-1 max-w-2xl">{profile.tagline}</p>
+            <p className="text-[11px] text-gray-500 mt-1">{profile.sector}</p>
           </div>
           <div className="text-right">
             <p className="text-gray-400 text-xs uppercase tracking-wider">Current Price</p>
             <p className="text-3xl font-bold text-white">₹{profile.currentMarketPrice.toFixed(0)}</p>
             <p className="text-xs text-gray-400">
-              Mkt-cap {fmt(profile.currentMarketPrice * profile.sharesOutstandingCr)} &middot; Shares {fmtN(profile.sharesOutstandingCr)} Cr
+              Mkt-cap {fmt(profile.currentMarketPrice * profile.sharesOutstandingCr)}
+              {' \u00B7 '}Shares {fmtN(profile.sharesOutstandingCr)} Cr
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <MetricCard
           title="FY25 Revenue"
           value={fmt(last.revenue)}
-          subtitle={`${years}y CAGR: ${revCagr >= 0 ? '+' : ''}${revCagr.toFixed(1)}%`}
-          trend={revCagr}
+          subtitle={`5Y CAGR: ${row.revCagr >= 0 ? '+' : ''}${row.revCagr.toFixed(1)}%`}
+          trend={row.revCagr}
           color="blue"
         />
         <MetricCard
           title="FY25 PAT"
           value={fmt(last.pat)}
-          subtitle={`${years}y CAGR: ${patCagr >= 0 ? '+' : ''}${patCagr.toFixed(1)}%`}
-          trend={patCagr}
+          subtitle={`5Y CAGR: ${row.patCagr >= 0 ? '+' : ''}${row.patCagr.toFixed(1)}%`}
+          trend={row.patCagr}
           color="green"
         />
         <MetricCard
@@ -194,6 +549,18 @@ function CompanyHero({ profile, snapshot }: { profile: CompanyProfile; snapshot:
           value={`₹${snapshot.dcf.perShareValue.toFixed(0)}`}
           subtitle={`TV ${snapshot.dcf.terminalValueWeight.toFixed(0)}% of EV`}
           color="purple"
+        />
+        <MetricCard
+          title="Trailing P/E"
+          value={`${row.pe.toFixed(1)}x`}
+          subtitle={`EBITDA margin ${row.ebitdaMargin.toFixed(1)}%`}
+          color="gold"
+        />
+        <MetricCard
+          title="Dividend Yield"
+          value={`${row.divYield.toFixed(2)}%`}
+          subtitle={`Terminal ROIC ${row.roic.toFixed(0)}% vs WACC ${row.wacc.toFixed(1)}%`}
+          color="green"
         />
       </div>
     </div>
@@ -432,7 +799,6 @@ function ReverseDcfPanel({ profile, snapshot }: { profile: CompanyProfile; snaps
 }
 
 function buildReverseCurve(profile: CompanyProfile) {
-  // Build a perShare vs CAGR curve for visualization
   const points: { cagr: number; value: number }[] = [];
   for (let g = -5; g <= 22; g += 1) {
     const r = valueWithAssumptions(profile, { revenueGrowthCAGR: g, revenueGrowthY1: g });
@@ -665,33 +1031,122 @@ function SegmentsPanel({ profile }: { profile: CompanyProfile }) {
 }
 
 // =============================================================================
-// Comparative matrix (all companies)
+// Comparative matrix - sortable, sector-filterable, CSV-exportable
 // =============================================================================
 
-function ComparativeMatrix() {
-  const rows = useMemo(() => COMPANY_PROFILES.map(p => {
-    const snap = buildCompanySnapshot(p);
-    const last = p.historical[p.historical.length - 1]!;
-    const first = p.historical[0]!;
-    const years = p.historical.length - 1;
-    const revCagr = (Math.pow(last.revenue / first.revenue, 1 / years) - 1) * 100;
-    const ebitdaMargin = (last.ebitda / last.revenue) * 100;
-    return {
-      ticker: p.ticker,
-      name: p.name,
-      cmp: p.currentMarketPrice,
-      blended: snap.bridge.blendedPerShare,
-      upside: snap.bridge.upside,
-      dcf: snap.dcf.perShareValue,
-      prob: snap.scenarios.upsideVsMarket,
-      revCagr,
-      ebitdaMargin,
-      wacc: p.assumptions.wacc,
-      color: p.accentColor,
-    };
-  }), []);
+type MatrixSortKey =
+  | 'ticker'
+  | 'cmp'
+  | 'dcf'
+  | 'blended'
+  | 'upside'
+  | 'prob'
+  | 'revCagr'
+  | 'ebitdaMargin'
+  | 'pe'
+  | 'divYield'
+  | 'roic';
 
-  const compareData = rows.map(r => ({
+const MATRIX_COLUMNS: { key: MatrixSortKey; label: string; align: 'left' | 'right' }[] = [
+  { key: 'ticker',       label: 'Ticker',     align: 'left' },
+  { key: 'cmp',          label: 'CMP (₹)',    align: 'right' },
+  { key: 'dcf',          label: 'DCF',        align: 'right' },
+  { key: 'blended',      label: 'Blended',    align: 'right' },
+  { key: 'upside',       label: 'Upside',     align: 'right' },
+  { key: 'prob',         label: 'Prob-wtd',   align: 'right' },
+  { key: 'revCagr',      label: 'Rev CAGR',   align: 'right' },
+  { key: 'ebitdaMargin', label: 'EBITDA %',   align: 'right' },
+  { key: 'pe',           label: 'P/E',        align: 'right' },
+  { key: 'divYield',     label: 'Div Yld',    align: 'right' },
+  { key: 'roic',         label: 'ROIC %',     align: 'right' },
+];
+
+function toCsvCell(v: string | number): string {
+  if (typeof v === 'number') return v.toFixed(2);
+  return /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+}
+
+function downloadCsv(filename: string, lines: string[]) {
+  const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
+function ComparativeMatrix({
+  universe,
+  selectedId,
+  onSelect,
+}: {
+  universe: UniverseRow[];
+  selectedId: string;
+  onSelect: (id: string) => void;
+}) {
+  const [sortKey, setSortKey] = useState<MatrixSortKey>('upside');
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
+  const [filterCategory, setFilterCategory] = useState<string>('All');
+
+  const categories = useMemo(() => {
+    const set = new Set(universe.map(u => u.category));
+    return ['All', ...Array.from(set).sort()];
+  }, [universe]);
+
+  const filtered = useMemo(() => {
+    let rows = filterCategory === 'All' ? universe : universe.filter(r => r.category === filterCategory);
+    rows = [...rows].sort((a, b) => {
+      const av = a[sortKey];
+      const bv = b[sortKey];
+      if (typeof av === 'string' && typeof bv === 'string') {
+        return sortDir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+      }
+      const an = Number(av);
+      const bn = Number(bv);
+      return sortDir === 'asc' ? an - bn : bn - an;
+    });
+    return rows;
+  }, [universe, sortKey, sortDir, filterCategory]);
+
+  const handleSort = (key: MatrixSortKey) => {
+    if (sortKey === key) {
+      setSortDir(d => (d === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortKey(key);
+      setSortDir(key === 'ticker' ? 'asc' : 'desc');
+    }
+  };
+
+  const handleExport = () => {
+    const headers = ['Ticker', 'Company', 'Sector', 'Category', 'CMP', 'DCF', 'Blended', 'Upside %',
+      'ProbWtd %', 'Rev CAGR %', 'EBITDA %', 'P/E', 'Div Yield %', 'ROIC %', 'WACC %'];
+    const lines = [headers.join(',')];
+    for (const r of filtered) {
+      lines.push([
+        toCsvCell(r.ticker),
+        toCsvCell(r.name),
+        toCsvCell(r.sector),
+        toCsvCell(r.category),
+        toCsvCell(r.cmp),
+        toCsvCell(r.dcf),
+        toCsvCell(r.blended),
+        toCsvCell(r.upside),
+        toCsvCell(r.prob),
+        toCsvCell(r.revCagr),
+        toCsvCell(r.ebitdaMargin),
+        toCsvCell(r.pe),
+        toCsvCell(r.divYield),
+        toCsvCell(r.roic),
+        toCsvCell(r.wacc),
+      ].join(','));
+    }
+    downloadCsv('company-universe-matrix.csv', lines);
+  };
+
+  const compareData = filtered.map(r => ({
     name: r.ticker,
     CMP: r.cmp,
     DCF: r.dcf,
@@ -701,68 +1156,121 @@ function ComparativeMatrix() {
 
   return (
     <div className="rounded-lg border border-border bg-surface p-5">
-      <h3 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
-        <Crown size={18} className="text-amber-400" /> Universe Comparative Matrix
-      </h3>
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <h3 className="text-white font-semibold text-lg flex items-center gap-2">
+          <Crown size={18} className="text-amber-400" /> Universe Comparative Matrix
+        </h3>
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={filterCategory}
+            onChange={e => setFilterCategory(e.target.value)}
+            className="bg-black/30 border border-border rounded px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500/60"
+            aria-label="Filter matrix by sector"
+          >
+            {categories.map(c => (
+              <option key={c} value={c}>{c === 'All' ? 'All sectors' : c}</option>
+            ))}
+          </select>
+          <span className="text-xs text-gray-400">{filtered.length} rows</span>
+          <button
+            onClick={handleExport}
+            className="inline-flex items-center gap-1.5 bg-black/30 hover:bg-black/50 border border-border rounded px-3 py-1.5 text-xs text-white transition-colors"
+            aria-label="Export matrix as CSV"
+          >
+            <Download size={12} /> Export CSV
+          </button>
+        </div>
+      </div>
+
       <div className="overflow-x-auto mb-4">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-gray-400 border-b border-border">
-              <th className="text-left py-2 px-2">Ticker</th>
-              <th className="text-right py-2 px-2">CMP (₹)</th>
-              <th className="text-right py-2 px-2">DCF</th>
-              <th className="text-right py-2 px-2">Blended</th>
-              <th className="text-right py-2 px-2">Upside</th>
-              <th className="text-right py-2 px-2">Prob-wtd</th>
-              <th className="text-right py-2 px-2">Rev CAGR</th>
-              <th className="text-right py-2 px-2">EBITDA %</th>
-              <th className="text-right py-2 px-2">WACC</th>
+              {MATRIX_COLUMNS.map(col => {
+                const isSorted = sortKey === col.key;
+                const Icon = isSorted ? (sortDir === 'asc' ? ArrowUp : ArrowDown) : ArrowUpDown;
+                return (
+                  <th
+                    key={col.key}
+                    onClick={() => handleSort(col.key)}
+                    className={`py-2 px-2 cursor-pointer select-none hover:text-white transition-colors text-${col.align}`}
+                    aria-sort={isSorted ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
+                  >
+                    <span className={`inline-flex items-center gap-1 ${col.align === 'right' ? 'flex-row-reverse' : ''}`}>
+                      <span>{col.label}</span>
+                      <Icon size={11} className={isSorted ? 'text-blue-400' : 'opacity-40'} />
+                    </span>
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
-            {rows.map(r => (
-              <tr key={r.ticker} className="border-b border-border/60 hover:bg-black/20 transition-colors">
-                <td className="py-2 px-2">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: r.color }} />
-                    <span className="text-white font-medium">{r.ticker}</span>
-                  </span>
-                </td>
-                <td className="py-2 px-2 text-right text-gray-200">{r.cmp.toFixed(0)}</td>
-                <td className="py-2 px-2 text-right text-gray-200">{r.dcf.toFixed(0)}</td>
-                <td className="py-2 px-2 text-right text-white font-semibold">{r.blended.toFixed(0)}</td>
-                <td className={`py-2 px-2 text-right font-medium ${r.upside > 15 ? 'text-emerald-400' : r.upside > 0 ? 'text-gray-200' : 'text-red-400'}`}>
-                  {r.upside >= 0 ? '+' : ''}{r.upside.toFixed(1)}%
-                </td>
-                <td className={`py-2 px-2 text-right ${r.prob >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
-                  {r.prob >= 0 ? '+' : ''}{r.prob.toFixed(1)}%
-                </td>
-                <td className="py-2 px-2 text-right text-gray-300">{r.revCagr.toFixed(1)}%</td>
-                <td className="py-2 px-2 text-right text-gray-300">{r.ebitdaMargin.toFixed(1)}%</td>
-                <td className="py-2 px-2 text-right text-gray-300">{r.wacc.toFixed(1)}%</td>
-              </tr>
-            ))}
+            {filtered.map(r => {
+              const active = r.profile.id === selectedId;
+              return (
+                <tr
+                  key={r.ticker}
+                  onClick={() => onSelect(r.profile.id)}
+                  className={`border-b border-border/60 cursor-pointer transition-colors ${
+                    active ? 'bg-blue-950/30' : 'hover:bg-black/20'
+                  }`}
+                >
+                  <td className="py-2 px-2">
+                    <span className="inline-flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: r.color }} />
+                      <span className="text-white font-medium">{r.ticker}</span>
+                    </span>
+                  </td>
+                  <td className="py-2 px-2 text-right text-gray-200 tabular-nums">{r.cmp.toFixed(0)}</td>
+                  <td className="py-2 px-2 text-right text-gray-200 tabular-nums">{r.dcf.toFixed(0)}</td>
+                  <td className="py-2 px-2 text-right text-white font-semibold tabular-nums">{r.blended.toFixed(0)}</td>
+                  <td className={`py-2 px-2 text-right font-medium tabular-nums ${
+                    r.upside > 15 ? 'text-emerald-400' : r.upside > 0 ? 'text-gray-200' : 'text-red-400'
+                  }`}>
+                    {r.upside >= 0 ? '+' : ''}{r.upside.toFixed(1)}%
+                  </td>
+                  <td className={`py-2 px-2 text-right tabular-nums ${r.prob >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
+                    {r.prob >= 0 ? '+' : ''}{r.prob.toFixed(1)}%
+                  </td>
+                  <td className="py-2 px-2 text-right text-gray-300 tabular-nums">{r.revCagr.toFixed(1)}%</td>
+                  <td className="py-2 px-2 text-right text-gray-300 tabular-nums">{r.ebitdaMargin.toFixed(1)}%</td>
+                  <td className="py-2 px-2 text-right text-gray-300 tabular-nums">{r.pe.toFixed(1)}x</td>
+                  <td className="py-2 px-2 text-right text-amber-300 tabular-nums">{r.divYield.toFixed(2)}%</td>
+                  <td className={`py-2 px-2 text-right tabular-nums ${r.roic - r.wacc > 0 ? 'text-emerald-300' : 'text-red-300'}`}>
+                    {r.roic.toFixed(0)}%
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+        {filtered.length === 0 && (
+          <div className="text-center text-gray-500 text-sm py-6">No companies in this sector.</div>
+        )}
       </div>
-      <div className="h-64">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={compareData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1F2937" />
-            <XAxis dataKey="name" stroke="#9CA3AF" />
-            <YAxis stroke="#9CA3AF" />
-            <Tooltip content={<ChartTooltip />} />
-            <Legend wrapperStyle={{ color: '#9CA3AF', fontSize: 12 }} />
-            <Bar dataKey="CMP" fill="#6B7280" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="DCF" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="Blended" radius={[4, 4, 0, 0]}>
-              {compareData.map((d, i) => <Cell key={i} fill={d.color} />)}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      <p className="text-xs text-gray-500 mt-3 italic">
-        Accent colors map to each company. Blended = weighted across DCF + scenario EV + peer EV/EBITDA + peer P/E + two-stage DDM.
+
+      {compareData.length > 0 && (
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={compareData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#1F2937" />
+              <XAxis dataKey="name" stroke="#9CA3AF" />
+              <YAxis stroke="#9CA3AF" />
+              <Tooltip content={<ChartTooltip />} />
+              <Legend wrapperStyle={{ color: '#9CA3AF', fontSize: 12 }} />
+              <Bar dataKey="CMP" fill="#6B7280" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="DCF" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Blended" radius={[4, 4, 0, 0]}>
+                {compareData.map((d, i) => <Cell key={i} fill={d.color} />)}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      <p className="text-xs text-gray-500 mt-3 italic flex items-center gap-1.5">
+        <Gauge size={12} /> Click any column header to sort &middot; click any row to switch the active company &middot; CSV export respects active filters.
       </p>
     </div>
   );
@@ -794,4 +1302,3 @@ function InsightCard({ title, items, icon, tone }: { title: string; items: strin
     </div>
   );
 }
-
