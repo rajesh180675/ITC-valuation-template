@@ -17,7 +17,7 @@
     "generate:nifty750": "node scripts/build_nifty_750_official.mjs",
     "generate:nifty750:synthetic-demo": "node scripts/generate_nifty_750_10y.mjs",
     "generate:itc:synthetic": "node scripts/build_itc_data.mjs",
-    "data:refresh": "python3 scripts/data_collector/fetch_itc_data.py all"
+    "data:refresh": "C:\\Python314\\python.exe scripts/data_collector/fetch_itc_data.py all --years 30"
   },
   "dependencies": {
     "clsx": "2.1.1",
