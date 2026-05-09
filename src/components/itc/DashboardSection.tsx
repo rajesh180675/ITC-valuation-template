@@ -16,51 +16,79 @@ export function DashboardSection() {
   const { data: financialsData } = useItcFinancials();
   const priceHistory = useItcPriceHistory();
 
-  // Get segment proportions from the latest hardcoded year
-  const latestStatic = historicalData[historicalData.length - 1];
-  const staticTotal = latestStatic.cigaretteRevenue + latestStatic.fmcgRevenue
-    + latestStatic.hotelsRevenue + latestStatic.paperRevenue + latestStatic.agriRevenue;
-  const segPct = staticTotal > 0 ? {
-    cig: latestStatic.cigaretteRevenue / staticTotal,
-    fmcg: latestStatic.fmcgRevenue / staticTotal,
-    hotels: latestStatic.hotelsRevenue / staticTotal,
-    paper: latestStatic.paperRevenue / staticTotal,
-    agri: latestStatic.agriRevenue / staticTotal,
-  } : null;
+  // ── Data Source Blending ───────────────────────────────────────────────
+  // "Static" uses itcData.ts (curated from annual reports) — 14 years, all segments, volume, tax
+  // "Live" blends yfinance totals with year-matched segment proportions from annual reports
+
+  // Build a lookup map: hardcoded year (e.g. "2025") → segment proportions from annual reports
+  const staticSegmentMap = new Map<string, {
+    cigPct: number; fmcgPct: number; hotelsPct: number; paperPct: number; agriPct: number;
+    cigRev: number; fmcgRev: number; hotelsRev: number; paperRev: number; agriRev: number;
+    cigEbitMargin: number; fmcgEbitdaMargin: number;
+    volumeIndex: number; taxHikePct: number;
+    dividendYield: number; peRatio: number; dps: number;
+  }>();
+
+  for (const d of historicalData) {
+    const total = d.cigaretteRevenue + d.fmcgRevenue + d.hotelsRevenue + d.paperRevenue + d.agriRevenue;
+    staticSegmentMap.set(d.year, {
+      cigPct: total > 0 ? d.cigaretteRevenue / total : 0,
+      fmcgPct: total > 0 ? d.fmcgRevenue / total : 0,
+      hotelsPct: total > 0 ? d.hotelsRevenue / total : 0,
+      paperPct: total > 0 ? d.paperRevenue / total : 0,
+      agriPct: total > 0 ? d.agriRevenue / total : 0,
+      cigRev: d.cigaretteRevenue,
+      fmcgRev: d.fmcgRevenue,
+      hotelsRev: d.hotelsRevenue,
+      paperRev: d.paperRevenue,
+      agriRev: d.agriRevenue,
+      cigEbitMargin: d.cigaretteEbitMargin,
+      fmcgEbitdaMargin: d.fmcgEbitdaMargin,
+      volumeIndex: d.cigaretteVolumeIndex,
+      taxHikePct: d.taxHikePct,
+      dividendYield: d.dividendYield,
+      peRatio: d.peRatio,
+      dps: d.dps,
+    });
+  }
 
   // Build chart data from the selected source
   // In 'live' mode, yfinance gives real totals but no segment breakdown,
-  // so we blend segment proportions from the static annual report data.
+  // so we blend year-matched segment proportions from annual reports.
   const activeData = source === 'live' && financialsData?.rows
     ? financialsData.rows.map(r => {
         const rev = r.revenue;
+        // Match fiscal year to find corresponding annual report segment data
+        const fyYear = r.fiscalYear.replace('FY', '');
+        const seg = staticSegmentMap.get(fyYear) ?? staticSegmentMap.get(String(Number(fyYear) - 1));
         return {
-          year: r.fiscalYear.replace('FY', ''),
+          year: fyYear,
           fy: r.fiscalYear,
           revenue: rev,
-          cigaretteRevenue: segPct ? Math.round(rev * segPct.cig) : 0,
-          fmcgRevenue: segPct ? Math.round(rev * segPct.fmcg) : 0,
-          hotelsRevenue: segPct ? Math.round(rev * segPct.hotels) : 0,
-          paperRevenue: segPct ? Math.round(rev * segPct.paper) : 0,
-          agriRevenue: segPct ? Math.round(rev * segPct.agri) : 0,
+          // Use year-matched segment data from annual reports
+          cigaretteRevenue: seg ? Math.round(rev * seg.cigPct) : 0,
+          fmcgRevenue: seg ? Math.round(rev * seg.fmcgPct) : 0,
+          hotelsRevenue: seg ? Math.round(rev * seg.hotelsPct) : 0,
+          paperRevenue: seg ? Math.round(rev * seg.paperPct) : 0,
+          agriRevenue: seg ? Math.round(rev * seg.agriPct) : 0,
           ebitda: r.ebitda,
           ebitdaMargin: r.ebitdaMargin,
           netProfit: r.netProfit,
           netMargin: r.netMargin,
           eps: r.eps,
-          dps: r.dps,
+          dps: seg?.dps ?? 0,
           roe: r.roe,
           roce: r.roce,
           freeCashFlow: r.freeCashFlow,
           totalAssets: r.totalAssets,
           grossDebt: r.grossDebt,
-          // Carry over volume/tax from static data for blended display
-          cigaretteVolumeIndex: latestStatic.cigaretteVolumeIndex,
-          taxHikePct: latestStatic.taxHikePct,
-          cigaretteEbitMargin: latestStatic.cigaretteEbitMargin,
-          fmcgEbitdaMargin: latestStatic.fmcgEbitdaMargin,
-          dividendYield: latestStatic.dividendYield,
-          peRatio: latestStatic.peRatio,
+          // Carry over year-matched static data for blended display
+          cigaretteVolumeIndex: seg?.volumeIndex ?? 0,
+          taxHikePct: seg?.taxHikePct ?? 0,
+          cigaretteEbitMargin: seg?.cigEbitMargin ?? 0,
+          fmcgEbitdaMargin: seg?.fmcgEbitdaMargin ?? 0,
+          dividendYield: seg?.dividendYield ?? 0,
+          peRatio: seg?.peRatio ?? 0,
         };
       })
     : historicalData;
@@ -244,11 +272,11 @@ export function DashboardSection() {
           </ResponsiveContainer>
         </div>
 
-        {/* Volume & Tax data — available from static source, blended into live mode */}
+        {/* Volume & Tax data — from annual reports, matched by fiscal year */}
         <div className="glass-card p-5">
           <h3 className="text-sm font-semibold text-gray-300 mb-4 flex items-center gap-2">
             Cigarette Volume Index vs Tax Hike %
-            {source === 'live' && <span className="text-[10px] text-gray-500 font-normal">(segment estimates)</span>}
+            {source === 'live' && <span className="text-[10px] text-gray-500 font-normal">(from annual reports, year-matched)</span>}
           </h3>
           <ResponsiveContainer width="100%" height={260}>
             <ComposedChart
@@ -270,7 +298,7 @@ export function DashboardSection() {
           <p className="text-[10px] text-gray-500 mt-2">
             {source === 'static'
               ? 'Volume index and tax hike data from curated annual reports.'
-              : 'Segment estimates blended from latest annual report proportions. Toggle to Static for exact values.'}
+              : 'Segment revenue blended from annual report proportions × yfinance total revenue. Volume/tax data matched from same fiscal year in annual reports.'}
           </p>
         </div>
       </div>
