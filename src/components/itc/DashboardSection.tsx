@@ -16,29 +16,53 @@ export function DashboardSection() {
   const { data: financialsData } = useItcFinancials();
   const priceHistory = useItcPriceHistory();
 
+  // Get segment proportions from the latest hardcoded year
+  const latestStatic = historicalData[historicalData.length - 1];
+  const staticTotal = latestStatic.cigaretteRevenue + latestStatic.fmcgRevenue
+    + latestStatic.hotelsRevenue + latestStatic.paperRevenue + latestStatic.agriRevenue;
+  const segPct = staticTotal > 0 ? {
+    cig: latestStatic.cigaretteRevenue / staticTotal,
+    fmcg: latestStatic.fmcgRevenue / staticTotal,
+    hotels: latestStatic.hotelsRevenue / staticTotal,
+    paper: latestStatic.paperRevenue / staticTotal,
+    agri: latestStatic.agriRevenue / staticTotal,
+  } : null;
+
   // Build chart data from the selected source
+  // In 'live' mode, yfinance gives real totals but no segment breakdown,
+  // so we blend segment proportions from the static annual report data.
   const activeData = source === 'live' && financialsData?.rows
-    ? financialsData.rows.map(r => ({
-        year: r.fiscalYear.replace('FY', ''),
-        fy: r.fiscalYear,
-        revenue: r.revenue,
-        cigaretteRevenue: r.cigaretteRevenue,
-        fmcgRevenue: r.fmcgRevenue,
-        hotelsRevenue: r.hotelsRevenue,
-        paperRevenue: r.paperRevenue,
-        agriRevenue: r.agriRevenue,
-        ebitda: r.ebitda,
-        ebitdaMargin: r.ebitdaMargin,
-        netProfit: r.netProfit,
-        netMargin: r.netMargin,
-        eps: r.eps,
-        dps: r.dps,
-        roe: r.roe,
-        roce: r.roce,
-        freeCashFlow: r.freeCashFlow,
-        totalAssets: r.totalAssets,
-        grossDebt: r.grossDebt,
-      }))
+    ? financialsData.rows.map(r => {
+        const rev = r.revenue;
+        return {
+          year: r.fiscalYear.replace('FY', ''),
+          fy: r.fiscalYear,
+          revenue: rev,
+          cigaretteRevenue: segPct ? Math.round(rev * segPct.cig) : 0,
+          fmcgRevenue: segPct ? Math.round(rev * segPct.fmcg) : 0,
+          hotelsRevenue: segPct ? Math.round(rev * segPct.hotels) : 0,
+          paperRevenue: segPct ? Math.round(rev * segPct.paper) : 0,
+          agriRevenue: segPct ? Math.round(rev * segPct.agri) : 0,
+          ebitda: r.ebitda,
+          ebitdaMargin: r.ebitdaMargin,
+          netProfit: r.netProfit,
+          netMargin: r.netMargin,
+          eps: r.eps,
+          dps: r.dps,
+          roe: r.roe,
+          roce: r.roce,
+          freeCashFlow: r.freeCashFlow,
+          totalAssets: r.totalAssets,
+          grossDebt: r.grossDebt,
+          // Carry over volume/tax from static data for blended display
+          cigaretteVolumeIndex: latestStatic.cigaretteVolumeIndex,
+          taxHikePct: latestStatic.taxHikePct,
+          cigaretteEbitMargin: latestStatic.cigaretteEbitMargin,
+          fmcgEbitdaMargin: latestStatic.fmcgEbitdaMargin,
+          dividendYield: latestStatic.dividendYield,
+          peRatio: latestStatic.peRatio,
+        };
+      })
     : historicalData;
 
   const latest = activeData[activeData.length - 1];
@@ -124,8 +148,8 @@ export function DashboardSection() {
         <MetricCard title="Revenue" value={fmt(latest.revenue)} subtitle={pct(revGrowth) + ' YoY'} trend={revGrowth} color="green" />
         <MetricCard title="Net Profit" value={fmt(latest.netProfit)} subtitle={pct(profitGrowth) + ' YoY'} trend={profitGrowth} color="gold" />
         <MetricCard title="EPS" value={rupee(latest.eps)} subtitle={pct(epsGrowth) + ' YoY'} trend={epsGrowth} color="purple" />
-        <MetricCard title="Dividend Yield" value={fmtN(latest.dps ? (latest.dps / latest.eps * 100) : 0) + '%'} subtitle={`DPS: ₹${latest.dps || '—'}`} color="blue" />
-        <MetricCard title="P/E Ratio" value={fmtN('peRatio' in latest ? latest.peRatio : latest.eps > 0 ? latest.revenue / (latest.netProfit || 1) * 0.3 : 25) + 'x'} subtitle="TTM" color="green" />
+        <MetricCard title="Dividend Yield" value={fmtN((latest as any).dividendYield ?? ((latest as any).dps ? ((latest as any).dps / (latest as any).eps * 100) : 0)) + '%'} subtitle={`DPS: ₹${(latest as any).dps || '—'}`} color="blue" />
+        <MetricCard title="P/E Ratio" value={fmtN((latest as any).peRatio ?? ((latest as any).eps > 0 ? (latest as any).revenue / ((latest as any).netProfit || 1) * 0.3 : 25)) + 'x'} subtitle="TTM" color="green" />
       </div>
 
       {/* Source badge */}
@@ -220,36 +244,35 @@ export function DashboardSection() {
           </ResponsiveContainer>
         </div>
 
-        {/* Volume Index — only available in static mode */}
-        {source === 'static' && (
-          <div className="glass-card p-5">
-            <h3 className="text-sm font-semibold text-gray-300 mb-4">Cigarette Volume Index vs Tax Hike %</h3>
-            <ResponsiveContainer width="100%" height={260}>
-              <ComposedChart
-                data={historicalData.map(d => ({
-                  year: d.year,
-                  'Volume Index': d.cigaretteVolumeIndex,
-                  'Tax Hike %': d.taxHikePct,
-                }))}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
-                <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-                <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 11 }} domain={[60, 120]} />
-                <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 11 }} domain={[0, 30]} />
-                <Tooltip content={<ChartTooltip />} />
-                <Area yAxisId="left" type="monotone" dataKey="Volume Index" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} />
-                <Bar yAxisId="right" dataKey="Tax Hike %" fill="#ef4444" opacity={0.6} radius={[3, 3, 0, 0]} />
-              </ComposedChart>
-            </ResponsiveContainer>
-            <p className="text-[10px] text-gray-500 mt-2">Volume index and tax hike data only available from curated annual report sources.</p>
-          </div>
-        )}
-        {source === 'live' && (
-          <div className="glass-card p-5 flex items-center justify-center text-xs text-gray-500">
-            <Database size={14} className="mr-2 text-gray-600" />
-            Volume & tax data is segment-specific and not available from yfinance feeds. Switch to <strong className="mx-1 text-blue-400 cursor-pointer" onClick={() => setSource('static')}>Static</strong> to view.
-          </div>
-        )}
+        {/* Volume & Tax data — available from static source, blended into live mode */}
+        <div className="glass-card p-5">
+          <h3 className="text-sm font-semibold text-gray-300 mb-4 flex items-center gap-2">
+            Cigarette Volume Index vs Tax Hike %
+            {source === 'live' && <span className="text-[10px] text-gray-500 font-normal">(segment estimates)</span>}
+          </h3>
+          <ResponsiveContainer width="100%" height={260}>
+            <ComposedChart
+              data={activeData.map(d => ({
+                year: d.year,
+                'Volume Index': d.cigaretteVolumeIndex ?? 0,
+                'Tax Hike %': d.taxHikePct ?? 0,
+              }))}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
+              <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
+              <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 11 }} domain={[60, 120]} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 11 }} domain={[0, 30]} />
+              <Tooltip content={<ChartTooltip />} />
+              <Area yAxisId="left" type="monotone" dataKey="Volume Index" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} />
+              <Bar yAxisId="right" dataKey="Tax Hike %" fill="#ef4444" opacity={0.6} radius={[3, 3, 0, 0]} />
+            </ComposedChart>
+          </ResponsiveContainer>
+          <p className="text-[10px] text-gray-500 mt-2">
+            {source === 'static'
+              ? 'Volume index and tax hike data from curated annual reports.'
+              : 'Segment estimates blended from latest annual report proportions. Toggle to Static for exact values.'}
+          </p>
+        </div>
       </div>
 
       {/* 30-Year Price History — always shown when available */}
