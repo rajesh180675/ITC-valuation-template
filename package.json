@@ -16,9 +16,8 @@
     "preview": "vite preview",
     "generate:nifty750": "node scripts/build_nifty_750_official.mjs",
     "generate:nifty750:synthetic-demo": "node scripts/generate_nifty_750_10y.mjs",
-    "data:refresh": "C:\\Python314\\python.exe scripts/data_collector/fetch_itc_data.py",
-    "data:refresh:all": "C:\\Python314\\python.exe scripts/data_collector/fetch_itc_data.py && C:\\Python314\\python.exe scripts/data_collector/fetch_nifty750_data.py && npm run generate:nifty750",
-    "generate:nifty750:real": "C:\\Python314\\python.exe scripts/data_collector/fetch_nifty750_data.py && npm run generate:nifty750"
+    "generate:itc:synthetic": "node scripts/build_itc_data.mjs",
+    "data:refresh": "python3 scripts/data_collector/fetch_itc_data.py all"
   },
   "dependencies": {
     "clsx": "2.1.1",

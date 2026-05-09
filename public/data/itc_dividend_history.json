@@ -1,188 +1,144 @@
 {
-  "ticker": "ITC.NS",
-  "generatedAt": "2026-05-09T12:08:48.480348+00:00",
-  "source": "Yahoo Finance (yfinance)",
-  "count": 36,
-  "records": [
+  "symbol": "ITC.NS",
+  "source": "synthetic",
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-09T14:15:45.248Z",
+  "dividends": [
     {
-      "date": "1996-07-08",
-      "amount": 0.0556,
-      "year": "1996"
+      "exDate": "2012-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 5.1,
+      "fiscalYear": "FY2012",
+      "source": "synthetic"
     },
     {
-      "date": "1997-08-04",
-      "amount": 0.0222,
-      "year": "1997"
+      "exDate": "2013-01-15",
+      "recordDate": null,
+      "dividendType": "special",
+      "amountPerShare": 1.5,
+      "fiscalYear": "FY2013",
+      "source": "synthetic"
     },
     {
-      "date": "1998-06-22",
-      "amount": 0.1,
-      "year": "1998"
+      "exDate": "2013-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 5.7,
+      "fiscalYear": "FY2013",
+      "source": "synthetic"
     },
     {
-      "date": "1999-06-24",
-      "amount": 0.1222,
-      "year": "1999"
+      "exDate": "2014-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 6.5,
+      "fiscalYear": "FY2014",
+      "source": "synthetic"
     },
     {
-      "date": "2000-06-27",
-      "amount": 0.1667,
-      "year": "2000"
+      "exDate": "2015-01-15",
+      "recordDate": null,
+      "dividendType": "special",
+      "amountPerShare": 1.75,
+      "fiscalYear": "FY2015",
+      "source": "synthetic"
     },
     {
-      "date": "2001-07-03",
-      "amount": 0.2222,
-      "year": "2001"
+      "exDate": "2015-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 7,
+      "fiscalYear": "FY2015",
+      "source": "synthetic"
     },
     {
-      "date": "2002-07-12",
-      "amount": 0.3,
-      "year": "2002"
+      "exDate": "2016-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 8.5,
+      "fiscalYear": "FY2016",
+      "source": "synthetic"
     },
     {
-      "date": "2003-07-14",
-      "amount": 0.3333,
-      "year": "2003"
+      "exDate": "2017-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 9.5,
+      "fiscalYear": "FY2017",
+      "source": "synthetic"
     },
     {
-      "date": "2004-07-19",
-      "amount": 0.4444,
-      "year": "2004"
+      "exDate": "2018-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 11.5,
+      "fiscalYear": "FY2018",
+      "source": "synthetic"
     },
     {
-      "date": "2005-07-18",
-      "amount": 0.6889,
-      "year": "2005"
+      "exDate": "2019-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 11.5,
+      "fiscalYear": "FY2019",
+      "source": "synthetic"
     },
     {
-      "date": "2006-07-10",
-      "amount": 0.8833,
-      "year": "2006"
+      "exDate": "2020-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 10.15,
+      "fiscalYear": "FY2020",
+      "source": "synthetic"
     },
     {
-      "date": "2007-07-16",
-      "amount": 1.0333,
-      "year": "2007"
+      "exDate": "2021-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 10.75,
+      "fiscalYear": "FY2021",
+      "source": "synthetic"
     },
     {
-      "date": "2008-07-16",
-      "amount": 1.1667,
-      "year": "2008"
+      "exDate": "2022-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 11.5,
+      "fiscalYear": "FY2022",
+      "source": "synthetic"
     },
     {
-      "date": "2009-07-13",
-      "amount": 1.2333,
-      "year": "2009"
+      "exDate": "2023-01-15",
+      "recordDate": null,
+      "dividendType": "special",
+      "amountPerShare": 2.75,
+      "fiscalYear": "FY2023",
+      "source": "synthetic"
     },
     {
-      "date": "2010-06-09",
-      "amount": 3.3333,
-      "year": "2010"
+      "exDate": "2023-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 13.75,
+      "fiscalYear": "FY2023",
+      "source": "synthetic"
     },
     {
-      "date": "2011-06-10",
-      "amount": 2.9667,
-      "year": "2011"
+      "exDate": "2024-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 15.5,
+      "fiscalYear": "FY2024",
+      "source": "synthetic"
     },
     {
-      "date": "2012-06-11",
-      "amount": 3.0,
-      "year": "2012"
-    },
-    {
-      "date": "2013-05-31",
-      "amount": 3.5,
-      "year": "2013"
-    },
-    {
-      "date": "2014-06-03",
-      "amount": 4.0,
-      "year": "2014"
-    },
-    {
-      "date": "2015-06-03",
-      "amount": 4.1667,
-      "year": "2015"
-    },
-    {
-      "date": "2016-05-30",
-      "amount": 5.6667,
-      "year": "2016"
-    },
-    {
-      "date": "2017-06-05",
-      "amount": 4.75,
-      "year": "2017"
-    },
-    {
-      "date": "2018-05-25",
-      "amount": 5.15,
-      "year": "2018"
-    },
-    {
-      "date": "2019-05-22",
-      "amount": 5.75,
-      "year": "2019"
-    },
-    {
-      "date": "2020-07-06",
-      "amount": 10.15,
-      "year": "2020"
-    },
-    {
-      "date": "2021-02-22",
-      "amount": 5.0,
-      "year": "2021"
-    },
-    {
-      "date": "2021-06-10",
-      "amount": 5.75,
-      "year": "2021"
-    },
-    {
-      "date": "2022-02-14",
-      "amount": 5.25,
-      "year": "2022"
-    },
-    {
-      "date": "2022-05-26",
-      "amount": 6.25,
-      "year": "2022"
-    },
-    {
-      "date": "2023-02-15",
-      "amount": 6.0,
-      "year": "2023"
-    },
-    {
-      "date": "2023-05-30",
-      "amount": 9.5,
-      "year": "2023"
-    },
-    {
-      "date": "2024-02-08",
-      "amount": 6.25,
-      "year": "2024"
-    },
-    {
-      "date": "2024-06-04",
-      "amount": 7.5,
-      "year": "2024"
-    },
-    {
-      "date": "2025-02-12",
-      "amount": 6.5,
-      "year": "2025"
-    },
-    {
-      "date": "2025-05-28",
-      "amount": 7.85,
-      "year": "2025"
-    },
-    {
-      "date": "2026-02-04",
-      "amount": 6.5,
-      "year": "2026"
+      "exDate": "2025-05-20",
+      "recordDate": null,
+      "dividendType": "final",
+      "amountPerShare": 14.35,
+      "fiscalYear": "FY2025",
+      "source": "synthetic"
     }
   ]
 }

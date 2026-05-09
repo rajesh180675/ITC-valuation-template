@@ -1,105 +1,133 @@
-import { TrendingUp, RefreshCw, Database } from 'lucide-react';
 import { useItcLiveQuote } from '@/utils/dataFeeds';
+import { historicalData, currentMarketPrice, sharesOutstanding } from '@/data/itcData';
+import { fmtN, rupee } from './shared';
+import { Info, AlertTriangle } from 'lucide-react';
 
-const fmtN = (n: number | null, d = 1) => n !== null ? n.toFixed(d) : '—';
-const fmtPrice = (n: number | null) => n !== null ? `₹${n.toFixed(2)}` : '—';
+/**
+ * LiveQuoteBanner — displays ITC live trading data at the top of the Dashboard.
+ *
+ * Three states:
+ *  - Loading: animated skeleton
+ *  - Data available: render live quote values
+ *  - Error/no JSON: fallback to static historicalData with "(static)" badge
+ */
+export function LiveQuoteBanner() {
+  const { data, loading, error } = useItcLiveQuote();
 
-function Stat({ label, value, color = 'text-gray-200' }: { label: string; value: string; color?: string }) {
+  // Fallback: derive from the latest static data row
+  const latest = historicalData[historicalData.length - 1];
+  const fallback = {
+    symbol: 'ITC.NS',
+    exchange: 'NSE',
+    lastPrice: currentMarketPrice || latest.stockPriceLow + (latest.stockPriceHigh - latest.stockPriceLow) * 0.5,
+    change: 0,
+    changePercent: 0,
+    open: latest.stockPriceLow + (latest.stockPriceHigh - latest.stockPriceLow) * 0.5,
+    high: latest.stockPriceHigh,
+    low: latest.stockPriceLow,
+    previousClose: latest.stockPriceLow + (latest.stockPriceHigh - latest.stockPriceLow) * 0.4,
+    volume: 0,
+    marketCap: sharesOutstanding * (currentMarketPrice || 418),
+    pe: latest.peRatio,
+    pb: 7.6,
+    dividendYield: latest.dividendYield,
+    fiftyTwoWeekHigh: latest.stockPriceHigh,
+    fiftyTwoWeekLow: latest.stockPriceLow,
+    ttmRevenue: latest.revenue,
+    ttmNetProfit: latest.netProfit,
+    source: 'synthetic' as const,
+    fetchedAt: new Date().toISOString(),
+  };
+
+  // Loading state: animated skeleton
+  if (loading) {
+    return (
+      <div className="glass-card p-4 animate-pulse">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="h-8 w-32 bg-gray-700/40 rounded" />
+          <div className="h-8 w-20 bg-gray-700/40 rounded" />
+          <div className="h-6 w-48 bg-gray-700/30 rounded hidden md:block" />
+          <div className="h-6 w-64 bg-gray-700/30 rounded hidden lg:block" />
+        </div>
+      </div>
+    );
+  }
+
+  // Determine what to render
+  const q = data ?? fallback;
+  const isLive = data !== null;
+  const priceColor = q.change >= 0 ? 'text-emerald-400' : 'text-red-400';
+  const changeSign = q.change >= 0 ? '+' : '';
+  const sourceLabel = isLive ? q.source : 'static';
+  const fetchedLabel = isLive ? new Date(q.fetchedAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) : `FY${latest.fy} annual`;
+
+  // Error banner for failed fetch (non-blocking — still shows fallback data)
+  const errorBanner = error && !isLive ? (
+    <div className="flex items-center gap-2 text-xs text-yellow-400/80 mt-2">
+      <AlertTriangle size={12} />
+      <span>Live data unavailable ({error}). Showing static data.</span>
+    </div>
+  ) : null;
+
   return (
-    <div className="text-center">
-      <p className="text-[10px] text-gray-500 uppercase tracking-wider">{label}</p>
-      <p className={`text-sm font-bold ${color}`}>{value}</p>
+    <div className="glass-card p-4 space-y-2">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+        {/* Symbol + Price + Change */}
+        <div className="flex items-baseline gap-2">
+          <span className="text-sm text-gray-400 font-medium">{q.symbol}</span>
+          <span className="text-2xl font-bold text-white">{rupee(q.lastPrice)}</span>
+          <span className={`text-sm font-semibold ${priceColor}`}>
+            {changeSign}{fmtN(q.change)} ({changeSign}{fmtN(q.changePercent)}%)
+          </span>
+          {!isLive && (
+            <span className="text-[10px] bg-gray-600/60 text-gray-300 px-1.5 py-0.5 rounded font-medium">STATIC</span>
+          )}
+        </div>
+
+        {/* OHLC */}
+        <div className="hidden md:flex items-center gap-3 text-xs text-gray-400">
+          <span>O <span className="text-white">{rupee(q.open)}</span></span>
+          <span>H <span className="text-white">{rupee(q.high)}</span></span>
+          <span>L <span className="text-white">{rupee(q.low)}</span></span>
+          <span>PC <span className="text-white">{rupee(q.previousClose)}</span></span>
+        </div>
+
+        {/* Key metrics */}
+        <div className="hidden lg:flex items-center gap-3 text-xs text-gray-400">
+          <span>P/E <span className="text-white">{fmtN(q.pe)}</span></span>
+          <span>P/B <span className="text-white">{fmtN(q.pb)}</span></span>
+          <span>Div <span className="text-emerald-400">{fmtN(q.dividendYield)}%</span></span>
+          <span>MktCap <span className="text-white">{fmtMarketCap(q.marketCap)}</span></span>
+        </div>
+
+        {/* 52W range */}
+        <div className="hidden xl:flex items-center gap-1 text-xs text-gray-400">
+          <span>52W</span>
+          <span className="text-white">{rupee(q.fiftyTwoWeekLow)}</span>
+          <span>—</span>
+          <span className="text-white">{rupee(q.fiftyTwoWeekHigh)}</span>
+        </div>
+
+        {/* TTM */}
+        <div className="hidden 2xl:flex items-center gap-3 text-xs text-gray-400">
+          <span>TTM Rev <span className="text-white">₹{fmtN(q.ttmRevenue / 100, 1)}L Cr</span></span>
+          <span>PAT <span className="text-white">₹{fmtN(q.ttmNetProfit / 100, 1)}L Cr</span></span>
+        </div>
+
+        {/* Source indicator */}
+        <div className="ml-auto flex items-center gap-1.5 text-[10px] text-gray-500" title={`Source: ${sourceLabel} | ${fetchedLabel}`}>
+          <Info size={10} />
+          <span>{fetchedLabel}</span>
+        </div>
+      </div>
+
+      {errorBanner}
     </div>
   );
 }
 
-export function LiveQuoteBanner() {
-  const quote = useItcLiveQuote();
-
-  // Loading state
-  if (quote.status === 'loading') {
-    return (
-      <div className="glass-card p-3 border border-blue-500/20 flex items-center gap-3 text-xs text-gray-400">
-        <RefreshCw size={13} className="animate-spin text-blue-400" />
-        <span>Loading live market data…</span>
-      </div>
-    );
-  }
-
-  // Missing / error state — show a compact placeholder so the slot is visible
-  if (quote.status === 'missing') {
-    return (
-      <div className="glass-card p-3 border border-gray-700/40">
-        <div className="flex items-center gap-3 text-xs text-gray-500">
-          <Database size={14} className="text-gray-600" />
-          <span>Live market feed not available.</span>
-          <span className="text-gray-600">Run <code className="px-1 bg-surface-3 rounded text-[10px]">npm run data:refresh</code> to generate.</span>
-        </div>
-      </div>
-    );
-  }
-
-  const d = quote.data;
-
-  // Color the current price based on day's direction
-  const priceColor =
-    d.currentPrice !== null && d.previousClose !== null
-      ? d.currentPrice >= d.previousClose
-        ? 'text-emerald-400'
-        : 'text-red-400'
-      : 'text-white';
-
-  const dayChange =
-    d.currentPrice !== null && d.previousClose !== null && d.previousClose > 0
-      ? ((d.currentPrice - d.previousClose) / d.previousClose) * 100
-      : null;
-
-  // Format large numbers to Cr
-  const mcapCr = d.marketCap !== null ? `₹${(d.marketCap / 1000).toFixed(1)}L Cr` : '—';
-  const revCr = d.revenueTTM !== null ? `₹${(d.revenueTTM / 1000).toFixed(1)}L Cr` : '—';
-
-  return (
-    <div className="glass-card p-3 border border-blue-500/20">
-      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
-        {/* Price */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <TrendingUp size={16} className="text-blue-400" />
-            <span className="text-lg font-bold text-white">ITC</span>
-            <span className={`text-lg font-bold ${priceColor}`}>{fmtPrice(d.currentPrice)}</span>
-          </div>
-          <div className="flex items-center gap-3 text-xs">
-            {dayChange !== null && (
-              <span className={dayChange >= 0 ? 'text-emerald-400' : 'text-red-400'}>
-                {dayChange >= 0 ? '+' : ''}{dayChange.toFixed(2)}%
-              </span>
-            )}
-            <span className="text-gray-600">|</span>
-            <span className="text-gray-400">O {fmtPrice(d.open)}</span>
-            <span className="text-gray-400">H {fmtPrice(d.dayHigh)}</span>
-            <span className="text-gray-400">L {fmtPrice(d.dayLow)}</span>
-            <span className="text-gray-600">|</span>
-            <span className="text-gray-500">Vol: {(d as any).volume ? (d as any).volume.toLocaleString() : '—'}</span>
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="flex items-center gap-4 text-xs">
-          <Stat label="MCap" value={mcapCr} />
-          <Stat label="P/E" value={fmtN(d.trailingPE, 1) + 'x'} />
-          <Stat label="P/B" value={fmtN(d.priceToBook, 2) + 'x'} />
-          <Stat label="Div Yield" value={fmtN(d.dividendYield, 2) + '%'} color="text-yellow-400" />
-          <Stat label="52W H" value={fmtPrice(d.fiftyTwoWeekHigh)} />
-          <Stat label="52W L" value={fmtPrice(d.fiftyTwoWeekLow)} />
-          <Stat label="TTM Rev" value={revCr} />
-        </div>
-
-        {/* Source badge */}
-        <span className="text-[10px] text-gray-600 shrink-0" title={`Fetched: ${d.fetchedAt}\nSource: ${d.source}`}>
-          <RefreshCw size={11} className="inline mr-0.5" />
-          NSE live
-        </span>
-      </div>
-    </div>
-  );
+function fmtMarketCap(capCr: number): string {
+  if (capCr >= 100000) return `₹${(capCr / 100000).toFixed(2)}L Cr`;
+  if (capCr >= 1000) return `₹${(capCr / 1000).toFixed(1)}K Cr`;
+  return `₹${capCr.toFixed(0)} Cr`;
 }

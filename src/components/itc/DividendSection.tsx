@@ -8,12 +8,15 @@ import {
 import { TrendingUp } from 'lucide-react';
 import { dividendHistory } from '@/data/itcData';
 import { calculateDividendMetrics } from '@/utils/itcModel';
+import { useItcDividendHistory } from '@/utils/dataFeeds';
 import { SectionHeader, MetricCard, ChartTooltip, fmtN, pct } from './shared';
 
 const CURRENT_PRICE = 442;
 
 export function DividendSection() {
-  const metrics = useMemo(() => calculateDividendMetrics(dividendHistory, CURRENT_PRICE), []);
+  const { fallbackData } = useItcDividendHistory();
+  // Use fallback (static) data when JSON is unavailable; static dividendHistory is the base case
+  const metrics = useMemo(() => calculateDividendMetrics(fallbackData ?? dividendHistory, CURRENT_PRICE), [fallbackData]);
 
   return (
     <div className="animate-fadeIn space-y-6">

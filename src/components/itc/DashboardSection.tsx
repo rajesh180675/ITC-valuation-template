@@ -4,10 +4,44 @@ import {
 } from 'recharts';
 import { Activity } from 'lucide-react';
 import { historicalData } from '@/data/itcData';
+import { useItcFinancials } from '@/utils/dataFeeds';
 import { ChartTooltip, MetricCard, SectionHeader, fmt, fmtN, pct, rupee } from './shared';
+import { LiveQuoteBanner } from './LiveQuoteBanner';
 
 export function DashboardSection() {
-  const latest = historicalData[historicalData.length - 1];
+  const { data: financialsData } = useItcFinancials();
+  // Use runtime financial data when available, otherwise fall back to static
+  const data = financialsData?.rows?.map(r => ({
+    year: r.fiscalYear.replace('FY', ''),
+    fy: r.fiscalYear,
+    revenue: r.revenue,
+    cigaretteRevenue: r.cigaretteRevenue,
+    fmcgRevenue: r.fmcgRevenue,
+    ebitda: r.ebitda,
+    ebitdaMargin: r.ebitdaMargin,
+    netProfit: r.netProfit,
+    netMargin: r.netMargin,
+    eps: r.eps,
+    dps: r.dps,
+    roe: r.roe,
+    roce: r.roce,
+    freeCashFlow: r.freeCashFlow,
+    stockPriceHigh: 0,
+    stockPriceLow: 0,
+    peRatio: 0,
+    dividendYield: 0,
+    taxHikePct: 0,
+    cigaretteVolumeIndex: 0,
+    cigaretteEbitMargin: 0,
+    fmcgEbitdaMargin: 0,
+    hotelsRevenue: r.hotelsRevenue,
+    paperRevenue: r.paperRevenue,
+    agriRevenue: r.agriRevenue,
+    totalAssets: r.totalAssets,
+    netDebt: r.grossDebt,
+  })) ?? historicalData;
+
+  const latest = data[data.length - 1];
   const prev = historicalData[historicalData.length - 2];
   const revGrowth = ((latest.revenue - prev.revenue) / prev.revenue) * 100;
   const profitGrowth = ((latest.netProfit - prev.netProfit) / prev.netProfit) * 100;
@@ -49,6 +83,8 @@ export function DashboardSection() {
 
   return (
     <div className="animate-fadeIn space-y-6">
+      <LiveQuoteBanner />
+
       <SectionHeader title="ITC Limited — Dashboard" subtitle="Comprehensive financial overview of India's largest diversified conglomerate" icon={<Activity size={22} />} />
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">

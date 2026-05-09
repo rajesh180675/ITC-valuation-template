@@ -15,9 +15,8 @@ export function StockPerfSection() {
 
   // Build yearly & monthly data from real price history
   const realData = useMemo(() => {
-    if (priceHistory.status !== 'available') return null;
-    const records = priceHistory.data.records;
-    if (!records.length) return null;
+    if (!priceHistory.data || priceHistory.data.days.length === 0) return null;
+    const records = priceHistory.data.days;
 
     // Group by calendar year
     const byYear = new Map<string, {
@@ -145,7 +144,7 @@ export function StockPerfSection() {
         returnPct: r.returnPct,
       }));
 
-  const hasRealData = priceHistory.status === 'available';
+  const hasRealData = priceHistory.data !== null && priceHistory.data.days.length > 0;
 
   return (
     <div className="animate-fadeIn space-y-6">
@@ -159,14 +158,14 @@ export function StockPerfSection() {
         <div className="flex items-center gap-4 text-[10px] text-gray-500 flex-wrap">
           <span className="flex items-center gap-1">
             <RefreshCw size={10} className="text-emerald-400" />
-            {priceHistory.data?.records.length.toLocaleString()} trading days
+            {priceHistory.data?.days.length.toLocaleString()} trading days
           </span>
           <span className="flex items-center gap-1">
             <Calendar size={10} className="text-blue-400" />
             {realData.firstYear} → {realData.lastYear} ({realData.totalYears} years)
           </span>
           <span className="text-gray-600">|</span>
-          <span className="text-gray-400">{priceHistory.data?.source}</span>
+          <span className="text-gray-400">{priceHistory.data?.source ?? 'synthetic'}</span>
         </div>
       )}
 
