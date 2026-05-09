@@ -85,6 +85,7 @@ def fetch_live_quote():
         "fiftyTwoWeekLow": safe_float(info.get("fiftyTwoWeekLow")),
         "ttmRevenue": safe_float(info.get("totalRevenue", 0)) / 1e7,  # Convert to Cr
         "ttmNetProfit": safe_float(info.get("netIncomeToCommon", 0)) / 1e7,  # Convert to Cr
+        "schemaVersion": SCHEMA_VERSION,
         "source": "yfinance",
         "fetchedAt": now_iso,
     }
