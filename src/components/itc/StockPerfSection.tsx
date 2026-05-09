@@ -171,8 +171,8 @@ export function StockPerfSection() {
       )}
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        {realData?.cagr30 !== null ? (
-          <MetricCard title={`${realData!.totalYears}Y CAGR`} value={pct(realData!.cagrPct)} subtitle={`${realData!.firstYear}–${realData!.lastYear}`} trend={realData!.cagrPct >= 0 ? realData!.cagrPct : undefined} color="blue" />
+        {realData !== null && realData.cagr30 !== null ? (
+          <MetricCard title={`${realData.totalYears}Y CAGR`} value={pct(realData.cagrPct)} subtitle={`${realData.firstYear}–${realData.lastYear}`} trend={realData.cagrPct >= 0 ? realData.cagrPct : undefined} color="blue" />
         ) : (
           <MetricCard title="CAGR Since Inception" value={pct(perf.cagrSinceInception)} subtitle={`${historicalData.length - 1} years`} trend={perf.cagrSinceInception >= 0 ? perf.cagrSinceInception : undefined} color="blue" />
         )}
