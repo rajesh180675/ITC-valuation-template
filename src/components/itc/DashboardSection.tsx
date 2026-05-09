@@ -2,14 +2,15 @@ import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, ComposedChart,
   CartesianGrid, Tooltip, XAxis, YAxis, ResponsiveContainer,
 } from 'recharts';
-import { Activity } from 'lucide-react';
+import { Activity, TrendingUp, Calendar } from 'lucide-react';
 import { historicalData } from '@/data/itcData';
-import { useItcFinancials } from '@/utils/dataFeeds';
+import { useItcFinancials, useItcPriceHistory } from '@/utils/dataFeeds';
 import { ChartTooltip, MetricCard, SectionHeader, fmt, fmtN, pct, rupee } from './shared';
 import { LiveQuoteBanner } from './LiveQuoteBanner';
 
 export function DashboardSection() {
   const { data: financialsData } = useItcFinancials();
+  const priceHistory = useItcPriceHistory();
   // Use runtime financial data when available, otherwise fall back to static
   const data = financialsData?.rows?.map(r => ({
     year: r.fiscalYear.replace('FY', ''),
@@ -194,6 +195,46 @@ export function DashboardSection() {
           </ResponsiveContainer>
         </div>
       </div>
+
+      {/* 30-Year Price History */}
+      {priceHistory.data && priceHistory.data.days.length > 0 && (
+        <div className="glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-gray-300 flex items-center gap-2">
+              <TrendingUp size={15} className="text-blue-400" />
+              ITC Stock Price — {priceHistory.data.startDate} to {priceHistory.data.endDate}
+            </h3>
+            <span className="text-[10px] text-gray-500 flex items-center gap-1">
+              <Calendar size={10} />
+              {priceHistory.data.totalDays.toLocaleString()} trading days
+            </span>
+          </div>
+          <ResponsiveContainer width="100%" height={280}>
+            <AreaChart
+              data={priceHistory.data.days.filter((_, i) => i % 22 === 0)} // sample monthly
+              margin={{ top: 5, right: 20, bottom: 5, left: 20 }}
+            >
+              <defs>
+                <linearGradient id="gPriceDash" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
+              <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 9 }}
+                tickFormatter={(v: string) => v.slice(0, 4)}
+                interval={Math.floor(priceHistory.data.days.length / 22 / 15)} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} domain={['auto', 'auto']} />
+              <Tooltip content={<ChartTooltip />} />
+              <Area type="monotone" dataKey="close" stroke="#3b82f6" fill="url(#gPriceDash)" strokeWidth={1.5} />
+            </AreaChart>
+          </ResponsiveContainer>
+          <div className="flex justify-between text-[10px] text-gray-500 mt-2">
+            <span>₹{priceHistory.data.days[0].close.toFixed(2)} ({priceHistory.data.startDate})</span>
+            <span>₹{priceHistory.data.days[priceHistory.data.days.length - 1].close.toFixed(2)} (current)</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
