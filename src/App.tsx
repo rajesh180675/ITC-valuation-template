@@ -22,6 +22,7 @@ import {
   generateProjections,
   simulateTaxImpact,
 } from './utils/itcModel';
+import { LiveQuoteBanner } from './components/itc/LiveQuoteBanner';
 import { SensexUniverseSection } from './components/sensex/SensexUniverseSection';
 import { Nifty250UniverseSection } from './components/sensex/Nifty250UniverseSection';
 import { NiftyIndexDataSection } from './components/sensex/NiftyIndexDataSection';
@@ -182,6 +183,9 @@ function Dashboard() {
   return (
     <div className="animate-fadeIn space-y-6">
       <SectionHeader title="ITC Limited — Dashboard" subtitle="Comprehensive financial overview of India's largest diversified conglomerate" icon={<Activity size={22} />} />
+
+      {/* Live Market Data */}
+      <LiveQuoteBanner />
 
       {/* Key Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">

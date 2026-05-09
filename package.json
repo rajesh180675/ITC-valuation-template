@@ -15,7 +15,9 @@
     "validate": "npm run typecheck && npm run test && npm run build",
     "preview": "vite preview",
     "generate:nifty750": "node scripts/build_nifty_750_official.mjs",
-    "generate:nifty750:synthetic-demo": "node scripts/generate_nifty_750_10y.mjs"
+    "generate:nifty750:synthetic-demo": "node scripts/generate_nifty_750_10y.mjs",
+    "data:refresh": "C:\\Python314\\python.exe scripts/data_collector/fetch_itc_data.py",
+    "data:refresh:all": "C:\\Python314\\python.exe scripts/data_collector/fetch_itc_data.py && npm run generate:nifty750"
   },
   "dependencies": {
     "clsx": "2.1.1",
