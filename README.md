@@ -125,19 +125,36 @@ The app supports live data integration via Python data collector scripts in `scr
 | ITC price history (daily) | `public/data/itc_price_history.json` | `scripts/data_collector/fetch_itc_data.py` | **Max available** (30 years for ITC) |
 | ITC financial statements | `public/data/itc_financials.json` | `scripts/data_collector/fetch_itc_data.py` | ~4 years |
 | ITC dividend history | `public/data/itc_dividend_history.json` | `scripts/data_collector/fetch_itc_data.py` | **Max available** (30 years for ITC) |
+| Nifty 750 dataset | `public/data/nifty_750_10y.json` | `npm run generate:nifty750:real` | **Real data** — NSE constituents + yfinance financials |
 
 ### Refreshing data
 
 ```bash
-# Install Python dependency once
-pip install yfinance pandas
+# Install Python dependencies once
+pip install yfinance pandas requests
 
 # Refresh ITC data feeds
 npm run data:refresh
 
-# Refresh everything (ITC + Nifty 750 official build)
+# Build real Nifty 750 feed (fetches NSE + yfinance, then builds)
+npm run generate:nifty750:real
+
+# Refresh everything
 npm run data:refresh:all
 ```
+
+### Nifty 750 real data pipeline
+
+The Nifty 750 Data Hub now fetches real constituent data from **NSE India's official API** and financial data from **Yahoo Finance**:
+
+1. `fetch_nifty750_data.py` fetches:
+   - NSE index constituents (symbol, name, ISIN, sector, market cap) via `nseindia.com/api/equity-stockIndices`
+   - Financial data (revenue, profit) via yfinance for each company
+   - Classification (financial vs nonFinancial) from NSE industry metadata
+2. Writes source-pack files to `scripts/nifty750/source-pack/`
+3. `npm run generate:nifty750` runs the official build script to produce the schema v2 dataset
+
+**Coverage:** ~544/750 companies have financial data (73%). Missing data is flagged with quality flags per schema v2 design.
 
 ### How feeds are consumed
 

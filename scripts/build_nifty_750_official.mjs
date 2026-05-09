@@ -189,6 +189,18 @@ function buildRows(company, fiscalYears, financialByKey, marketByKey) {
     const profit = financial?.netProfitCr ?? null;
     const marketCap = market?.marketCapCr ?? null;
 
+    // Build source refs — always provide at least a placeholder for schema v2 compliance
+    const financialSource = financial?.source ?? {
+        sourceName: 'Not available',
+        sourceType: 'unavailable',
+        notes: 'Financial data not available from source pack for this fiscal year.',
+    };
+    const marketSource = market?.source ?? {
+        sourceName: 'Not available',
+        sourceType: 'unavailable',
+        notes: 'Market data not available from source pack for this fiscal year.',
+    };
+
     const roePct = equity && profit !== null ? round((profit / equity) * 100, 2) : null;
     const debtToEquity = company.reportingType === 'financial' || !equity || debt === null ? null : round(debt / equity, 2);
     const pe = marketCap && profit && profit > 0 ? round(marketCap / profit, 2) : null;
@@ -213,8 +225,8 @@ function buildRows(company, fiscalYears, financialByKey, marketByKey) {
       pb,
       marketDataAsOfDate: market?.marketDataAsOfDate,
       sources: {
-        financial: financial?.source,
-        marketData: market?.source,
+        financial: financialSource,
+        marketData: marketSource,
         computed: sourceRef('Internal ratio computation', {
           sourceType: 'computed_from_official_inputs',
           notes: 'ROE, debt-to-equity, PE and PB computed from official financial and market-data inputs where available.',
