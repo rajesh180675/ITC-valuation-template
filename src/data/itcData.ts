@@ -408,6 +408,10 @@ export const sharesOutstanding = 1249; // crore shares (FY25 weighted avg, margi
 export const currentMarketPrice = 418; // as of Apr 2026 (post Budget 2026 correction)
 export const currentMarketCap = sharesOutstanding * currentMarketPrice; // ~₹5.22L Cr
 
+// Hotels Business demerged into ITC Hotels Limited effective 1 Jan 2025.
+// FY2025+ data should treat Hotels as Discontinued Operations.
+export const HOTELS_DEMERGED_YEAR = 2025;
+
 // Peer multiples - sourced from valueinvesting.io and broker notes (Apr 2026)
 export interface PeerMultiple {
   name: string;

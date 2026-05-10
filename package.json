@@ -17,8 +17,8 @@
     "generate:nifty750": "node scripts/build_nifty_750_official.mjs",
     "generate:nifty750:synthetic-demo": "node scripts/generate_nifty_750_10y.mjs",
     "generate:itc:synthetic": "node scripts/build_itc_data.mjs",
-    "data:refresh": "C:\\Python314\\python.exe scripts/data_collector/fetch_itc_data.py all --years 30 && C:\\Python314\\python.exe scripts/data_collector/validate_schemas.py",
-    "data:validate": "C:\\Python314\\python.exe scripts/data_collector/validate_schemas.py"
+    "data:refresh": "python scripts/data_collector/fetch_itc_data.py all --years 30 && python scripts/data_collector/validate_schemas.py",
+    "data:validate": "python scripts/data_collector/validate_schemas.py"
   },
   "dependencies": {
     "clsx": "2.1.1",

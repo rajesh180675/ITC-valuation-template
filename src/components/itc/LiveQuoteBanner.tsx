@@ -69,6 +69,17 @@ export function LiveQuoteBanner() {
     </div>
   ) : null;
 
+  // Staleness warning: live data older than 24h
+  const staleHours = isLive
+    ? (Date.now() - new Date(q.fetchedAt).getTime()) / (1000 * 60 * 60)
+    : 0;
+  const stalenessBanner = isLive && staleHours > 24 ? (
+    <div className="flex items-center gap-2 text-xs text-yellow-400/80 mt-1">
+      <AlertTriangle size={12} />
+      <span>Live quote is {Math.round(staleHours)}h old — data may be stale.</span>
+    </div>
+  ) : null;
+
   return (
     <div className="glass-card p-4 space-y-2">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
@@ -122,6 +133,7 @@ export function LiveQuoteBanner() {
       </div>
 
       {errorBanner}
+      {stalenessBanner}
     </div>
   );
 }

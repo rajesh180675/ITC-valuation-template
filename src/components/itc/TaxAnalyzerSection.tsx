@@ -8,6 +8,7 @@ import { Shield, Zap, Database, BookOpen, TrendingUp } from 'lucide-react';
 import { historicalData, taxEvents } from '@/data/itcData';
 import { MODEL_ASSUMPTIONS, simulateTaxImpact } from '@/utils/itcModel';
 import { useItcFinancials } from '@/utils/dataFeeds';
+import { blendOrFallback } from '@/utils/segmentBlending';
 import { ChartTooltip, MetricCard, SectionHeader, pct, fmt } from './shared';
 import type { YearlyData } from '@/data/itcData';
 
@@ -18,72 +19,7 @@ export function TaxAnalyzerSection() {
   const [simHike, setSimHike] = useState(12);
   const { data: financialsData } = useItcFinancials();
 
-  const staticSegmentMap = new Map<string, {
-    cigPct: number; fmcgPct: number; hotelsPct: number; paperPct: number; agriPct: number;
-    cigaretteEbitMargin: number; fmcgEbitdaMargin: number;
-    netDebt: number; cigaretteVolumeIndex: number; taxHikePct: number;
-    stockPriceHigh: number; stockPriceLow: number; dividendYield: number; peRatio: number;
-  }>();
-
-  for (const d of historicalData) {
-    const total = d.cigaretteRevenue + d.fmcgRevenue + d.hotelsRevenue + d.paperRevenue + d.agriRevenue;
-    staticSegmentMap.set(d.year, {
-      cigPct: total > 0 ? d.cigaretteRevenue / total : 0,
-      fmcgPct: total > 0 ? d.fmcgRevenue / total : 0,
-      hotelsPct: total > 0 ? d.hotelsRevenue / total : 0,
-      paperPct: total > 0 ? d.paperRevenue / total : 0,
-      agriPct: total > 0 ? d.agriRevenue / total : 0,
-      cigaretteEbitMargin: d.cigaretteEbitMargin,
-      fmcgEbitdaMargin: d.fmcgEbitdaMargin,
-      netDebt: d.netDebt,
-      cigaretteVolumeIndex: d.cigaretteVolumeIndex,
-      taxHikePct: d.taxHikePct,
-      stockPriceHigh: d.stockPriceHigh,
-      stockPriceLow: d.stockPriceLow,
-      dividendYield: d.dividendYield,
-      peRatio: d.peRatio,
-    });
-  }
-
-  const activeData: YearlyData[] = useMemo(() => {
-    if (source === 'live' && financialsData?.rows && financialsData.rows.length > 0) {
-      return financialsData.rows.map(r => {
-        const rev = r.revenue;
-        const fyYear = r.fiscalYear.replace('FY', '');
-        const seg = staticSegmentMap.get(fyYear) ?? staticSegmentMap.get(String(Number(fyYear) - 1));
-        return {
-          year: fyYear,
-          fy: r.fiscalYear,
-          revenue: rev,
-          cigaretteRevenue: seg ? Math.round(rev * seg.cigPct) : r.cigaretteRevenue,
-          fmcgRevenue: seg ? Math.round(rev * seg.fmcgPct) : r.fmcgRevenue,
-          hotelsRevenue: seg ? Math.round(rev * seg.hotelsPct) : r.hotelsRevenue,
-          paperRevenue: seg ? Math.round(rev * seg.paperPct) : r.paperRevenue,
-          agriRevenue: seg ? Math.round(rev * seg.agriPct) : r.agriRevenue,
-          ebitda: r.ebitda,
-          ebitdaMargin: r.ebitdaMargin,
-          netProfit: r.netProfit,
-          netMargin: r.netMargin,
-          eps: r.eps,
-          dps: r.dps,
-          roe: r.roe,
-          roce: r.roce,
-          freeCashFlow: r.freeCashFlow,
-          totalAssets: r.totalAssets,
-          netDebt: seg?.netDebt ?? 0,
-          cigaretteEbitMargin: seg?.cigaretteEbitMargin ?? 0,
-          fmcgEbitdaMargin: seg?.fmcgEbitdaMargin ?? 0,
-          cigaretteVolumeIndex: seg?.cigaretteVolumeIndex ?? 0,
-          taxHikePct: seg?.taxHikePct ?? 0,
-          stockPriceHigh: seg?.stockPriceHigh ?? 0,
-          stockPriceLow: seg?.stockPriceLow ?? 0,
-          dividendYield: seg?.dividendYield ?? 0,
-          peRatio: seg?.peRatio ?? 0,
-        };
-      });
-    }
-    return historicalData;
-  }, [source, financialsData]);
+  const activeData: YearlyData[] = useMemo(() => blendOrFallback(source, financialsData?.rows ?? null), [source, financialsData]);
 
   const latest = activeData[activeData.length - 1];
   const taxImpact = useMemo(() => simulateTaxImpact(simHike, latest), [simHike, latest]);

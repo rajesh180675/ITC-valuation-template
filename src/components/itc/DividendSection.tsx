@@ -8,11 +8,9 @@ import {
 import { TrendingUp } from 'lucide-react';
 import { dividendHistory } from '@/data/itcData';
 import { calculateDividendMetrics } from '@/utils/itcModel';
-import { useItcDividendHistory } from '@/utils/dataFeeds';
+import { useItcDividendHistory, useItcCurrentPrice } from '@/utils/dataFeeds';
 import type { ItcDividendHistory } from '@/utils/itcDataSchemas';
 import { SectionHeader, MetricCard, ChartTooltip, fmtN, pct } from './shared';
-
-const CURRENT_PRICE = 442;
 
 function aggregateLiveDividends(live: ItcDividendHistory | null): Map<string, { dps: number; specialDiv: number; totalDps: number }> {
   if (!live) return new Map();
@@ -32,6 +30,7 @@ function aggregateLiveDividends(live: ItcDividendHistory | null): Map<string, { 
 
 export function DividendSection() {
   const { data: liveDividendData } = useItcDividendHistory();
+  const { price: currentPrice } = useItcCurrentPrice();
 
   // Merge live dividend data into static entries when available
   const mergedDividendHistory = useMemo(() => {
@@ -54,7 +53,7 @@ export function DividendSection() {
     });
   }, [liveDividendData]);
 
-  const metrics = useMemo(() => calculateDividendMetrics(mergedDividendHistory, CURRENT_PRICE), [mergedDividendHistory]);
+  const metrics = useMemo(() => calculateDividendMetrics(mergedDividendHistory, currentPrice), [mergedDividendHistory, currentPrice]);
 
   const avgDps = useMemo(() => mergedDividendHistory.length > 0 ? mergedDividendHistory.reduce((sum, d) => sum + d.dps, 0) / mergedDividendHistory.length : 0, [mergedDividendHistory]);
   const avgDivYield = useMemo(() => mergedDividendHistory.length > 0 ? mergedDividendHistory.reduce((sum, d) => sum + d.divYield, 0) / mergedDividendHistory.length : 0, [mergedDividendHistory]);

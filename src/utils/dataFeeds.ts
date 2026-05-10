@@ -19,7 +19,7 @@ import {
   type ItcFinancials,
   type ItcDividendHistory,
 } from './itcDataSchemas';
-import { historicalData, dividendHistory as staticDividendHistory } from '@/data/itcData';
+import { historicalData, dividendHistory as staticDividendHistory, currentMarketPrice } from '@/data/itcData';
 import type { YearlyData, DividendEntry } from '@/data/itcData';
 
 // ─── URL Constants ──────────────────────────────────────────────────────────
@@ -203,4 +203,16 @@ export function useItcDividendHistory(): UseItcDividendHistoryReturn {
   const fallbackData = data === null && !loading ? staticDividendHistory : null;
 
   return { data, loading, error, fallbackData };
+}
+
+// ─── useItcCurrentPrice ────────────────────────────────────────────────────
+
+/**
+ * Returns the latest ITC share price: live quote when available,
+ * otherwise falls back to the static `currentMarketPrice` from itcData.ts.
+ */
+export function useItcCurrentPrice(): { price: number; isLive: boolean; loading: boolean } {
+  const { data, loading } = useItcLiveQuote();
+  if (data) return { price: data.lastPrice, isLive: true, loading: false };
+  return { price: currentMarketPrice, isLive: false, loading };
 }

@@ -7,6 +7,7 @@ import {
 import { Activity, TrendingUp, Calendar, Database, BookOpen } from 'lucide-react';
 import { historicalData } from '@/data/itcData';
 import { useItcFinancials, useItcPriceHistory } from '@/utils/dataFeeds';
+import { blendOrFallback } from '@/utils/segmentBlending';
 import { ChartTooltip, MetricCard, SectionHeader, fmt, fmtN, pct, rupee, fmtCompact } from './shared';
 import { LiveQuoteBanner } from './LiveQuoteBanner';
 
@@ -20,79 +21,7 @@ export function DashboardSection() {
   // ── Data Source Blending ───────────────────────────────────────────────
   // "Static" uses itcData.ts (curated from annual reports) — 14 years, all segments, volume, tax
   // "Live" blends yfinance totals with year-matched segment proportions from annual reports
-
-  // Build a lookup map: hardcoded year (e.g. "2025") → segment proportions from annual reports
-  const staticSegmentMap = new Map<string, {
-    cigPct: number; fmcgPct: number; hotelsPct: number; paperPct: number; agriPct: number;
-    cigRev: number; fmcgRev: number; hotelsRev: number; paperRev: number; agriRev: number;
-    cigEbitMargin: number; fmcgEbitdaMargin: number;
-    volumeIndex: number; taxHikePct: number;
-    dividendYield: number; peRatio: number; dps: number;
-  }>();
-
-  for (const d of historicalData) {
-    const total = d.cigaretteRevenue + d.fmcgRevenue + d.hotelsRevenue + d.paperRevenue + d.agriRevenue;
-    staticSegmentMap.set(d.year, {
-      cigPct: total > 0 ? d.cigaretteRevenue / total : 0,
-      fmcgPct: total > 0 ? d.fmcgRevenue / total : 0,
-      hotelsPct: total > 0 ? d.hotelsRevenue / total : 0,
-      paperPct: total > 0 ? d.paperRevenue / total : 0,
-      agriPct: total > 0 ? d.agriRevenue / total : 0,
-      cigRev: d.cigaretteRevenue,
-      fmcgRev: d.fmcgRevenue,
-      hotelsRev: d.hotelsRevenue,
-      paperRev: d.paperRevenue,
-      agriRev: d.agriRevenue,
-      cigEbitMargin: d.cigaretteEbitMargin,
-      fmcgEbitdaMargin: d.fmcgEbitdaMargin,
-      volumeIndex: d.cigaretteVolumeIndex,
-      taxHikePct: d.taxHikePct,
-      dividendYield: d.dividendYield,
-      peRatio: d.peRatio,
-      dps: d.dps,
-    });
-  }
-
-  // Build chart data from the selected source
-  // In 'live' mode, yfinance gives real totals but no segment breakdown,
-  // so we blend year-matched segment proportions from annual reports.
-  const activeData = source === 'live' && financialsData?.rows
-    ? financialsData.rows.map(r => {
-        const rev = r.revenue;
-        // Match fiscal year to find corresponding annual report segment data
-        const fyYear = r.fiscalYear.replace('FY', '');
-        const seg = staticSegmentMap.get(fyYear) ?? staticSegmentMap.get(String(Number(fyYear) - 1));
-        return {
-          year: fyYear,
-          fy: r.fiscalYear,
-          revenue: rev,
-          // Use year-matched segment data from annual reports
-          cigaretteRevenue: seg ? Math.round(rev * seg.cigPct) : 0,
-          fmcgRevenue: seg ? Math.round(rev * seg.fmcgPct) : 0,
-          hotelsRevenue: seg ? Math.round(rev * seg.hotelsPct) : 0,
-          paperRevenue: seg ? Math.round(rev * seg.paperPct) : 0,
-          agriRevenue: seg ? Math.round(rev * seg.agriPct) : 0,
-          ebitda: r.ebitda,
-          ebitdaMargin: r.ebitdaMargin,
-          netProfit: r.netProfit,
-          netMargin: r.netMargin,
-          eps: r.eps,
-          dps: seg?.dps ?? 0,
-          roe: r.roe,
-          roce: r.roce,
-          freeCashFlow: r.freeCashFlow,
-          totalAssets: r.totalAssets,
-          grossDebt: r.grossDebt,
-          // Carry over year-matched static data for blended display
-          cigaretteVolumeIndex: seg?.volumeIndex ?? 0,
-          taxHikePct: seg?.taxHikePct ?? 0,
-          cigaretteEbitMargin: seg?.cigEbitMargin ?? 0,
-          fmcgEbitdaMargin: seg?.fmcgEbitdaMargin ?? 0,
-          dividendYield: seg?.dividendYield ?? 0,
-          peRatio: seg?.peRatio ?? 0,
-        };
-      })
-    : historicalData;
+  const activeData = blendOrFallback(source, financialsData?.rows ?? null);
 
   const latest = activeData[activeData.length - 1];
   const prev = activeData.length > 1 ? activeData[activeData.length - 2] : activeData[0];
