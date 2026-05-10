@@ -422,7 +422,7 @@ function adaptNifty250Constituent(raw: any): SensexConstituent {
     fy: h.fy,
     toplineCr: h.toplineCr ?? 0,
     netProfitCr: h.netProfitCr ?? 0,
-    roePct: 0,   // not available from basic scrape
+    roePct: h.roePct ?? 0,
   }));
   return {
     id: raw.id,
@@ -433,7 +433,7 @@ function adaptNifty250Constituent(raw: any): SensexConstituent {
     weightPct: raw.weightPct ?? 0,
     marketCapCr: raw.marketCapCr ?? 0,
     cmp: raw.cmp ?? 0,
-    valuationMetric: raw.valuationMetric ?? 'pe',
+    valuationMetric: raw.valuationMetric ?? (raw.reportingType === 'financial' ? 'pb' : 'pe'),
     valuationMultiple: raw.valuationMultiple ?? 0,
     dividendYieldPct: raw.dividendYieldPct ?? 0,
     color: raw.color ?? '#60a5fa',

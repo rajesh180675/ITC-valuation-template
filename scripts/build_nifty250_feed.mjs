@@ -107,18 +107,28 @@ function main() {
     // Build history array: one entry per fiscal year in the common range
     // Only include years where this company has actual data
     const history = [];
+    const mktRoe = mkt?.roePct ?? null;
+    const mktRoce = mkt?.rocePct ?? null;
+    // Set ROE/ROCE on the last (latest) history entry for this company
+    let lastIdx = -1;
     for (const fy of fiscalYears) {
       const finRow = finRows.find(r => r.fiscalYear === fy);
       if (finRow && finRow.revenueCr != null) {
-        // Compute ROE from available data (we don't have equity from screener.in
-        // in this basic scrape, so we use the side-bar ratios)
+        lastIdx = history.length; // will be set on the last iteration
         history.push({
           fy,
           toplineCr: finRow.revenueCr,
           netProfitCr: finRow.netProfitCr,
           operatingProfitCr: finRow.operatingProfitCr,
+          roePct: 0,
+          rocePct: 0,
         });
       }
+    }
+    // Set ROE/ROCE on the last history entry only
+    if (lastIdx >= 0) {
+      history[lastIdx].roePct = mktRoe ?? 0;
+      history[lastIdx].rocePct = mktRoce ?? 0;
     }
 
     // Skip companies with no data in the common range
@@ -135,14 +145,13 @@ function main() {
       sector: company.sector,
       reportingType: company.reportingType,
       weightPct: 0, // will be normalized after all are collected
-      marketCapCr: 0, // not available from screener.in scrape
-      cmp: 0,
+      marketCapCr: mkt?.marketCapCr ?? 0,
+      cmp: mkt?.currentPrice ?? 0,
       valuationMetric: company.reportingType === 'financial' ? 'pb' : 'pe',
-      valuationMultiple: 0,
-      dividendYieldPct: 0,
+      valuationMultiple: mkt?.stockPe ?? 0,
+      dividendYieldPct: mkt?.dividendYieldPct ?? 0,
       color: colorFor(company.sector),
       beta: 0,
-      netDebtToEbitda: company.reportingType === 'financial' ? undefined : undefined,
       history,
       qualityFlags: [],
       dataSource: 'screener-in',

@@ -241,6 +241,39 @@ def parse_financials(ticker):
         if 'ROCE' in text and vals:
             roce = vals[0]
     
+    # Extract market data from the company header
+    # Structure: <li class="flex flex-space-between">
+    #   <span class="name">Market Cap</span>
+    #   <span class="number">19,42,189</span> Cr.
+    market_cap_cr = None
+    stock_pe = None
+    book_value = None
+    div_yield = None
+    current_price = None
+    
+    for li in soup.find_all('li', class_=lambda x: x and 'flex' in x and 'space-between' in x):
+        name_span = li.find('span', class_='name')
+        value_span = li.find('span', class_='number')
+        if not name_span or not value_span:
+            continue
+        name = name_span.get_text(strip=True)
+        val_str = value_span.get_text(strip=True).replace(',', '')
+        try:
+            val = float(val_str)
+        except (ValueError, TypeError):
+            continue
+        
+        if 'Market Cap' in name:
+            market_cap_cr = val
+        elif 'Current Price' in name:
+            current_price = val
+        elif 'Stock P/E' in name:
+            stock_pe = val
+        elif 'Book Value' in name:
+            book_value = val
+        elif 'Dividend Yield' in name:
+            div_yield = val
+    
     return {
         "ticker": ticker,
         "name": company_name,
@@ -252,6 +285,11 @@ def parse_financials(ticker):
         "roce": roce,
         "latestToplineCr": history[-1]['toplineCr'] if history else None,
         "latestNetProfitCr": history[-1]['netProfitCr'] if history else None,
+        "marketCapCr": market_cap_cr,
+        "stockPe": stock_pe,
+        "bookValue": book_value,
+        "dividendYieldPct": div_yield,
+        "currentPrice": current_price,
     }
 
 # ── Main collection ──────────────────────────────────────────────────────────
@@ -425,6 +463,11 @@ def main():
                 "dataStartFy": r['fiscalYears'][0] if r['fiscalYears'] else None,
                 "dataEndFy": latest_fy,
                 "yearsOfData": len(r['history']),
+                "marketCapCr": r.get('marketCapCr'),
+                "stockPe": r.get('stockPe'),
+                "bookValue": r.get('bookValue'),
+                "dividendYieldPct": r.get('dividendYieldPct'),
+                "currentPrice": r.get('currentPrice'),
             })
     mkt_json = {
         "generatedAt": timestamp,
