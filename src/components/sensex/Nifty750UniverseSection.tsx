@@ -3,7 +3,7 @@ import { Layers } from 'lucide-react';
 import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
 import {
   buildSensexIndexTimeSeries, buildSensexSectorSummary,
-  calculateCagr, getLatestSensexFinancial, getPrimaryValuationLabel,
+  getLatestSensexFinancial, getPrimaryValuationLabel,
 } from '@/utils/itcModel';
 import {
   buildFactorScores, buildMagicFormulaRanks, buildSectorAnalytics,
@@ -33,6 +33,28 @@ const BATCH_LABELS: Record<BatchSlug, string> = {
   microcap250: 'Nifty Microcap 250',
 };
 
+/* ── Safe helpers ─────────────────────────────────────────────────────────── */
+function safeHistory(c: SensexConstituent, i: number) {
+  try {
+    return c.history[i] ?? c.history[0] ?? { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+  } catch {
+    return { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+  }
+}
+function safeLastHistory(c: SensexConstituent) {
+  try {
+    return c.history[c.history.length - 1] ?? c.history[0] ?? { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+  } catch {
+    return { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+  }
+}
+function safeCagr(start: number | undefined, end: number | undefined, periods: number): number {
+  try {
+    if (start == null || end == null || start <= 0 || end <= 0 || periods <= 0) return 0;
+    return (Math.pow(end / start, 1 / periods) - 1) * 100;
+  } catch { return 0; }
+}
+
 export function Nifty750UniverseSection() {
   const [selectedId, setSelectedId] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('composite');
@@ -41,150 +63,215 @@ export function Nifty750UniverseSection() {
   const [rawData, setRawData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  /* ── Data fetch with error boundary ───────────────────────────────────── */
   useEffect(() => {
+    let cancelled = false;
     fetch(DATA_URL)
       .then(r => r.ok ? r.json() : null)
-      .then(d => {
-        setRawData(d);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      .then(d => { if (!cancelled) { setRawData(d); setLoading(false); } })
+      .catch(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, []);
 
+  /* ── Batch companies ──────────────────────────────────────────────────── */
   const batchCompanies: SensexConstituent[] = useMemo(() => {
-    if (!rawData) return [];
-    const batch = rawData.batches?.find((b: any) => b.indexSlug === selectedBatch);
-    if (!batch?.companies) return [];
-    return batch.companies.map(adaptConstituent);
+    try {
+      if (!rawData?.batches) return [];
+      const batch = rawData.batches.find((b: any) => b.indexSlug === selectedBatch);
+      if (!batch?.companies?.length) return [];
+      return batch.companies.map(adaptConstituent).filter(Boolean);
+    } catch { return []; }
   }, [rawData, selectedBatch]);
 
+  /* ── Dynamic fiscal years ─────────────────────────────────────────────── */
   const [years, setYears] = useState<string[]>([]);
   useEffect(() => {
-    if (batchCompanies.length > 0) {
-      const fySet = new Set<string>();
-      batchCompanies.forEach(c => c.history.forEach(h => fySet.add(h.fy)));
-      setYears(Array.from(fySet).sort());
-    }
+    try {
+      if (batchCompanies.length > 0) {
+        const fySet = new Set<string>();
+        batchCompanies.forEach(c => (c.history || []).forEach(h => { if (h?.fy) fySet.add(h.fy); }));
+        const sorted = Array.from(fySet).sort();
+        if (sorted.length > 0) setYears(sorted);
+      }
+    } catch { /* ignore */ }
   }, [batchCompanies]);
 
+  /* ── Reset selectedId when batch changes ──────────────────────────────── */
   useEffect(() => {
-    if (batchCompanies.length > 0 && !batchCompanies.find(c => c.id === selectedId)) {
-      setSelectedId(batchCompanies[0]?.id ?? '');
+    if (batchCompanies.length > 0) {
+      const stillExists = batchCompanies.find(c => c.id === selectedId);
+      if (!stillExists) setSelectedId(batchCompanies[0]?.id ?? '');
     }
-  }, [batchCompanies, selectedId]);
+  }, [batchCompanies]); // eslint-disable-line
 
   const [filterVal, setFilterVal] = useState<Filter>('all');
-
   const totalYears = years.length;
   const [rangeStart, setRangeStart] = useState(0);
   const [rangeEnd, setRangeEnd] = useState(totalYears - 1);
   useEffect(() => { setRangeEnd(Math.max(0, totalYears - 1)); }, [totalYears]);
 
+  /* ── Filtered companies ────────────────────────────────────────────────── */
   const filteredCompanies = useMemo(() => {
-    if (filterVal === 'all') return batchCompanies;
-    return batchCompanies.filter(c => c.reportingType === filterVal);
+    try {
+      if (filterVal === 'all') return batchCompanies;
+      return batchCompanies.filter(c => c?.reportingType === filterVal);
+    } catch { return []; }
   }, [filterVal, batchCompanies]);
 
-  const startFy = years[rangeStart];
-  const endFy = years[rangeEnd];
-  const rangePeriods = Math.max(1, rangeEnd - rangeStart);
-  const rangeLabel = `${startFy}–${endFy}`;
+  /* ── Safe year bounds ──────────────────────────────────────────────────── */
+  const safeRangeStart = Math.min(rangeStart, Math.max(0, totalYears - 1));
+  const safeRangeEnd = Math.min(rangeEnd, Math.max(0, totalYears - 1));
+  const safePeriods = Math.max(1, safeRangeEnd - safeRangeStart);
 
-  const indexSeries = useMemo(() => buildSensexIndexTimeSeries(filteredCompanies), [filteredCompanies]);
-  const sectorSummary = useMemo(() => buildSensexSectorSummary(filteredCompanies), [filteredCompanies]);
-  const sectorAnalytics = useMemo(() => buildSectorAnalytics(filteredCompanies, rangeStart, rangeEnd), [filteredCompanies, rangeStart, rangeEnd]);
-  const concentration = useMemo(() => computeConcentration(filteredCompanies), [filteredCompanies]);
-  const factorScores = useMemo(() => buildFactorScores(filteredCompanies, rangeStart, rangeEnd), [filteredCompanies, rangeStart, rangeEnd]);
-  const magicFormula = useMemo(() => buildMagicFormulaRanks(filteredCompanies), [filteredCompanies]);
-  const sectorMomentum = useMemo(() => buildSectorMomentumGrid(filteredCompanies), [filteredCompanies]);
-  const valuationZ = useMemo(() => buildValuationZScores(filteredCompanies), [filteredCompanies]);
+  const startFy = years[safeRangeStart] ?? years[0] ?? '';
+  const endFy = years[safeRangeEnd] ?? years[years.length - 1] ?? '';
+  const rangeLabel = startFy ? `${startFy}–${endFy}` : '';
 
-  const rows = useMemo(() => filteredCompanies.map(company => {
-    const firstRaw = company.history[rangeStart];
-    const lastRaw = company.history[rangeEnd];
-    const first = firstRaw ?? company.history[0] ?? { fy: 'N/A', toplineCr: 0, netProfitCr: 0, roePct: 0 };
-    const last = lastRaw ?? company.history[company.history.length - 1] ?? { fy: 'N/A', toplineCr: 0, netProfitCr: 0, roePct: 0 };
-    const profitCagr = first?.toplineCr != null && last?.toplineCr != null
-      ? calculateCagr(first.netProfitCr, last.netProfitCr, rangePeriods) : 0;
-    const coe = costOfEquity(company.beta);
-    const impliedG = impliedPerpetualGrowth(company);
-    const scores = factorScores.get(company.id);
-    const valZ = valuationZ.get(company.id);
-    return {
-      company, first, last,
-      toplineCagr: first?.toplineCr != null && last?.toplineCr != null
-        ? calculateCagr(first.toplineCr, last.toplineCr, rangePeriods) : 0,
-      profitCagr, coe, impliedG, gap: profitCagr - impliedG,
-      scores: scores ?? { quality: 0, value: 0, growth: 0, momentum: 0, composite: 0 },
-      valuationLabel: getPrimaryValuationLabel(company),
-      valuationZ: valZ?.zScore ?? 0,
-      sectorMedianMultiple: valZ?.sectorMedian ?? company.valuationMultiple,
-    };
-  }), [filteredCompanies, rangeStart, rangeEnd, rangePeriods, factorScores, valuationZ]);
+  /* ── Analytics (all try-catch wrapped) ────────────────────────────────── */
+  const indexSeries = useMemo(() => { try { return buildSensexIndexTimeSeries(filteredCompanies); } catch { return []; } }, [filteredCompanies]);
+  const sectorSummary = useMemo(() => { try { return buildSensexSectorSummary(filteredCompanies); } catch { return []; } }, [filteredCompanies]);
+  const sectorAnalytics = useMemo(() => { try { return buildSectorAnalytics(filteredCompanies, safeRangeStart, safeRangeEnd); } catch { return []; } }, [filteredCompanies, safeRangeStart, safeRangeEnd]);
+  const concentration = useMemo(() => { try { return computeConcentration(filteredCompanies); } catch { return { hhi: 0, effectiveN: 0, top3Pct: 0, top5Pct: 0, top10Pct: 0 }; } }, [filteredCompanies]);
+  const factorScores = useMemo(() => { try { return buildFactorScores(filteredCompanies, safeRangeStart, safeRangeEnd); } catch { return new Map(); } }, [filteredCompanies, safeRangeStart, safeRangeEnd]);
+  const magicFormula = useMemo(() => { try { return buildMagicFormulaRanks(filteredCompanies); } catch { return []; } }, [filteredCompanies]);
+  const sectorMomentum = useMemo(() => { try { return buildSectorMomentumGrid(filteredCompanies); } catch { return []; } }, [filteredCompanies]);
+  const valuationZ = useMemo(() => { try { return buildValuationZScores(filteredCompanies); } catch { return new Map(); } }, [filteredCompanies]);
 
+  /* ── Row computations ──────────────────────────────────────────────────── */
+  const rows = useMemo(() => {
+    try {
+      return filteredCompanies.map(company => {
+        const first = safeHistory(company, safeRangeStart);
+        const last = safeLastHistory(company);
+        const profitCagr = safeCagr(first.netProfitCr, last.netProfitCr, safePeriods);
+        const toplineCagr = safeCagr(first.toplineCr, last.toplineCr, safePeriods);
+        let coe = 0, impliedG = 0, scores, valZ;
+        try { coe = costOfEquity(company.beta); } catch { /* default 0 */ }
+        try { impliedG = impliedPerpetualGrowth(company); } catch { /* default 0 */ }
+        try { scores = factorScores.get(company.id); } catch { scores = undefined; }
+        try { valZ = valuationZ.get(company.id); } catch { valZ = undefined; }
+        return {
+          company, first, last,
+          toplineCagr, profitCagr,
+          coe, impliedG,
+          gap: profitCagr - impliedG,
+          scores: scores ?? { quality: 0, value: 0, growth: 0, momentum: 0, composite: 0 },
+          valuationLabel: getPrimaryValuationLabel(company),
+          valuationZ: valZ?.zScore ?? 0,
+          sectorMedianMultiple: valZ?.sectorMedian ?? company.valuationMultiple,
+        };
+      });
+    } catch { return []; }
+  }, [filteredCompanies, safeRangeStart, safeRangeEnd, safePeriods, factorScores, valuationZ]);
+
+  /* ── Sorted rows ───────────────────────────────────────────────────────── */
   const sortedRows = useMemo(() => {
-    const dir = sortDir === 'asc' ? 1 : -1;
-    const get = (r: typeof rows[number]): number => {
-      switch (sortKey) {
-        case 'weight': return r.company.weightPct;
-        case 'mcap': return r.company.marketCapCr;
-        case 'topline': return r.last.toplineCr ?? 0;
-        case 'toplineCagr': return r.toplineCagr;
-        case 'profitCagr': return r.profitCagr;
-        case 'roe': return r.last.roePct ?? 0;
-        case 'valuation': return r.company.valuationMultiple;
-        case 'beta': return r.company.beta;
-        case 'coe': return r.coe;
-        case 'impliedG': return r.impliedG;
-        case 'composite': return r.scores.composite;
-      }
-    };
-    return [...rows].sort((a, b) => (get(a) - get(b)) * dir);
+    try {
+      const dir = sortDir === 'asc' ? 1 : -1;
+      const get = (r: any): number => {
+        try {
+          switch (sortKey) {
+            case 'weight': return r?.company?.weightPct ?? 0;
+            case 'mcap': return r?.company?.marketCapCr ?? 0;
+            case 'topline': return r?.last?.toplineCr ?? 0;
+            case 'toplineCagr': return r?.toplineCagr ?? 0;
+            case 'profitCagr': return r?.profitCagr ?? 0;
+            case 'roe': return r?.last?.roePct ?? 0;
+            case 'valuation': return r?.company?.valuationMultiple ?? 0;
+            case 'beta': return r?.company?.beta ?? 0;
+            case 'coe': return r?.coe ?? 0;
+            case 'impliedG': return r?.impliedG ?? 0;
+            case 'composite': return r?.scores?.composite ?? 0;
+          }
+        } catch { return 0; }
+        return 0;
+      };
+      return [...rows].sort((a, b) => (get(a) - get(b)) * dir);
+    } catch { return []; }
   }, [rows, sortKey, sortDir]);
 
-  const totalMarketCap = filteredCompanies.reduce((s, c) => s + c.marketCapCr, 0);
-  const bfsiWeight = filteredCompanies.filter(c => c.reportingType === 'financial').reduce((s, c) => s + c.weightPct, 0);
+  /* ── Aggregate stats ──────────────────────────────────────────────────── */
+  const totalMarketCap = useMemo(() => {
+    try { return filteredCompanies.reduce((s, c) => s + (c?.marketCapCr ?? 0), 0); } catch { return 0; }
+  }, [filteredCompanies]);
+  const bfsiWeight = useMemo(() => {
+    try {
+      return filteredCompanies.filter(c => c?.reportingType === 'financial')
+        .reduce((s, c) => s + (c?.weightPct ?? 0), 0);
+    } catch { return 0; }
+  }, [filteredCompanies]);
   const corpWeight = 100 - bfsiWeight;
-  const largestSector = sectorSummary[0];
+  const largestSector = sectorSummary?.[0] ?? null;
 
-  const indexStart = indexSeries[rangeStart];
-  const indexEnd = indexSeries[rangeEnd];
-  const universeToplineCagr = indexStart && indexEnd ? calculateCagr(indexStart.toplineCr, indexEnd.toplineCr, rangePeriods) : 0;
-  const universeProfitCagr = indexStart && indexEnd ? calculateCagr(indexStart.netProfitCr, indexEnd.netProfitCr, rangePeriods) : 0;
-  const weightedBeta = filteredCompanies.reduce((s, c) => s + (c.weightPct / 100) * c.beta, 0);
+  const indexStart = indexSeries?.[safeRangeStart];
+  const indexEnd = indexSeries?.[safeRangeEnd];
+  const universeToplineCagr = safeCagr(indexStart?.toplineCr, indexEnd?.toplineCr, safePeriods);
+  const universeProfitCagr = safeCagr(indexStart?.netProfitCr, indexEnd?.netProfitCr, safePeriods);
+  const weightedBeta = useMemo(() => {
+    try {
+      return filteredCompanies.reduce((s, c) => s + ((c?.weightPct ?? 0) / 100) * (c?.beta ?? 0), 0);
+    } catch { return 0; }
+  }, [filteredCompanies]);
   const weightedCoe = MARKET_PARAMS.riskFreeRatePct + weightedBeta * MARKET_PARAMS.equityRiskPremiumPct;
 
   const medianPatCagr = useMemo(() => {
-    const values = rows.map(r => r.profitCagr).sort((a, b) => a - b);
-    if (values.length === 0) return 0;
-    const mid = Math.floor(values.length / 2);
-    return values.length % 2 === 0 ? (values[mid - 1] + values[mid]) / 2 : values[mid];
+    try {
+      const values = rows.map(r => r.profitCagr).filter(v => typeof v === 'number').sort((a, b) => a - b);
+      if (values.length === 0) return 0;
+      const mid = Math.floor(values.length / 2);
+      return values.length % 2 === 0 ? (values[mid - 1] + values[mid]) / 2 : values[mid];
+    } catch { return 0; }
   }, [rows]);
 
   const averageRoe = useMemo(() => {
-    if (filteredCompanies.length === 0) return 0;
-    const roes = filteredCompanies.map(c => { const fin = getLatestSensexFinancial(c); return fin?.roePct ?? 0; });
-    return roes.reduce((s, v) => s + v, 0) / filteredCompanies.length;
+    try {
+      if (filteredCompanies.length === 0) return 0;
+      let sum = 0, count = 0;
+      filteredCompanies.forEach(c => {
+        try {
+          const fin = getLatestSensexFinancial(c);
+          if (fin?.roePct != null) { sum += fin.roePct; count++; }
+        } catch { /* skip */ }
+      });
+      return count > 0 ? sum / count : 0;
+    } catch { return 0; }
   }, [filteredCompanies]);
 
-  const selectedRow = sortedRows.find(r => r.company.id === selectedId) ?? sortedRows[0];
-  const selectedCompany = selectedRow?.company ?? filteredCompanies[0];
+  /* ── Selection ──────────────────────────────────────────────────────────── */
+  const selectedRow = sortedRows.length > 0
+    ? (sortedRows.find(r => r?.company?.id === selectedId) ?? sortedRows[0])
+    : null;
+  const selectedCompany = selectedRow?.company ?? filteredCompanies[0] ?? null;
 
-  const topWeightData = useMemo(() =>
-    [...filteredCompanies].sort((a, b) => b.weightPct - a.weightPct).slice(0, 12)
-      .map(c => ({ name: c.ticker, weightPct: c.weightPct, color: c.color })), [filteredCompanies]);
+  /* ── Chart data ─────────────────────────────────────────────────────────── */
+  const topWeightData = useMemo(() => {
+    try {
+      return [...filteredCompanies]
+        .sort((a, b) => (b?.weightPct ?? 0) - (a?.weightPct ?? 0))
+        .slice(0, 12)
+        .map(c => ({ name: c?.ticker ?? '', weightPct: c?.weightPct ?? 0, color: c?.color ?? '#60a5fa' }));
+    } catch { return []; }
+  }, [filteredCompanies]);
 
-  const growthVsValuation = useMemo(() => rows.map(r => ({
-    name: r.company.ticker, x: r.profitCagr, y: r.company.valuationMultiple,
-    z: Math.log(Math.max(1, r.company.marketCapCr)) * 10, color: r.company.color,
-    sector: r.company.sector, metric: r.valuationLabel,
-  })), [rows]);
+  const growthVsValuation = useMemo(() => {
+    try {
+      return rows.map(r => ({
+        name: r?.company?.ticker ?? '', x: r?.profitCagr ?? 0, y: r?.company?.valuationMultiple ?? 0,
+        z: Math.log(Math.max(1, r?.company?.marketCapCr ?? 1)) * 10,
+        color: r?.company?.color ?? '#60a5fa', sector: r?.company?.sector ?? '', metric: r?.valuationLabel ?? 'P/E',
+      }));
+    } catch { return []; }
+  }, [rows]);
 
-  const impliedVsRealized = useMemo(() => rows.map(r => ({
-    name: r.company.ticker, x: r.impliedG, y: r.profitCagr,
-    z: Math.log(Math.max(1, r.company.marketCapCr)) * 10, color: r.company.color,
-    sector: r.company.sector, gap: r.gap, coe: r.coe,
-  })), [rows]);
+  const impliedVsRealized = useMemo(() => {
+    try {
+      return rows.map(r => ({
+        name: r?.company?.ticker ?? '', x: r?.impliedG ?? 0, y: r?.profitCagr ?? 0,
+        z: Math.log(Math.max(1, r?.company?.marketCapCr ?? 1)) * 10,
+        color: r?.company?.color ?? '#60a5fa', sector: r?.company?.sector ?? '', gap: r?.gap ?? 0, coe: r?.coe ?? 0,
+      }));
+    } catch { return []; }
+  }, [rows]);
 
   const sortCaret = (key: SortKey) => sortKey === key ? (sortDir === 'asc' ? ' ▲' : ' ▼') : '';
   const toggleSort = (key: SortKey) => {
@@ -192,18 +279,34 @@ export function Nifty750UniverseSection() {
     else { setSortKey(key); setSortDir('desc'); }
   };
   const setQuickRange = (n: number) => {
-    setRangeStart(Math.max(0, totalYears - 1 - n));
-    setRangeEnd(totalYears - 1);
+    try {
+      if (totalYears > 0) {
+        setRangeStart(Math.max(0, totalYears - 1 - n));
+        setRangeEnd(totalYears - 1);
+      }
+    } catch { /* ignore */ }
   };
 
+  /* ── Guard: loading ─────────────────────────────────────────────────────── */
   if (loading) {
     return <div className="glass-card p-8 text-center text-gray-400 animate-pulse">Loading Nifty 750 data…</div>;
   }
-
   if (!rawData) {
-    return <div className="glass-card p-8 text-center text-gray-400">Unable to load Nifty 750 data. Ensure <code className="px-1">npm run data:refresh-nifty750</code> has been run.</div>;
+    return (
+      <div className="glass-card p-8 text-center text-gray-400">
+        Unable to load Nifty 750 data. Ensure <code className="px-1">npm run data:refresh-nifty750</code> has been run.
+      </div>
+    );
+  }
+  if (batchCompanies.length === 0) {
+    return (
+      <div className="glass-card p-8 text-center text-gray-400">
+        No companies found for {BATCH_LABELS[selectedBatch]}. Try a different index.
+      </div>
+    );
   }
 
+  /* ── Render ─────────────────────────────────────────────────────────────── */
   return (
     <div className="animate-fadeIn space-y-6">
       <div className="premium-card p-6 md:p-7">
@@ -212,7 +315,7 @@ export function Nifty750UniverseSection() {
             <div className="flex items-center gap-3 mb-3">
               <span className="pill"><Layers size={13} /> Universe</span>
               <span className="pill pill-muted">{BATCH_LABELS[selectedBatch]} · {batchCompanies.length} Constituents</span>
-              <span className="pill pill-muted">{rangeLabel}</span>
+              {rangeLabel && <span className="pill pill-muted">{rangeLabel}</span>}
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
               Nifty 750 <span className="text-[color:var(--color-gold-light)]">Universe</span>
@@ -228,7 +331,9 @@ export function Nifty750UniverseSection() {
               onChange={e => { setSelectedBatch(e.target.value as BatchSlug); setFilterVal('all'); setSelectedId(''); }}
             >
               {BATCH_SLUGS.map(slug => (
-                <option key={slug} value={slug}>{BATCH_LABELS[slug]} ({rawData?.batches?.find((b: any) => b.indexSlug === slug)?.companies?.length ?? 0})</option>
+                <option key={slug} value={slug}>
+                  {BATCH_LABELS[slug]} ({rawData?.batches?.find((b: any) => b?.indexSlug === slug)?.companies?.length ?? 0})
+                </option>
               ))}
             </select>
             <div className="segmented">
@@ -238,7 +343,7 @@ export function Nifty750UniverseSection() {
             </div>
             <div className="segmented">
               {[5, 10, 13].map(n => {
-                const isActive = rangeStart === Math.max(0, totalYears - 1 - n) && rangeEnd === totalYears - 1;
+                const isActive = totalYears > 0 && rangeStart === Math.max(0, totalYears - 1 - n) && rangeEnd === totalYears - 1;
                 return <button key={n} onClick={() => setQuickRange(n)} className={isActive ? 'active' : ''}>{n}Y</button>;
               })}
             </div>
@@ -257,11 +362,13 @@ export function Nifty750UniverseSection() {
         </div>
       </div>
 
-      <DataProvenanceBanner rows={sortedRows} dataSource="screener-in" />
+      <DataProvenanceBanner rows={sortedRows.length > 0 ? sortedRows : []} dataSource="screener-in" />
 
-      <RangeSelector startFy={startFy} endFy={endFy} rangePeriods={rangePeriods}
-        rangeStart={rangeStart} rangeEnd={rangeEnd} totalYears={totalYears}
-        setRangeStart={setRangeStart} setRangeEnd={setRangeEnd} />
+      {totalYears > 0 && (
+        <RangeSelector startFy={startFy} endFy={endFy} rangePeriods={safePeriods}
+          rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} totalYears={totalYears}
+          setRangeStart={setRangeStart} setRangeEnd={setRangeEnd} />
+      )}
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
         <UniverseEarningsPower indexSeries={indexSeries} startFy={startFy} endFy={endFy}
@@ -271,48 +378,56 @@ export function Nifty750UniverseSection() {
       </div>
 
       <SectorAnalyticsTable data={sectorAnalytics} />
-      <SectorMomentumHeatmap rows={sectorMomentum} />
+      {sectorMomentum.length > 0 && <SectorMomentumHeatmap rows={sectorMomentum} />}
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         <TopWeightsChart data={topWeightData} />
-        <GrowthValuationScatter data={growthVsValuation} medianPatCagr={medianPatCagr} rangePeriods={rangePeriods} />
+        <GrowthValuationScatter data={growthVsValuation} medianPatCagr={medianPatCagr} rangePeriods={safePeriods} />
       </div>
 
-      <ImpliedVsRealizedScatter data={impliedVsRealized} rangePeriods={rangePeriods} />
+      <ImpliedVsRealizedScatter data={impliedVsRealized} rangePeriods={safePeriods} />
 
-      <MagicFormulaCard rows={magicFormula} onSelect={setSelectedId} />
+      {magicFormula.length > 0 && <MagicFormulaCard rows={magicFormula} onSelect={setSelectedId} />}
 
-      <FactorScorecard rows={sortedRows} selectedId={selectedCompany?.id ?? ''} onSelect={setSelectedId} />
+      {sortedRows.length > 0 && (
+        <FactorScorecard rows={sortedRows} selectedId={selectedCompany?.id ?? ''} onSelect={setSelectedId} />
+      )}
 
-      <ConstituentLedger rows={sortedRows} selectedId={selectedCompany?.id ?? ''} onSelect={setSelectedId}
-        rangeLabel={rangeLabel} endFy={endFy} sortCaret={sortCaret} toggleSort={toggleSort} showZScore={true} />
+      {sortedRows.length > 0 && (
+        <ConstituentLedger rows={sortedRows} selectedId={selectedCompany?.id ?? ''} onSelect={setSelectedId}
+          rangeLabel={rangeLabel} endFy={endFy} sortCaret={sortCaret} toggleSort={toggleSort} showZScore={true} />
+      )}
 
-      {selectedRow && <DrillDown row={selectedRow} rangeStart={rangeStart} rangeEnd={rangeEnd} rangePeriods={rangePeriods} />}
+      {selectedRow && <DrillDown row={selectedRow} rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} rangePeriods={safePeriods} />}
     </div>
   );
 }
 
-function adaptConstituent(raw: any): SensexConstituent {
-  const history: SensexYearFinancial[] = (raw.history ?? []).map((h: any) => ({
-    fy: h.fy,
-    toplineCr: h.toplineCr ?? 0,
-    netProfitCr: h.netProfitCr ?? 0,
-    roePct: h.roePct ?? 0,
-  }));
-  return {
-    id: raw.id,
-    name: raw.name ?? raw.ticker,
-    ticker: raw.ticker,
-    sector: raw.sector ?? 'Unknown',
-    reportingType: raw.reportingType ?? 'nonFinancial',
-    weightPct: raw.weightPct ?? 0,
-    marketCapCr: raw.marketCapCr ?? 0,
-    cmp: raw.cmp ?? 0,
-    valuationMetric: raw.valuationMetric ?? (raw.reportingType === 'financial' ? 'pb' : 'pe'),
-    valuationMultiple: raw.valuationMultiple ?? 0,
-    dividendYieldPct: raw.dividendYieldPct ?? 0,
-    color: raw.color ?? '#60a5fa',
-    beta: raw.beta ?? 1.0,
-    history,
-  };
+/* ── Adapter ────────────────────────────────────────────────────────────────── */
+function adaptConstituent(raw: any): SensexConstituent | null {
+  try {
+    if (!raw) return null;
+    const history: SensexYearFinancial[] = (raw.history ?? []).map((h: any) => ({
+      fy: h?.fy ?? '',
+      toplineCr: h?.toplineCr ?? 0,
+      netProfitCr: h?.netProfitCr ?? 0,
+      roePct: h?.roePct ?? 0,
+    }));
+    return {
+      id: raw.id ?? '',
+      name: raw.name ?? raw.ticker ?? '',
+      ticker: raw.ticker ?? '',
+      sector: raw.sector ?? 'Unknown',
+      reportingType: raw.reportingType ?? 'nonFinancial',
+      weightPct: raw.weightPct ?? 0,
+      marketCapCr: raw.marketCapCr ?? 0,
+      cmp: raw.cmp ?? 0,
+      valuationMetric: raw.valuationMetric ?? (raw.reportingType === 'financial' ? 'pb' : 'pe'),
+      valuationMultiple: raw.valuationMultiple ?? 0,
+      dividendYieldPct: raw.dividendYieldPct ?? 0,
+      color: raw.color ?? '#60a5fa',
+      beta: raw.beta ?? 1.0,
+      history,
+    };
+  } catch { return null; }
 }
