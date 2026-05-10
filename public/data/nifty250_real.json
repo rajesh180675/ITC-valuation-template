@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-10T17:09:14.377Z",
+  "generatedAt": "2026-05-10T18:45:17.471Z",
   "asOfDate": "2026-05-10",
   "source": "real",
   "sourcePolicy": "screener-in-public-data",
@@ -40,15 +40,15 @@
       "id": "360one",
       "name": "360ONE",
       "ticker": "360ONE",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0,
       "marketCapCr": 45444,
       "cmp": 1118,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 37.4,
       "dividendYieldPct": 1.07,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -393,7 +393,7 @@
       "id": "3mindia",
       "name": "3MINDIA",
       "ticker": "3MINDIA",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 36115,
@@ -401,7 +401,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 59.1,
       "dividendYieldPct": 0.5,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -672,7 +672,7 @@
       "id": "abb",
       "name": "ABB",
       "ticker": "ABB",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 148601,
@@ -680,7 +680,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 97.6,
       "dividendYieldPct": 0.56,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -766,7 +766,7 @@
       "id": "abbotindia",
       "name": "ABBOTINDIA",
       "ticker": "ABBOTINDIA",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 56738,
@@ -774,7 +774,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 37.2,
       "dividendYieldPct": 1.78,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -1230,7 +1230,7 @@
       "id": "abcapital",
       "name": "ABCAPITAL",
       "ticker": "ABCAPITAL",
-      "sector": "Unknown",
+      "sector": "NBFC",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 95113,
@@ -1238,7 +1238,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 25,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -1694,7 +1694,7 @@
       "id": "acc",
       "name": "ACC",
       "ticker": "ACC",
-      "sector": "Unknown",
+      "sector": "Cement",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 26138,
@@ -1702,7 +1702,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 12.4,
       "dividendYieldPct": 0.54,
-      "color": "#60a5fa",
+      "color": "#71717a",
       "beta": 0,
       "history": [
         {
@@ -2158,7 +2158,7 @@
       "id": "adaniensol",
       "name": "ADANIENSOL",
       "ticker": "ADANIENSOL",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 162606,
@@ -2166,7 +2166,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 285,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -2622,7 +2622,7 @@
       "id": "adanient",
       "name": "ADANIENT",
       "ticker": "ADANIENT",
-      "sector": "Unknown",
+      "sector": "Materials",
       "reportingType": "nonFinancial",
       "weightPct": 0.7,
       "marketCapCr": 325994,
@@ -2630,7 +2630,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 103,
       "dividendYieldPct": 0.05,
-      "color": "#60a5fa",
+      "color": "#6b7280",
       "beta": 0,
       "history": [
         {
@@ -3086,7 +3086,7 @@
       "id": "adanigreen",
       "name": "ADANIGREEN",
       "ticker": "ADANIGREEN",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 223324,
@@ -3094,7 +3094,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 123,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -3513,7 +3513,7 @@
       "id": "adaniports",
       "name": "ADANIPORTS",
       "ticker": "ADANIPORTS",
-      "sector": "Unknown",
+      "sector": "Logistics",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 405589,
@@ -3521,7 +3521,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 31.2,
       "dividendYieldPct": 0.43,
-      "color": "#60a5fa",
+      "color": "#facc15",
       "beta": 0,
       "history": [
         {
@@ -3977,7 +3977,7 @@
       "id": "adanipower",
       "name": "ADANIPOWER",
       "ticker": "ADANIPOWER",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0.4,
       "marketCapCr": 434542,
@@ -3985,7 +3985,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 33.9,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -4441,7 +4441,7 @@
       "id": "aiaeng",
       "name": "AIAENG",
       "ticker": "AIAENG",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 37066,
@@ -4449,7 +4449,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 31.8,
       "dividendYieldPct": 0.4,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -4905,15 +4905,15 @@
       "id": "aiil",
       "name": "AIIL",
       "ticker": "AIIL",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0,
       "marketCapCr": 42028,
       "cmp": 495,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 11.6,
       "dividendYieldPct": 0.04,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -5036,7 +5036,7 @@
       "id": "ajantpharm",
       "name": "AJANTPHARM",
       "ticker": "AJANTPHARM",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 37918,
@@ -5044,7 +5044,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 35.9,
       "dividendYieldPct": 0.92,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -5500,7 +5500,7 @@
       "id": "alkem",
       "name": "ALKEM",
       "ticker": "ALKEM",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 66783,
@@ -5508,7 +5508,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 27.8,
       "dividendYieldPct": 0.81,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -5964,7 +5964,7 @@
       "id": "ambujacem",
       "name": "AMBUJACEM",
       "ticker": "AMBUJACEM",
-      "sector": "Unknown",
+      "sector": "Cement",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 110400,
@@ -5972,7 +5972,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 22.2,
       "dividendYieldPct": 0.45,
-      "color": "#60a5fa",
+      "color": "#71717a",
       "beta": 0,
       "history": [
         {
@@ -6428,7 +6428,7 @@
       "id": "anthem",
       "name": "ANTHEM",
       "ticker": "ANTHEM",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 44075,
@@ -6436,7 +6436,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 87.7,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#ef4444",
       "beta": 0,
       "history": [
         {
@@ -6670,7 +6670,7 @@
       "id": "aparinds",
       "name": "APARINDS",
       "ticker": "APARINDS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 51456,
@@ -6678,7 +6678,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 51.9,
       "dividendYieldPct": 0.4,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -7134,7 +7134,7 @@
       "id": "aplapollo",
       "name": "APLAPOLLO",
       "ticker": "APLAPOLLO",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 54105,
@@ -7142,7 +7142,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 45,
       "dividendYieldPct": 0.3,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -7598,7 +7598,7 @@
       "id": "apollohosp",
       "name": "APOLLOHOSP",
       "ticker": "APOLLOHOSP",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 116422,
@@ -7606,7 +7606,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 80.2,
       "dividendYieldPct": 0.23,
-      "color": "#60a5fa",
+      "color": "#ef4444",
       "beta": 0,
       "history": [
         {
@@ -8062,7 +8062,7 @@
       "id": "apollotyre",
       "name": "APOLLOTYRE",
       "ticker": "APOLLOTYRE",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 25992,
@@ -8070,7 +8070,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 17.8,
       "dividendYieldPct": 1.22,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -8526,7 +8526,7 @@
       "id": "ashokley",
       "name": "ASHOKLEY",
       "ticker": "ASHOKLEY",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 0.4,
       "marketCapCr": 99016,
@@ -8534,7 +8534,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 27.5,
       "dividendYieldPct": 1.85,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -8990,7 +8990,7 @@
       "id": "asianpaint",
       "name": "ASIANPAINT",
       "ticker": "ASIANPAINT",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 249382,
@@ -8998,7 +8998,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 61.1,
       "dividendYieldPct": 0.95,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -9454,7 +9454,7 @@
       "id": "astral",
       "name": "ASTRAL",
       "ticker": "ASTRAL",
-      "sector": "Unknown",
+      "sector": "Materials",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 42173,
@@ -9462,7 +9462,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 81.9,
       "dividendYieldPct": 0.24,
-      "color": "#60a5fa",
+      "color": "#6b7280",
       "beta": 0,
       "history": [
         {
@@ -9918,7 +9918,7 @@
       "id": "atgl",
       "name": "ATGL",
       "ticker": "ATGL",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 69623,
@@ -9926,7 +9926,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 106,
       "dividendYieldPct": 0.04,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -10271,15 +10271,15 @@
       "id": "aubank",
       "name": "AUBANK",
       "ticker": "AUBANK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0,
       "marketCapCr": 78628,
       "cmp": 1050,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 231,
       "dividendYieldPct": 0.1,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -10439,7 +10439,7 @@
       "id": "auropharma",
       "name": "AUROPHARMA",
       "ticker": "AUROPHARMA",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 86383,
@@ -10447,7 +10447,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 24.5,
       "dividendYieldPct": 0.27,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -10903,7 +10903,7 @@
       "id": "awl",
       "name": "AWL",
       "ticker": "AWL",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.6,
       "marketCapCr": 26875,
@@ -10911,7 +10911,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 25.3,
       "dividendYieldPct": 0.48,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -11219,15 +11219,15 @@
       "id": "axisbank",
       "name": "AXISBANK",
       "ticker": "AXISBANK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 1,
       "marketCapCr": 394310,
       "cmp": 1268,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 14.9,
       "dividendYieldPct": 0.08,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -11683,7 +11683,7 @@
       "id": "bajajfinsv",
       "name": "BAJAJFINSV",
       "ticker": "BAJAJFINSV",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "reportingType": "nonFinancial",
       "weightPct": 1.1,
       "marketCapCr": 291028,
@@ -11691,7 +11691,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 29.3,
       "dividendYieldPct": 0.05,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -12147,15 +12147,15 @@
       "id": "bajajhfl",
       "name": "BAJAJHFL",
       "ticker": "BAJAJHFL",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.1,
       "marketCapCr": 72950,
       "cmp": 87.6,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 28.4,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -12426,7 +12426,7 @@
       "id": "bajajhldng",
       "name": "BAJAJHLDNG",
       "ticker": "BAJAJHLDNG",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 118324,
@@ -12434,7 +12434,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 14.5,
       "dividendYieldPct": 0.87,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -12890,15 +12890,15 @@
       "id": "bajfinance",
       "name": "BAJFINANCE",
       "ticker": "BAJFINANCE",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.6,
       "marketCapCr": 594797,
       "cmp": 955,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 31,
       "dividendYieldPct": 0.57,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -13354,7 +13354,7 @@
       "id": "balkrisind",
       "name": "BALKRISIND",
       "ticker": "BALKRISIND",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 43738,
@@ -13362,7 +13362,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 35.2,
       "dividendYieldPct": 0.71,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -13818,15 +13818,15 @@
       "id": "bankbaroda",
       "name": "BANKBARODA",
       "ticker": "BANKBARODA",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 1,
       "marketCapCr": 136472,
       "cmp": 264,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 6.88,
       "dividendYieldPct": 3.16,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -14282,15 +14282,15 @@
       "id": "bankindia",
       "name": "BANKINDIA",
       "ticker": "BANKINDIA",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.6,
       "marketCapCr": 63633,
       "cmp": 140,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 5.95,
       "dividendYieldPct": 3.33,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -14746,7 +14746,7 @@
       "id": "bdl",
       "name": "BDL",
       "ticker": "BDL",
-      "sector": "Unknown",
+      "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 53100,
@@ -14754,7 +14754,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 91.6,
       "dividendYieldPct": 0.32,
-      "color": "#60a5fa",
+      "color": "#3b82f6",
       "beta": 0,
       "history": [
         {
@@ -15173,7 +15173,7 @@
       "id": "bel",
       "name": "BEL",
       "ticker": "BEL",
-      "sector": "Unknown",
+      "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 321411,
@@ -15181,7 +15181,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 53.9,
       "dividendYieldPct": 0.55,
-      "color": "#60a5fa",
+      "color": "#3b82f6",
       "beta": 0,
       "history": [
         {
@@ -15637,7 +15637,7 @@
       "id": "bergepaint",
       "name": "BERGEPAINT",
       "ticker": "BERGEPAINT",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 60137,
@@ -15645,7 +15645,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 53.7,
       "dividendYieldPct": 0.74,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -16101,7 +16101,7 @@
       "id": "bharatforg",
       "name": "BHARATFORG",
       "ticker": "BHARATFORG",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 95125,
@@ -16109,7 +16109,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 80.6,
       "dividendYieldPct": 0.43,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -16565,7 +16565,7 @@
       "id": "bhartiartl",
       "name": "BHARTIARTL",
       "ticker": "BHARTIARTL",
-      "sector": "Unknown",
+      "sector": "Telecom",
       "reportingType": "nonFinancial",
       "weightPct": 1.3,
       "marketCapCr": 1117811,
@@ -16573,7 +16573,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 36.5,
       "dividendYieldPct": 0.87,
-      "color": "#60a5fa",
+      "color": "#f59e0b",
       "beta": 0,
       "history": [
         {
@@ -17029,7 +17029,7 @@
       "id": "bhartihexa",
       "name": "BHARTIHEXA",
       "ticker": "BHARTIHEXA",
-      "sector": "Unknown",
+      "sector": "Telecom",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 74900,
@@ -17037,7 +17037,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 42.5,
       "dividendYieldPct": 0.67,
-      "color": "#60a5fa",
+      "color": "#f59e0b",
       "beta": 0,
       "history": [
         {
@@ -17308,7 +17308,7 @@
       "id": "bhel",
       "name": "BHEL",
       "ticker": "BHEL",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 140884,
@@ -17316,7 +17316,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 88,
       "dividendYieldPct": 0.12,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -17772,7 +17772,7 @@
       "id": "biocon",
       "name": "BIOCON",
       "ticker": "BIOCON",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 61659,
@@ -17780,7 +17780,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 158,
       "dividendYieldPct": 0.13,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -18236,7 +18236,7 @@
       "id": "bluestarco",
       "name": "BLUESTARCO",
       "ticker": "BLUESTARCO",
-      "sector": "Unknown",
+      "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 34806,
@@ -18244,7 +18244,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 62.5,
       "dividendYieldPct": 0.53,
-      "color": "#60a5fa",
+      "color": "#a3e635",
       "beta": 0,
       "history": [
         {
@@ -18700,7 +18700,7 @@
       "id": "boschltd",
       "name": "BOSCHLTD",
       "ticker": "BOSCHLTD",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 112503,
@@ -18708,7 +18708,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 48.7,
       "dividendYieldPct": 1.34,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -19090,7 +19090,7 @@
       "id": "bpcl",
       "name": "BPCL",
       "ticker": "BPCL",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 3.3,
       "marketCapCr": 131348,
@@ -19098,7 +19098,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 5.26,
       "dividendYieldPct": 5.78,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -19554,7 +19554,7 @@
       "id": "britannia",
       "name": "BRITANNIA",
       "ticker": "BRITANNIA",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 132959,
@@ -19562,7 +19562,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 52.5,
       "dividendYieldPct": 1.36,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -20018,7 +20018,7 @@
       "id": "bse",
       "name": "BSE",
       "ticker": "BSE",
-      "sector": "Unknown",
+      "sector": "Media",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 159148,
@@ -20026,7 +20026,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 64,
       "dividendYieldPct": 0.15,
-      "color": "#60a5fa",
+      "color": "#fbbf24",
       "beta": 0,
       "history": [
         {
@@ -20482,15 +20482,15 @@
       "id": "canbk",
       "name": "CANBK",
       "ticker": "CANBK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.9,
       "marketCapCr": 121855,
       "cmp": 134,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 6.04,
       "dividendYieldPct": 2.98,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -20946,7 +20946,7 @@
       "id": "cgpower",
       "name": "CGPOWER",
       "ticker": "CGPOWER",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 137579,
@@ -20954,7 +20954,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 112,
       "dividendYieldPct": 0.15,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -21410,15 +21410,15 @@
       "id": "cholafin",
       "name": "CHOLAFIN",
       "ticker": "CHOLAFIN",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.2,
       "marketCapCr": 142688,
       "cmp": 1674,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 27.3,
       "dividendYieldPct": 0.12,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -21874,7 +21874,7 @@
       "id": "cipla",
       "name": "CIPLA",
       "ticker": "CIPLA",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 108808,
@@ -21882,7 +21882,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 22.9,
       "dividendYieldPct": 0.97,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -22338,7 +22338,7 @@
       "id": "coalindia",
       "name": "COALINDIA",
       "ticker": "COALINDIA",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 281267,
@@ -22346,7 +22346,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 14.9,
       "dividendYieldPct": 5.81,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -22802,7 +22802,7 @@
       "id": "cochinship",
       "name": "COCHINSHIP",
       "ticker": "COCHINSHIP",
-      "sector": "Unknown",
+      "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 46742,
@@ -22810,7 +22810,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 64.3,
       "dividendYieldPct": 0.55,
-      "color": "#60a5fa",
+      "color": "#3b82f6",
       "beta": 0,
       "history": [
         {
@@ -23118,7 +23118,7 @@
       "id": "coforge",
       "name": "COFORGE",
       "ticker": "COFORGE",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 58780,
@@ -23126,7 +23126,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 35.8,
       "dividendYieldPct": 1.11,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -23582,7 +23582,7 @@
       "id": "concor",
       "name": "CONCOR",
       "ticker": "CONCOR",
-      "sector": "Unknown",
+      "sector": "Logistics",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 40728,
@@ -23590,7 +23590,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 31.9,
       "dividendYieldPct": 1.72,
-      "color": "#60a5fa",
+      "color": "#facc15",
       "beta": 0,
       "history": [
         {
@@ -24046,7 +24046,7 @@
       "id": "coromandel",
       "name": "COROMANDEL",
       "ticker": "COROMANDEL",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 56867,
@@ -24054,7 +24054,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 28.3,
       "dividendYieldPct": 0.62,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -24510,15 +24510,15 @@
       "id": "crisil",
       "name": "CRISIL",
       "ticker": "CRISIL",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0,
       "marketCapCr": 30439,
       "cmp": 4162,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 36.3,
       "dividendYieldPct": 0.6,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -24974,7 +24974,7 @@
       "id": "cumminsind",
       "name": "CUMMINSIND",
       "ticker": "CUMMINSIND",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 149716,
@@ -24982,7 +24982,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 64.3,
       "dividendYieldPct": 0.95,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -25401,7 +25401,7 @@
       "id": "dabur",
       "name": "DABUR",
       "ticker": "DABUR",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 86503,
@@ -25409,7 +25409,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 45.4,
       "dividendYieldPct": 1.64,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -25865,7 +25865,7 @@
       "id": "dalbharat",
       "name": "DALBHARAT",
       "ticker": "DALBHARAT",
-      "sector": "Unknown",
+      "sector": "Cement",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 34205,
@@ -25873,7 +25873,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 29.5,
       "dividendYieldPct": 0.49,
-      "color": "#60a5fa",
+      "color": "#71717a",
       "beta": 0,
       "history": [
         {
@@ -26255,7 +26255,7 @@
       "id": "divislab",
       "name": "DIVISLAB",
       "ticker": "DIVISLAB",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 178143,
@@ -26263,7 +26263,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 70.3,
       "dividendYieldPct": 0.45,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -26719,7 +26719,7 @@
       "id": "dixon",
       "name": "DIXON",
       "ticker": "DIXON",
-      "sector": "Unknown",
+      "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 65684,
@@ -26727,7 +26727,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 46.6,
       "dividendYieldPct": 0.07,
-      "color": "#60a5fa",
+      "color": "#a3e635",
       "beta": 0,
       "history": [
         {
@@ -27183,7 +27183,7 @@
       "id": "dlf",
       "name": "DLF",
       "ticker": "DLF",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 150561,
@@ -27191,7 +27191,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 34.9,
       "dividendYieldPct": 0.99,
-      "color": "#60a5fa",
+      "color": "#fb7185",
       "beta": 0,
       "history": [
         {
@@ -27647,7 +27647,7 @@
       "id": "dmart",
       "name": "DMART",
       "ticker": "DMART",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.5,
       "marketCapCr": 287089,
@@ -27655,7 +27655,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 96.6,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -28111,7 +28111,7 @@
       "id": "drreddy",
       "name": "DRREDDY",
       "ticker": "DRREDDY",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 107996,
@@ -28119,7 +28119,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 19.4,
       "dividendYieldPct": 0.62,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -28575,7 +28575,7 @@
       "id": "eichermot",
       "name": "EICHERMOT",
       "ticker": "EICHERMOT",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 200318,
@@ -28583,7 +28583,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 37.1,
       "dividendYieldPct": 0.96,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -29002,7 +29002,7 @@
       "id": "endurance",
       "name": "ENDURANCE",
       "ticker": "ENDURANCE",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 35572,
@@ -29010,7 +29010,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 38.4,
       "dividendYieldPct": 0.4,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -29466,7 +29466,7 @@
       "id": "enrin",
       "name": "ENRIN",
       "ticker": "ENRIN",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 113360,
@@ -29474,7 +29474,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 92.9,
       "dividendYieldPct": 0.13,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -29560,7 +29560,7 @@
       "id": "escorts",
       "name": "ESCORTS",
       "ticker": "ESCORTS",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 35203,
@@ -29568,7 +29568,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 26.1,
       "dividendYieldPct": 0.89,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -30024,7 +30024,7 @@
       "id": "eternal",
       "name": "ETERNAL",
       "ticker": "ETERNAL",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.4,
       "marketCapCr": 247425,
@@ -30032,7 +30032,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 676,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -30377,7 +30377,7 @@
       "id": "exideind",
       "name": "EXIDEIND",
       "ticker": "EXIDEIND",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 30791,
@@ -30385,7 +30385,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 35.8,
       "dividendYieldPct": 0.55,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -30841,15 +30841,15 @@
       "id": "federalbnk",
       "name": "FEDERALBNK",
       "ticker": "FEDERALBNK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.2,
       "marketCapCr": 73276,
       "cmp": 297,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 16.9,
       "dividendYieldPct": 0.4,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -31305,7 +31305,7 @@
       "id": "fluorochem",
       "name": "FLUOROCHEM",
       "ticker": "FLUOROCHEM",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 41404,
@@ -31313,7 +31313,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 62.1,
       "dividendYieldPct": 0.08,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -31621,7 +31621,7 @@
       "id": "fortis",
       "name": "FORTIS",
       "ticker": "FORTIS",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 71898,
@@ -31629,7 +31629,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 71.4,
       "dividendYieldPct": 0.11,
-      "color": "#60a5fa",
+      "color": "#ef4444",
       "beta": 0,
       "history": [
         {
@@ -32085,7 +32085,7 @@
       "id": "gail",
       "name": "GAIL",
       "ticker": "GAIL",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 1.1,
       "marketCapCr": 109469,
@@ -32093,7 +32093,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 12.7,
       "dividendYieldPct": 4.5,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -32549,15 +32549,15 @@
       "id": "gicre",
       "name": "GICRE",
       "ticker": "GICRE",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Insurance",
+      "reportingType": "financial",
       "weightPct": 0.4,
       "marketCapCr": 69343,
       "cmp": 395,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 7.2,
       "dividendYieldPct": 2.53,
-      "color": "#60a5fa",
+      "color": "#0ea5e9",
       "beta": 0,
       "history": [
         {
@@ -33013,7 +33013,7 @@
       "id": "glaxo",
       "name": "GLAXO",
       "ticker": "GLAXO",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 41960,
@@ -33021,7 +33021,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 41.7,
       "dividendYieldPct": 1.7,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -33440,7 +33440,7 @@
       "id": "glenmark",
       "name": "GLENMARK",
       "ticker": "GLENMARK",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 66780,
@@ -33448,7 +33448,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 24.7,
       "dividendYieldPct": 0.11,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -33904,7 +33904,7 @@
       "id": "gmrairport",
       "name": "GMRAIRPORT",
       "ticker": "GMRAIRPORT",
-      "sector": "Unknown",
+      "sector": "Logistics",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 106984,
@@ -33912,7 +33912,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 0,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#facc15",
       "beta": 0,
       "history": [
         {
@@ -34368,7 +34368,7 @@
       "id": "godfryphlp",
       "name": "GODFRYPHLP",
       "ticker": "GODFRYPHLP",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 37822,
@@ -34376,7 +34376,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 29.1,
       "dividendYieldPct": 1.31,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -34832,7 +34832,7 @@
       "id": "godrejcp",
       "name": "GODREJCP",
       "ticker": "GODREJCP",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 106663,
@@ -34840,7 +34840,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 52.6,
       "dividendYieldPct": 1.92,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -35296,7 +35296,7 @@
       "id": "godrejind",
       "name": "GODREJIND",
       "ticker": "GODREJIND",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 41031,
@@ -35304,7 +35304,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 40.8,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -35760,7 +35760,7 @@
       "id": "godrejprop",
       "name": "GODREJPROP",
       "ticker": "GODREJPROP",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 56434,
@@ -35768,7 +35768,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 30.2,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#fb7185",
       "beta": 0,
       "history": [
         {
@@ -36224,7 +36224,7 @@
       "id": "grasim",
       "name": "GRASIM",
       "ticker": "GRASIM",
-      "sector": "Unknown",
+      "sector": "Cement",
       "reportingType": "nonFinancial",
       "weightPct": 1.1,
       "marketCapCr": 202020,
@@ -36232,7 +36232,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 43.8,
       "dividendYieldPct": 0.34,
-      "color": "#60a5fa",
+      "color": "#71717a",
       "beta": 0,
       "history": [
         {
@@ -36688,15 +36688,15 @@
       "id": "groww",
       "name": "GROWW",
       "ticker": "GROWW",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0,
       "marketCapCr": 128352,
       "cmp": 205,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 61.6,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -36893,7 +36893,7 @@
       "id": "hal",
       "name": "HAL",
       "ticker": "HAL",
-      "sector": "Unknown",
+      "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 320216,
@@ -36901,7 +36901,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 36,
       "dividendYieldPct": 0.84,
-      "color": "#60a5fa",
+      "color": "#3b82f6",
       "beta": 0,
       "history": [
         {
@@ -37320,7 +37320,7 @@
       "id": "havells",
       "name": "HAVELLS",
       "ticker": "HAVELLS",
-      "sector": "Unknown",
+      "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 78733,
@@ -37328,7 +37328,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 45.6,
       "dividendYieldPct": 0.8,
-      "color": "#60a5fa",
+      "color": "#a3e635",
       "beta": 0,
       "history": [
         {
@@ -37784,7 +37784,7 @@
       "id": "hcltech",
       "name": "HCLTECH",
       "ticker": "HCLTECH",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 1,
       "marketCapCr": 325206,
@@ -37792,7 +37792,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 18.7,
       "dividendYieldPct": 4.51,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -38248,15 +38248,15 @@
       "id": "hdbfs",
       "name": "HDBFS",
       "ticker": "HDBFS",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.1,
       "marketCapCr": 58095,
       "cmp": 700,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 26.7,
       "dividendYieldPct": 0.29,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -38453,15 +38453,15 @@
       "id": "hdfcamc",
       "name": "HDFCAMC",
       "ticker": "HDFCAMC",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0,
       "marketCapCr": 122285,
       "cmp": 2854,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 42.8,
       "dividendYieldPct": 1.58,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -38621,15 +38621,15 @@
       "id": "hdfcbank",
       "name": "HDFCBANK",
       "ticker": "HDFCBANK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 2.6,
       "marketCapCr": 1202160,
       "cmp": 781,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 15.8,
       "dividendYieldPct": 1.66,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -39085,15 +39085,15 @@
       "id": "hdfclife",
       "name": "HDFCLIFE",
       "ticker": "HDFCLIFE",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Insurance",
+      "reportingType": "financial",
       "weightPct": 0.7,
       "marketCapCr": 134152,
       "cmp": 622,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 70.2,
       "dividendYieldPct": 0.34,
-      "color": "#60a5fa",
+      "color": "#0ea5e9",
       "beta": 0,
       "history": [
         {
@@ -39549,7 +39549,7 @@
       "id": "heromotoco",
       "name": "HEROMOTOCO",
       "ticker": "HEROMOTOCO",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 0.4,
       "marketCapCr": 106489,
@@ -39557,7 +39557,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 18.2,
       "dividendYieldPct": 3.1,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -40013,7 +40013,7 @@
       "id": "hext",
       "name": "HEXT",
       "ticker": "HEXT",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 29677,
@@ -40021,7 +40021,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 20.2,
       "dividendYieldPct": 2.37,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -40477,7 +40477,7 @@
       "id": "hindalco",
       "name": "HINDALCO",
       "ticker": "HINDALCO",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 0.7,
       "marketCapCr": 234700,
@@ -40485,7 +40485,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 27,
       "dividendYieldPct": 0.48,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -40941,7 +40941,7 @@
       "id": "hindpetro",
       "name": "HINDPETRO",
       "ticker": "HINDPETRO",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 3.2,
       "marketCapCr": 82347,
@@ -40949,7 +40949,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 5.35,
       "dividendYieldPct": 2.71,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -41405,7 +41405,7 @@
       "id": "hindunilvr",
       "name": "HINDUNILVR",
       "ticker": "HINDUNILVR",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.5,
       "marketCapCr": 537516,
@@ -41413,7 +41413,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 49.2,
       "dividendYieldPct": 1.79,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -41869,7 +41869,7 @@
       "id": "hindzinc",
       "name": "HINDZINC",
       "ticker": "HINDZINC",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 268350,
@@ -41877,7 +41877,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 19.4,
       "dividendYieldPct": 1.73,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -42111,7 +42111,7 @@
       "id": "honaut",
       "name": "HONAUT",
       "ticker": "HONAUT",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 26670,
@@ -42119,7 +42119,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 52,
       "dividendYieldPct": 0.35,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -42538,15 +42538,15 @@
       "id": "hudco",
       "name": "HUDCO",
       "ticker": "HUDCO",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.1,
       "marketCapCr": 46440,
       "cmp": 232,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 16.7,
       "dividendYieldPct": 1.96,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -43002,7 +43002,7 @@
       "id": "hyundai",
       "name": "HYUNDAI",
       "ticker": "HYUNDAI",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 0.5,
       "marketCapCr": 150548,
@@ -43010,7 +43010,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 27.7,
       "dividendYieldPct": 1.13,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -43244,15 +43244,15 @@
       "id": "iciciamc",
       "name": "ICICIAMC",
       "ticker": "ICICIAMC",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0,
       "marketCapCr": 159799,
       "cmp": 3233,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 54.3,
       "dividendYieldPct": 0.46,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -43338,15 +43338,15 @@
       "id": "icicibank",
       "name": "ICICIBANK",
       "ticker": "ICICIBANK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 1.4,
       "marketCapCr": 906675,
       "cmp": 1265,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 16.7,
       "dividendYieldPct": 0.87,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -43802,15 +43802,15 @@
       "id": "icicigi",
       "name": "ICICIGI",
       "ticker": "ICICIGI",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Insurance",
+      "reportingType": "financial",
       "weightPct": 0.2,
       "marketCapCr": 91167,
       "cmp": 1828,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 32.9,
       "dividendYieldPct": 0.68,
-      "color": "#60a5fa",
+      "color": "#0ea5e9",
       "beta": 0,
       "history": [
         {
@@ -44266,15 +44266,15 @@
       "id": "icicipruli",
       "name": "ICICIPRULI",
       "ticker": "ICICIPRULI",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Insurance",
+      "reportingType": "financial",
       "weightPct": 0.5,
       "marketCapCr": 82261,
       "cmp": 567,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 51.4,
       "dividendYieldPct": 0.15,
-      "color": "#60a5fa",
+      "color": "#0ea5e9",
       "beta": 0,
       "history": [
         {
@@ -44730,7 +44730,7 @@
       "id": "idea",
       "name": "IDEA",
       "ticker": "IDEA",
-      "sector": "Unknown",
+      "sector": "Telecom",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 121778,
@@ -44738,7 +44738,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 0,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#f59e0b",
       "beta": 0,
       "history": [
         {
@@ -45194,15 +45194,15 @@
       "id": "idfcfirstb",
       "name": "IDFCFIRSTB",
       "ticker": "IDFCFIRSTB",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.3,
       "marketCapCr": 61351,
       "cmp": 71.3,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 38.1,
       "dividendYieldPct": 0.35,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -45584,7 +45584,7 @@
       "id": "indhotel",
       "name": "INDHOTEL",
       "ticker": "INDHOTEL",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 95804,
@@ -45592,7 +45592,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 53,
       "dividendYieldPct": 0.33,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -46048,15 +46048,15 @@
       "id": "indianb",
       "name": "INDIANB",
       "ticker": "INDIANB",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.5,
       "marketCapCr": 116586,
       "cmp": 866,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 9.51,
       "dividendYieldPct": 2.11,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -46512,7 +46512,7 @@
       "id": "indigo",
       "name": "INDIGO",
       "ticker": "INDIGO",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "reportingType": "nonFinancial",
       "weightPct": 0.6,
       "marketCapCr": 174873,
@@ -46520,7 +46520,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 38.1,
       "dividendYieldPct": 0.22,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -46865,15 +46865,15 @@
       "id": "indusindbk",
       "name": "INDUSINDBK",
       "ticker": "INDUSINDBK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.3,
       "marketCapCr": 74074,
       "cmp": 951,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 83.3,
       "dividendYieldPct": 0.16,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -47292,7 +47292,7 @@
       "id": "industower",
       "name": "INDUSTOWER",
       "ticker": "INDUSTOWER",
-      "sector": "Unknown",
+      "sector": "Telecom",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 106661,
@@ -47300,7 +47300,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 14.9,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#f59e0b",
       "beta": 0,
       "history": [
         {
@@ -47756,7 +47756,7 @@
       "id": "infy",
       "name": "INFY",
       "ticker": "INFY",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 1.3,
       "marketCapCr": 478239,
@@ -47764,7 +47764,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 15.9,
       "dividendYieldPct": 4.07,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -48220,7 +48220,7 @@
       "id": "ioc",
       "name": "IOC",
       "ticker": "IOC",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 5.6,
       "marketCapCr": 204320,
@@ -48228,7 +48228,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 5.71,
       "dividendYieldPct": 4.84,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -48684,7 +48684,7 @@
       "id": "ipcalab",
       "name": "IPCALAB",
       "ticker": "IPCALAB",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 39390,
@@ -48692,7 +48692,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 37.3,
       "dividendYieldPct": 0.26,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -49148,7 +49148,7 @@
       "id": "irctc",
       "name": "IRCTC",
       "ticker": "IRCTC",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 45192,
@@ -49156,7 +49156,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 32.7,
       "dividendYieldPct": 1.5,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -49279,15 +49279,15 @@
       "id": "ireda",
       "name": "IREDA",
       "ticker": "IREDA",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.1,
       "marketCapCr": 37812,
       "cmp": 135,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 20.1,
       "dividendYieldPct": 0.45,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -49558,15 +49558,15 @@
       "id": "irfc",
       "name": "IRFC",
       "ticker": "IRFC",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.2,
       "marketCapCr": 138565,
       "cmp": 106,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 19.8,
       "dividendYieldPct": 1.98,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -50022,7 +50022,7 @@
       "id": "itc",
       "name": "ITC",
       "ticker": "ITC",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.6,
       "marketCapCr": 385218,
@@ -50030,7 +50030,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 18.7,
       "dividendYieldPct": 4.67,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -50486,7 +50486,7 @@
       "id": "itchotels",
       "name": "ITCHOTELS",
       "ticker": "ITCHOTELS",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 34265,
@@ -50494,7 +50494,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 41.9,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -50580,7 +50580,7 @@
       "id": "jindalstel",
       "name": "JINDALSTEL",
       "ticker": "JINDALSTEL",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 0.4,
       "marketCapCr": 127348,
@@ -50588,7 +50588,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 30.6,
       "dividendYieldPct": 0.16,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -51044,7 +51044,7 @@
       "id": "jiofin",
       "name": "JIOFIN",
       "ticker": "JIOFIN",
-      "sector": "Unknown",
+      "sector": "NBFC",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 164643,
@@ -51052,7 +51052,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 107,
       "dividendYieldPct": 0.2,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -51212,7 +51212,7 @@
       "id": "jkcement",
       "name": "JKCEMENT",
       "ticker": "JKCEMENT",
-      "sector": "Unknown",
+      "sector": "Cement",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 43050,
@@ -51220,7 +51220,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 41,
       "dividendYieldPct": 0.27,
-      "color": "#60a5fa",
+      "color": "#71717a",
       "beta": 0,
       "history": [
         {
@@ -51676,7 +51676,7 @@
       "id": "jsl",
       "name": "JSL",
       "ticker": "JSL",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 62227,
@@ -51684,7 +51684,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 19.2,
       "dividendYieldPct": 0.4,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -52140,7 +52140,7 @@
       "id": "jswenergy",
       "name": "JSWENERGY",
       "ticker": "JSWENERGY",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 100377,
@@ -52148,7 +52148,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 43.4,
       "dividendYieldPct": 0.35,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -52604,7 +52604,7 @@
       "id": "jswinfra",
       "name": "JSWINFRA",
       "ticker": "JSWINFRA",
-      "sector": "Unknown",
+      "sector": "Logistics",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 59567,
@@ -52612,7 +52612,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 350,
       "dividendYieldPct": 0.28,
-      "color": "#60a5fa",
+      "color": "#facc15",
       "beta": 0,
       "history": [
         {
@@ -52957,7 +52957,7 @@
       "id": "jswsteel",
       "name": "JSWSTEEL",
       "ticker": "JSWSTEEL",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 1.3,
       "marketCapCr": 312480,
@@ -52965,7 +52965,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 40,
       "dividendYieldPct": 0.22,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -53421,7 +53421,7 @@
       "id": "jublfood",
       "name": "JUBLFOOD",
       "ticker": "JUBLFOOD",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 31230,
@@ -53429,7 +53429,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 94.4,
       "dividendYieldPct": 0.25,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -53885,7 +53885,7 @@
       "id": "kalyankjil",
       "name": "KALYANKJIL",
       "ticker": "KALYANKJIL",
-      "sector": "Unknown",
+      "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 43845,
@@ -53893,7 +53893,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 31.8,
       "dividendYieldPct": 0.35,
-      "color": "#60a5fa",
+      "color": "#a3e635",
       "beta": 0,
       "history": [
         {
@@ -54238,7 +54238,7 @@
       "id": "kei",
       "name": "KEI",
       "ticker": "KEI",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 48752,
@@ -54246,7 +54246,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 53.1,
       "dividendYieldPct": 0.09,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -54702,15 +54702,15 @@
       "id": "kotakbank",
       "name": "KOTAKBANK",
       "ticker": "KOTAKBANK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.5,
       "marketCapCr": 378761,
       "cmp": 381,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 19.9,
       "dividendYieldPct": 0.13,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -55166,7 +55166,7 @@
       "id": "kpittech",
       "name": "KPITTECH",
       "ticker": "KPITTECH",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 19989,
@@ -55174,7 +55174,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 29.5,
       "dividendYieldPct": 1.17,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -55519,7 +55519,7 @@
       "id": "kprmill",
       "name": "KPRMILL",
       "ticker": "KPRMILL",
-      "sector": "Unknown",
+      "sector": "Textiles",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 32669,
@@ -55527,7 +55527,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 38.7,
       "dividendYieldPct": 0.52,
-      "color": "#60a5fa",
+      "color": "#a78bfa",
       "beta": 0,
       "history": [
         {
@@ -55983,7 +55983,7 @@
       "id": "lauruslabs",
       "name": "LAURUSLABS",
       "ticker": "LAURUSLABS",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 66311,
@@ -55991,7 +55991,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 74.6,
       "dividendYieldPct": 0.16,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -56447,7 +56447,7 @@
       "id": "lenskart",
       "name": "LENSKART",
       "ticker": "LENSKART",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 84954,
@@ -56455,7 +56455,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 224,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -56652,7 +56652,7 @@
       "id": "lgeindia",
       "name": "LGEINDIA",
       "ticker": "LGEINDIA",
-      "sector": "Unknown",
+      "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 102176,
@@ -56660,7 +56660,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 49.7,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#a3e635",
       "beta": 0,
       "history": [
         {
@@ -56894,15 +56894,15 @@
       "id": "lichsgfin",
       "name": "LICHSGFIN",
       "ticker": "LICHSGFIN",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.2,
       "marketCapCr": 31986,
       "cmp": 582,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 5.83,
       "dividendYieldPct": 1.72,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -57358,15 +57358,15 @@
       "id": "lici",
       "name": "LICI",
       "ticker": "LICI",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Insurance",
+      "reportingType": "financial",
       "weightPct": 6.6,
       "marketCapCr": 507360,
       "cmp": 802,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 9.57,
       "dividendYieldPct": 1.5,
-      "color": "#60a5fa",
+      "color": "#0ea5e9",
       "beta": 0,
       "history": [
         {
@@ -57637,7 +57637,7 @@
       "id": "lindeindia",
       "name": "LINDEINDIA",
       "ticker": "LINDEINDIA",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 66591,
@@ -57645,7 +57645,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 113,
       "dividendYieldPct": 0.06,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -57990,7 +57990,7 @@
       "id": "lloydsme",
       "name": "LLOYDSME",
       "ticker": "LLOYDSME",
-      "sector": "Unknown",
+      "sector": "Materials",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 97716,
@@ -57998,7 +57998,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 26.6,
       "dividendYieldPct": 0.06,
-      "color": "#60a5fa",
+      "color": "#6b7280",
       "beta": 0,
       "history": [
         {
@@ -58269,7 +58269,7 @@
       "id": "lodha",
       "name": "LODHA",
       "ticker": "LODHA",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 96114,
@@ -58277,7 +58277,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 28,
       "dividendYieldPct": 0.44,
-      "color": "#60a5fa",
+      "color": "#fb7185",
       "beta": 0,
       "history": [
         {
@@ -58733,7 +58733,7 @@
       "id": "lt",
       "name": "LT",
       "ticker": "LT",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "reportingType": "nonFinancial",
       "weightPct": 2.1,
       "marketCapCr": 546759,
@@ -58741,7 +58741,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 31.9,
       "dividendYieldPct": 0.96,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -59197,7 +59197,7 @@
       "id": "ltf",
       "name": "LTF",
       "ticker": "LTF",
-      "sector": "Unknown",
+      "sector": "NBFC",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 75993,
@@ -59205,7 +59205,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 25.3,
       "dividendYieldPct": 0.91,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -59661,7 +59661,7 @@
       "id": "ltm",
       "name": "LTM",
       "ticker": "LTM",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 129024,
@@ -59669,7 +59669,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 23.9,
       "dividendYieldPct": 1.72,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -60125,7 +60125,7 @@
       "id": "ltts",
       "name": "LTTS",
       "ticker": "LTTS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 40308,
@@ -60133,7 +60133,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 31.5,
       "dividendYieldPct": 1.53,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -60589,7 +60589,7 @@
       "id": "lupin",
       "name": "LUPIN",
       "ticker": "LUPIN",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 108795,
@@ -60597,7 +60597,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 18.9,
       "dividendYieldPct": 0.5,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -61053,7 +61053,7 @@
       "id": "m&m",
       "name": "M&M",
       "ticker": "M&M",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 1.5,
       "marketCapCr": 414145,
@@ -61061,7 +61061,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 23.4,
       "dividendYieldPct": 0.76,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -61517,15 +61517,15 @@
       "id": "mahabank",
       "name": "MAHABANK",
       "ticker": "MAHABANK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.2,
       "marketCapCr": 64532,
       "cmp": 83.9,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 9.2,
       "dividendYieldPct": 1.79,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -61981,7 +61981,7 @@
       "id": "mankind",
       "name": "MANKIND",
       "ticker": "MANKIND",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 100350,
@@ -61989,7 +61989,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 54,
       "dividendYieldPct": 0.04,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -62260,7 +62260,7 @@
       "id": "marico",
       "name": "MARICO",
       "ticker": "MARICO",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 107915,
@@ -62268,7 +62268,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 61.2,
       "dividendYieldPct": 1.26,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -62724,7 +62724,7 @@
       "id": "maruti",
       "name": "MARUTI",
       "ticker": "MARUTI",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 1.4,
       "marketCapCr": 431549,
@@ -62732,7 +62732,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 29.4,
       "dividendYieldPct": 0.98,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -63188,7 +63188,7 @@
       "id": "maxhealth",
       "name": "MAXHEALTH",
       "ticker": "MAXHEALTH",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 98541,
@@ -63196,7 +63196,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 67.5,
       "dividendYieldPct": 0.15,
-      "color": "#60a5fa",
+      "color": "#ef4444",
       "beta": 0,
       "history": [
         {
@@ -63541,7 +63541,7 @@
       "id": "mazdock",
       "name": "MAZDOCK",
       "ticker": "MAZDOCK",
-      "sector": "Unknown",
+      "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 107190,
@@ -63549,7 +63549,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 41.5,
       "dividendYieldPct": 0.65,
-      "color": "#60a5fa",
+      "color": "#3b82f6",
       "beta": 0,
       "history": [
         {
@@ -64005,7 +64005,7 @@
       "id": "mcx",
       "name": "MCX",
       "ticker": "MCX",
-      "sector": "Unknown",
+      "sector": "Media",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 78991,
@@ -64013,7 +64013,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 59.3,
       "dividendYieldPct": 0.19,
-      "color": "#60a5fa",
+      "color": "#fbbf24",
       "beta": 0,
       "history": [
         {
@@ -64469,7 +64469,7 @@
       "id": "medanta",
       "name": "MEDANTA",
       "ticker": "MEDANTA",
-      "sector": "Unknown",
+      "sector": "Healthcare",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 32278,
@@ -64477,7 +64477,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 64.4,
       "dividendYieldPct": 0.04,
-      "color": "#60a5fa",
+      "color": "#ef4444",
       "beta": 0,
       "history": [
         {
@@ -64822,15 +64822,15 @@
       "id": "mfsl",
       "name": "MFSL",
       "ticker": "MFSL",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Insurance",
+      "reportingType": "financial",
       "weightPct": 0.3,
       "marketCapCr": 58659,
       "cmp": 1700,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 408,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#0ea5e9",
       "beta": 0,
       "history": [
         {
@@ -65286,7 +65286,7 @@
       "id": "motherson",
       "name": "MOTHERSON",
       "ticker": "MOTHERSON",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.8,
       "marketCapCr": 139350,
@@ -65294,7 +65294,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 39.5,
       "dividendYieldPct": 0.43,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -65750,15 +65750,15 @@
       "id": "motilalofs",
       "name": "MOTILALOFS",
       "ticker": "MOTILALOFS",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.1,
       "marketCapCr": 53084,
       "cmp": 882,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 28.4,
       "dividendYieldPct": 0.68,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -66214,7 +66214,7 @@
       "id": "mphasis",
       "name": "MPHASIS",
       "ticker": "MPHASIS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 42260,
@@ -66222,7 +66222,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 22.4,
       "dividendYieldPct": 2.57,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -66678,7 +66678,7 @@
       "id": "mrf",
       "name": "MRF",
       "ticker": "MRF",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 55315,
@@ -66686,7 +66686,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 22.4,
       "dividendYieldPct": 0.18,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -67142,15 +67142,15 @@
       "id": "muthootfin",
       "name": "MUTHOOTFIN",
       "ticker": "MUTHOOTFIN",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.1,
       "marketCapCr": 141674,
       "cmp": 3529,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 16.2,
       "dividendYieldPct": 0.85,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -67569,15 +67569,15 @@
       "id": "nam-india",
       "name": "NAM-INDIA",
       "ticker": "NAM-INDIA",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0,
       "marketCapCr": 70410,
       "cmp": 1103,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 46,
       "dividendYieldPct": 1.95,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -68033,7 +68033,7 @@
       "id": "nationalum",
       "name": "NATIONALUM",
       "ticker": "NATIONALUM",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 73823,
@@ -68041,7 +68041,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 12.7,
       "dividendYieldPct": 2.61,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -68497,7 +68497,7 @@
       "id": "naukri",
       "name": "NAUKRI",
       "ticker": "NAUKRI",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 63438,
@@ -68505,7 +68505,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 46.9,
       "dividendYieldPct": 0.61,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -68961,7 +68961,7 @@
       "id": "nestleind",
       "name": "NESTLEIND",
       "ticker": "NESTLEIND",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 285853,
@@ -68969,7 +68969,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 83.9,
       "dividendYieldPct": 0.81,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -69129,7 +69129,7 @@
       "id": "nhpc",
       "name": "NHPC",
       "ticker": "NHPC",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 81134,
@@ -69137,7 +69137,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 25.7,
       "dividendYieldPct": 2.36,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -69593,15 +69593,15 @@
       "id": "niacl",
       "name": "NIACL",
       "ticker": "NIACL",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Insurance",
+      "reportingType": "financial",
       "weightPct": 0.3,
       "marketCapCr": 27044,
       "cmp": 164,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 22.7,
       "dividendYieldPct": 1.1,
-      "color": "#60a5fa",
+      "color": "#0ea5e9",
       "beta": 0,
       "history": [
         {
@@ -70057,7 +70057,7 @@
       "id": "nlcindia",
       "name": "NLCINDIA",
       "ticker": "NLCINDIA",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 45509,
@@ -70065,7 +70065,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 17.4,
       "dividendYieldPct": 1.1,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -70521,7 +70521,7 @@
       "id": "nmdc",
       "name": "NMDC",
       "ticker": "NMDC",
-      "sector": "Unknown",
+      "sector": "Materials",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 78071,
@@ -70529,7 +70529,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 11.3,
       "dividendYieldPct": 3.72,
-      "color": "#60a5fa",
+      "color": "#6b7280",
       "beta": 0,
       "history": [
         {
@@ -70985,7 +70985,7 @@
       "id": "ntpc",
       "name": "NTPC",
       "ticker": "NTPC",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 1.4,
       "marketCapCr": 389951,
@@ -70993,7 +70993,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 16.1,
       "dividendYieldPct": 2.08,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -71449,7 +71449,7 @@
       "id": "ntpcgreen",
       "name": "NTPCGREEN",
       "ticker": "NTPCGREEN",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 90608,
@@ -71457,7 +71457,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 162,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -71580,7 +71580,7 @@
       "id": "nykaa",
       "name": "NYKAA",
       "ticker": "NYKAA",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 78113,
@@ -71588,7 +71588,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 516,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -71896,7 +71896,7 @@
       "id": "oberoirlty",
       "name": "OBEROIRLTY",
       "ticker": "OBEROIRLTY",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 61921,
@@ -71904,7 +71904,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 24.5,
       "dividendYieldPct": 0.47,
-      "color": "#60a5fa",
+      "color": "#fb7185",
       "beta": 0,
       "history": [
         {
@@ -72360,7 +72360,7 @@
       "id": "ofss",
       "name": "OFSS",
       "ticker": "OFSS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 81364,
@@ -72368,7 +72368,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 30.8,
       "dividendYieldPct": 4.28,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -72824,7 +72824,7 @@
       "id": "oil",
       "name": "OIL",
       "ticker": "OIL",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 73881,
@@ -72832,7 +72832,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 12.7,
       "dividendYieldPct": 2.53,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -73288,7 +73288,7 @@
       "id": "ongc",
       "name": "ONGC",
       "ticker": "ONGC",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 1,
       "marketCapCr": 351241,
@@ -73296,7 +73296,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 10.7,
       "dividendYieldPct": 4.39,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -73752,7 +73752,7 @@
       "id": "pageind",
       "name": "PAGEIND",
       "ticker": "PAGEIND",
-      "sector": "Unknown",
+      "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 41676,
@@ -73760,7 +73760,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 53.8,
       "dividendYieldPct": 2.41,
-      "color": "#60a5fa",
+      "color": "#a3e635",
       "beta": 0,
       "history": [
         {
@@ -74216,7 +74216,7 @@
       "id": "patanjali",
       "name": "PATANJALI",
       "ticker": "PATANJALI",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 50227,
@@ -74224,7 +74224,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 29.9,
       "dividendYieldPct": 0.76,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -74495,15 +74495,15 @@
       "id": "paytm",
       "name": "PAYTM",
       "ticker": "PAYTM",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.1,
       "marketCapCr": 75987,
       "cmp": 1187,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 104,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -74885,7 +74885,7 @@
       "id": "persistent",
       "name": "PERSISTENT",
       "ticker": "PERSISTENT",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 80667,
@@ -74893,7 +74893,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 41.8,
       "dividendYieldPct": 0.68,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -75349,7 +75349,7 @@
       "id": "petronet",
       "name": "PETRONET",
       "ticker": "PETRONET",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 42570,
@@ -75357,7 +75357,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 10.9,
       "dividendYieldPct": 3.52,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -75813,15 +75813,15 @@
       "id": "pfc",
       "name": "PFC",
       "ticker": "PFC",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.8,
       "marketCapCr": 152250,
       "cmp": 461,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 6.03,
       "dividendYieldPct": 3.42,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -76277,7 +76277,7 @@
       "id": "phoenixltd",
       "name": "PHOENIXLTD",
       "ticker": "PHOENIXLTD",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 65423,
@@ -76285,7 +76285,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 52.7,
       "dividendYieldPct": 0.14,
-      "color": "#60a5fa",
+      "color": "#fb7185",
       "beta": 0,
       "history": [
         {
@@ -76741,7 +76741,7 @@
       "id": "pidilitind",
       "name": "PIDILITIND",
       "ticker": "PIDILITIND",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 150224,
@@ -76749,7 +76749,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 61.1,
       "dividendYieldPct": 0.68,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -77205,7 +77205,7 @@
       "id": "piind",
       "name": "PIIND",
       "ticker": "PIIND",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 47196,
@@ -77213,7 +77213,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 34.6,
       "dividendYieldPct": 0.51,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -77669,15 +77669,15 @@
       "id": "pnb",
       "name": "PNB",
       "ticker": "PNB",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 1,
       "marketCapCr": 123250,
       "cmp": 107,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 6.7,
       "dividendYieldPct": 2.7,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -78133,15 +78133,15 @@
       "id": "policybzr",
       "name": "POLICYBZR",
       "ticker": "POLICYBZR",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.1,
       "marketCapCr": 76118,
       "cmp": 1645,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 114,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -78560,7 +78560,7 @@
       "id": "polycab",
       "name": "POLYCAB",
       "ticker": "POLYCAB",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 136754,
@@ -78568,7 +78568,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 51.2,
       "dividendYieldPct": 0.39,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -79024,7 +79024,7 @@
       "id": "powergrid",
       "name": "POWERGRID",
       "ticker": "POWERGRID",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 291992,
@@ -79032,7 +79032,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 18.8,
       "dividendYieldPct": 2.87,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -79488,7 +79488,7 @@
       "id": "powerindia",
       "name": "POWERINDIA",
       "ticker": "POWERINDIA",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 151568,
@@ -79496,7 +79496,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 172,
       "dividendYieldPct": 0.02,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -79767,7 +79767,7 @@
       "id": "premierene",
       "name": "PREMIERENE",
       "ticker": "PREMIERENE",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 45922,
@@ -79775,7 +79775,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 298,
       "dividendYieldPct": 0.1,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -80009,7 +80009,7 @@
       "id": "prestige",
       "name": "PRESTIGE",
       "ticker": "PRESTIGE",
-      "sector": "Unknown",
+      "sector": "Real Estate",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 64924,
@@ -80017,7 +80017,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 66.9,
       "dividendYieldPct": 0.12,
-      "color": "#60a5fa",
+      "color": "#fb7185",
       "beta": 0,
       "history": [
         {
@@ -80473,7 +80473,7 @@
       "id": "radico",
       "name": "RADICO",
       "ticker": "RADICO",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 46571,
@@ -80481,7 +80481,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 75.5,
       "dividendYieldPct": 0.12,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -80900,15 +80900,15 @@
       "id": "recltd",
       "name": "RECLTD",
       "ticker": "RECLTD",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.4,
       "marketCapCr": 94638,
       "cmp": 359,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 5.8,
       "dividendYieldPct": 5.01,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -81364,7 +81364,7 @@
       "id": "reliance",
       "name": "RELIANCE",
       "ticker": "RELIANCE",
-      "sector": "Unknown",
+      "sector": "Energy",
       "reportingType": "nonFinancial",
       "weightPct": 7.8,
       "marketCapCr": 1942189,
@@ -81372,7 +81372,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 24,
       "dividendYieldPct": 0.38,
-      "color": "#60a5fa",
+      "color": "#06b6d4",
       "beta": 0,
       "history": [
         {
@@ -81828,7 +81828,7 @@
       "id": "rvnl",
       "name": "RVNL",
       "ticker": "RVNL",
-      "sector": "Unknown",
+      "sector": "Industrials",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 63593,
@@ -81836,7 +81836,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 55.4,
       "dividendYieldPct": 0.56,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -82255,7 +82255,7 @@
       "id": "sail",
       "name": "SAIL",
       "ticker": "SAIL",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 0.8,
       "marketCapCr": 76365,
@@ -82263,7 +82263,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 25.2,
       "dividendYieldPct": 0.87,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -82719,15 +82719,15 @@
       "id": "sbin",
       "name": "SBIN",
       "ticker": "SBIN",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 3.8,
       "marketCapCr": 940877,
       "cmp": 1019,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 11.6,
       "dividendYieldPct": 1.7,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -83183,7 +83183,7 @@
       "id": "schaeffler",
       "name": "SCHAEFFLER",
       "ticker": "SCHAEFFLER",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 66396,
@@ -83191,7 +83191,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 54.7,
       "dividendYieldPct": 0.82,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -83351,7 +83351,7 @@
       "id": "shreecem",
       "name": "SHREECEM",
       "ticker": "SHREECEM",
-      "sector": "Unknown",
+      "sector": "Cement",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 91771,
@@ -83359,7 +83359,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 52.6,
       "dividendYieldPct": 0.43,
-      "color": "#60a5fa",
+      "color": "#71717a",
       "beta": 0,
       "history": [
         {
@@ -83815,15 +83815,15 @@
       "id": "shriramfin",
       "name": "SHRIRAMFIN",
       "ticker": "SHRIRAMFIN",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.4,
       "marketCapCr": 237106,
       "cmp": 1008,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 23.6,
       "dividendYieldPct": 1.07,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -84279,7 +84279,7 @@
       "id": "siemens",
       "name": "SIEMENS",
       "ticker": "SIEMENS",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 136131,
@@ -84287,7 +84287,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 83.2,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -84743,7 +84743,7 @@
       "id": "sjvn",
       "name": "SJVN",
       "ticker": "SJVN",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 30963,
@@ -84751,7 +84751,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 49,
       "dividendYieldPct": 1.85,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -85207,7 +85207,7 @@
       "id": "solarinds",
       "name": "SOLARINDS",
       "ticker": "SOLARINDS",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 145734,
@@ -85215,7 +85215,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 100,
       "dividendYieldPct": 0.06,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -85671,7 +85671,7 @@
       "id": "srf",
       "name": "SRF",
       "ticker": "SRF",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 82430,
@@ -85679,7 +85679,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 43.3,
       "dividendYieldPct": 0.32,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -86135,15 +86135,15 @@
       "id": "sundarmfin",
       "name": "SUNDARMFIN",
       "ticker": "SUNDARMFIN",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.1,
       "marketCapCr": 52734,
       "cmp": 4746,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 25,
       "dividendYieldPct": 0.74,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -86599,7 +86599,7 @@
       "id": "sunpharma",
       "name": "SUNPHARMA",
       "ticker": "SUNPHARMA",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.4,
       "marketCapCr": 443373,
@@ -86607,7 +86607,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 36.5,
       "dividendYieldPct": 0.87,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -87063,7 +87063,7 @@
       "id": "supremeind",
       "name": "SUPREMEIND",
       "ticker": "SUPREMEIND",
-      "sector": "Unknown",
+      "sector": "Materials",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 46427,
@@ -87071,7 +87071,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 48.7,
       "dividendYieldPct": 0.98,
-      "color": "#60a5fa",
+      "color": "#6b7280",
       "beta": 0,
       "history": [
         {
@@ -87527,7 +87527,7 @@
       "id": "suzlon",
       "name": "SUZLON",
       "ticker": "SUZLON",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 74787,
@@ -87535,7 +87535,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 23.1,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -87991,7 +87991,7 @@
       "id": "swiggy",
       "name": "SWIGGY",
       "ticker": "SWIGGY",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 77427,
@@ -87999,7 +87999,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 0,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -88270,15 +88270,15 @@
       "id": "tatacap",
       "name": "TATACAP",
       "ticker": "TATACAP",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "NBFC",
+      "reportingType": "financial",
       "weightPct": 0.2,
       "marketCapCr": 136557,
       "cmp": 322,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 28,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -88512,7 +88512,7 @@
       "id": "tatacomm",
       "name": "TATACOMM",
       "ticker": "TATACOMM",
-      "sector": "Unknown",
+      "sector": "Telecom",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 45381,
@@ -88520,7 +88520,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 41.2,
       "dividendYieldPct": 1.57,
-      "color": "#60a5fa",
+      "color": "#f59e0b",
       "beta": 0,
       "history": [
         {
@@ -88976,7 +88976,7 @@
       "id": "tataconsum",
       "name": "TATACONSUM",
       "ticker": "TATACONSUM",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 116392,
@@ -88984,7 +88984,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 74.7,
       "dividendYieldPct": 0.7,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -89440,7 +89440,7 @@
       "id": "tataelxsi",
       "name": "TATAELXSI",
       "ticker": "TATAELXSI",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 26910,
@@ -89448,7 +89448,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 264,
       "dividendYieldPct": 1.74,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -89534,7 +89534,7 @@
       "id": "tatainvest",
       "name": "TATAINVEST",
       "ticker": "TATAINVEST",
-      "sector": "Unknown",
+      "sector": "NBFC",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 36307,
@@ -89542,7 +89542,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 83.7,
       "dividendYieldPct": 0.38,
-      "color": "#60a5fa",
+      "color": "#1d4ed8",
       "beta": 0,
       "history": [
         {
@@ -89998,7 +89998,7 @@
       "id": "tatapower",
       "name": "TATAPOWER",
       "ticker": "TATAPOWER",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0.5,
       "marketCapCr": 139317,
@@ -90006,7 +90006,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 36.8,
       "dividendYieldPct": 0.52,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -90462,7 +90462,7 @@
       "id": "tatasteel",
       "name": "TATASTEEL",
       "ticker": "TATASTEEL",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 1,
       "marketCapCr": 267759,
@@ -90470,7 +90470,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 17.1,
       "dividendYieldPct": 1.68,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -90926,7 +90926,7 @@
       "id": "tcs",
       "name": "TCS",
       "ticker": "TCS",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 2,
       "marketCapCr": 866315,
@@ -90934,7 +90934,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 16.6,
       "dividendYieldPct": 2.67,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -91390,7 +91390,7 @@
       "id": "techm",
       "name": "TECHM",
       "ticker": "TECHM",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0.4,
       "marketCapCr": 143367,
@@ -91398,7 +91398,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 28.7,
       "dividendYieldPct": 3.49,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -91854,7 +91854,7 @@
       "id": "thermax",
       "name": "THERMAX",
       "ticker": "THERMAX",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 55735,
@@ -91862,7 +91862,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 82.4,
       "dividendYieldPct": 0.3,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -92318,7 +92318,7 @@
       "id": "tiindia",
       "name": "TIINDIA",
       "ticker": "TIINDIA",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 59030,
@@ -92326,7 +92326,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 95.5,
       "dividendYieldPct": 0.11,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -92708,7 +92708,7 @@
       "id": "titan",
       "name": "TITAN",
       "ticker": "TITAN",
-      "sector": "Unknown",
+      "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
       "weightPct": 0.6,
       "marketCapCr": 400303,
@@ -92716,7 +92716,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 77.8,
       "dividendYieldPct": 0.24,
-      "color": "#60a5fa",
+      "color": "#a3e635",
       "beta": 0,
       "history": [
         {
@@ -93172,7 +93172,7 @@
       "id": "tmcv",
       "name": "TMCV",
       "ticker": "TMCV",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 0,
       "marketCapCr": 158708,
@@ -93180,7 +93180,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 349,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -93229,7 +93229,7 @@
       "id": "tmpv",
       "name": "TMPV",
       "ticker": "TMPV",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 3.3,
       "marketCapCr": 130892,
@@ -93237,7 +93237,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 21.8,
       "dividendYieldPct": 1.69,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -93693,7 +93693,7 @@
       "id": "torntpharm",
       "name": "TORNTPHARM",
       "ticker": "TORNTPHARM",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 148266,
@@ -93701,7 +93701,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 66.4,
       "dividendYieldPct": 0.73,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {
@@ -94157,7 +94157,7 @@
       "id": "torntpower",
       "name": "TORNTPOWER",
       "ticker": "TORNTPOWER",
-      "sector": "Unknown",
+      "sector": "Utilities",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 86893,
@@ -94165,7 +94165,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 27.5,
       "dividendYieldPct": 1.1,
-      "color": "#60a5fa",
+      "color": "#0891b2",
       "beta": 0,
       "history": [
         {
@@ -94621,7 +94621,7 @@
       "id": "trent",
       "name": "TRENT",
       "ticker": "TRENT",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 150808,
@@ -94629,7 +94629,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 86.7,
       "dividendYieldPct": 0.14,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -95085,7 +95085,7 @@
       "id": "tvsmotor",
       "name": "TVSMOTOR",
       "ticker": "TVSMOTOR",
-      "sector": "Unknown",
+      "sector": "Automobiles",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 175554,
@@ -95093,7 +95093,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 60.2,
       "dividendYieldPct": 0.32,
-      "color": "#60a5fa",
+      "color": "#f97316",
       "beta": 0,
       "history": [
         {
@@ -95549,7 +95549,7 @@
       "id": "ubl",
       "name": "UBL",
       "ticker": "UBL",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 37540,
@@ -95557,7 +95557,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 100,
       "dividendYieldPct": 0.7,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -96013,7 +96013,7 @@
       "id": "ultracemco",
       "name": "ULTRACEMCO",
       "ticker": "ULTRACEMCO",
-      "sector": "Unknown",
+      "sector": "Cement",
       "reportingType": "nonFinancial",
       "weightPct": 0.7,
       "marketCapCr": 352142,
@@ -96021,7 +96021,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 42.6,
       "dividendYieldPct": 0.65,
-      "color": "#60a5fa",
+      "color": "#71717a",
       "beta": 0,
       "history": [
         {
@@ -96477,15 +96477,15 @@
       "id": "unionbank",
       "name": "UNIONBANK",
       "ticker": "UNIONBANK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.8,
       "marketCapCr": 126901,
       "cmp": 166,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 6.53,
       "dividendYieldPct": 2.86,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -96941,7 +96941,7 @@
       "id": "unitdspr",
       "name": "UNITDSPR",
       "ticker": "UNITDSPR",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 93159,
@@ -96949,7 +96949,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 53,
       "dividendYieldPct": 0.94,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -97405,7 +97405,7 @@
       "id": "unominda",
       "name": "UNOMINDA",
       "ticker": "UNOMINDA",
-      "sector": "Unknown",
+      "sector": "Auto Components",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 68072,
@@ -97413,7 +97413,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 58.8,
       "dividendYieldPct": 0.19,
-      "color": "#60a5fa",
+      "color": "#fb923c",
       "beta": 0,
       "history": [
         {
@@ -97869,7 +97869,7 @@
       "id": "upl",
       "name": "UPL",
       "ticker": "UPL",
-      "sector": "Unknown",
+      "sector": "Chemicals",
       "reportingType": "nonFinancial",
       "weightPct": 0.3,
       "marketCapCr": 54516,
@@ -97877,7 +97877,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 28.7,
       "dividendYieldPct": 0.93,
-      "color": "#60a5fa",
+      "color": "#14b8a6",
       "beta": 0,
       "history": [
         {
@@ -98333,7 +98333,7 @@
       "id": "vbl",
       "name": "VBL",
       "ticker": "VBL",
-      "sector": "Unknown",
+      "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 172108,
@@ -98341,7 +98341,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 54.1,
       "dividendYieldPct": 0.29,
-      "color": "#60a5fa",
+      "color": "#22c55e",
       "beta": 0,
       "history": [
         {
@@ -98797,7 +98797,7 @@
       "id": "vedl",
       "name": "VEDL",
       "ticker": "VEDL",
-      "sector": "Unknown",
+      "sector": "Metals",
       "reportingType": "nonFinancial",
       "weightPct": 0.6,
       "marketCapCr": 115923,
@@ -98805,7 +98805,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 13.4,
       "dividendYieldPct": 14.7,
-      "color": "#60a5fa",
+      "color": "#78716c",
       "beta": 0,
       "history": [
         {
@@ -99261,7 +99261,7 @@
       "id": "vmm",
       "name": "VMM",
       "ticker": "VMM",
-      "sector": "Unknown",
+      "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 57915,
@@ -99269,7 +99269,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 73.6,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#84cc16",
       "beta": 0,
       "history": [
         {
@@ -99503,7 +99503,7 @@
       "id": "voltas",
       "name": "VOLTAS",
       "ticker": "VOLTAS",
-      "sector": "Unknown",
+      "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
       "weightPct": 0.1,
       "marketCapCr": 43836,
@@ -99511,7 +99511,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 89.3,
       "dividendYieldPct": 0.53,
-      "color": "#60a5fa",
+      "color": "#a3e635",
       "beta": 0,
       "history": [
         {
@@ -99967,7 +99967,7 @@
       "id": "waareeener",
       "name": "WAAREEENER",
       "ticker": "WAAREEENER",
-      "sector": "Unknown",
+      "sector": "Capital Goods",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 92914,
@@ -99975,7 +99975,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 23.7,
       "dividendYieldPct": 0.06,
-      "color": "#60a5fa",
+      "color": "#ea580c",
       "beta": 0,
       "history": [
         {
@@ -100246,7 +100246,7 @@
       "id": "wipro",
       "name": "WIPRO",
       "ticker": "WIPRO",
-      "sector": "Unknown",
+      "sector": "Information Technology",
       "reportingType": "nonFinancial",
       "weightPct": 0.7,
       "marketCapCr": 207694,
@@ -100254,7 +100254,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 15.7,
       "dividendYieldPct": 5.56,
-      "color": "#60a5fa",
+      "color": "#8b5cf6",
       "beta": 0,
       "history": [
         {
@@ -100710,15 +100710,15 @@
       "id": "yesbank",
       "name": "YESBANK",
       "ticker": "YESBANK",
-      "sector": "Unknown",
-      "reportingType": "nonFinancial",
+      "sector": "Banks",
+      "reportingType": "financial",
       "weightPct": 0.2,
       "marketCapCr": 71998,
       "cmp": 22.9,
-      "valuationMetric": "pe",
+      "valuationMetric": "pb",
       "valuationMultiple": 20.5,
       "dividendYieldPct": 0,
-      "color": "#60a5fa",
+      "color": "#2563eb",
       "beta": 0,
       "history": [
         {
@@ -101174,7 +101174,7 @@
       "id": "zyduslife",
       "name": "ZYDUSLIFE",
       "ticker": "ZYDUSLIFE",
-      "sector": "Unknown",
+      "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
       "weightPct": 0.2,
       "marketCapCr": 94591,
@@ -101182,7 +101182,7 @@
       "valuationMetric": "pe",
       "valuationMultiple": 18.5,
       "dividendYieldPct": 1.17,
-      "color": "#60a5fa",
+      "color": "#dc2626",
       "beta": 0,
       "history": [
         {

@@ -1,0 +1,1138 @@
+{
+  "generatedAt": "2026-05-10T18:37:15.052460+00:00",
+  "asOfDate": "2026-05-10",
+  "source": "real",
+  "sourcePolicy": "screener-in",
+  "schemaVersion": 3,
+  "fiscalYears": [
+    "FY2007",
+    "FY2009",
+    "FY2011",
+    "FY2012",
+    "FY2013",
+    "FY2014",
+    "FY2015",
+    "FY2016",
+    "FY2017",
+    "FY2018",
+    "FY2019",
+    "FY2020",
+    "FY2021",
+    "FY2022",
+    "FY2023",
+    "FY2024",
+    "FY2025",
+    "FY2026"
+  ],
+  "sourceName": "NSE largemidcap250 (via screener.in)",
+  "downloadedAt": "2026-05-10T18:37:15.052460+00:00",
+  "constituents": [
+    {
+      "symbol": "ABB",
+      "name": "ABB",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ABCAPITAL",
+      "name": "ABCAPITAL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ADANIENSOL",
+      "name": "ADANIENSOL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ADANIENT",
+      "name": "ADANIENT",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ADANIPORTS",
+      "name": "ADANIPORTS",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ADANIPOWER",
+      "name": "ADANIPOWER",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "AIIL",
+      "name": "AIIL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "APOLLOHOSP",
+      "name": "APOLLOHOSP",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "APOLLOTYRE",
+      "name": "APOLLOTYRE",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "name": "BAJFINANCE",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BANKBARODA",
+      "name": "BANKBARODA",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BEL",
+      "name": "BEL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BHARATFORG",
+      "name": "BHARATFORG",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BHARTIARTL",
+      "name": "BHARTIARTL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BHEL",
+      "name": "BHEL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BOSCHLTD",
+      "name": "BOSCHLTD",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BPCL",
+      "name": "BPCL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BRITANNIA",
+      "name": "BRITANNIA",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "BSE",
+      "name": "BSE",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "CGPOWER",
+      "name": "CGPOWER",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "COALINDIA",
+      "name": "COALINDIA",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "COCHINSHIP",
+      "name": "COCHINSHIP",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "COFORGE",
+      "name": "COFORGE",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "COROMANDEL",
+      "name": "COROMANDEL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "CUMMINSIND",
+      "name": "CUMMINSIND",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "DABUR",
+      "name": "DABUR",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "DALBHARAT",
+      "name": "DALBHARAT",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "DIVISLAB",
+      "name": "DIVISLAB",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "DIXON",
+      "name": "DIXON",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "DLF",
+      "name": "DLF",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "DRREDDY",
+      "name": "DRREDDY",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "EICHERMOT",
+      "name": "EICHERMOT",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ETERNAL",
+      "name": "ETERNAL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "EXIDEIND",
+      "name": "EXIDEIND",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "FEDERALBNK",
+      "name": "FEDERALBNK",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "FORTIS",
+      "name": "FORTIS",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "GLENMARK",
+      "name": "GLENMARK",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "GMRAIRPORT",
+      "name": "GMRAIRPORT",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "GODFRYPHLP",
+      "name": "GODFRYPHLP",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "GODREJCP",
+      "name": "GODREJCP",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "GODREJIND",
+      "name": "GODREJIND",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "GROWW",
+      "name": "GROWW",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "HAL",
+      "name": "HAL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "HCLTECH",
+      "name": "HCLTECH",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "HDFCAMC",
+      "name": "HDFCAMC",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "HDFCBANK",
+      "name": "HDFCBANK",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "HEROMOTOCO",
+      "name": "HEROMOTOCO",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "HINDALCO",
+      "name": "HINDALCO",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "HINDPETRO",
+      "name": "HINDPETRO",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "HUDCO",
+      "name": "HUDCO",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ICICIBANK",
+      "name": "ICICIBANK",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ICICIGI",
+      "name": "ICICIGI",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "IDEA",
+      "name": "IDEA",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "INDIANB",
+      "name": "INDIANB",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "INDIGO",
+      "name": "INDIGO",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "INDUSTOWER",
+      "name": "INDUSTOWER",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "INFY",
+      "name": "INFY",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "IPCALAB",
+      "name": "IPCALAB",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ITC",
+      "name": "ITC",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ITCHOTELS",
+      "name": "ITCHOTELS",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "JIOFIN",
+      "name": "JIOFIN",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "JSWINFRA",
+      "name": "JSWINFRA",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "JSWSTEEL",
+      "name": "JSWSTEEL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "KALYANKJIL",
+      "name": "KALYANKJIL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "KEI",
+      "name": "KEI",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "KOTAKBANK",
+      "name": "KOTAKBANK",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "KPITTECH",
+      "name": "KPITTECH",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "LENSKART",
+      "name": "LENSKART",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "LT",
+      "name": "LT",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "LUPIN",
+      "name": "LUPIN",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "M&M",
+      "name": "M&M",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "MANKIND",
+      "name": "MANKIND",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "MARUTI",
+      "name": "MARUTI",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "MAXHEALTH",
+      "name": "MAXHEALTH",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "MAZDOCK",
+      "name": "MAZDOCK",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "MCX",
+      "name": "MCX",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "MFSL",
+      "name": "MFSL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "MUTHOOTFIN",
+      "name": "MUTHOOTFIN",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "NMDC",
+      "name": "NMDC",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "NTPC",
+      "name": "NTPC",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "NTPCGREEN",
+      "name": "NTPCGREEN",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "OFSS",
+      "name": "OFSS",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ONGC",
+      "name": "ONGC",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "PAYTM",
+      "name": "PAYTM",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "PERSISTENT",
+      "name": "PERSISTENT",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "PETRONET",
+      "name": "PETRONET",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "PFC",
+      "name": "PFC",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "PIDILITIND",
+      "name": "PIDILITIND",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "PIIND",
+      "name": "PIIND",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "PNB",
+      "name": "PNB",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "POLICYBZR",
+      "name": "POLICYBZR",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "POLYCAB",
+      "name": "POLYCAB",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "POWERINDIA",
+      "name": "POWERINDIA",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "RADICO",
+      "name": "RADICO",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "RECLTD",
+      "name": "RECLTD",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "RELIANCE",
+      "name": "RELIANCE",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "SAIL",
+      "name": "SAIL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "SBIN",
+      "name": "SBIN",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "SHRIRAMFIN",
+      "name": "SHRIRAMFIN",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "SOLARINDS",
+      "name": "SOLARINDS",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "SUNPHARMA",
+      "name": "SUNPHARMA",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "SUPREMEIND",
+      "name": "SUPREMEIND",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "SUZLON",
+      "name": "SUZLON",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TATACAP",
+      "name": "TATACAP",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TATACONSUM",
+      "name": "TATACONSUM",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TATAPOWER",
+      "name": "TATAPOWER",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TATASTEEL",
+      "name": "TATASTEEL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TCS",
+      "name": "TCS",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TECHM",
+      "name": "TECHM",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "THERMAX",
+      "name": "THERMAX",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TIINDIA",
+      "name": "TIINDIA",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TITAN",
+      "name": "TITAN",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TMCV",
+      "name": "TMCV",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "TORNTPHARM",
+      "name": "TORNTPHARM",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "UBL",
+      "name": "UBL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "ULTRACEMCO",
+      "name": "ULTRACEMCO",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "UNITDSPR",
+      "name": "UNITDSPR",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "UPL",
+      "name": "UPL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "VEDL",
+      "name": "VEDL",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "VMM",
+      "name": "VMM",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "WAAREEENER",
+      "name": "WAAREEENER",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "WIPRO",
+      "name": "WIPRO",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "YESBANK",
+      "name": "YESBANK",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    }
+  ]
+}
