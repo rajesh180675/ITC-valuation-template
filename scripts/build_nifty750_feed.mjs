@@ -3,6 +3,7 @@
  * Build Nifty 750 JSON feed from Screener.in source-pack files.
  *
  * Source: scripts/nifty750/{largemidcap250,smallcap250,microcap250}/
+ *   {constituents,financials,balance_sheets,cashflows,company_ratios,market_data}.json
  * Output: public/data/nifty750_real.json
  *
  * Usage: node scripts/build_nifty750_feed.mjs
@@ -42,6 +43,14 @@ function colorFor(sector) { return SECTOR_COLORS[sector] ?? '#60a5fa'; }
 function round1(v) { if (v == null) return null; return Math.round(v * 10) / 10; }
 function readJson(filePath) { return JSON.parse(readFileSync(filePath, 'utf8')); }
 
+function indexBySymbolFy(rows) {
+  const map = {};
+  for (const row of rows) {
+    map[`${row.symbol}::${row.fiscalYear}`] = row;
+  }
+  return map;
+}
+
 function main() {
   console.log('Building Nifty 750 feed...');
 
@@ -54,18 +63,23 @@ function main() {
     const financials = readJson(path.join(sourceDir, 'financials.json'));
     const marketData = readJson(path.join(sourceDir, 'market_data.json'));
 
-    // Build lookup maps
+    // Optional enriched data
+    let bsIndex = {}, cfIndex = {}, ratioIndex = {};
+    try { bsIndex = indexBySymbolFy(readJson(path.join(sourceDir, 'balance_sheets.json')).rows); } catch {}
+    try { cfIndex = indexBySymbolFy(readJson(path.join(sourceDir, 'cashflows.json')).rows); } catch {}
+    try { ratioIndex = indexBySymbolFy(readJson(path.join(sourceDir, 'company_ratios.json')).rows); } catch {}
+
     const finBySymbol = {};
     for (const row of financials.rows) {
       if (!finBySymbol[row.symbol]) finBySymbol[row.symbol] = [];
       finBySymbol[row.symbol].push(row);
     }
+
     const mktBySymbol = {};
     for (const row of marketData.rows) {
       mktBySymbol[row.symbol] = row;
     }
 
-    // Global fiscal year set
     for (const fy of constituents.fiscalYears ?? []) {
       const yearNum = parseInt(String(fy).replace('FY', ''), 10);
       if (!isNaN(yearNum) && yearNum >= 2014) allFys.add(fy);
@@ -88,19 +102,56 @@ function main() {
         const finRow = finRows.find(r => r.fiscalYear === fy);
         if (finRow && finRow.revenueCr != null) {
           lastIdx = history.length;
+          const key = `${sym}::${fy}`;
+          const bs = bsIndex[key] || {};
+          const cf = cfIndex[key] || {};
+          const ratios = ratioIndex[key] || {};
+
           history.push({
             fy,
             toplineCr: finRow.revenueCr,
-            netProfitCr: finRow.netProfitCr,
+            expensesCr: finRow.expensesCr,
             operatingProfitCr: finRow.operatingProfitCr,
-            roePct: 0,
+            opmPct: finRow.opmPct,
+            otherIncomeCr: finRow.otherIncomeCr,
+            interestCr: finRow.interestCr,
+            depreciationCr: finRow.depreciationCr,
+            profitBeforeTaxCr: finRow.profitBeforeTaxCr,
+            taxPct: finRow.taxPct,
+            netProfitCr: finRow.netProfitCr,
+            epsRs: finRow.epsRs,
+            dividendPayoutPct: finRow.dividendPayoutPct,
+            equityCapitalCr: bs.equityCapitalCr ?? null,
+            reservesCr: bs.reservesCr ?? null,
+            borrowingsCr: bs.borrowingsCr ?? null,
+            otherLiabilitiesCr: bs.otherLiabilitiesCr ?? null,
+            totalLiabilitiesCr: bs.totalLiabilitiesCr ?? null,
+            fixedAssetsCr: bs.fixedAssetsCr ?? null,
+            cwipCr: bs.cwipCr ?? null,
+            investmentsCr: bs.investmentsCr ?? null,
+            otherAssetsCr: bs.otherAssetsCr ?? null,
+            totalAssetsCr: bs.totalAssetsCr ?? null,
+            operatingCFCr: cf.operatingCFCr ?? null,
+            investingCFCr: cf.investingCFCr ?? null,
+            financingCFCr: cf.financingCFCr ?? null,
+            netCashFlowCr: cf.netCashFlowCr ?? null,
+            freeCashFlowCr: cf.freeCashFlowCr ?? null,
+            cfoToOpPct: cf.cfoToOpPct ?? null,
+            debtorDays: ratios.debtorDays ?? null,
+            inventoryDays: ratios.inventoryDays ?? null,
+            daysPayable: ratios.daysPayable ?? null,
+            cashConversionCycle: ratios.cashConversionCycle ?? null,
+            workingCapitalDays: ratios.workingCapitalDays ?? null,
             rocePct: 0,
           });
         }
       }
-      if (lastIdx >= 0 && mktRoe != null) {
-        history[lastIdx].roePct = mktRoe;
-        history[lastIdx].rocePct = mktRoce ?? 0;
+
+      if (lastIdx >= 0) {
+        const lastKey = `${sym}::${history[lastIdx].fy}`;
+        const lastRatios = ratioIndex[lastKey] || {};
+        history[lastIdx].roePct = mktRoe ?? 0;
+        history[lastIdx].rocePct = lastRatios.rocePct ?? mktRoce ?? 0;
       }
 
       if (history.length === 0) continue;
@@ -140,9 +191,21 @@ function main() {
     console.log(`  ${slug}: ${outCompanies.length} companies`);
   }
 
-  // Sort fiscal years
   const fiscalYears = Array.from(allFys).sort();
   console.log(`  Fiscal years: ${fiscalYears[0]} to ${fiscalYears[fiscalYears.length - 1]} (${fiscalYears.length})`);
+
+  // Stats
+  let totalCos = 0, withBs = 0, withCf = 0, withRatios = 0;
+  for (const b of batches) {
+    for (const c of b.companies) {
+      totalCos++;
+      const last = c.history[c.history.length - 1];
+      if (last?.totalAssetsCr) withBs++;
+      if (last?.freeCashFlowCr != null) withCf++;
+      if (last?.inventoryDays != null) withRatios++;
+    }
+  }
+  console.log(`  With balance sheet: ${withBs}, cash flow: ${withCf}, ratios: ${withRatios}`);
 
   const now = new Date().toISOString();
   const dataset = {
@@ -150,7 +213,7 @@ function main() {
     asOfDate: now.slice(0, 10),
     source: 'real',
     sourcePolicy: 'screener-in-public-data',
-    schemaVersion: 3,
+    schemaVersion: 4,
     fiscalYears,
     provenance: {
       universe: {
@@ -162,7 +225,7 @@ function main() {
         sourceName: 'Screener.in',
         sourceType: 'scraped_financial_data',
         licenseBasis: 'publicly_available_via_screener_in',
-        notes: 'Annual P&L + header data scraped from screener.in. No synthetic values.',
+        notes: 'Annual P&L, Balance Sheet, Cash Flow, and Ratios scraped from screener.in. No synthetic values.',
       }],
       notes: 'Three Nifty indices (LargeMidcap 250, Smallcap 250, Microcap 250). Real data only.',
     },
@@ -172,7 +235,6 @@ function main() {
   mkdirSync(path.dirname(OUT_PATH), { recursive: true });
   writeFileSync(OUT_PATH, JSON.stringify(dataset, null, 2) + '\n');
   console.log(`\nWrote ${OUT_PATH}`);
-  const totalCos = batches.reduce((s, b) => s + b.companies.length, 0);
   console.log(`Total companies: ${totalCos}`);
 }
 

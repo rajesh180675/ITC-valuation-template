@@ -2,7 +2,7 @@
 /**
  * Build Nifty 250 JSON feed from Screener.in source-pack files.
  *
- * Source: scripts/nifty250/source-pack/{constituents,financials,market_data}.json
+ * Source: scripts/nifty250/source-pack/{constituents,financials,balance_sheets,cashflows,company_ratios,market_data}.json
  * Output: public/data/nifty250_real.json
  *
  * Usage: node scripts/build_nifty250_feed.mjs
@@ -61,6 +61,16 @@ function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, 'utf8'));
 }
 
+// ── Build lookup: [{symbol, fiscalYear} -> row] ────────────────────────────
+function indexBySymbolFy(rows) {
+  const map = {};
+  for (const row of rows) {
+    const key = `${row.symbol}::${row.fiscalYear}`;
+    map[key] = row;
+  }
+  return map;
+}
+
 // ── Main ────────────────────────────────────────────────────────────────────
 
 function main() {
@@ -69,6 +79,23 @@ function main() {
   const constituents = readJson(path.join(SOURCE_DIR, 'constituents.json'));
   const financials = readJson(path.join(SOURCE_DIR, 'financials.json'));
   const marketData = readJson(path.join(SOURCE_DIR, 'market_data.json'));
+
+  // Optional new source-pack files
+  let bsIndex = {};
+  let cfIndex = {};
+  let ratioIndex = {};
+  try {
+    const bs = readJson(path.join(SOURCE_DIR, 'balance_sheets.json'));
+    bsIndex = indexBySymbolFy(bs.rows);
+  } catch { /* not yet available */ }
+  try {
+    const cf = readJson(path.join(SOURCE_DIR, 'cashflows.json'));
+    cfIndex = indexBySymbolFy(cf.rows);
+  } catch { /* not yet available */ }
+  try {
+    const ratios = readJson(path.join(SOURCE_DIR, 'company_ratios.json'));
+    ratioIndex = indexBySymbolFy(ratios.rows);
+  } catch { /* not yet available */ }
 
   // Build a map of symbol -> financials rows
   const finBySymbol = {};
@@ -83,8 +110,7 @@ function main() {
     mktBySymbol[row.symbol] = row;
   }
 
-  // Determine the common fiscal year range (FY2014–FY2026, but filter to
-  // years with meaningful coverage: exclude pre-2014 fragments)
+  // Determine the common fiscal year range
   const allFys = new Set();
   for (const row of financials.rows) {
     const fy = row.fiscalYear;
@@ -96,7 +122,7 @@ function main() {
   const fiscalYears = Array.from(allFys).sort();
   console.log(`  Fiscal years: ${fiscalYears[0]} to ${fiscalYears[fiscalYears.length - 1]} (${fiscalYears.length} years)`);
 
-  // Build constituents with history
+  // Build constituents with full history
   const outConstituents = [];
 
   for (const company of constituents.constituents) {
@@ -104,37 +130,76 @@ function main() {
     const finRows = finBySymbol[sym] || [];
     const mkt = mktBySymbol[sym];
 
-    // Build history array: one entry per fiscal year in the common range
-    // Only include years where this company has actual data
     const history = [];
     const mktRoe = mkt?.roePct ?? null;
     const mktRoce = mkt?.rocePct ?? null;
-    // Set ROE/ROCE on the last (latest) history entry for this company
     let lastIdx = -1;
+
     for (const fy of fiscalYears) {
       const finRow = finRows.find(r => r.fiscalYear === fy);
       if (finRow && finRow.revenueCr != null) {
-        lastIdx = history.length; // will be set on the last iteration
+        lastIdx = history.length;
+
+        const key = `${sym}::${fy}`;
+        const bs = bsIndex[key] || {};
+        const cf = cfIndex[key] || {};
+        const ratios = ratioIndex[key] || {};
+
         history.push({
           fy,
+          // P&L
           toplineCr: finRow.revenueCr,
-          netProfitCr: finRow.netProfitCr,
+          expensesCr: finRow.expensesCr,
           operatingProfitCr: finRow.operatingProfitCr,
-          roePct: 0,
-          rocePct: 0,
+          opmPct: finRow.opmPct,
+          otherIncomeCr: finRow.otherIncomeCr,
+          interestCr: finRow.interestCr,
+          depreciationCr: finRow.depreciationCr,
+          profitBeforeTaxCr: finRow.profitBeforeTaxCr,
+          taxPct: finRow.taxPct,
+          netProfitCr: finRow.netProfitCr,
+          epsRs: finRow.epsRs,
+          dividendPayoutPct: finRow.dividendPayoutPct,
+          // Balance Sheet
+          equityCapitalCr: bs.equityCapitalCr ?? null,
+          reservesCr: bs.reservesCr ?? null,
+          borrowingsCr: bs.borrowingsCr ?? null,
+          otherLiabilitiesCr: bs.otherLiabilitiesCr ?? null,
+          totalLiabilitiesCr: bs.totalLiabilitiesCr ?? null,
+          fixedAssetsCr: bs.fixedAssetsCr ?? null,
+          cwipCr: bs.cwipCr ?? null,
+          investmentsCr: bs.investmentsCr ?? null,
+          otherAssetsCr: bs.otherAssetsCr ?? null,
+          totalAssetsCr: bs.totalAssetsCr ?? null,
+          // Cash Flow
+          operatingCFCr: cf.operatingCFCr ?? null,
+          investingCFCr: cf.investingCFCr ?? null,
+          financingCFCr: cf.financingCFCr ?? null,
+          netCashFlowCr: cf.netCashFlowCr ?? null,
+          freeCashFlowCr: cf.freeCashFlowCr ?? null,
+          cfoToOpPct: cf.cfoToOpPct ?? null,
+          // Ratios
+          debtorDays: ratios.debtorDays ?? null,
+          inventoryDays: ratios.inventoryDays ?? null,
+          daysPayable: ratios.daysPayable ?? null,
+          cashConversionCycle: ratios.cashConversionCycle ?? null,
+          workingCapitalDays: ratios.workingCapitalDays ?? null,
+          rocePct: 0,  // will be set on last entry below
         });
       }
     }
-    // Set ROE/ROCE on the last history entry only
+
+    // Set ROE/ROCE on the last history entry
     if (lastIdx >= 0) {
       history[lastIdx].roePct = mktRoe ?? 0;
-      history[lastIdx].rocePct = mktRoce ?? 0;
+      // Use ratio roce if available, fallback to market data roce
+      const lastKey = `${sym}::${history[lastIdx].fy}`;
+      const lastRatios = ratioIndex[lastKey] || {};
+      history[lastIdx].rocePct = lastRatios.rocePct ?? mktRoce ?? 0;
     }
 
-    // Skip companies with no data in the common range
     if (history.length === 0) continue;
 
-    // Compute approximate weight from market cap
     const latestTopline = history[history.length - 1]?.toplineCr ?? 0;
     const latestProfit = history[history.length - 1]?.netProfitCr ?? 0;
 
@@ -144,7 +209,7 @@ function main() {
       ticker: sym,
       sector: company.sector,
       reportingType: company.reportingType,
-      weightPct: 0, // will be normalized after all are collected
+      weightPct: 0,
       marketCapCr: mkt?.marketCapCr ?? 0,
       cmp: mkt?.currentPrice ?? 0,
       valuationMetric: company.reportingType === 'financial' ? 'pb' : 'pe',
@@ -158,7 +223,7 @@ function main() {
     });
   }
 
-  // Sort by ticker and normalize weights proportional to latest topline
+  // Sort and normalize weights
   outConstituents.sort((a, b) => a.ticker.localeCompare(b.ticker));
   const totalTopline = outConstituents.reduce((s, c) => {
     const last = c.history[c.history.length - 1];
@@ -170,16 +235,24 @@ function main() {
   }
 
   console.log(`  Constituents: ${outConstituents.length}`);
-  console.log(`  Avg years per company: ${(outConstituents.reduce((s, c) => s + c.history.length, 0) / outConstituents.length).toFixed(1)}`);
 
-  // ── Build output ─────────────────────────────────────────────────────────
+  // Stats on enriched fields
+  let withBs = 0, withCf = 0, withRatios = 0;
+  for (const c of outConstituents) {
+    const last = c.history[c.history.length - 1];
+    if (last?.totalAssetsCr) withBs++;
+    if (last?.freeCashFlowCr != null) withCf++;
+    if (last?.inventoryDays != null) withRatios++;
+  }
+  console.log(`  With balance sheet: ${withBs}, cash flow: ${withCf}, ratios: ${withRatios}`);
+
   const now = new Date().toISOString();
   const dataset = {
     generatedAt: now,
     asOfDate: now.slice(0, 10),
     source: 'real',
     sourcePolicy: 'screener-in-public-data',
-    schemaVersion: 2,
+    schemaVersion: 3,
     fiscalYears,
     provenance: {
       universe: {
@@ -191,7 +264,7 @@ function main() {
         sourceName: 'Screener.in',
         sourceType: 'scraped_financial_data',
         licenseBasis: 'publicly_available_via_screener_in',
-        notes: 'Annual P&L data. Only years with real reported data included — no estimates, no backfilling.',
+        notes: 'Annual P&L, Balance Sheet, Cash Flow, and Ratios. Only years with real reported data included — no estimates, no backfilling.',
       }],
       notes: 'Built from screener.in public pages. Only real, reported financial data. No synthetic or estimated values.',
     },
