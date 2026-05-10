@@ -174,7 +174,7 @@ function main() {
         valuationMultiple: mktPe,
         dividendYieldPct: mktDiv,
         color: colorFor(company.sector),
-        beta: 0,
+        beta: mkt?.beta ?? 0,
         history,
         qualityFlags: [],
         dataSource: 'screener-in',

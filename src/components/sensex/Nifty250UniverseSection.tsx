@@ -11,7 +11,6 @@ import {
   NIFTY250_FISCAL_YEARS,
   NIFTY250_INDEX_LABEL,
   NIFTY250_PROVENANCE,
-  NIFTY250_CONSTITUENT_COUNT,
 } from '@/data/nifty250Data';
 import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
 import {
@@ -400,7 +399,7 @@ function HeroBanner(props: {
       </div>
       <div className="hairline-divider my-5" />
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-5">
-        <Kpi label="Constituents" value={String(filteredCount)} sub={`of ${NIFTY250_CONSTITUENT_COUNT} total`} />
+        <Kpi label="Constituents" value={String(filteredCount)} sub={`of ${activeConstituents.length} total`} />
         <Kpi label="Market Cap" value={fmt(totalMarketCap)} sub="aggregate float" />
         <Kpi label="BFSI / Corp Mix" value={`${fmtN(bfsiWeight, 1)} / ${fmtN(corpWeight, 1)}`} sub="by index weight" tabular />
         <Kpi label="Lead Sector" value={largestSector?.sector ?? '—'} sub={largestSector ? `${fmtN(largestSector.weightPct, 1)}% weight` : '—'} gold smallValue />

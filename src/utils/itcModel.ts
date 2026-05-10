@@ -160,9 +160,13 @@ export interface SensexIndexPoint {
 
 export function buildSensexIndexTimeSeries(companies: SensexConstituent[]): SensexIndexPoint[] {
   if (companies.length === 0) return [];
-  const fyList = companies[0].history.map((h) => h.fy);
 
-  return fyList.map((fy, index) => {
+  // Build union of ALL fiscal years across all companies (not just first company)
+  const fySet = new Set<string>();
+  companies.forEach(c => c.history.forEach(h => fySet.add(h.fy)));
+  const fyList = Array.from(fySet).sort();
+
+  return fyList.map((fy) => {
     let topline = 0;
     let profit = 0;
     let roeSum = 0;
@@ -171,7 +175,7 @@ export function buildSensexIndexTimeSeries(companies: SensexConstituent[]): Sens
     let marginCount = 0;
 
     companies.forEach((company) => {
-      const row = company.history[index];
+      const row = company.history.find(h => h.fy === fy);
       if (!row) return;
       topline += row.toplineCr;
       profit += row.netProfitCr;
