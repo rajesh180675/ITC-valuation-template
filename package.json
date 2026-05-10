@@ -24,7 +24,6 @@
     "generate:nifty250": "node scripts/build_nifty250_feed.mjs",
     "data:refresh-nifty250": "npm run fetch:nifty250 && npm run generate:nifty250",
     "fetch:nifty750": "python scripts/data_collector/fetch_nifty750_data.py",
-    "generate:nifty750-real": "node scripts/build_nifty750_feed.mjs",
     "data:refresh-nifty750": "npm run fetch:nifty750 && npm run generate:nifty750-real"
   },
   "dependencies": {
