@@ -15,6 +15,7 @@ import { SegmentsSection } from './components/itc/SegmentsSection';
 import { TaxAnalyzerSection } from './components/itc/TaxAnalyzerSection';
 import { SensexUniverseSection } from './components/sensex/SensexUniverseSection';
 import { Nifty250UniverseSection } from './components/sensex/Nifty250UniverseSection';
+import { Nifty750UniverseSection } from './components/sensex/Nifty750UniverseSection';
 const NiftyIndexDataSection = lazy(() =>
   import('./components/sensex/NiftyIndexDataSection').then(m => ({ default: m.NiftyIndexDataSection }))
 );
@@ -35,7 +36,7 @@ import { PlaybookSection } from './components/itc/PlaybookSection';
 import { GlobalCompareSection } from './components/itc/GlobalCompareSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'ralph' | 'deepdive55y' | 'itDeepDive' | 'stockPerf' | 'businessModel' | 'dividend' | 'capitalAllocation' | 'workingCapital';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'nifty750' | 'ralph' | 'deepdive55y' | 'itDeepDive' | 'stockPerf' | 'businessModel' | 'dividend' | 'capitalAllocation' | 'workingCapital';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
@@ -59,6 +60,7 @@ const NAV: NavItem[] = [
   { id: 'sensex', label: 'Sensex Universe', icon: <Layers size={18} /> },
   { id: 'nifty250', label: 'Nifty 250 Universe', icon: <Layers size={18} /> },
   { id: 'nifty750data', label: 'Nifty 750 Data Hub', icon: <Database size={18} /> },
+  { id: 'nifty750', label: 'Nifty 750 Universe', icon: <Layers size={18} /> },
   { id: 'ralph', label: 'Ralph Lab', icon: <Briefcase size={18} /> },
   { id: 'deepdive55y', label: '55Y Deep Dive', icon: <BookOpen size={18} /> },
   { id: 'itDeepDive', label: 'IT Services Lab', icon: <Cpu size={18} /> },
@@ -92,6 +94,7 @@ export default function App() {
       case 'global': return <GlobalCompareSection />;
       case 'sensex': return <SensexUniverseSection />;
       case 'nifty250': return <Nifty250UniverseSection />;
+      case 'nifty750': return <Nifty750UniverseSection />;
       case 'nifty750data': return <Suspense fallback={<div className="glass-card p-8 text-center text-gray-400 animate-pulse">Loading Nifty 750 data…</div>}><NiftyIndexDataSection /></Suspense>;
       case 'ralph': return <RalphSection />;
       case 'deepdive55y': return <DeepDive55YSection />;
