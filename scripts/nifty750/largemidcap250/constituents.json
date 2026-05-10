@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-10T15:22:41.121267+00:00",
+  "generatedAt": "2026-05-10T17:43:52.834087+00:00",
   "asOfDate": "2026-05-10",
   "source": "real",
   "sourcePolicy": "screener-in",
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "fiscalYears": [
     "FY2006",
     "FY2007",
@@ -27,8 +27,8 @@
     "FY2025",
     "FY2026"
   ],
-  "sourceName": "NSE Indices (via screener.in scraping)",
-  "downloadedAt": "2026-05-10T15:22:41.121267+00:00",
+  "sourceName": "NSE largemidcap250 (via screener.in)",
+  "downloadedAt": "2026-05-10T17:43:52.834087+00:00",
   "constituents": [
     {
       "symbol": "360ONE",
@@ -294,15 +294,6 @@
     {
       "symbol": "BAJAJFINSV",
       "name": "BAJAJFINSV",
-      "sector": "Unknown",
-      "industry": "Unknown",
-      "reportingType": "nonFinancial",
-      "listingExchange": "NSE",
-      "source": "screener-in"
-    },
-    {
-      "symbol": "BAJAJHFL",
-      "name": "BAJAJHFL",
       "sector": "Unknown",
       "industry": "Unknown",
       "reportingType": "nonFinancial",
@@ -636,6 +627,15 @@
     {
       "symbol": "DRREDDY",
       "name": "DRREDDY",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "EICHERMOT",
+      "name": "EICHERMOT",
       "sector": "Unknown",
       "industry": "Unknown",
       "reportingType": "nonFinancial",
@@ -1273,15 +1273,6 @@
       "source": "screener-in"
     },
     {
-      "symbol": "LGEINDIA",
-      "name": "LGEINDIA",
-      "sector": "Unknown",
-      "industry": "Unknown",
-      "reportingType": "nonFinancial",
-      "listingExchange": "NSE",
-      "source": "screener-in"
-    },
-    {
       "symbol": "LICHSGFIN",
       "name": "LICHSGFIN",
       "sector": "Unknown",
@@ -1320,6 +1311,15 @@
     {
       "symbol": "LODHA",
       "name": "LODHA",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "screener-in"
+    },
+    {
+      "symbol": "LT",
+      "name": "LT",
       "sector": "Unknown",
       "industry": "Unknown",
       "reportingType": "nonFinancial",
@@ -1822,15 +1822,6 @@
       "source": "screener-in"
     },
     {
-      "symbol": "SBICARD",
-      "name": "SBICARD",
-      "sector": "Unknown",
-      "industry": "Unknown",
-      "reportingType": "nonFinancial",
-      "listingExchange": "NSE",
-      "source": "screener-in"
-    },
-    {
       "symbol": "SBILIFE",
       "name": "SBILIFE",
       "sector": "Unknown",
@@ -2184,15 +2175,6 @@
     {
       "symbol": "VEDL",
       "name": "VEDL",
-      "sector": "Unknown",
-      "industry": "Unknown",
-      "reportingType": "nonFinancial",
-      "listingExchange": "NSE",
-      "source": "screener-in"
-    },
-    {
-      "symbol": "VMM",
-      "name": "VMM",
       "sector": "Unknown",
       "industry": "Unknown",
       "reportingType": "nonFinancial",
