@@ -92,18 +92,52 @@ export function StockPerfSection() {
       .map(([month, v]) => ({ month, close: v.close, high: v.high, low: v.low, date: v.date }))
       .sort((a, b) => a.month.localeCompare(b.month));
 
+    // Max drawdown from real daily data
+    let peak = -Infinity;
+    let maxDrawdown = 0;
+    for (const r of records) {
+      if (r.close > peak) peak = r.close;
+      const dd = peak > 0 ? ((peak - r.close) / peak) * 100 : 0;
+      if (dd > maxDrawdown) maxDrawdown = dd;
+    }
+
+    // Volatility (annualized from daily returns)
+    const allDailyReturns: number[] = [];
+    let prevCloseVol: number | null = null;
+    for (const r of records) {
+      if (prevCloseVol !== null) {
+        allDailyReturns.push((r.close - prevCloseVol) / prevCloseVol);
+      }
+      prevCloseVol = r.close;
+    }
+    const meanReturn = allDailyReturns.length > 0 ? allDailyReturns.reduce((s, r) => s + r, 0) / allDailyReturns.length : 0;
+    const variance = allDailyReturns.length > 0 ? allDailyReturns.reduce((s, r) => s + Math.pow(r - meanReturn, 2), 0) / allDailyReturns.length : 0;
+    const volatility = allDailyReturns.length > 0 ? Math.sqrt(variance) * Math.sqrt(252) * 100 : 0;
+
+    // Rolling returns from real yearly data
+    const nY = yearlyReturns.length;
+    const rollingReturns = {
+      oneY: nY >= 2 ? ((yearlyReturns[nY - 1].close / yearlyReturns[nY - 2].close - 1) * 100) : 0,
+      threeY: nY >= 4 ? ((Math.pow(yearlyReturns[nY - 1].close / yearlyReturns[nY - 4].open, 1 / 3) - 1) * 100) : 0,
+      fiveY: nY >= 6 ? ((Math.pow(yearlyReturns[nY - 1].close / yearlyReturns[nY - 6].open, 1 / 5) - 1) * 100) : 0,
+      tenY: nY >= 11 ? ((Math.pow(yearlyReturns[nY - 1].close / yearlyReturns[0].open, 1 / (nY - 1)) - 1) * 100) : 0,
+    };
+
     return {
       yearlyReturns,
       monthlyData,
       cagr30,
-      cagrPct: cagr30 !== null ? cagr30 : perf.cagrSinceInception,
+      cagrPct: cagr30 !== null ? cagr30 : 0,
       bestYearReal: bestYear,
       worstYearReal: worstYear,
       firstYear,
       lastYear,
       totalYears,
+      maxDrawdown,
+      volatility,
+      rollingReturns,
     };
-  }, [priceHistory, perf]);
+  }, [priceHistory]);
 
   // Price range data (unified type for both real and fallback)
   type PriceRangePoint = { year: string; 'Price High': number; 'Price Low': number; ref?: number };
@@ -186,9 +220,21 @@ export function StockPerfSection() {
             <MetricCard title="Worst Year" value={pct(perf.worstYear.returnPct)} subtitle={perf.worstYear.year} trend={perf.worstYear.returnPct >= 0 ? perf.worstYear.returnPct : undefined} color="red" />
           </>
         )}
-        <MetricCard title="Max Drawdown" value={pct(-perf.maxDrawdown)} subtitle="From peak" color="red" />
-        <MetricCard title="Volatility" value={fmtN(perf.volatility) + '%'} subtitle="Std dev of returns" color="purple" />
-        <MetricCard title="5Y Rolling Return" value={pct(perf.rollingReturns.fiveY)} subtitle="Annualized" trend={perf.rollingReturns.fiveY >= 0 ? perf.rollingReturns.fiveY : undefined} color="gold" />
+        {realData ? (
+          <MetricCard title="Max Drawdown" value={pct(-realData.maxDrawdown)} subtitle="From peak" color="red" />
+        ) : (
+          <MetricCard title="Max Drawdown" value={pct(-perf.maxDrawdown)} subtitle="From peak" color="red" />
+        )}
+        {realData ? (
+          <MetricCard title="Volatility" value={fmtN(realData.volatility) + '%'} subtitle="Std dev of returns" color="purple" />
+        ) : (
+          <MetricCard title="Volatility" value={fmtN(perf.volatility) + '%'} subtitle="Std dev of returns" color="purple" />
+        )}
+        {realData ? (
+          <MetricCard title="5Y Rolling Return" value={pct(realData.rollingReturns.fiveY)} subtitle="Annualized" trend={realData.rollingReturns.fiveY >= 0 ? realData.rollingReturns.fiveY : undefined} color="gold" />
+        ) : (
+          <MetricCard title="5Y Rolling Return" value={pct(perf.rollingReturns.fiveY)} subtitle="Annualized" trend={perf.rollingReturns.fiveY >= 0 ? perf.rollingReturns.fiveY : undefined} color="gold" />
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

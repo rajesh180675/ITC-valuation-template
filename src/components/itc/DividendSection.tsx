@@ -9,24 +9,71 @@ import { TrendingUp } from 'lucide-react';
 import { dividendHistory } from '@/data/itcData';
 import { calculateDividendMetrics } from '@/utils/itcModel';
 import { useItcDividendHistory } from '@/utils/dataFeeds';
+import type { ItcDividendHistory } from '@/utils/itcDataSchemas';
 import { SectionHeader, MetricCard, ChartTooltip, fmtN, pct } from './shared';
 
 const CURRENT_PRICE = 442;
 
+function aggregateLiveDividends(live: ItcDividendHistory | null): Map<string, { dps: number; specialDiv: number; totalDps: number }> {
+  if (!live) return new Map();
+  const map = new Map<string, { dps: number; specialDiv: number; totalDps: number }>();
+  for (const row of live.dividends) {
+    const curr = map.get(row.fiscalYear) || { dps: 0, specialDiv: 0, totalDps: 0 };
+    if (row.dividendType === 'special') {
+      curr.specialDiv += row.amountPerShare;
+    } else {
+      curr.dps += row.amountPerShare;
+    }
+    curr.totalDps = curr.dps + curr.specialDiv;
+    map.set(row.fiscalYear, curr);
+  }
+  return map;
+}
+
 export function DividendSection() {
-  const { fallbackData } = useItcDividendHistory();
-  // Use fallback (static) data when JSON is unavailable; static dividendHistory is the base case
-  const metrics = useMemo(() => calculateDividendMetrics(fallbackData ?? dividendHistory, CURRENT_PRICE), [fallbackData]);
+  const { data: liveDividendData } = useItcDividendHistory();
+
+  // Merge live dividend data into static entries when available
+  const mergedDividendHistory = useMemo(() => {
+    const liveMap = aggregateLiveDividends(liveDividendData);
+    if (liveMap.size === 0) return dividendHistory;
+    return dividendHistory.map(entry => {
+      const live = liveMap.get(entry.fy);
+      if (live) {
+        const totalDps = live.totalDps;
+        const payoutRatio = entry.eps > 0 ? (totalDps / entry.eps) * 100 : entry.payoutRatio;
+        return {
+          ...entry,
+          dps: live.dps,
+          specialDiv: live.specialDiv,
+          totalDps,
+          payoutRatio: Math.round(payoutRatio * 10) / 10,
+        };
+      }
+      return entry;
+    });
+  }, [liveDividendData]);
+
+  const metrics = useMemo(() => calculateDividendMetrics(mergedDividendHistory, CURRENT_PRICE), [mergedDividendHistory]);
 
   return (
     <div className="animate-fadeIn space-y-6">
       <SectionHeader
         title="Dividend Analysis"
-        subtitle="Dividend history, sustainability, and yield trajectory across 14 years (FY2012-FY2025)"
+        subtitle={`Dividend history, sustainability, and yield trajectory across ${mergedDividendHistory.length} years (${mergedDividendHistory[0]?.fy || ''}–${mergedDividendHistory[mergedDividendHistory.length - 1]?.fy || ''})`}
         icon={<TrendingUp size={22} />}
       />
 
-      {/* ── Metric Cards Row 1 ─────────────────────────────────────────────── */}
+      {/* Live data indicator */}
+      {liveDividendData && (
+        <div className="flex justify-end text-[10px] text-gray-600">
+          <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300">
+            📡 Live: {liveDividendData.dividends.length} dividend records from {liveDividendData.source}
+          </span>
+        </div>
+      )}
+
+      {/* —— Metric Cards Row 1 —————————————————————————————————————————————————————————————————— */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <MetricCard
           title="5Y DPS CAGR"
@@ -54,7 +101,7 @@ export function DividendSection() {
         />
       </div>
 
-      {/* ── Metric Cards Row 2 ─────────────────────────────────────────────── */}
+      {/* —— Metric Cards Row 2 —————————————————————————————————————————————————————————————————— */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <MetricCard
           title="Current Yield"
@@ -82,11 +129,11 @@ export function DividendSection() {
         />
       </div>
 
-      {/* ── Panel 1: DPS vs EPS with Payout Ratio Overlay ──────────────────── */}
+      {/* —— Panel 1: DPS vs EPS with Payout Ratio Overlay —————————————————————— */}
       <div className="glass-card p-4">
         <h3 className="text-sm font-medium text-gray-300 mb-3">DPS vs EPS with Payout Ratio Overlay</h3>
         <ResponsiveContainer width="100%" height={340}>
-          <ComposedChart data={dividendHistory} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
+          <ComposedChart data={mergedDividendHistory} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
             <XAxis dataKey="year" tick={{ fill: '#9ca3af', fontSize: 11 }} />
             <YAxis
@@ -119,11 +166,11 @@ export function DividendSection() {
         </ResponsiveContainer>
       </div>
 
-      {/* ── Panel 2: Total Shareholder Return Decomposition ──────────────────── */}
+      {/* —— Panel 2: Total Shareholder Return Decomposition ———————————————————— */}
       <div className="glass-card p-4">
         <h3 className="text-sm font-medium text-gray-300 mb-3">Total Shareholder Return Decomposition</h3>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={dividendHistory} margin={{ top: 10, right: 20, bottom: 10, left: 10 }}>
+          <BarChart data={mergedDividendHistory} margin={{ top: 10, right: 20, bottom: 10, left: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
             <XAxis dataKey="year" tick={{ fill: '#9ca3af', fontSize: 11 }} />
             <YAxis tick={{ fill: '#9ca3af', fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} />
@@ -135,11 +182,11 @@ export function DividendSection() {
         </ResponsiveContainer>
       </div>
 
-      {/* ── Panel 3: Payout Ratio Trend ─────────────────────────────────────── */}
+      {/* —— Panel 3: Payout Ratio Trend —————————————————————————————————————————————————————————————— */}
       <div className="glass-card p-4">
         <h3 className="text-sm font-medium text-gray-300 mb-3">Payout Ratio Trend</h3>
         <ResponsiveContainer width="100%" height={280}>
-          <LineChart data={dividendHistory} margin={{ top: 10, right: 20, bottom: 10, left: 10 }}>
+          <LineChart data={mergedDividendHistory} margin={{ top: 10, right: 20, bottom: 10, left: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
             <XAxis dataKey="year" tick={{ fill: '#9ca3af', fontSize: 11 }} />
             <YAxis tick={{ fill: '#9ca3af', fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} />

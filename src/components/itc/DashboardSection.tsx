@@ -105,6 +105,9 @@ export function DashboardSection() {
     Revenue: d.revenue,
     Cigarettes: d.cigaretteRevenue ?? 0,
     'FMCG-Others': d.fmcgRevenue ?? 0,
+    Hotels: d.hotelsRevenue ?? 0,
+    Paper: d.paperRevenue ?? 0,
+    Agri: d.agriRevenue ?? 0,
   }));
 
   const profitData = activeData.map(d => ({
@@ -218,6 +221,9 @@ export function DashboardSection() {
               <Tooltip content={<ChartTooltip />} />
               <Bar dataKey="Cigarettes" stackId="a" fill="#10b981" />
               <Bar dataKey="FMCG-Others" stackId="a" fill="#3b82f6" />
+              <Bar dataKey="Hotels" stackId="a" fill="#f59e0b" />
+              <Bar dataKey="Paper" stackId="a" fill="#8b5cf6" />
+              <Bar dataKey="Agri" stackId="a" fill="#ef4444" />
             </BarChart>
           </ResponsiveContainer>
         </div>

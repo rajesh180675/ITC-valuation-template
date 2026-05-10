@@ -1,9 +1,9 @@
 import { useState, useMemo, useCallback } from 'react';
 import {
-  AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
+  AreaChart, Area, BarChart, Bar, LineChart, Line, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   ComposedChart, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
-  ScatterChart, Scatter, ZAxis, ReferenceLine
+  ReferenceLine
 } from 'recharts';
 import {
   BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator,
@@ -12,7 +12,7 @@ import {
   Cpu, Coins, Scale, Clock, Grid3x3
   } from 'lucide-react';
 import {
-  historicalData, taxEvents, segmentDataFY24, defaultAssumptions,
+  historicalData, taxEvents, defaultAssumptions,
   globalTobaccoComparison, budgetCheatSheet, sharesOutstanding, sotpData,
   type ProjectionAssumptions
 } from './data/itcData';
@@ -20,9 +20,11 @@ import {
   calculateDCF,
   calculateSotpSummary,
   generateProjections,
-  simulateTaxImpact,
 } from './utils/itcModel';
 import { DashboardSection } from './components/itc/DashboardSection';
+import { FinancialsSection } from './components/itc/FinancialsSection';
+import { SegmentsSection } from './components/itc/SegmentsSection';
+import { TaxAnalyzerSection } from './components/itc/TaxAnalyzerSection';
 import { SensexUniverseSection } from './components/sensex/SensexUniverseSection';
 import { Nifty250UniverseSection } from './components/sensex/Nifty250UniverseSection';
 import { NiftyIndexDataSection } from './components/sensex/NiftyIndexDataSection';
@@ -77,7 +79,6 @@ const fmt = (n: number) => {
   return `₹${n.toFixed(0)} Cr`;
 };
 const fmtN = (n: number, d = 1) => n.toFixed(d);
-const pct = (n: number, d = 1) => `${n >= 0 ? '+' : ''}${n.toFixed(d)}%`;
 const rupee = (n: number) => `₹${n.toFixed(2)}`;
 
 // ─── Tooltip Component ───────────────────────────────────────────────────────
@@ -139,377 +140,9 @@ function SectionHeader({ title, subtitle, icon }: { title: string; subtitle: str
 // DASHBOARD SECTION (moved to DashboardSection.tsx)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function Financials() {
-  const [view, setView] = useState<'income' | 'balance' | 'returns'>('income');
-  return (
-    <div className="animate-fadeIn space-y-6">
-      <SectionHeader title="Financial Statements" subtitle="Historical financial data across 13 years (FY2012–FY2024)" icon={<BarChart3 size={22} />} />
-
-      <div className="flex gap-2 border-b border-border pb-0">
-        {(['income', 'balance', 'returns'] as const).map(v => (
-          <button key={v} onClick={() => setView(v)} className={`tab-btn px-4 py-2 text-sm font-medium ${view === v ? 'active' : 'text-gray-400'}`}>
-            {v === 'income' ? 'Income Statement' : v === 'balance' ? 'Balance Sheet' : 'Returns & Ratios'}
-          </button>
-        ))}
-      </div>
-
-      <div className="glass-card overflow-x-auto">
-        <table className="w-full text-xs">
-          <thead>
-            <tr className="border-b border-border">
-              <th className="text-left p-3 text-gray-400 font-medium sticky left-0 bg-surface-2 z-10 min-w-[100px]">Metric</th>
-              {historicalData.map(d => (
-                <th key={d.year} className="text-right p-3 text-gray-400 font-medium min-w-[80px]">{d.fy}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {view === 'income' && (
-              <>
-                {[
-                  { label: 'Total Revenue', key: 'revenue', fmt: fmt },
-                  { label: 'Cigarette Revenue', key: 'cigaretteRevenue', fmt: fmt },
-                  { label: 'FMCG Revenue', key: 'fmcgRevenue', fmt: fmt },
-                  { label: 'Hotels Revenue', key: 'hotelsRevenue', fmt: fmt },
-                  { label: 'Paper & Packaging', key: 'paperRevenue', fmt: fmt },
-                  { label: 'Agri-Business', key: 'agriRevenue', fmt: fmt },
-                  { label: 'EBITDA', key: 'ebitda', fmt: fmt },
-                  { label: 'Net Profit', key: 'netProfit', fmt: fmt },
-                  { label: 'EPS (₹)', key: 'eps', fmt: (n: number) => `₹${n.toFixed(2)}` },
-                  { label: 'DPS (₹)', key: 'dps', fmt: (n: number) => `₹${n.toFixed(2)}` },
-                  { label: 'Free Cash Flow', key: 'freeCashFlow', fmt: fmt },
-                ].map(row => (
-                  <tr key={row.key} className="border-b border-border/50 hover:bg-surface-3/50">
-                    <td className="p-3 text-gray-300 font-medium sticky left-0 bg-surface-2 z-10">{row.label}</td>
-                    {historicalData.map(d => (
-                      <td key={d.year} className="text-right p-3 text-gray-300">
-                        {row.fmt(d[row.key as keyof typeof d] as number)}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </>
-            )}
-            {view === 'balance' && (
-              <>
-                {[
-                  { label: 'Total Assets', key: 'totalAssets', fmt: fmt },
-                  { label: 'Net Debt (Cash)', key: 'netDebt', fmt: (n: number) => n < 0 ? `${fmt(Math.abs(n))} (Cash)` : fmt(n) },
-                  { label: 'EBITDA Margin (%)', key: 'ebitdaMargin', fmt: (n: number) => `${n.toFixed(1)}%` },
-                  { label: 'Net Margin (%)', key: 'netMargin', fmt: (n: number) => `${n.toFixed(1)}%` },
-                  { label: 'Cig EBIT Margin (%)', key: 'cigaretteEbitMargin', fmt: (n: number) => `${n.toFixed(0)}%` },
-                  { label: 'FMCG EBITDA Margin (%)', key: 'fmcgEbitdaMargin', fmt: (n: number) => `${n.toFixed(0)}%` },
-                  { label: 'P/E Ratio (x)', key: 'peRatio', fmt: (n: number) => `${n.toFixed(0)}x` },
-                  { label: 'Dividend Yield (%)', key: 'dividendYield', fmt: (n: number) => `${n.toFixed(1)}%` },
-                  { label: 'Price High (₹)', key: 'stockPriceHigh', fmt: (n: number) => `₹${n}` },
-                  { label: 'Price Low (₹)', key: 'stockPriceLow', fmt: (n: number) => `₹${n}` },
-                ].map(row => (
-                  <tr key={row.key} className="border-b border-border/50 hover:bg-surface-3/50">
-                    <td className="p-3 text-gray-300 font-medium sticky left-0 bg-surface-2 z-10">{row.label}</td>
-                    {historicalData.map(d => (
-                      <td key={d.year} className="text-right p-3 text-gray-300">
-                        {row.fmt(d[row.key as keyof typeof d] as number)}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </>
-            )}
-            {view === 'returns' && (
-              <>
-                {[
-                  { label: 'ROE (%)', key: 'roe', fmt: (n: number) => `${n.toFixed(1)}%` },
-                  { label: 'ROCE (%)', key: 'roce', fmt: (n: number) => `${n.toFixed(1)}%` },
-                  { label: 'EBITDA Margin (%)', key: 'ebitdaMargin', fmt: (n: number) => `${n.toFixed(1)}%` },
-                  { label: 'Net Margin (%)', key: 'netMargin', fmt: (n: number) => `${n.toFixed(1)}%` },
-                  { label: 'Volume Index', key: 'cigaretteVolumeIndex', fmt: (n: number) => n.toFixed(0) },
-                  { label: 'Tax Hike (%)', key: 'taxHikePct', fmt: (n: number) => `${n}%` },
-                  { label: 'EPS (₹)', key: 'eps', fmt: (n: number) => `₹${n.toFixed(2)}` },
-                  { label: 'DPS (₹)', key: 'dps', fmt: (n: number) => `₹${n.toFixed(2)}` },
-                  { label: 'P/E Ratio', key: 'peRatio', fmt: (n: number) => `${n}x` },
-                  { label: 'Div Yield (%)', key: 'dividendYield', fmt: (n: number) => `${n.toFixed(1)}%` },
-                ].map(row => (
-                  <tr key={row.key} className="border-b border-border/50 hover:bg-surface-3/50">
-                    <td className="p-3 text-gray-300 font-medium sticky left-0 bg-surface-2 z-10">{row.label}</td>
-                    {historicalData.map(d => (
-                      <td key={d.year} className="text-right p-3 text-gray-300">
-                        {row.fmt(d[row.key as keyof typeof d] as number)}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
+// FINANCIALS SECTION (moved to FinancialsSection.tsx)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// SEGMENT ANALYSIS SECTION
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function Segments() {
-  const segRevPie = segmentDataFY24.map(s => ({ name: s.name, value: s.revenue, color: s.color }));
-  const segEbitPie = segmentDataFY24.map(s => ({ name: s.name, value: s.ebit, color: s.color }));
 
-  const segTrend = historicalData.map(d => {
-    const total = d.cigaretteRevenue + d.fmcgRevenue + d.hotelsRevenue + d.paperRevenue + d.agriRevenue;
-    return {
-      year: d.year,
-      Cigarettes: Math.round((d.cigaretteRevenue / total) * 100),
-      FMCG: Math.round((d.fmcgRevenue / total) * 100),
-      Hotels: Math.round((d.hotelsRevenue / total) * 100),
-      Paper: Math.round((d.paperRevenue / total) * 100),
-      Agri: Math.round((d.agriRevenue / total) * 100),
-    };
-  });
-
-  const fmcgMarginTrend = historicalData.map(d => ({
-    year: d.year,
-    'FMCG EBITDA Margin': d.fmcgEbitdaMargin,
-    'Cig EBIT Margin': d.cigaretteEbitMargin,
-  }));
-
-  return (
-    <div className="animate-fadeIn space-y-6">
-      <SectionHeader title="Business Segment Analysis" subtitle="Deep dive into ITC's five business verticals — FY2024" icon={<Layers size={22} />} />
-
-      {/* Segment Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
-        {segmentDataFY24.map((s) => (
-          <div key={s.name} className="glass-card p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: s.color }} />
-              <span className="text-sm font-medium text-gray-200">{s.name}</span>
-            </div>
-            <p className="text-lg font-bold text-white">{fmt(s.revenue)}</p>
-            <div className="grid grid-cols-2 gap-2 mt-3 text-xs">
-              <div><span className="text-gray-400">EBIT Margin</span><br /><span className="text-white font-medium">{s.ebitMargin}%</span></div>
-              <div><span className="text-gray-400">Rev Share</span><br /><span className="text-white font-medium">{s.revenueShare}%</span></div>
-              <div><span className="text-gray-400">EBIT</span><br /><span className="text-white font-medium">{fmt(s.ebit)}</span></div>
-              <div><span className="text-gray-400">EBIT Share</span><br /><span className="text-white font-medium">{s.ebitShare}%</span></div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="glass-card p-5">
-          <h3 className="text-sm font-semibold text-gray-300 mb-4">Revenue Share by Segment</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie data={segRevPie} cx="50%" cy="50%" outerRadius={110} innerRadius={55} dataKey="value" label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`} labelLine={false}>
-                {segRevPie.map((entry, idx) => <Cell key={idx} fill={entry.color} />)}
-              </Pie>
-              <Tooltip content={<ChartTooltip />} />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="glass-card p-5">
-          <h3 className="text-sm font-semibold text-gray-300 mb-4">EBIT Share by Segment</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie data={segEbitPie} cx="50%" cy="50%" outerRadius={110} innerRadius={55} dataKey="value" label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`} labelLine={false}>
-                {segEbitPie.map((entry, idx) => <Cell key={idx} fill={entry.color} />)}
-              </Pie>
-              <Tooltip content={<ChartTooltip />} />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="glass-card p-5">
-          <h3 className="text-sm font-semibold text-gray-300 mb-4">Revenue Mix Evolution (%)</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={segTrend}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
-              <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
-              <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="Cigarettes" stackId="a" fill="#10b981" />
-              <Bar dataKey="FMCG" stackId="a" fill="#3b82f6" />
-              <Bar dataKey="Hotels" stackId="a" fill="#f59e0b" />
-              <Bar dataKey="Paper" stackId="a" fill="#8b5cf6" />
-              <Bar dataKey="Agri" stackId="a" fill="#ef4444" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="glass-card p-5">
-          <h3 className="text-sm font-semibold text-gray-300 mb-4">Cigarette vs FMCG Margin Trajectory (%)</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={fmcgMarginTrend}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
-              <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
-              <Tooltip content={<ChartTooltip />} />
-              <Line type="monotone" dataKey="Cig EBIT Margin" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
-              <Line type="monotone" dataKey="FMCG EBITDA Margin" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// TAX IMPACT ANALYZER
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function TaxAnalyzer() {
-  const [simHike, setSimHike] = useState(12);
-
-  const latest = historicalData[historicalData.length - 1];
-  const taxImpact = useMemo(() => simulateTaxImpact(simHike, latest), [simHike, latest]);
-  const {
-    priceIncrease,
-    volumeImpactShort,
-    volumeImpactLong,
-    revenueImpact,
-    newCigEbit,
-    newEbitMargin,
-    stockReactionEstimate,
-    passThroughPct,
-    elasticityShort,
-    elasticityLong,
-  } = taxImpact;
-
-  const priorCigEbit = latest.cigaretteRevenue * (latest.cigaretteEbitMargin / 100);
-  const ebitImpact = ((newCigEbit - priorCigEbit) / priorCigEbit) * 100;
-
-
-  const stockReactionData = taxEvents.map(e => ({
-    year: e.year,
-    'NCCD Hike %': e.nccdHike,
-    'Stock Day %': e.stockReactionDay,
-    'Stock Week %': e.stockReactionWeek,
-    'Volume Impact %': e.volumeImpact,
-  }));
-
-  const taxHikeVsVolume = taxEvents.filter(e => e.nccdHike > 0).map(e => ({
-    x: e.nccdHike,
-    y: e.volumeImpact,
-    z: Math.abs(e.stockReactionDay),
-    year: e.year,
-  }));
-
-  return (
-    <div className="animate-fadeIn space-y-6">
-      <SectionHeader title="Tax Impact Analyzer" subtitle="Simulate the impact of cigarette tax hikes on ITC's financials" icon={<Shield size={22} />} />
-
-      {/* Simulator */}
-      <div className="glass-card p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Zap size={18} className="text-yellow-400" />
-          <h3 className="text-lg font-bold text-white">Tax Hike Simulator</h3>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Input */}
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm text-gray-400 block mb-2">NCCD Hike: <span className="text-yellow-400 font-bold">{simHike}%</span></label>
-              <input type="range" min={0} max={30} step={1} value={simHike} onChange={e => setSimHike(Number(e.target.value))} className="w-full" />
-              <div className="flex justify-between text-xs text-gray-500 mt-1"><span>0%</span><span>15%</span><span>30%</span></div>
-            </div>
-
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-gray-400">Pass-through Rate</span><span className="text-white">{passThroughPct}%</span></div>
-              <div className="flex justify-between"><span className="text-gray-400">Short-term Elasticity</span><span className="text-white">{elasticityShort}</span></div>
-              <div className="flex justify-between"><span className="text-gray-400">Long-term Elasticity</span><span className="text-white">{elasticityLong}</span></div>
-            </div>
-          </div>
-
-          {/* Results */}
-          <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-3">
-            <MetricCard title="Price Increase" value={`${priceIncrease.toFixed(1)}%`} subtitle="Passed to consumers" color="gold" trend={priceIncrease} />
-            <MetricCard title="Volume Impact (Short)" value={`${volumeImpactShort.toFixed(1)}%`} subtitle="Decline expected" color="red" trend={volumeImpactShort} />
-            <MetricCard title="Volume Impact (Long)" value={`${volumeImpactLong.toFixed(1)}%`} subtitle="Long-term effect" color="red" trend={volumeImpactLong} />
-            <MetricCard title="Revenue Impact" value={`${revenueImpact.toFixed(1)}%`} subtitle="Cigarette segment" color={revenueImpact >= 0 ? 'green' : 'red'} trend={revenueImpact} />
-            <MetricCard title="New EBIT Margin" value={`${newEbitMargin.toFixed(1)}%`} subtitle={`vs ${latest.cigaretteEbitMargin}% prior`} color={newEbitMargin >= latest.cigaretteEbitMargin ? 'green' : 'red'} trend={newEbitMargin - latest.cigaretteEbitMargin} />
-            <MetricCard title="New Cig EBIT" value={fmt(newCigEbit)} subtitle="Post-hike estimate" color={ebitImpact >= 0 ? 'green' : 'red'} trend={ebitImpact} />
-            <MetricCard title="EBIT Impact" value={`${ebitImpact >= 0 ? '+' : ''}${ebitImpact.toFixed(1)}%`} subtitle="vs prior EBIT" color={ebitImpact >= 0 ? 'green' : 'red'} trend={ebitImpact} />
-            <MetricCard title="Est. Stock Reaction" value={`${stockReactionEstimate >= 0 ? '+' : ''}${stockReactionEstimate}%`} subtitle="Budget day est." color={stockReactionEstimate >= 0 ? 'green' : 'red'} trend={stockReactionEstimate} />
-          </div>
-        </div>
-      </div>
-
-      {/* Historical Tax Events */}
-      <div className="glass-card p-5">
-        <h3 className="text-sm font-semibold text-gray-300 mb-4">Historical Tax Events & Stock Reactions</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <ComposedChart data={stockReactionData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
-            <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 10 }} />
-            <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 11 }} />
-            <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 11 }} />
-            <Tooltip content={<ChartTooltip />} />
-            <Bar yAxisId="left" dataKey="NCCD Hike %" fill="#ef4444" opacity={0.6} radius={[3, 3, 0, 0]} />
-            <Line yAxisId="right" type="monotone" dataKey="Stock Day %" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4 }} />
-            <Line yAxisId="right" type="monotone" dataKey="Volume Impact %" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* Scatter: Tax vs Volume */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="glass-card p-5">
-          <h3 className="text-sm font-semibold text-gray-300 mb-4">Tax Hike % vs Volume Impact (Scatter)</h3>
-          <ResponsiveContainer width="100%" height={280}>
-            <ScatterChart>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
-              <XAxis dataKey="x" name="NCCD %" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Tax Hike %', position: 'bottom', fill: '#64748b', fontSize: 11 }} />
-              <YAxis dataKey="y" name="Volume %" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Volume %', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
-              <ZAxis dataKey="z" range={[50, 400]} />
-              <Tooltip cursor={{ strokeDasharray: '3 3' }} content={({ payload }) => {
-                if (!payload?.length) return null;
-                const d = payload[0].payload;
-                return (
-                  <div className="bg-surface border border-border rounded-lg p-3 shadow-xl text-xs">
-                    <p className="text-gray-300">Year: {d.year}</p>
-                    <p className="text-red-400">Tax Hike: {d.x}%</p>
-                    <p className="text-blue-400">Volume Impact: {d.y}%</p>
-                  </div>
-                );
-              }} />
-              <Scatter data={taxHikeVsVolume} fill="#3b82f6" />
-            </ScatterChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="glass-card overflow-x-auto">
-          <h3 className="text-sm font-semibold text-gray-300 mb-4 p-4 pb-0">Tax Event History</h3>
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left p-3 text-gray-400">Year</th>
-                <th className="text-left p-3 text-gray-400">Change</th>
-                <th className="text-right p-3 text-gray-400">Day %</th>
-                <th className="text-right p-3 text-gray-400">Week %</th>
-                <th className="text-right p-3 text-gray-400">Vol %</th>
-              </tr>
-            </thead>
-            <tbody>
-              {taxEvents.map(e => (
-                <tr key={e.year} className="border-b border-border/50 hover:bg-surface-3/50">
-                  <td className="p-3 text-gray-300">{e.year}</td>
-                  <td className="p-3 text-gray-300">{e.taxChange}</td>
-                  <td className={`text-right p-3 ${e.stockReactionDay >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{pct(e.stockReactionDay)}</td>
-                  <td className={`text-right p-3 ${e.stockReactionWeek >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{pct(e.stockReactionWeek)}</td>
-                  <td className={`text-right p-3 ${e.volumeImpact >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{pct(e.volumeImpact)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // VALUATION TOOL
@@ -1191,10 +824,10 @@ export default function App() {
     switch (section) {
       case 'dashboard': return <DashboardSection />;
       case 'stockPerf': return <StockPerfSection />;
-      case 'financials': return <Financials />;
-      case 'segments': return <Segments />;
+      case 'financials': return <FinancialsSection />;
+      case 'segments': return <SegmentsSection />;
       case 'businessModel': return <BusinessModelSection />;
-      case 'tax': return <TaxAnalyzer />;
+      case 'tax': return <TaxAnalyzerSection />;
       case 'dividend': return <DividendSection />;
       case 'capitalAllocation': return <CapitalAllocationSection />;
       case 'workingCapital': return <WorkingCapitalSection />;

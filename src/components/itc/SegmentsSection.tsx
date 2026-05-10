@@ -1,39 +1,157 @@
+import { useState, useMemo } from 'react';
 import {
   PieChart, Pie, Cell, BarChart, Bar, LineChart, Line,
   CartesianGrid, Tooltip, XAxis, YAxis, ResponsiveContainer,
 } from 'recharts';
-import { Layers } from 'lucide-react';
-import { historicalData, segmentDataFY24 } from '@/data/itcData';
+import { Layers, Database, BookOpen, TrendingUp } from 'lucide-react';
+import { historicalData, segmentDataFY25 } from '@/data/itcData';
+import { useItcFinancials } from '@/utils/dataFeeds';
 import { ChartTooltip, SectionHeader, fmt } from './shared';
 
-export function SegmentsSection() {
-  const segRevPie = segmentDataFY24.map(s => ({ name: s.name, value: s.revenue, color: s.color }));
-  const segEbitPie = segmentDataFY24.map(s => ({ name: s.name, value: s.ebit, color: s.color }));
+type DataSource = 'static' | 'live';
 
-  const segTrend = historicalData.map(d => {
+export function SegmentsSection() {
+  const [source, setSource] = useState<DataSource>('static');
+  const { data: financialsData } = useItcFinancials();
+
+  const staticSegmentMap = new Map<string, {
+    cigPct: number; fmcgPct: number; hotelsPct: number; paperPct: number; agriPct: number;
+    cigaretteEbitMargin: number; fmcgEbitdaMargin: number;
+  }>();
+
+  for (const d of historicalData) {
+    const total = d.cigaretteRevenue + d.fmcgRevenue + d.hotelsRevenue + d.paperRevenue + d.agriRevenue;
+    staticSegmentMap.set(d.year, {
+      cigPct: total > 0 ? d.cigaretteRevenue / total : 0,
+      fmcgPct: total > 0 ? d.fmcgRevenue / total : 0,
+      hotelsPct: total > 0 ? d.hotelsRevenue / total : 0,
+      paperPct: total > 0 ? d.paperRevenue / total : 0,
+      agriPct: total > 0 ? d.agriRevenue / total : 0,
+      cigaretteEbitMargin: d.cigaretteEbitMargin,
+      fmcgEbitdaMargin: d.fmcgEbitdaMargin,
+    });
+  }
+
+  const activeData = useMemo(() => {
+    if (source === 'live' && financialsData?.rows && financialsData.rows.length > 0) {
+      return financialsData.rows.map(r => {
+        const rev = r.revenue;
+        const fyYear = r.fiscalYear.replace('FY', '');
+        const seg = staticSegmentMap.get(fyYear) ?? staticSegmentMap.get(String(Number(fyYear) - 1));
+        return {
+          year: fyYear,
+          fy: r.fiscalYear,
+          revenue: rev,
+          cigaretteRevenue: seg ? Math.round(rev * seg.cigPct) : r.cigaretteRevenue,
+          fmcgRevenue: seg ? Math.round(rev * seg.fmcgPct) : r.fmcgRevenue,
+          hotelsRevenue: seg ? Math.round(rev * seg.hotelsPct) : r.hotelsRevenue,
+          paperRevenue: seg ? Math.round(rev * seg.paperPct) : r.paperRevenue,
+          agriRevenue: seg ? Math.round(rev * seg.agriPct) : r.agriRevenue,
+          ebitda: r.ebitda,
+          ebitdaMargin: r.ebitdaMargin,
+          netProfit: r.netProfit,
+          netMargin: r.netMargin,
+          eps: r.eps,
+          dps: r.dps,
+          roe: r.roe,
+          roce: r.roce,
+          freeCashFlow: r.freeCashFlow,
+          totalAssets: r.totalAssets,
+          netDebt: 0,
+          cigaretteEbitMargin: seg?.cigaretteEbitMargin ?? 0,
+          fmcgEbitdaMargin: seg?.fmcgEbitdaMargin ?? 0,
+          cigaretteVolumeIndex: 0,
+          taxHikePct: 0,
+          stockPriceHigh: 0,
+          stockPriceLow: 0,
+          dividendYield: 0,
+          peRatio: 0,
+        } as typeof historicalData[number];
+      });
+    }
+    return historicalData;
+  }, [source, financialsData]);
+
+  const latest = activeData[activeData.length - 1];
+
+  const segRevPie = useMemo(() => {
+    if (source === 'live' && latest) {
+      return [
+        { name: 'Cigarettes', value: latest.cigaretteRevenue ?? 0, color: '#10b981' },
+        { name: 'FMCG (Non-Cigarette)', value: latest.fmcgRevenue ?? 0, color: '#3b82f6' },
+        { name: 'Hotels', value: latest.hotelsRevenue ?? 0, color: '#f59e0b' },
+        { name: 'Paperboards & Packaging', value: latest.paperRevenue ?? 0, color: '#8b5cf6' },
+        { name: 'Agri-Business', value: latest.agriRevenue ?? 0, color: '#ef4444' },
+      ].filter(s => s.value > 0);
+    }
+    return segmentDataFY25.map(s => ({ name: s.name, value: s.revenue, color: s.color }));
+  }, [source, latest]);
+
+  const segEbitPie = useMemo(() => {
+    if (source === 'live' && latest) {
+      return segmentDataFY25.map(s => ({ name: s.name, value: s.ebit, color: s.color }));
+    }
+    return segmentDataFY25.map(s => ({ name: s.name, value: s.ebit, color: s.color }));
+  }, [source, latest]);
+
+  const segTrend = activeData.map(d => {
     const total = d.cigaretteRevenue + d.fmcgRevenue + d.hotelsRevenue + d.paperRevenue + d.agriRevenue;
     return {
       year: d.year,
-      Cigarettes: Math.round((d.cigaretteRevenue / total) * 100),
-      FMCG: Math.round((d.fmcgRevenue / total) * 100),
-      Hotels: Math.round((d.hotelsRevenue / total) * 100),
-      Paper: Math.round((d.paperRevenue / total) * 100),
-      Agri: Math.round((d.agriRevenue / total) * 100),
+      Cigarettes: total > 0 ? Math.round((d.cigaretteRevenue / total) * 100) : 0,
+      FMCG: total > 0 ? Math.round((d.fmcgRevenue / total) * 100) : 0,
+      Hotels: total > 0 ? Math.round((d.hotelsRevenue / total) * 100) : 0,
+      Paper: total > 0 ? Math.round((d.paperRevenue / total) * 100) : 0,
+      Agri: total > 0 ? Math.round((d.agriRevenue / total) * 100) : 0,
     };
   });
 
-  const fmcgMarginTrend = historicalData.map(d => ({
+  const fmcgMarginTrend = activeData.map(d => ({
     year: d.year,
     'FMCG EBITDA Margin': d.fmcgEbitdaMargin,
     'Cig EBIT Margin': d.cigaretteEbitMargin,
   }));
 
+  const hasLiveFinancials = source === 'live' && financialsData?.rows && financialsData.rows.length > 0;
+  const liveYears = hasLiveFinancials ? financialsData!.rows.length : 0;
+  const staticYears = historicalData.length;
+
   return (
     <div className="animate-fadeIn space-y-6">
-      <SectionHeader title="Business Segment Analysis" subtitle="Deep dive into ITC's five business verticals — FY2024" icon={<Layers size={22} />} />
+      <SectionHeader title="Business Segment Analysis" subtitle={`Deep dive into ITC's business verticals — ${source === 'live' && hasLiveFinancials ? 'Live' : 'FY2025 (post-demerger)'}`} icon={<Layers size={22} />} />
 
+      {/* Data Source Toggle */}
+      <div className="glass-card p-3">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <Database size={13} />
+            <span>Data source:</span>
+          </div>
+          <div className="segmented">
+            <button onClick={() => setSource('static')} className={source === 'static' ? 'active' : ''}>
+              <BookOpen size={13} className="inline mr-1" />
+              Static ({staticYears} years, full segments)
+            </button>
+            <button onClick={() => setSource('live')} className={source === 'live' ? 'active' : ''}>
+              <TrendingUp size={13} className="inline mr-1" />
+              Live Feed ({liveYears || '—'} years, real prices)
+            </button>
+          </div>
+          {source === 'live' && !financialsData && (
+            <span className="text-[10px] text-yellow-400/70">Feed unavailable — showing static fallback</span>
+          )}
+        </div>
+      </div>
+
+      <div className="flex justify-end text-[10px] text-gray-600">
+        <span className={`px-2 py-0.5 rounded ${source === 'static' ? 'bg-blue-500/10 text-blue-300' : 'bg-emerald-500/10 text-emerald-300'}`}>
+          {source === 'static' ? '📖 Static: Annual Reports' : '📡 Live: Yahoo Finance'}
+        </span>
+      </div>
+
+      {/* Segment Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
-        {segmentDataFY24.map((s) => (
+        {segmentDataFY25.map((s) => (
           <div key={s.name} className="glass-card p-4">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: s.color }} />
