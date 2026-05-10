@@ -58,10 +58,11 @@ export function earningsVolatility(history: SensexYearFinancial[]): number {
  * ------------------------------------------------------------------------ */
 export function impliedPerpetualGrowth(company: SensexConstituent): number {
   const r = costOfEquity(company.beta) / 100;
+  const latestFin = company.history[company.history.length - 1] ?? company.history[0];
+  const roe = latestFin ? latestFin.roePct / 100 : 0.10;
 
   if (company.valuationMetric === 'pb') {
     const pb = company.valuationMultiple;
-    const roe = company.history[company.history.length - 1].roePct / 100;
     if (Math.abs(pb - 1) < 0.01) return MARKET_PARAMS.minImpliedGrowthPct;
     const g = (r * pb - roe) / (pb - 1);
     return clampGrowth(g * 100, r * 100);
@@ -149,7 +150,8 @@ export function buildFactorScores(
 ): Map<string, CompanyScore> {
   if (companies.length === 0) return new Map();
   const periods = Math.max(1, rangeEnd - rangeStart);
-  const last = (c: SensexConstituent) => c.history[c.history.length - 1];
+  const last = (c: SensexConstituent) => c.history[c.history.length - 1] ?? c.history[0] ?? { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+  const safeAt = (c: SensexConstituent, i: number) => c.history[i] ?? last(c);
 
   // Raw metric vectors (aligned with companies[])
   const roe = companies.map(c => last(c).roePct);
@@ -166,14 +168,14 @@ export function buildFactorScores(
   const invVal = companies.map(c => 1 / Math.max(0.1, c.valuationMultiple));
   const dy = companies.map(c => c.dividendYieldPct);
 
-  const patCagr = companies.map(c => cagr(c.history[rangeStart].netProfitCr, c.history[rangeEnd].netProfitCr, periods));
-  const topCagr = companies.map(c => cagr(c.history[rangeStart].toplineCr, c.history[rangeEnd].toplineCr, periods));
+  const patCagr = companies.map(c => cagr(safeAt(c, rangeStart).netProfitCr, safeAt(c, rangeEnd).netProfitCr, periods));
+  const topCagr = companies.map(c => cagr(safeAt(c, rangeStart).toplineCr, safeAt(c, rangeEnd).toplineCr, periods));
 
   const accel = companies.map(c => {
     const h = c.history;
     const recentStart = Math.max(rangeStart, h.length - 4);
-    const recentCagr = cagr(h[recentStart].netProfitCr, h[h.length - 1].netProfitCr, Math.max(1, h.length - 1 - recentStart));
-    const full = cagr(h[rangeStart].netProfitCr, h[rangeEnd].netProfitCr, periods);
+    const recentCagr = cagr(safeAt(c, recentStart).netProfitCr, safeAt(c, h.length - 1).netProfitCr, Math.max(1, h.length - 1 - recentStart));
+    const full = cagr(safeAt(c, rangeStart).netProfitCr, safeAt(c, rangeEnd).netProfitCr, periods);
     return recentCagr - full;
   });
 
@@ -285,11 +287,13 @@ export function buildSectorAnalytics(
     const totalWeight = members.reduce((s, c) => s + c.weightPct, 0);
     const totalMcap = members.reduce((s, c) => s + c.marketCapCr, 0);
     const w = (c: SensexConstituent) => c.weightPct / totalWeight;
+    const lastFin = (c: SensexConstituent) => c.history[c.history.length - 1] ?? c.history[0] ?? { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+    const safeAt = (c: SensexConstituent, i: number) => c.history[i] ?? lastFin(c);
 
-    const wRoe = members.reduce((s, c) => s + w(c) * c.history[c.history.length - 1].roePct, 0);
+    const wRoe = members.reduce((s, c) => s + w(c) * lastFin(c).roePct, 0);
     const wVal = members.reduce((s, c) => s + w(c) * c.valuationMultiple, 0);
     const wBeta = members.reduce((s, c) => s + w(c) * c.beta, 0);
-    const wPatCagr = members.reduce((s, c) => s + w(c) * cagr(c.history[rangeStart].netProfitCr, c.history[rangeEnd].netProfitCr, periods), 0);
+    const wPatCagr = members.reduce((s, c) => s + w(c) * cagr(safeAt(c, rangeStart).netProfitCr, safeAt(c, rangeEnd).netProfitCr, periods), 0);
 
     const labels = new Set(members.map(c => c.valuationMetric));
     const valuationLabel = labels.size === 1 ? (labels.has('pb') ? 'P/B' : 'P/E') : 'Mixed';
@@ -504,7 +508,7 @@ export function buildSectorMomentumGrid(
     const sectorMcap = members.reduce((s, c) => s + c.marketCapCr, 0) || 1;
     // Mcap-weighted aggregate PAT trajectory (in Cr).
     const aggregate = yearLabels.map((_, i) =>
-      members.reduce((s, c) => s + c.history[i].netProfitCr, 0),
+      members.reduce((s, c) => s + (c.history[i]?.netProfitCr ?? 0), 0),
     );
     const cells: SectorMomentumCell[] = [];
     for (let i = 1; i < aggregate.length; i++) {

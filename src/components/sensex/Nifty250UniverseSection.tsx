@@ -132,23 +132,29 @@ export function Nifty250UniverseSection() {
   const valuationZ = useMemo(() => buildValuationZScores(filteredCompanies), [filteredCompanies]);
 
   const rows = useMemo(() => filteredCompanies.map(company => {
-    const first = company.history[rangeStart];
-    const last = company.history[rangeEnd];
-    const profitCagr = calculateCagr(first.netProfitCr, last.netProfitCr, rangePeriods);
+    const firstRaw = company.history[rangeStart];
+    const lastRaw = company.history[rangeEnd];
+    const first = firstRaw ?? company.history[0] ?? { fy: 'N/A', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+    const last = lastRaw ?? company.history[company.history.length - 1] ?? { fy: 'N/A', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+    const profitCagr = first?.toplineCr != null && last?.toplineCr != null
+      ? calculateCagr(first.netProfitCr, last.netProfitCr, rangePeriods)
+      : 0;
     const coe = costOfEquity(company.beta);
     const impliedG = impliedPerpetualGrowth(company);
-    const scores = factorScores.get(company.id)!;
+    const scores = factorScores.get(company.id);
     const valZ = valuationZ.get(company.id);
     return {
       company,
       first,
       last,
-      toplineCagr: calculateCagr(first.toplineCr, last.toplineCr, rangePeriods),
+      toplineCagr: first?.toplineCr != null && last?.toplineCr != null
+        ? calculateCagr(first.toplineCr, last.toplineCr, rangePeriods)
+        : 0,
       profitCagr,
       coe,
       impliedG,
-      gap: profitCagr - impliedG, // positive = market under-pricing growth
-      scores,
+      gap: profitCagr - impliedG,
+      scores: scores ?? { quality: 0, value: 0, growth: 0, momentum: 0, composite: 0 },
       valuationLabel: getPrimaryValuationLabel(company),
       valuationZ: valZ?.zScore ?? 0,
       sectorMedianMultiple: valZ?.sectorMedian ?? company.valuationMultiple,
@@ -161,10 +167,10 @@ export function Nifty250UniverseSection() {
       switch (sortKey) {
         case 'weight': return r.company.weightPct;
         case 'mcap': return r.company.marketCapCr;
-        case 'topline': return r.last.toplineCr;
+        case 'topline': return r.last.toplineCr ?? 0;
         case 'toplineCagr': return r.toplineCagr;
         case 'profitCagr': return r.profitCagr;
-        case 'roe': return r.last.roePct;
+        case 'roe': return r.last.roePct ?? 0;
         case 'valuation': return r.company.valuationMultiple;
         case 'beta': return r.company.beta;
         case 'coe': return r.coe;
@@ -195,9 +201,14 @@ export function Nifty250UniverseSection() {
     return values.length % 2 === 0 ? (values[mid - 1] + values[mid]) / 2 : values[mid];
   }, [rows]);
 
-  const averageRoe = filteredCompanies.length === 0
-    ? 0
-    : filteredCompanies.reduce((s, c) => s + getLatestSensexFinancial(c).roePct, 0) / filteredCompanies.length;
+  const averageRoe = useMemo(() => {
+    if (filteredCompanies.length === 0) return 0;
+    const roes = filteredCompanies.map(c => {
+      const fin = getLatestSensexFinancial(c);
+      return fin?.roePct ?? 0;
+    });
+    return roes.reduce((s, v) => s + v, 0) / filteredCompanies.length;
+  }, [filteredCompanies]);
 
   /* ─── Selection ─────────────────────────────────────────────────────── */
   const selectedRow = sortedRows.find(r => r.company.id === selectedId) ?? sortedRows[0];
@@ -886,18 +897,18 @@ function ConstituentLedger(props: {
       r.company.weightPct.toFixed(3),
       r.company.marketCapCr,
       r.company.cmp,
-      r.last.toplineCr,
-      r.toplineCagr.toFixed(2),
-      r.profitCagr.toFixed(2),
-      r.last.roePct.toFixed(2),
+      r.last?.toplineCr ?? 0,
+      (r.toplineCagr ?? 0).toFixed(2),
+      (r.profitCagr ?? 0).toFixed(2),
+      (r.last?.roePct ?? 0).toFixed(2),
       r.company.beta.toFixed(2),
-      r.coe.toFixed(2),
+      (r.coe ?? 0).toFixed(2),
       r.valuationLabel,
       r.company.valuationMultiple.toFixed(2),
-      r.sectorMedianMultiple.toFixed(2),
-      r.valuationZ.toFixed(2),
-      r.impliedG.toFixed(2),
-      r.scores.composite.toFixed(1),
+      (r.sectorMedianMultiple ?? 0).toFixed(2),
+      (r.valuationZ ?? 0).toFixed(2),
+      (r.impliedG ?? 0).toFixed(2),
+      (r.scores?.composite ?? 0).toFixed(1),
     ].join(','));
     const csv = [header.join(','), ...lines].join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
