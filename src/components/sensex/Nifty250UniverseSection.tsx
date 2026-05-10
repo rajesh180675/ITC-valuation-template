@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Area, Bar, BarChart, CartesianGrid, Cell, ComposedChart, LabelList, Legend, Line,
   ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip,
@@ -13,7 +13,7 @@ import {
   NIFTY250_PROVENANCE,
   NIFTY250_CONSTITUENT_COUNT,
 } from '@/data/nifty250Data';
-import type { SensexConstituent } from '@/data/sensexData';
+import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
 import {
   buildSensexIndexTimeSeries,
   buildSensexSectorSummary,
@@ -45,15 +45,70 @@ export function Nifty250UniverseSection() {
   const [sortKey, setSortKey] = useState<SortKey>('composite');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
 
-  const years = NIFTY250_FISCAL_YEARS;
+  // ── Real data loading ──────────────────────────────────────────────────
+  const [realData, setRealData] = useState<SensexConstituent[] | null>(null);
+  const [dataSource, setDataSource] = useState<'loading' | 'screener-in' | 'reference'>('loading');
+
+  useEffect(() => {
+    fetch('/data/nifty250_real.json')
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (json?.constituents?.length > 0) {
+          const adapted = json.constituents.map(adaptNifty250Constituent);
+          setRealData(adapted);
+          setDataSource('screener-in');
+          // Update selectedId to first company in real data
+          if (adapted.length > 0 && !adapted.find((c: SensexConstituent) => c.id === selectedId)) {
+            setSelectedId(adapted[0].id);
+          }
+        } else {
+          setDataSource('reference');
+        }
+      })
+      .catch(() => {
+        setDataSource('reference');
+      });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Use real data when available, otherwise fall back to hardcoded reference
+  const activeConstituents = realData ?? nifty250Constituents;
+
+  // Dynamic fiscal years from real data, or hardcoded as fallback
+  const years = useMemo(() => {
+    if (realData && realData.length > 0) {
+      const fySet = new Set<string>();
+      realData.forEach(c => c.history.forEach(h => fySet.add(h.fy)));
+      return Array.from(fySet).sort();
+    }
+    return [...NIFTY250_FISCAL_YEARS];
+  }, [realData]);
+
   const totalYears = years.length;
   const [rangeStart, setRangeStart] = useState(0);
   const [rangeEnd, setRangeEnd] = useState(totalYears - 1);
 
+  // Reset range when years change (e.g. real data loads)
+  useEffect(() => {
+    if (years.length > 0) {
+      setRangeEnd(years.length - 1);
+    }
+  }, [years.length]);
+
+  // Update selectedId when real data loads
+  useEffect(() => {
+    if (realData && realData.length > 0) {
+      const currentSelected = realData.find(c => c.id === selectedId);
+      if (!currentSelected) {
+        setSelectedId(realData[0].id);
+      }
+    }
+  }, [realData]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const filteredCompanies = useMemo(() => {
-    if (filter === 'all') return nifty250Constituents;
-    return nifty250Constituents.filter(c => c.reportingType === filter);
-  }, [filter]);
+    if (filter === 'all') return activeConstituents;
+    return activeConstituents.filter(c => c.reportingType === filter);
+  }, [filter, activeConstituents]);
 
   const startFy = years[rangeStart];
   const endFy = years[rangeEnd];
@@ -205,9 +260,10 @@ export function Nifty250UniverseSection() {
         weightedBeta={weightedBeta}
         weightedCoe={weightedCoe}
         concentration={concentration}
+        dataSource={dataSource}
       />
 
-      <DataProvenanceBanner rows={sortedRows} />
+      {dataSource !== 'loading' && <DataProvenanceBanner rows={sortedRows} dataSource={dataSource} />}
 
       <RangeSelector
         startFy={startFy} endFy={endFy} rangePeriods={rangePeriods}
@@ -279,11 +335,12 @@ function HeroBanner(props: {
   weightedBeta: number;
   weightedCoe: number;
   concentration: { hhi: number; effectiveN: number; top5Pct: number };
+  dataSource: string;
 }) {
   const {
     filteredCount, filter, setFilter, rangeLabel, rangeStart, rangeEnd, totalYears, setQuickRange,
     totalMarketCap, bfsiWeight, corpWeight, largestSector, universeProfitCagr, medianPatCagr,
-    weightedBeta, weightedCoe, concentration,
+    weightedBeta, weightedCoe, concentration, dataSource,
   } = props;
 
   return (
@@ -293,6 +350,8 @@ function HeroBanner(props: {
           <div className="flex items-center gap-3 mb-3">
             <span className="pill"><span className="ticker-dot" /> Live Universe</span>
             <span className="pill pill-muted">{NIFTY250_INDEX_LABEL} · {NIFTY250_CONSTITUENT_COUNT} Constituents</span>
+            {dataSource === 'screener-in' && <span className="pill pill-muted text-[10px]" style={{ borderColor: '#22c55e', color: '#22c55e' }}>Real Data</span>}
+            {dataSource === 'reference' && <span className="pill pill-muted text-[10px]" style={{ borderColor: '#f59e0b', color: '#f59e0b' }}>Reference</span>}
             <span className="pill pill-muted">{rangeLabel}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
@@ -342,6 +401,39 @@ function HeroBanner(props: {
     </div>
   );
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * ADAPTER: Screener.in JSON → SensexConstituent
+ * ════════════════════════════════════════════════════════════════════════ */
+
+function adaptNifty250Constituent(raw: any): SensexConstituent {
+  const history: SensexYearFinancial[] = (raw.history ?? []).map((h: any) => ({
+    fy: h.fy,
+    toplineCr: h.toplineCr ?? 0,
+    netProfitCr: h.netProfitCr ?? 0,
+    roePct: 0,   // not available from basic scrape
+  }));
+  return {
+    id: raw.id,
+    name: raw.name ?? raw.ticker,
+    ticker: raw.ticker,
+    sector: raw.sector ?? 'Unknown',
+    reportingType: raw.reportingType ?? 'nonFinancial',
+    weightPct: raw.weightPct ?? 0,
+    marketCapCr: raw.marketCapCr ?? 0,
+    cmp: raw.cmp ?? 0,
+    valuationMetric: raw.valuationMetric ?? 'pe',
+    valuationMultiple: raw.valuationMultiple ?? 0,
+    dividendYieldPct: raw.dividendYieldPct ?? 0,
+    color: raw.color ?? '#60a5fa',
+    beta: raw.beta ?? 1.0,
+    history,
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * SUB-COMPONENTS
+ * ════════════════════════════════════════════════════════════════════════ */
 
 function Kpi({ label, value, sub, tone, gold, tabular, smallValue }: {
   label: string; value: string; sub: string;
@@ -1071,7 +1163,7 @@ function DuPontStack({ dp }: { dp: { npm: number; leverageAndTurnover: number; r
 /* ══════════════════════════════════════════════════════════════════════════
  * NEW: DataProvenanceBanner — transparency on data source & methodology
  * ════════════════════════════════════════════════════════════════════════ */
-function DataProvenanceBanner({ rows }: { rows: { company: SensexConstituent }[] }) {
+function DataProvenanceBanner({ rows, dataSource }: { rows: { company: SensexConstituent }[]; dataSource: string }) {
   // Quick integrity tally — proves the universe is real, not synthetic.
   const uniqueSectors = new Set(rows.map((r) => r.company.sector)).size;
   const corp = rows.filter((r) => r.company.reportingType === 'nonFinancial').length;
@@ -1085,22 +1177,40 @@ function DataProvenanceBanner({ rows }: { rows: { company: SensexConstituent }[]
           <span className="text-sm font-semibold text-white">Data Provenance</span>
         </div>
         <div className="flex-1 min-w-[260px] space-y-2">
-          <p className="text-[12px] text-gray-300 leading-relaxed">
-            <span className="text-white font-semibold">Source:</span> {NIFTY250_PROVENANCE.source}
-          </p>
-          <p className="text-[12px] text-gray-400 leading-relaxed">
-            <span className="text-gray-200 font-semibold">As-of:</span> {NIFTY250_PROVENANCE.asOf}
-            <span className="mx-2 text-gray-600">·</span>
-            <span className="text-gray-200 font-semibold">Universe:</span> {rows.length} real NSE-listed names · {uniqueSectors} sectors · {corp} corporates / {bfsi} BFSI
-          </p>
-          <ul className="text-[11px] text-gray-400 leading-relaxed list-disc pl-4 space-y-0.5">
-            {NIFTY250_PROVENANCE.methodology.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-          <p className="text-[11px] text-amber-200/80 leading-relaxed pt-1">
-            <span className="font-semibold">Disclaimer:</span> {NIFTY250_PROVENANCE.disclaimer}
-          </p>
+          {dataSource === 'screener-in' ? (
+            <>
+              <p className="text-[12px] text-gray-300 leading-relaxed">
+                <span className="text-white font-semibold">Source:</span> Screener.in — real annual financial data
+                <span className="ml-2 pill pill-muted text-[10px]">No estimates</span>
+              </p>
+              <p className="text-[12px] text-gray-400 leading-relaxed">
+                <span className="text-gray-200 font-semibold">Universe:</span> {rows.length} NSE-listed names · {uniqueSectors} sectors · {corp} corporates / {bfsi} BFSI
+              </p>
+              <p className="text-[11px] text-gray-400 leading-relaxed">
+                Data collected from publicly available screener.in pages. Only years with real reported
+                data are included — no backfilling, no CAGR extrapolation, no synthetic values.
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-[12px] text-gray-300 leading-relaxed">
+                <span className="text-white font-semibold">Source:</span> {NIFTY250_PROVENANCE.source}
+              </p>
+              <p className="text-[12px] text-gray-400 leading-relaxed">
+                <span className="text-gray-200 font-semibold">As-of:</span> {NIFTY250_PROVENANCE.asOf}
+                <span className="mx-2 text-gray-600">·</span>
+                <span className="text-gray-200 font-semibold">Universe:</span> {rows.length} real NSE-listed names · {uniqueSectors} sectors · {corp} corporates / {bfsi} BFSI
+              </p>
+              <ul className="text-[11px] text-gray-400 leading-relaxed list-disc pl-4 space-y-0.5">
+                {NIFTY250_PROVENANCE.methodology.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+              <p className="text-[11px] text-amber-200/80 leading-relaxed pt-1">
+                <span className="font-semibold">Disclaimer:</span> {NIFTY250_PROVENANCE.disclaimer}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>

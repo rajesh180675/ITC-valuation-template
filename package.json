@@ -18,7 +18,10 @@
     "generate:nifty750:synthetic-demo": "node scripts/generate_nifty_750_10y.mjs",
     "generate:itc:synthetic": "node scripts/build_itc_data.mjs",
     "data:refresh": "python scripts/data_collector/fetch_itc_data.py all --years 30 && python scripts/data_collector/validate_schemas.py",
-    "data:validate": "python scripts/data_collector/validate_schemas.py"
+    "data:validate": "python scripts/data_collector/validate_schemas.py",
+    "fetch:nifty250": "python scripts/data_collector/fetch_nifty250_data.py",
+    "generate:nifty250": "node scripts/build_nifty250_feed.mjs",
+    "data:refresh-nifty250": "npm run fetch:nifty250 && npm run generate:nifty250"
   },
   "dependencies": {
     "clsx": "2.1.1",
