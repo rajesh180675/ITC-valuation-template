@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
-  ComposedChart, Area, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, ReferenceLine,
+  ComposedChart, Area, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer, ReferenceLine, Legend, LabelList,
 } from 'recharts';
 import { TrendingUp, RefreshCw, Calendar } from 'lucide-react';
 import { historicalData } from '@/data/itcData';
@@ -244,7 +244,7 @@ export function StockPerfSection() {
             Annual Price Range {hasRealData ? `(${realData?.firstYear}–${realData?.lastYear})` : ''}
           </h3>
           <ResponsiveContainer width="100%" height={320}>
-            <ComposedChart data={priceRangeData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+            <ComposedChart data={priceRangeData} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
               <defs>
                 <linearGradient id="gPriceHigh" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.15} />
@@ -257,10 +257,11 @@ export function StockPerfSection() {
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 9 }} interval={Math.max(1, Math.floor(priceRangeData.length / 15))} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => `₹${v}`} />
               <Tooltip content={<ChartTooltip />} />
-              <Area type="monotone" dataKey="Price High" stroke="#3b82f6" fill="url(#gPriceHigh)" strokeWidth={1.5} />
-              <Area type="monotone" dataKey="Price Low" stroke="#10b981" fill="url(#gPriceLow)" strokeWidth={1.5} />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <Area type="monotone" dataKey="Price High" stroke="#3b82f6" fill="url(#gPriceHigh)" strokeWidth={1.5} isAnimationActive={true} />
+              <Area type="monotone" dataKey="Price Low" stroke="#10b981" fill="url(#gPriceLow)" strokeWidth={1.5} isAnimationActive={true} />
               <ReferenceLine y={307} stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1} label={{ value: '₹307 (CMP)', fill: '#f59e0b', fontSize: 9, position: 'right' }} />
             </ComposedChart>
           </ResponsiveContainer>
@@ -271,7 +272,7 @@ export function StockPerfSection() {
           <div className="glass-card p-5">
             <h3 className="text-sm font-semibold text-gray-300 mb-4">Monthly Close Price — Full History</h3>
             <ResponsiveContainer width="100%" height={320}>
-              <ComposedChart data={monthlyCloseData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+              <ComposedChart data={monthlyCloseData} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
                 <defs>
                   <linearGradient id="gClose" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2} />
@@ -282,9 +283,13 @@ export function StockPerfSection() {
                 <XAxis dataKey="month" tick={{ fill: '#64748b', fontSize: 8 }}
                   tickFormatter={(v: string) => v.slice(0, 4)}
                   interval={Math.max(1, Math.floor(monthlyCloseData.length / 15))} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 11 }} domain={['auto', 'auto']} />
+                <YAxis tick={{ fill: '#64748b', fontSize: 11 }} domain={['auto', 'auto']} tickFormatter={(v: number) => `₹${v}`} />
                 <Tooltip content={<ChartTooltip />} />
-                <Area type="monotone" dataKey="Close" stroke="#3b82f6" fill="url(#gClose)" strokeWidth={1.5} />
+                <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+                <Area type="monotone" dataKey="Close" stroke="#3b82f6" fill="url(#gClose)" strokeWidth={1.5} isAnimationActive={true} />
+                <Line type="monotone" dataKey="Close" stroke="transparent" dot={false} isAnimationActive={false}>
+                  <LabelList dataKey="Close" position="top" formatter={((v: any, i: any) => (i === 0 || i === monthlyCloseData.length - 1) ? `₹${Number(v).toFixed(0)}` : '') as any} fill="#94a3b8" fontSize={9} />
+                </Line>
                 <ReferenceLine y={307} stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1} label={{ value: 'CMP', fill: '#f59e0b', fontSize: 9, position: 'right' }} />
               </ComposedChart>
             </ResponsiveContainer>
@@ -293,14 +298,17 @@ export function StockPerfSection() {
           <div className="glass-card p-5">
             <h3 className="text-sm font-semibold text-gray-300 mb-4">Annual Returns</h3>
             <ResponsiveContainer width="100%" height={320}>
-              <BarChart data={annualReturnData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+              <BarChart data={annualReturnData} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
                 <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
                 <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
                 <Tooltip content={<ChartTooltip />} />
-                <Bar dataKey="returnPct" radius={[4, 4, 0, 0]}>
+                <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+                <ReferenceLine y={0} stroke="#64748b" strokeWidth={2} />
+                <Bar dataKey="returnPct" radius={[4, 4, 0, 0]} isAnimationActive={true}>
+                  <LabelList dataKey="returnPct" position="top" formatter={(v: any) => `${v >= 0 ? '+' : ''}${Number(v).toFixed(1)}%`} fill="#94a3b8" fontSize={9} />
                   {annualReturnData.map((entry, idx) => (
-                    <Cell key={idx} fill={entry.returnPct >= 0 ? '#10b981' : '#ef4444'} />
+                    <Cell key={idx} fill={entry.returnPct >= 0 ? '#10b981' : '#ef4444'} fillOpacity={0.9} />
                   ))}
                 </Bar>
               </BarChart>
@@ -312,17 +320,19 @@ export function StockPerfSection() {
         <div className="glass-card p-5">
           <h3 className="text-sm font-semibold text-gray-300 mb-4">Annual Returns — {hasRealData ? `${realData?.firstYear}–${realData?.lastYear}` : 'All Years'}</h3>
           <ResponsiveContainer width="100%" height={320}>
-            <BarChart data={annualReturnData} layout="vertical" margin={{ left: 40, right: 10, top: 10, bottom: 10 }}>
+            <BarChart data={annualReturnData} layout="vertical" margin={{ left: 40, right: 30, top: 10, bottom: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} />
               <YAxis type="category" dataKey="year" tick={{ fill: '#94a3b8', fontSize: 10 }} width={40} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="returnPct" radius={[0, 4, 4, 0]} barSize={10}>
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <ReferenceLine x={0} stroke="#64748b" strokeWidth={2} />
+              <Bar dataKey="returnPct" radius={[0, 4, 4, 0]} barSize={14} isAnimationActive={true}>
+                <LabelList dataKey="returnPct" position="right" formatter={(v: any) => `${v >= 0 ? '+' : ''}${Number(v).toFixed(1)}%`} fill="#94a3b8" fontSize={9} />
                 {annualReturnData.map((entry, idx) => (
-                  <Cell key={idx} fill={entry.returnPct >= 0 ? '#10b981' : '#ef4444'} />
+                  <Cell key={idx} fill={entry.returnPct >= 0 ? '#10b981' : '#ef4444'} fillOpacity={0.9} />
                 ))}
               </Bar>
-              <ReferenceLine x={0} stroke="#64748b" strokeWidth={1} />
             </BarChart>
           </ResponsiveContainer>
         </div>

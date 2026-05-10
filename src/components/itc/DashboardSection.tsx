@@ -2,11 +2,12 @@ import { useState } from 'react';
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, ComposedChart,
   CartesianGrid, Tooltip, XAxis, YAxis, ResponsiveContainer,
+  Legend, LabelList, ReferenceLine,
 } from 'recharts';
 import { Activity, TrendingUp, Calendar, Database, BookOpen } from 'lucide-react';
 import { historicalData } from '@/data/itcData';
 import { useItcFinancials, useItcPriceHistory } from '@/utils/dataFeeds';
-import { ChartTooltip, MetricCard, SectionHeader, fmt, fmtN, pct, rupee } from './shared';
+import { ChartTooltip, MetricCard, SectionHeader, fmt, fmtN, pct, rupee, fmtCompact } from './shared';
 import { LiveQuoteBanner } from './LiveQuoteBanner';
 
 type DataSource = 'static' | 'live';
@@ -110,6 +111,8 @@ export function DashboardSection() {
     Agri: d.agriRevenue ?? 0,
   }));
 
+  const avgRevenue = revenueData.reduce((s, d) => s + d.Revenue, 0) / revenueData.length;
+
   const profitData = activeData.map(d => ({
     year: d.year,
     EBITDA: d.ebitda,
@@ -133,6 +136,12 @@ export function DashboardSection() {
   const hasLiveFinancials = source === 'live' && financialsData?.rows && financialsData.rows.length > 0;
   const liveYears = hasLiveFinancials ? financialsData!.rows.length : 0;
   const staticYears = historicalData.length;
+
+  // 30yr price stats
+  const priceDays = priceHistory.data?.days ?? [];
+  const latestClose = priceDays.length > 0 ? priceDays[priceDays.length - 1].close : 0;
+  const allTimeHigh = priceDays.length > 0 ? Math.max(...priceDays.map(d => d.high ?? d.close)) : 0;
+  const allTimeLow = priceDays.length > 0 ? Math.min(...priceDays.map(d => d.low ?? d.close)) : 0;
 
   return (
     <div className="animate-fadeIn space-y-6">
@@ -195,7 +204,7 @@ export function DashboardSection() {
         <div className="glass-card p-5">
           <h3 className="text-sm font-semibold text-gray-300 mb-4">Revenue Trajectory (₹ Cr)</h3>
           <ResponsiveContainer width="100%" height={280}>
-            <AreaChart data={revenueData}>
+            <AreaChart data={revenueData} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
               <defs>
                 <linearGradient id="gRev" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
@@ -204,9 +213,11 @@ export function DashboardSection() {
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => fmtCompact(v)} />
               <Tooltip content={<ChartTooltip />} />
-              <Area type="monotone" dataKey="Revenue" stroke="#3b82f6" fill="url(#gRev)" strokeWidth={2} />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <ReferenceLine y={avgRevenue} stroke="#8b5cf6" strokeDasharray="4 4" label={{ value: `Avg ${fmtCompact(avgRevenue)}`, fill: '#8b5cf6', fontSize: 10, position: 'right' }} />
+              <Area type="monotone" dataKey="Revenue" stroke="#3b82f6" fill="url(#gRev)" strokeWidth={2} isAnimationActive={true} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -214,16 +225,27 @@ export function DashboardSection() {
         <div className="glass-card p-5">
           <h3 className="text-sm font-semibold text-gray-300 mb-4">Segment Revenue Split</h3>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={revenueData}>
+            <BarChart data={revenueData} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => fmtCompact(v)} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="Cigarettes" stackId="a" fill="#10b981" />
-              <Bar dataKey="FMCG-Others" stackId="a" fill="#3b82f6" />
-              <Bar dataKey="Hotels" stackId="a" fill="#f59e0b" />
-              <Bar dataKey="Paper" stackId="a" fill="#8b5cf6" />
-              <Bar dataKey="Agri" stackId="a" fill="#ef4444" />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <Bar dataKey="Cigarettes" stackId="a" fill="#10b981" isAnimationActive={true}>
+                <LabelList dataKey="Cigarettes" position="inside" formatter={((v: any, i: number) => i === revenueData.length - 1 ? fmtCompact(v) : '') as any} fill="#fff" fontSize={9} />
+              </Bar>
+              <Bar dataKey="FMCG-Others" stackId="a" fill="#3b82f6" isAnimationActive={true}>
+                <LabelList dataKey="FMCG-Others" position="inside" formatter={((v: any, i: number) => i === revenueData.length - 1 ? fmtCompact(v) : '') as any} fill="#fff" fontSize={9} />
+              </Bar>
+              <Bar dataKey="Hotels" stackId="a" fill="#f59e0b" isAnimationActive={true}>
+                <LabelList dataKey="Hotels" position="inside" formatter={((v: any, i: number) => i === revenueData.length - 1 ? fmtCompact(v) : '') as any} fill="#fff" fontSize={9} />
+              </Bar>
+              <Bar dataKey="Paper" stackId="a" fill="#8b5cf6" isAnimationActive={true}>
+                <LabelList dataKey="Paper" position="inside" formatter={((v: any, i: number) => i === revenueData.length - 1 ? fmtCompact(v) : '') as any} fill="#fff" fontSize={9} />
+              </Bar>
+              <Bar dataKey="Agri" stackId="a" fill="#ef4444" isAnimationActive={true}>
+                <LabelList dataKey="Agri" position="inside" formatter={((v: any, i: number) => i === revenueData.length - 1 ? fmtCompact(v) : '') as any} fill="#fff" fontSize={9} />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -234,14 +256,17 @@ export function DashboardSection() {
         <div className="glass-card p-5">
           <h3 className="text-sm font-semibold text-gray-300 mb-4">Profitability Metrics (₹ Cr)</h3>
           <ResponsiveContainer width="100%" height={280}>
-            <ComposedChart data={profitData}>
+            <ComposedChart data={profitData} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
+              <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => fmtCompact(v)} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => fmtCompact(v)} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="EBITDA" fill="#8b5cf6" opacity={0.7} />
-              <Line type="monotone" dataKey="Net Profit" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} />
-              <Line type="monotone" dataKey="FCF" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <ReferenceLine yAxisId="right" y={0} stroke="#64748b" strokeDasharray="3 3" />
+              <Bar yAxisId="left" dataKey="EBITDA" fill="#8b5cf6" opacity={0.7} isAnimationActive={true} />
+              <Line yAxisId="left" type="monotone" dataKey="Net Profit" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} isAnimationActive={true} />
+              <Line yAxisId="right" type="monotone" dataKey="FCF" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} isAnimationActive={true} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -249,14 +274,16 @@ export function DashboardSection() {
         <div className="glass-card p-5">
           <h3 className="text-sm font-semibold text-gray-300 mb-4">Margins & Returns (%)</h3>
           <ResponsiveContainer width="100%" height={280}>
-            <LineChart data={marginData}>
+            <LineChart data={marginData} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} domain={[0, 70]} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} domain={[0, 70]} tickFormatter={(v: number) => `${v}%`} />
               <Tooltip content={<ChartTooltip />} />
-              <Line type="monotone" dataKey="EBITDA Margin" stroke="#3b82f6" strokeWidth={2} dot={false} />
-              <Line type="monotone" dataKey="Net Margin" stroke="#10b981" strokeWidth={2} dot={false} />
-              <Line type="monotone" dataKey="ROE" stroke="#f59e0b" strokeWidth={2} dot={false} />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <ReferenceLine y={0} stroke="#64748b" strokeDasharray="3 3" />
+              <Line type="monotone" dataKey="EBITDA Margin" stroke="#3b82f6" strokeWidth={2} dot={false} isAnimationActive={true} />
+              <Line type="monotone" dataKey="Net Margin" stroke="#10b981" strokeWidth={2} dot={false} isAnimationActive={true} />
+              <Line type="monotone" dataKey="ROE" stroke="#f59e0b" strokeWidth={2} dot={false} isAnimationActive={true} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -267,13 +294,18 @@ export function DashboardSection() {
         <div className="glass-card p-5">
           <h3 className="text-sm font-semibold text-gray-300 mb-4">EPS & DPS Trend (₹)</h3>
           <ResponsiveContainer width="100%" height={260}>
-            <BarChart data={epsData}>
+            <BarChart data={epsData} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => `₹${v}`} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="EPS" fill="#3b82f6" radius={[3, 3, 0, 0]} />
-              <Bar dataKey="DPS" fill="#10b981" radius={[3, 3, 0, 0]} />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <Bar dataKey="EPS" fill="#3b82f6" radius={[3, 3, 0, 0]} isAnimationActive={true}>
+                <LabelList dataKey="EPS" position="top" formatter={((v: any, i: number) => i === epsData.length - 1 ? `₹${v}` : '') as any} fill="#94a3b8" fontSize={9} />
+              </Bar>
+              <Bar dataKey="DPS" fill="#10b981" radius={[3, 3, 0, 0]} isAnimationActive={true}>
+                <LabelList dataKey="DPS" position="top" formatter={((v: any, i: number) => i === epsData.length - 1 ? `₹${v}` : '') as any} fill="#94a3b8" fontSize={9} />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -291,14 +323,16 @@ export function DashboardSection() {
                 'Volume Index': d.cigaretteVolumeIndex ?? 0,
                 'Tax Hike %': d.taxHikePct ?? 0,
               }))}
+              margin={{ top: 10, right: 30, bottom: 10, left: 10 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 11 }} domain={[60, 120]} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 11 }} domain={[0, 30]} />
+              <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 11 }} domain={[60, 120]} label={{ value: 'Volume Index', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 10 }} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 11 }} domain={[0, 30]} label={{ value: 'Tax Hike %', angle: 90, position: 'insideRight', fill: '#64748b', fontSize: 10 }} />
               <Tooltip content={<ChartTooltip />} />
-              <Area yAxisId="left" type="monotone" dataKey="Volume Index" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} />
-              <Bar yAxisId="right" dataKey="Tax Hike %" fill="#ef4444" opacity={0.6} radius={[3, 3, 0, 0]} />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <Area yAxisId="left" type="monotone" dataKey="Volume Index" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} isAnimationActive={true} />
+              <Bar yAxisId="right" dataKey="Tax Hike %" fill="#ef4444" opacity={0.6} radius={[3, 3, 0, 0]} isAnimationActive={true} />
             </ComposedChart>
           </ResponsiveContainer>
           <p className="text-[10px] text-gray-500 mt-2">
@@ -325,7 +359,7 @@ export function DashboardSection() {
           <ResponsiveContainer width="100%" height={280}>
             <AreaChart
               data={priceHistory.data.days.filter((_, i) => i % 22 === 0)}
-              margin={{ top: 5, right: 20, bottom: 5, left: 20 }}
+              margin={{ top: 10, right: 30, bottom: 10, left: 10 }}
             >
               <defs>
                 <linearGradient id="gPriceDash" x1="0" y1="0" x2="0" y2="1">
@@ -337,9 +371,17 @@ export function DashboardSection() {
               <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 9 }}
                 tickFormatter={(v: string) => v.slice(0, 4)}
                 interval={Math.floor(priceHistory.data.days.length / 22 / 15)} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} domain={['auto', 'auto']} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} domain={['auto', 'auto']} tickFormatter={(v: number) => `₹${v}`} />
               <Tooltip content={<ChartTooltip />} />
-              <Area type="monotone" dataKey="close" stroke="#3b82f6" fill="url(#gPriceDash)" strokeWidth={1.5} />
+              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <ReferenceLine y={latestClose} stroke="#f59e0b" strokeDasharray="4 4" label={{ value: `CMP ₹${latestClose.toFixed(0)}`, fill: '#f59e0b', fontSize: 9, position: 'right' }} />
+              {allTimeHigh > 0 && (
+                <ReferenceLine y={allTimeHigh} stroke="#10b981" strokeDasharray="4 4" label={{ value: `ATH ₹${allTimeHigh.toFixed(0)}`, fill: '#10b981', fontSize: 9, position: 'right' }} />
+              )}
+              {allTimeLow > 0 && (
+                <ReferenceLine y={allTimeLow} stroke="#ef4444" strokeDasharray="4 4" label={{ value: `ATL ₹${allTimeLow.toFixed(0)}`, fill: '#ef4444', fontSize: 9, position: 'right' }} />
+              )}
+              <Area type="monotone" dataKey="close" stroke="#3b82f6" fill="url(#gPriceDash)" strokeWidth={1.5} isAnimationActive={true} />
             </AreaChart>
           </ResponsiveContainer>
           <div className="flex justify-between text-[10px] text-gray-500 mt-2">

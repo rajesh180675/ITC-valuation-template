@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   PieChart, Pie, Cell, BarChart, Bar, LineChart, Line,
   CartesianGrid, Tooltip, XAxis, YAxis, ResponsiveContainer,
+  Legend, ReferenceLine, LabelList,
 } from 'recharts';
 import { Layers, Database, BookOpen, TrendingUp } from 'lucide-react';
 import { historicalData, segmentDataFY25 } from '@/data/itcData';
@@ -112,6 +113,10 @@ export function SegmentsSection() {
     'Cig EBIT Margin': d.cigaretteEbitMargin,
   }));
 
+  const avgCigaretteShare = useMemo(() => segTrend.length > 0 ? segTrend.reduce((sum, d) => sum + d.Cigarettes, 0) / segTrend.length : 0, [segTrend]);
+  const avgCigMargin = useMemo(() => activeData.length > 0 ? activeData.reduce((sum, d) => sum + d.cigaretteEbitMargin, 0) / activeData.length : 0, [activeData]);
+  const avgFmcgMargin = useMemo(() => activeData.length > 0 ? activeData.reduce((sum, d) => sum + d.fmcgEbitdaMargin, 0) / activeData.length : 0, [activeData]);
+
   const hasLiveFinancials = source === 'live' && financialsData?.rows && financialsData.rows.length > 0;
   const liveYears = hasLiveFinancials ? financialsData!.rows.length : 0;
   const staticYears = historicalData.length;
@@ -170,25 +175,27 @@ export function SegmentsSection() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="glass-card p-5">
-          <h3 className="text-sm font-semibold text-gray-300 mb-4">Revenue Share by Segment</h3>
+          <h3 className="text-sm font-semibold text-gray-300 mb-4">Revenue Share by Segment (Latest Year)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
-              <Pie data={segRevPie} cx="50%" cy="50%" outerRadius={110} innerRadius={55} dataKey="value" label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`} labelLine={false}>
+              <Pie data={segRevPie} cx="50%" cy="45%" outerRadius={100} innerRadius={55} dataKey="value" label={({ name, percent }) => (percent ?? 0) > 0.05 ? `${name}: ${((percent ?? 0) * 100).toFixed(0)}%` : ''} labelLine={false} isAnimationActive={true}>
                 {segRevPie.map((entry, idx) => <Cell key={idx} fill={entry.color} />)}
               </Pie>
               <Tooltip content={<ChartTooltip />} />
+              <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: 12, color: '#d1d5db' }} />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
         <div className="glass-card p-5">
-          <h3 className="text-sm font-semibold text-gray-300 mb-4">EBIT Share by Segment</h3>
+          <h3 className="text-sm font-semibold text-gray-300 mb-4">EBIT Contribution by Segment (Latest Year)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
-              <Pie data={segEbitPie} cx="50%" cy="50%" outerRadius={110} innerRadius={55} dataKey="value" label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`} labelLine={false}>
+              <Pie data={segEbitPie} cx="50%" cy="45%" outerRadius={100} innerRadius={55} dataKey="value" label={({ name, percent }) => (percent ?? 0) > 0.05 ? `${name}: ${((percent ?? 0) * 100).toFixed(0)}%` : ''} labelLine={false} isAnimationActive={true}>
                 {segEbitPie.map((entry, idx) => <Cell key={idx} fill={entry.color} />)}
               </Pie>
               <Tooltip content={<ChartTooltip />} />
+              <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: 12, color: '#d1d5db' }} />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -196,18 +203,22 @@ export function SegmentsSection() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="glass-card p-5">
-          <h3 className="text-sm font-semibold text-gray-300 mb-4">Revenue Mix Evolution (%)</h3>
+          <h3 className="text-sm font-semibold text-gray-300 mb-4">Revenue Mix Evolution Over Time (%)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={segTrend}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="Cigarettes" stackId="a" fill="#10b981" />
-              <Bar dataKey="FMCG" stackId="a" fill="#3b82f6" />
-              <Bar dataKey="Hotels" stackId="a" fill="#f59e0b" />
-              <Bar dataKey="Paper" stackId="a" fill="#8b5cf6" />
-              <Bar dataKey="Agri" stackId="a" fill="#ef4444" />
+              <Legend wrapperStyle={{ fontSize: 12, color: '#d1d5db' }} />
+              <ReferenceLine y={avgCigaretteShare} stroke="#10b981" strokeDasharray="4 4" label={{ value: 'Avg Cig Share', position: 'insideTopLeft', fill: '#10b981', fontSize: 10 }} />
+              <Bar dataKey="Cigarettes" stackId="a" fill="#10b981" isAnimationActive={true} />
+              <Bar dataKey="FMCG" stackId="a" fill="#3b82f6" isAnimationActive={true} />
+              <Bar dataKey="Hotels" stackId="a" fill="#f59e0b" isAnimationActive={true} />
+              <Bar dataKey="Paper" stackId="a" fill="#8b5cf6" isAnimationActive={true} />
+              <Bar dataKey="Agri" stackId="a" fill="#ef4444" isAnimationActive={true}>
+                <LabelList dataKey="Agri" position="top" formatter={() => '100%'} fill="#9ca3af" fontSize={10} />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -218,10 +229,13 @@ export function SegmentsSection() {
             <LineChart data={fmcgMarginTrend}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} />
               <Tooltip content={<ChartTooltip />} />
-              <Line type="monotone" dataKey="Cig EBIT Margin" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
-              <Line type="monotone" dataKey="FMCG EBITDA Margin" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} />
+              <Legend wrapperStyle={{ fontSize: 12, color: '#d1d5db' }} />
+              <ReferenceLine y={avgCigMargin} stroke="#10b981" strokeDasharray="4 4" label={{ value: 'Avg Cig Margin', position: 'insideTopLeft', fill: '#10b981', fontSize: 10 }} />
+              <ReferenceLine y={avgFmcgMargin} stroke="#3b82f6" strokeDasharray="4 4" label={{ value: 'Avg FMCG Margin', position: 'insideTopRight', fill: '#3b82f6', fontSize: 10 }} />
+              <Line type="monotone" dataKey="Cig EBIT Margin" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} isAnimationActive={true} />
+              <Line type="monotone" dataKey="FMCG EBITDA Margin" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} isAnimationActive={true} />
             </LineChart>
           </ResponsiveContainer>
         </div>

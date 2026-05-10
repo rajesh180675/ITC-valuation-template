@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import {
   ComposedChart, ScatterChart, Scatter, Bar, Line,
   CartesianGrid, Tooltip, XAxis, YAxis, ZAxis, ResponsiveContainer,
+  Legend, ReferenceLine,
 } from 'recharts';
 import { Shield, Zap, Database, BookOpen, TrendingUp } from 'lucide-react';
 import { historicalData, taxEvents } from '@/data/itcData';
@@ -198,12 +199,14 @@ export function TaxAnalyzerSection() {
           <ComposedChart data={stockReactionData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
             <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 10 }} />
-            <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 11 }} />
-            <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 11 }} />
+            <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'NCCD Hike %', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
+            <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Stock / Volume %', angle: 90, position: 'insideRight', fill: '#64748b', fontSize: 11 }} />
             <Tooltip content={<ChartTooltip />} />
-            <Bar yAxisId="left" dataKey="NCCD Hike %" fill="#ef4444" opacity={0.6} radius={[3, 3, 0, 0]} />
-            <Line yAxisId="right" type="monotone" dataKey="Stock Day %" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4 }} />
-            <Line yAxisId="right" type="monotone" dataKey="Volume Impact %" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
+            <Legend wrapperStyle={{ fontSize: 12, color: '#d1d5db' }} />
+            <ReferenceLine yAxisId="right" y={0} stroke="#64748b" strokeDasharray="4 4" />
+            <Bar yAxisId="left" dataKey="NCCD Hike %" fill="#ef4444" opacity={0.6} radius={[3, 3, 0, 0]} isAnimationActive={true} />
+            <Line yAxisId="right" type="monotone" dataKey="Stock Day %" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4 }} isAnimationActive={true} />
+            <Line yAxisId="right" type="monotone" dataKey="Volume Impact %" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} isAnimationActive={true} />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
@@ -215,8 +218,8 @@ export function TaxAnalyzerSection() {
           <ResponsiveContainer width="100%" height={280}>
             <ScatterChart>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c2940" />
-              <XAxis dataKey="x" name="NCCD %" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Tax Hike %', position: 'bottom', fill: '#64748b', fontSize: 11 }} />
-              <YAxis dataKey="y" name="Volume %" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Volume %', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
+              <XAxis dataKey="x" name="NCCD %" tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} label={{ value: 'Tax Hike %', position: 'bottom', fill: '#64748b', fontSize: 11 }} />
+              <YAxis dataKey="y" name="Volume %" tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} label={{ value: 'Volume Impact %', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
               <ZAxis dataKey="z" range={[50, 400]} />
               <Tooltip cursor={{ strokeDasharray: '3 3' }} content={({ payload }) => {
                 if (!payload?.length) return null;
@@ -229,7 +232,8 @@ export function TaxAnalyzerSection() {
                   </div>
                 );
               }} />
-              <Scatter data={taxHikeVsVolume} fill="#3b82f6" />
+              <ReferenceLine y={0} stroke="#64748b" strokeDasharray="4 4" />
+              <Scatter data={taxHikeVsVolume} fill="#3b82f6" isAnimationActive={true} />
             </ScatterChart>
           </ResponsiveContainer>
         </div>

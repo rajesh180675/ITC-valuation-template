@@ -200,9 +200,10 @@ function Valuation({ assumptions }: { assumptions: ProjectionAssumptions }) {
                 <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} />
                 <YAxis dataKey="name" type="category" tick={{ fill: '#94a3b8', fontSize: 11 }} width={100} />
                 <Tooltip content={<ChartTooltip />} />
-                <Bar dataKey="Low" fill="#ef4444" opacity={0.6} radius={[0, 0, 0, 0]} />
-                <Bar dataKey="Base" fill="#3b82f6" radius={[0, 3, 3, 0]} />
-                <Bar dataKey="High" fill="#10b981" opacity={0.6} />
+                <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+                <Bar dataKey="Low" fill="#ef4444" opacity={0.6} radius={[0, 0, 0, 0]} isAnimationActive={true} />
+                <Bar dataKey="Base" fill="#3b82f6" radius={[0, 3, 3, 0]} isAnimationActive={true} />
+                <Bar dataKey="High" fill="#10b981" opacity={0.6} isAnimationActive={true} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -293,8 +294,10 @@ function Valuation({ assumptions }: { assumptions: ProjectionAssumptions }) {
                 <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
                 <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
                 <Tooltip content={<ChartTooltip />} />
-                <Bar dataKey="FCF" fill="#3b82f6" opacity={0.7} radius={[3, 3, 0, 0]} />
-                <Line type="monotone" dataKey="PV of FCF" stroke="#f59e0b" strokeWidth={2} dot={{ r: 4 }} />
+                <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+                <ReferenceLine y={0} stroke="#64748b" strokeDasharray="3 3" />
+                <Bar dataKey="FCF" fill="#3b82f6" opacity={0.7} radius={[3, 3, 0, 0]} isAnimationActive={true} />
+                <Line type="monotone" dataKey="PV of FCF" stroke="#f59e0b" strokeWidth={2} dot={{ r: 4 }} isAnimationActive={true} />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
@@ -439,7 +442,8 @@ function Projections({ assumptions, setAssumptions }: {
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
               <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
               <Tooltip content={<ChartTooltip />} />
-              <Area type="monotone" dataKey="Revenue" stroke="#3b82f6" fill="url(#gRevP)" strokeWidth={2} />
+              <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+              <Area type="monotone" dataKey="Revenue" stroke="#3b82f6" fill="url(#gRevP)" strokeWidth={2} isAnimationActive={true} />
               <ReferenceLine x={historicalData[historicalData.length - 1].year} stroke="#f59e0b" strokeDasharray="5 5" label={{ value: '→ Projected', fill: '#f59e0b', fontSize: 10, position: 'top' }} />
             </AreaChart>
           </ResponsiveContainer>
@@ -453,8 +457,9 @@ function Projections({ assumptions, setAssumptions }: {
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
               <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="EBITDA" fill="#8b5cf6" opacity={0.6} radius={[3, 3, 0, 0]} />
-              <Line type="monotone" dataKey="Net Profit" stroke="#f59e0b" strokeWidth={2} dot={false} />
+              <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+              <Bar dataKey="EBITDA" fill="#8b5cf6" opacity={0.6} radius={[3, 3, 0, 0]} isAnimationActive={true} />
+              <Line type="monotone" dataKey="Net Profit" stroke="#f59e0b" strokeWidth={2} dot={false} isAnimationActive={true} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -469,9 +474,10 @@ function Projections({ assumptions, setAssumptions }: {
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
               <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
               <Tooltip content={<ChartTooltip />} />
-              <Line type="monotone" dataKey="EBITDA %" stroke="#3b82f6" strokeWidth={2} dot={false} />
-              <Line type="monotone" dataKey="FMCG Margin %" stroke="#10b981" strokeWidth={2} dot={false} />
-              <Line type="monotone" dataKey="Cig Margin %" stroke="#ef4444" strokeWidth={2} dot={false} />
+              <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+              <Line type="monotone" dataKey="EBITDA %" stroke="#3b82f6" strokeWidth={2} dot={false} isAnimationActive={true} />
+              <Line type="monotone" dataKey="FMCG Margin %" stroke="#10b981" strokeWidth={2} dot={false} isAnimationActive={true} />
+              <Line type="monotone" dataKey="Cig Margin %" stroke="#ef4444" strokeWidth={2} dot={false} isAnimationActive={true} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -484,8 +490,9 @@ function Projections({ assumptions, setAssumptions }: {
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 11 }} />
               <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
               <Tooltip content={<ChartTooltip />} />
-              <Area type="monotone" dataKey="Cig Rev %" stroke="#10b981" fill="#10b981" fillOpacity={0.2} strokeWidth={2} />
-              <Area type="monotone" dataKey="FMCG Rev %" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.2} strokeWidth={2} />
+              <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+              <Area type="monotone" dataKey="Cig Rev %" stroke="#10b981" fill="#10b981" fillOpacity={0.2} strokeWidth={2} isAnimationActive={true} />
+              <Area type="monotone" dataKey="FMCG Rev %" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.2} strokeWidth={2} isAnimationActive={true} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -604,7 +611,9 @@ function Playbook() {
               <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 11 }} />
               <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="Expected Move %" radius={[4, 4, 0, 0]}>
+              <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+              <ReferenceLine y={0} stroke="#64748b" />
+              <Bar dataKey="Expected Move %" radius={[4, 4, 0, 0]} isAnimationActive={true}>
                 {cheatSheetChart.map((entry, i) => (
                   <Cell key={i} fill={entry['Expected Move %'] >= 0 ? '#10b981' : '#ef4444'} />
                 ))}
@@ -621,9 +630,10 @@ function Playbook() {
               <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 10 }} />
               <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="Budget Day %" fill="#3b82f6" radius={[2, 2, 0, 0]} />
-              <Bar dataKey="1 Week %" fill="#f59e0b" radius={[2, 2, 0, 0]} />
-              <Bar dataKey="1 Month %" fill="#10b981" radius={[2, 2, 0, 0]} />
+              <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+              <Bar dataKey="Budget Day %" fill="#3b82f6" radius={[2, 2, 0, 0]} isAnimationActive={true} />
+              <Bar dataKey="1 Week %" fill="#f59e0b" radius={[2, 2, 0, 0]} isAnimationActive={true} />
+              <Bar dataKey="1 Month %" fill="#10b981" radius={[2, 2, 0, 0]} isAnimationActive={true} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -742,7 +752,8 @@ function GlobalCompare() {
               <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} domain={[0, 100]} />
               <YAxis dataKey="country" type="category" tick={{ fill: '#94a3b8', fontSize: 10 }} width={110} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="taxPctRetail" name="Tax %" radius={[0, 4, 4, 0]}>
+              <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+              <Bar dataKey="taxPctRetail" name="Tax %" radius={[0, 4, 4, 0]} isAnimationActive={true}>
                 {globalTobaccoComparison.map((entry, i) => (
                   <Cell key={i} fill={entry.country.includes('India') ? '#f59e0b' : '#3b82f6'} />
                 ))}
@@ -759,7 +770,8 @@ function GlobalCompare() {
               <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} />
               <YAxis dataKey="country" type="category" tick={{ fill: '#94a3b8', fontSize: 10 }} width={110} />
               <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey="perCapitaSticks" name="Sticks/Year" radius={[0, 4, 4, 0]}>
+              <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+              <Bar dataKey="perCapitaSticks" name="Sticks/Year" radius={[0, 4, 4, 0]} isAnimationActive={true}>
                 {globalTobaccoComparison.map((entry, i) => (
                   <Cell key={i} fill={entry.country.includes('India') ? '#f59e0b' : '#8b5cf6'} />
                 ))}
@@ -776,9 +788,9 @@ function GlobalCompare() {
             <PolarGrid stroke="#1c2940" />
             <PolarAngleAxis dataKey="country" tick={{ fill: '#94a3b8', fontSize: 10 }} />
             <PolarRadiusAxis tick={{ fill: '#64748b', fontSize: 9 }} />
-            <Radar name="Tax %" dataKey="Tax %" stroke="#ef4444" fill="#ef4444" fillOpacity={0.15} />
-            <Radar name="Pack Price" dataKey="Pack Price" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} />
-            <Radar name="Per Capita" dataKey="Per Capita" stroke="#10b981" fill="#10b981" fillOpacity={0.15} />
+            <Radar name="Tax %" dataKey="Tax %" stroke="#ef4444" fill="#ef4444" fillOpacity={0.15} isAnimationActive={true} />
+            <Radar name="Pack Price" dataKey="Pack Price" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} isAnimationActive={true} />
+            <Radar name="Per Capita" dataKey="Per Capita" stroke="#10b981" fill="#10b981" fillOpacity={0.15} isAnimationActive={true} />
             <Legend />
             <Tooltip content={<ChartTooltip />} />
           </RadarChart>

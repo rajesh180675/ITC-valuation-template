@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
-  Area, Bar, BarChart, CartesianGrid, Cell, ComposedChart, Line,
+  Area, Bar, BarChart, CartesianGrid, Cell, ComposedChart, LabelList, Legend, Line,
   ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip,
   XAxis, YAxis, ZAxis,
 } from 'recharts';
@@ -399,15 +399,9 @@ function UniverseEarningsPower(props: {
   const { indexSeries, startFy, endFy, filteredCount, universeToplineCagr, universeProfitCagr, averageRoe } = props;
   return (
     <div className="premium-card p-5 xl:col-span-2">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h3 className="text-sm font-semibold text-white">Universe Earnings Power</h3>
-          <p className="text-[11px] text-gray-500 mt-0.5">Aggregate topline &amp; net profit across {filteredCount} constituents</p>
-        </div>
-        <div className="flex items-center gap-3 text-[11px] text-gray-400">
-          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm" style={{ background: '#3b82f6' }} />Topline</span>
-          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm" style={{ background: '#d4a843' }} />Net Profit</span>
-        </div>
+      <div className="mb-4">
+        <h3 className="text-sm font-semibold text-white">Universe Earnings Power</h3>
+        <p className="text-[11px] text-gray-500 mt-0.5">Aggregate topline &amp; net profit across {filteredCount} constituents</p>
       </div>
       <ResponsiveContainer width="100%" height={300}>
         <ComposedChart data={indexSeries}>
@@ -426,10 +420,11 @@ function UniverseEarningsPower(props: {
           <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={(v) => `${(v / 100000).toFixed(1)}L`} />
           <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={(v) => `${(v / 100000).toFixed(1)}L`} />
           <Tooltip content={<ChartTooltip />} />
+          <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
           <ReferenceLine yAxisId="left" x={startFy} stroke="#d4a843" strokeDasharray="3 3" opacity={0.6} />
           <ReferenceLine yAxisId="left" x={endFy} stroke="#d4a843" strokeDasharray="3 3" opacity={0.6} />
-          <Area yAxisId="left" type="monotone" dataKey="toplineCr" name="Topline" stroke="#3b82f6" strokeWidth={2} fill="url(#gradTopline)" />
-          <Area yAxisId="right" type="monotone" dataKey="netProfitCr" name="Net Profit" stroke="#d4a843" strokeWidth={2} fill="url(#gradProfit)" />
+          <Area yAxisId="left" type="monotone" dataKey="toplineCr" name="Topline" stroke="#3b82f6" strokeWidth={2} fill="url(#gradTopline)" isAnimationActive={true} />
+          <Area yAxisId="right" type="monotone" dataKey="netProfitCr" name="Net Profit" stroke="#d4a843" strokeWidth={2} fill="url(#gradProfit)" isAnimationActive={true} />
         </ComposedChart>
       </ResponsiveContainer>
       <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-border/50">
@@ -553,12 +548,14 @@ function TopWeightsChart({ data }: { data: { name: string; weightPct: number; co
       <h3 className="text-sm font-semibold text-white mb-1">Top Weights</h3>
       <p className="text-[11px] text-gray-500 mb-4">Index weight leaderboard</p>
       <ResponsiveContainer width="100%" height={340}>
-        <BarChart data={data} layout="vertical" margin={{ left: 10, right: 20 }}>
+        <BarChart data={data} layout="vertical" margin={{ left: 10, right: 30 }}>
           <CartesianGrid strokeDasharray="2 4" stroke="#1c2940" horizontal={false} />
-          <XAxis type="number" tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={false} />
+          <XAxis type="number" tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={(v: number) => `${v}%`} />
           <YAxis dataKey="name" type="category" tick={{ fill: '#cbd5e1', fontSize: 10, fontWeight: 600 }} width={80} tickLine={false} axisLine={false} />
           <Tooltip content={<ChartTooltip />} />
-          <Bar dataKey="weightPct" name="Weight %" radius={[0, 4, 4, 0]}>
+          <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+          <Bar dataKey="weightPct" name="Weight %" radius={[0, 4, 4, 0]} isAnimationActive={true}>
+            <LabelList dataKey="weightPct" position="right" formatter={(v: any) => `${Number(v).toFixed(1)}%`} style={{ fill: '#cbd5e1', fontSize: 10 }} />
             {data.map(e => <Cell key={e.name} fill={e.color} />)}
           </Bar>
         </BarChart>
@@ -570,6 +567,9 @@ function TopWeightsChart({ data }: { data: { name: string; weightPct: number; co
 function GrowthValuationScatter(props: {
   data: any[]; medianPatCagr: number; rangePeriods: number;
 }) {
+  const avgMultiple = props.data.length
+    ? props.data.reduce((s, d) => s + d.y, 0) / props.data.length
+    : 0;
   return (
     <div className="glass-card p-5 lg:col-span-3">
       <div className="flex items-center justify-between mb-1">
@@ -580,11 +580,15 @@ function GrowthValuationScatter(props: {
       <ResponsiveContainer width="100%" height={340}>
         <ScatterChart margin={{ top: 10, right: 20, bottom: 10, left: 0 }}>
           <CartesianGrid strokeDasharray="2 4" stroke="#1c2940" />
-          <XAxis type="number" dataKey="x" name="PAT CAGR" unit="%" tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }} />
-          <YAxis type="number" dataKey="y" name="Multiple" unit="x" tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }} />
+          <XAxis type="number" dataKey="x" name="PAT CAGR" unit="%" tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }}
+            label={{ value: 'PAT CAGR (%)', position: 'insideBottom', offset: -2, fill: '#94a3b8', fontSize: 11 }} />
+          <YAxis type="number" dataKey="y" name="Multiple" unit="x" tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }}
+            label={{ value: 'Valuation Multiple (x)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} />
           <ZAxis type="number" dataKey="z" range={[40, 400]} />
           <ReferenceLine x={props.medianPatCagr} stroke="#d4a843" strokeDasharray="3 3" opacity={0.5}
             label={{ value: 'Median CAGR', fill: '#d4a843', fontSize: 9, position: 'insideTopRight' }} />
+          <ReferenceLine y={avgMultiple} stroke="#3b82f6" strokeDasharray="3 3" opacity={0.5}
+            label={{ value: 'Avg Multiple', fill: '#3b82f6', fontSize: 9, position: 'insideTopLeft' }} />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} content={({ active, payload }: any) => {
             if (!active || !payload?.length) return null;
             const d = payload[0].payload;
@@ -597,7 +601,7 @@ function GrowthValuationScatter(props: {
               </div>
             );
           }} />
-          <Scatter data={props.data}>
+          <Scatter data={props.data} isAnimationActive={true}>
             {props.data.map(e => <Cell key={e.name} fill={e.color} fillOpacity={0.75} stroke={e.color} />)}
           </Scatter>
         </ScatterChart>
@@ -627,8 +631,10 @@ function ImpliedVsRealizedScatter({ data, rangePeriods }: { data: any[]; rangePe
       <ResponsiveContainer width="100%" height={380}>
         <ScatterChart margin={{ top: 10, right: 30, bottom: 10, left: 0 }}>
           <CartesianGrid strokeDasharray="2 4" stroke="#1c2940" />
-          <XAxis type="number" dataKey="x" name="Implied g" unit="%" domain={[Math.floor(xMin), Math.ceil(xMax)]} tickFormatter={(v: number) => Math.round(v).toString()} tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }} />
-          <YAxis type="number" dataKey="y" name="Delivered CAGR" unit="%" domain={[Math.floor(xMin), Math.ceil(xMax)]} tickFormatter={(v: number) => Math.round(v).toString()} tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }} />
+          <XAxis type="number" dataKey="x" name="Implied g" unit="%" domain={[Math.floor(xMin), Math.ceil(xMax)]} tickFormatter={(v: number) => Math.round(v).toString()} tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }}
+            label={{ value: 'Implied Perpetual Growth (%)', position: 'insideBottom', offset: -2, fill: '#94a3b8', fontSize: 11 }} />
+          <YAxis type="number" dataKey="y" name="Delivered CAGR" unit="%" domain={[Math.floor(xMin), Math.ceil(xMax)]} tickFormatter={(v: number) => Math.round(v).toString()} tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={{ stroke: '#2a3a52' }}
+            label={{ value: 'Realized PAT CAGR (%)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} />
           <ZAxis type="number" dataKey="z" range={[40, 400]} />
           <ReferenceLine segment={[{ x: xMin, y: xMin }, { x: xMax, y: xMax }]} stroke="#d4a843" strokeDasharray="4 4" opacity={0.7} />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} content={({ active, payload }: any) => {
@@ -648,7 +654,7 @@ function ImpliedVsRealizedScatter({ data, rangePeriods }: { data: any[]; rangePe
               </div>
             );
           }} />
-          <Scatter data={data}>
+          <Scatter data={data} isAnimationActive={true}>
             {data.map(e => <Cell key={e.name} fill={e.color} fillOpacity={0.78} stroke={e.color} />)}
           </Scatter>
         </ScatterChart>
@@ -673,10 +679,10 @@ function FactorScorecard({ rows, selectedId, onSelect }: {
           </p>
         </div>
         <div className="text-[10px] text-gray-500 flex items-center gap-3">
-          <Legend color="#60a5fa" label="Quality" />
-          <Legend color="#22c55e" label="Value" />
-          <Legend color="#d4a843" label="Growth" />
-          <Legend color="#a855f7" label="Momentum" />
+            <InlineLegend color="#60a5fa" label="Quality" />
+            <InlineLegend color="#22c55e" label="Value" />
+            <InlineLegend color="#d4a843" label="Growth" />
+            <InlineLegend color="#a855f7" label="Momentum" />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
@@ -726,7 +732,7 @@ function FactorBar({ label, value, color }: { label: string; value: number; colo
   );
 }
 
-function Legend({ color, label }: { color: string; label: string }) {
+function InlineLegend({ color, label }: { color: string; label: string }) {
   return (
     <span className="inline-flex items-center gap-1.5">
       <span className="w-2.5 h-2.5 rounded-sm" style={{ background: color }} />
@@ -907,8 +913,9 @@ function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
               <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 10 }} tickLine={false} axisLine={false} />
               <YAxis yAxisId="right" orientation="right" tick={{ fill: '#d4a843', fontSize: 10 }} tickLine={false} axisLine={false} />
               <Tooltip content={<ChartTooltip />} />
-              <Area yAxisId="left" type="monotone" dataKey="Topline" stroke={company.color} strokeWidth={2} fill="url(#coGrad)" />
-              <Line yAxisId="right" type="monotone" dataKey="Net Profit" stroke="#d4a843" strokeWidth={2.5} dot={{ r: 3, fill: '#d4a843' }} />
+              <Legend wrapperStyle={{ fontSize: 11, color: '#94a3b8' }} />
+              <Area yAxisId="left" type="monotone" dataKey="Topline" name="Topline" stroke={company.color} strokeWidth={2} fill="url(#coGrad)" isAnimationActive={true} />
+              <Line yAxisId="right" type="monotone" dataKey="Net Profit" name="Net Profit" stroke="#d4a843" strokeWidth={2.5} dot={{ r: 3, fill: '#d4a843' }} isAnimationActive={true} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>

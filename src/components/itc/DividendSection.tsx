@@ -56,6 +56,10 @@ export function DividendSection() {
 
   const metrics = useMemo(() => calculateDividendMetrics(mergedDividendHistory, CURRENT_PRICE), [mergedDividendHistory]);
 
+  const avgDps = useMemo(() => mergedDividendHistory.length > 0 ? mergedDividendHistory.reduce((sum, d) => sum + d.dps, 0) / mergedDividendHistory.length : 0, [mergedDividendHistory]);
+  const avgDivYield = useMemo(() => mergedDividendHistory.length > 0 ? mergedDividendHistory.reduce((sum, d) => sum + d.divYield, 0) / mergedDividendHistory.length : 0, [mergedDividendHistory]);
+  const avgPayoutRatio = useMemo(() => mergedDividendHistory.length > 0 ? mergedDividendHistory.reduce((sum, d) => sum + d.payoutRatio, 0) / mergedDividendHistory.length : 0, [mergedDividendHistory]);
+
   return (
     <div className="animate-fadeIn space-y-6">
       <SectionHeader
@@ -150,9 +154,9 @@ export function DividendSection() {
             />
             <Tooltip content={<ChartTooltip />} />
             <Legend wrapperStyle={{ fontSize: 12, color: '#d1d5db' }} />
-            <Bar yAxisId="left" dataKey="eps" fill="#3b82f6" name="EPS" barSize={18} />
-            <Bar yAxisId="left" dataKey="dps" fill="#10b981" name="DPS" barSize={18} />
-            <Line yAxisId="left" dataKey="specialDiv" stroke="#f59e0b" name="Special Div" dot={{ r: 3 }} />
+            <Bar yAxisId="left" dataKey="eps" fill="#3b82f6" name="EPS" barSize={18} isAnimationActive={true} />
+            <Bar yAxisId="left" dataKey="dps" fill="#10b981" name="DPS" barSize={18} isAnimationActive={true} />
+            <Line yAxisId="left" dataKey="specialDiv" stroke="#f59e0b" name="Special Div" dot={{ r: 3 }} isAnimationActive={true} />
             <Area
               yAxisId="right"
               dataKey="payoutRatio"
@@ -160,13 +164,15 @@ export function DividendSection() {
               fillOpacity={0.2}
               stroke="#8b5cf6"
               name="Payout %"
+              isAnimationActive={true}
             />
+            <ReferenceLine yAxisId="left" y={avgDps} stroke="#10b981" strokeDasharray="4 4" label={{ value: `Avg DPS ₹${avgDps.toFixed(1)}`, position: 'insideTopLeft', fill: '#10b981', fontSize: 10 }} />
             <ReferenceLine yAxisId="right" y={80} stroke="#ef4444" strokeDasharray="5 5" label={{ value: '80% Threshold', position: 'right', fill: '#ef4444', fontSize: 10 }} />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
 
-      {/* —— Panel 2: Total Shareholder Return Decomposition ———————————————————— */}
+      {/* —— Panel 2: Total Shareholder Return Decomposition ————————————————— */}
       <div className="glass-card p-4">
         <h3 className="text-sm font-medium text-gray-300 mb-3">Total Shareholder Return Decomposition</h3>
         <ResponsiveContainer width="100%" height={300}>
@@ -176,13 +182,14 @@ export function DividendSection() {
             <YAxis tick={{ fill: '#9ca3af', fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} />
             <Tooltip content={<ChartTooltip />} />
             <Legend wrapperStyle={{ fontSize: 12, color: '#d1d5db' }} />
-            <Bar dataKey="divYield" stackId="return" fill="#10b981" name="Div Yield %" />
-            <Bar dataKey="priceApprec" stackId="return" fill="#3b82f6" name="Price Apprec %" />
+            <Bar dataKey="divYield" stackId="return" fill="#10b981" name="Div Yield %" isAnimationActive={true} />
+            <Bar dataKey="priceApprec" stackId="return" fill="#3b82f6" name="Price Apprec %" isAnimationActive={true} />
+            <ReferenceLine y={avgDivYield} stroke="#10b981" strokeDasharray="4 4" label={{ value: `Avg Div Yield ${avgDivYield.toFixed(1)}%`, position: 'insideTopLeft', fill: '#10b981', fontSize: 10 }} />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      {/* —— Panel 3: Payout Ratio Trend —————————————————————————————————————————————————————————————— */}
+      {/* —— Panel 3: Payout Ratio Trend ——————————————————————————————————————————— */}
       <div className="glass-card p-4">
         <h3 className="text-sm font-medium text-gray-300 mb-3">Payout Ratio Trend</h3>
         <ResponsiveContainer width="100%" height={280}>
@@ -192,7 +199,8 @@ export function DividendSection() {
             <YAxis tick={{ fill: '#9ca3af', fontSize: 11 }} tickFormatter={(v: number) => `${v}%`} />
             <Tooltip content={<ChartTooltip />} />
             <Legend wrapperStyle={{ fontSize: 12, color: '#d1d5db' }} />
-            <Line type="monotone" dataKey="payoutRatio" stroke="#8b5cf6" name="Payout Ratio %" strokeWidth={2} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="payoutRatio" stroke="#8b5cf6" name="Payout Ratio %" strokeWidth={2} dot={{ r: 3 }} isAnimationActive={true} />
+            <ReferenceLine y={avgPayoutRatio} stroke="#8b5cf6" strokeDasharray="4 4" label={{ value: `Avg Payout ${avgPayoutRatio.toFixed(1)}%`, position: 'insideTopLeft', fill: '#8b5cf6', fontSize: 10 }} />
             <ReferenceLine y={80} stroke="#ef4444" strokeDasharray="5 5" label={{ value: 'Sustainable Threshold', position: 'insideTopRight', fill: '#ef4444', fontSize: 10 }} />
           </LineChart>
         </ResponsiveContainer>

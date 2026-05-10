@@ -8,20 +8,91 @@ export const fmt = (n: number) => {
   return `₹${n.toFixed(0)} Cr`;
 };
 
-export const fmtN = (n: number, d = 1) => n.toFixed(d);
-export const pct = (n: number, d = 1) => `${n >= 0 ? '+' : ''}${n.toFixed(d)}%`;
-export const rupee = (n: number) => `₹${n.toFixed(2)}`;
+export const fmtCompact = (n: number) => {
+  if (Math.abs(n) >= 10000000) return `${(n / 10000000).toFixed(2)}Cr`;
+  if (Math.abs(n) >= 100000) return `${(n / 100000).toFixed(1)}L`;
+  if (Math.abs(n) >= 1000) return `${(n / 1000).toFixed(1)}K`;
+  return `${n.toFixed(0)}`;
+};
+
+export const fmtN = (n: number, d = 1) => {
+  if (!Number.isFinite(n)) return '—';
+  return n.toFixed(d);
+};
+export const pct = (n: number, d = 1) => {
+  if (!Number.isFinite(n)) return '—%';
+  return `${n >= 0 ? '+' : ''}${n.toFixed(d)}%`;
+};
+export const rupee = (n: number) => {
+  if (!Number.isFinite(n)) return '₹—';
+  return `₹${n.toFixed(2)}`;
+};
+
+/* ─── Smart Chart Tooltip ────────────────────────────────────────────────────
+ * Detects value type from dataKey name and formats accordingly.
+ * Adds color swatches, proper separators, and context.
+ */
+
+function inferFormat(name: string, value: unknown): string {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return String(value ?? '—');
+  const n = name.toLowerCase();
+  const absVal = Math.abs(value);
+
+  // Percentage detection
+  if (n.includes('margin') || n.includes('yield') || n.includes('cagr') || n.includes('roe')
+      || n.includes('return') || n.includes('pct') || n.includes('%') || n.includes('volatility')
+      || n.includes('drawdown') || n.includes('tax') || n.includes('growth')) {
+    return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+  }
+
+  // Price / currency detection
+  if (n.includes('price') || n.includes('eps') || n.includes('dps') || n.includes('close')
+      || n.includes('high') || n.includes('low') || n.includes('open') || n.includes('cmp')) {
+    return `₹${absVal >= 1000 ? value.toLocaleString('en-IN', { maximumFractionDigits: 0 }) : value.toFixed(2)}`;
+  }
+
+  // Revenue / profit / large currency
+  if (n.includes('revenue') || n.includes('profit') || n.includes('ebitda') || n.includes('fcf')
+      || n.includes('cash') || n.includes('asset') || n.includes('debt') || n.includes('cap')
+      || n.includes('topline') || n.includes('sales') || n.includes('income')) {
+    return fmt(value);
+  }
+
+  // Volume / index
+  if (n.includes('volume') || n.includes('index')) {
+    return value.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+  }
+
+  // Generic large numbers
+  if (absVal >= 1000) {
+    return value.toLocaleString('en-IN', { maximumFractionDigits: 1 });
+  }
+  return value.toFixed(1);
+}
 
 export function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-surface border border-border rounded-lg p-3 shadow-xl text-sm">
-      <p className="text-gray-300 font-medium mb-1">{label}</p>
-      {payload.map((p: any, i: number) => (
-        <p key={i} style={{ color: p.color }} className="text-xs">
-          {p.name}: {typeof p.value === 'number' && p.value > 1000 ? fmt(p.value) : fmtN(p.value)}
-        </p>
-      ))}
+    <div className="bg-surface border border-border rounded-xl p-3 shadow-2xl text-sm min-w-[180px]">
+      <p className="text-gray-200 font-semibold mb-2 text-xs uppercase tracking-wider border-b border-border/50 pb-1.5">
+        {label}
+      </p>
+      <div className="space-y-1">
+        {payload.map((p: any, i: number) => (
+          <div key={i} className="flex items-center justify-between gap-4 text-xs">
+            <div className="flex items-center gap-1.5">
+              <span
+                className="w-2.5 h-2.5 rounded-sm shrink-0"
+                style={{ backgroundColor: p.color || p.fill || '#64748b' }}
+              />
+              <span className="text-gray-400">{p.name || p.dataKey}</span>
+            </div>
+            <span className="font-mono font-medium text-gray-100 tabular-nums">
+              {inferFormat(p.name || p.dataKey, p.value)}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
