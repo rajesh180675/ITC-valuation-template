@@ -117,6 +117,11 @@ IMAP = {
     'Transport Related Services': 'Logistics',
     'Water Supply & Management': 'Utilities',
     'Wellness': 'Healthcare',
+    # More missing
+    'Construction Vehicles': 'Capital Goods',
+    'Depositories Clearing Houses and Other Intermediaries': 'NBFC',
+    'Shipping': 'Logistics',
+    'Copper': 'Metals',
 }
 
 FIN = {'Private Sector Bank','Public Sector Bank','Other Bank',

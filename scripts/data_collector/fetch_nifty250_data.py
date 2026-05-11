@@ -102,12 +102,12 @@ def parse_eps(v_str):
 # ── Ticker mappings ──────────────────────────────────────────────────────────
 
 SCREENER_TICKER_MAP = {
-    'LTIM': 'MINDTREE',
-    'M&MFIN': 'MMFIN',
-    'BAJAJ-AUTO': 'BAJAJAUTO',
-    'MCDOWELL-N': 'MCDOWELL',
-    'ARE&M': 'AMARARAJA',
-    'TRIDENT': 'TRIDENT',
+    'LTIM': 'MINDTREE',       # LTIMindtree (merged entity, screener.in uses old name)
+    'M&MFIN': 'MMFIN',        # Mahindra & Mahindra Financial Services
+    'BAJAJ-AUTO': 'BAJAJAUTO', # Bajaj Auto (hyphen vs no hyphen)
+    'MCDOWELL-N': 'MCDOWELL',  # United Spirits
+    'ARE&M': 'ARE%26M',       # Amara Raja Energy & Mobility (URL-encoded &)
+    'TRIDENT': 'TRIDENT',     # Already OK, but for mapping
 }
 
 SCREENER_SECTOR_MAP = {
