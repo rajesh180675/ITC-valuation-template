@@ -74,14 +74,26 @@ export function Nifty750UniverseSection() {
   }, []);
 
   /* ── Batch companies ──────────────────────────────────────────────────── */
-  const batchCompanies: SensexConstituent[] = useMemo(() => {
+  const batchCompaniesRaw: SensexConstituent[] = useMemo(() => {
     try {
       if (!rawData?.batches) return [];
       const batch = rawData.batches.find((b: any) => b.indexSlug === selectedBatch);
       if (!batch?.companies?.length) return [];
-      return batch.companies.map(adaptConstituent).filter(Boolean);
+      const totalCount = batch.companies.length;
+      // Clear previous quality issues when loading new batch
+      dataQualityIssues.length = 0;
+      const adapted = batch.companies
+        .map((c: any, idx: number) => adaptConstituent(c, idx, totalCount))
+        .filter((c: SensexConstituent | null): c is SensexConstituent => c !== null);
+      // Normalize weights if all were fallback values
+      return normalizeBatchWeights(adapted);
     } catch { return []; }
   }, [rawData, selectedBatch]);
+
+  // Sort by weight descending (standard index convention)
+  const batchCompanies = useMemo(() => {
+    return [...batchCompaniesRaw].sort((a, b) => b.weightPct - a.weightPct);
+  }, [batchCompaniesRaw]);
 
   /* ── Dynamic fiscal years ─────────────────────────────────────────────── */
   const [years, setYears] = useState<string[]>([]);
@@ -364,6 +376,34 @@ export function Nifty750UniverseSection() {
 
       <DataProvenanceBanner rows={sortedRows.length > 0 ? sortedRows : []} dataSource="screener-in" />
 
+      {/* Data Quality Warnings */}
+      {dataQualityIssues.length > 0 && (
+        <div className="glass-card p-4 border-l-4 border-yellow-500/60">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-yellow-400 text-xs font-semibold uppercase tracking-wider">Data Quality Report</span>
+            <span className="text-xs text-gray-500">({dataQualityIssues.length} issues)</span>
+          </div>
+          <div className="max-h-32 overflow-y-auto space-y-1">
+            {dataQualityIssues.slice(0, 10).map((issue, idx) => (
+              <div key={idx} className="flex items-start gap-2 text-xs">
+                <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${
+                  issue.severity === 'error' ? 'bg-red-500/20 text-red-400' :
+                  issue.severity === 'warning' ? 'bg-yellow-500/20 text-yellow-400' :
+                  'bg-blue-500/20 text-blue-400'
+                }`}>
+                  {issue.severity}
+                </span>
+                <span className="text-gray-400 font-medium">{issue.company}:</span>
+                <span className="text-gray-300">{issue.issue}</span>
+              </div>
+            ))}
+            {dataQualityIssues.length > 10 && (
+              <div className="text-xs text-gray-500 italic">...and {dataQualityIssues.length - 10} more issues</div>
+            )}
+          </div>
+        </div>
+      )}
+
       {totalYears > 0 && (
         <RangeSelector startFy={startFy} endFy={endFy} rangePeriods={safePeriods}
           rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} totalYears={totalYears}
@@ -403,31 +443,230 @@ export function Nifty750UniverseSection() {
   );
 }
 
+/* ── Data Quality Warnings ──────────────────────────────────────────────────── */
+interface DataQualityIssue {
+  company: string;
+  issue: string;
+  severity: 'error' | 'warning' | 'info';
+}
+
+const dataQualityIssues: DataQualityIssue[] = [];
+
+function addQualityIssue(company: string, issue: string, severity: 'error' | 'warning' | 'info' = 'warning') {
+  // Limit issues to avoid console spam
+  if (dataQualityIssues.length < 50) {
+    dataQualityIssues.push({ company, issue, severity });
+  }
+}
+
 /* ── Adapter ────────────────────────────────────────────────────────────────── */
-function adaptConstituent(raw: any): SensexConstituent | null {
+function adaptConstituent(raw: any, index: number, totalCount: number): SensexConstituent | null {
   try {
-    if (!raw) return null;
-    const history: SensexYearFinancial[] = (raw.history ?? []).map((h: any) => ({
-      fy: h?.fy ?? '',
-      toplineCr: h?.toplineCr ?? 0,
-      netProfitCr: h?.netProfitCr ?? 0,
-      roePct: h?.roePct ?? 0,
-    }));
+    if (!raw) {
+      addQualityIssue(`#${index}`, 'Null/undefined raw data', 'error');
+      return null;
+    }
+
+    const id = raw.id ?? raw.ticker ?? `unknown-${index}`;
+    const name = raw.name ?? raw.ticker ?? 'Unknown';
+    const ticker = raw.ticker ?? '';
+
+    // Validate required fields
+    if (!ticker) {
+      addQualityIssue(id, 'Missing ticker symbol', 'error');
+      return null;
+    }
+
+    // Process history with ROE computation from balance sheet
+    const historyRaw = raw.history ?? [];
+    if (historyRaw.length === 0) {
+      addQualityIssue(ticker, 'No financial history available', 'error');
+      return null;
+    }
+
+    const history: SensexYearFinancial[] = historyRaw.map((h: any, idx: number) => {
+      if (!h?.fy) {
+        addQualityIssue(ticker, `History entry #${idx} missing fiscal year`, 'warning');
+      }
+
+      const toplineCr = h?.toplineCr ?? 0;
+      const netProfitCr = h?.netProfitCr ?? 0;
+
+      // CRITICAL FIX: Compute ROE from balance sheet data
+      // ROE = Net Profit / (Equity Capital + Reserves) * 100
+      const equityCapitalCr = h?.equityCapitalCr ?? 0;
+      const reservesCr = h?.reservesCr ?? 0;
+      const totalEquity = equityCapitalCr + reservesCr;
+
+      let roePct = h?.roePct ?? 0;
+      // If roePct is 0 or missing, compute from balance sheet
+      if ((!roePct || roePct === 0) && totalEquity > 0 && netProfitCr !== 0) {
+        roePct = Math.round((netProfitCr / totalEquity) * 100 * 10) / 10;
+      }
+
+      // FIX: Map opmPct to operatingMarginPct
+      // Also handle case where opmPct might be 0 or undefined
+      let operatingMarginPct: number | undefined;
+      if (h?.operatingMarginPct !== undefined && h.operatingMarginPct !== null) {
+        operatingMarginPct = Number(h.operatingMarginPct);
+      } else if (h?.opmPct !== undefined && h.opmPct !== null) {
+        operatingMarginPct = Number(h.opmPct);
+      }
+      // If still undefined but we have topline, try computing from operatingProfit
+      if (operatingMarginPct === undefined && toplineCr > 0 && h?.operatingProfitCr) {
+        operatingMarginPct = Math.round((h.operatingProfitCr / toplineCr) * 100 * 10) / 10;
+      }
+
+      // FIX: Map rocePct (handle 0 values which are common in early years)
+      let rocePct: number | undefined;
+      if (h?.rocePct !== undefined && h.rocePct !== null && h.rocePct !== 0) {
+        rocePct = Number(h.rocePct);
+      }
+      // Compute ROCE if we have operating profit and capital employed
+      if (rocePct === undefined && h?.operatingProfitCr && h?.totalAssetsCr && h?.otherLiabilitiesCr) {
+        const capitalEmployed = (h.totalAssetsCr ?? 0) - (h.otherLiabilitiesCr ?? 0);
+        if (capitalEmployed > 0) {
+          rocePct = Math.round((h.operatingProfitCr / capitalEmployed) * 100 * 10) / 10;
+        }
+      }
+
+      return {
+        fy: h?.fy ?? `FY${2014 + idx}`,
+        toplineCr,
+        netProfitCr,
+        roePct,
+        operatingMarginPct,
+        rocePct,
+      };
+    }).filter((h: SensexYearFinancial) => h.fy); // Remove entries without fiscal year
+
+    if (history.length === 0) {
+      addQualityIssue(ticker, 'All history entries invalid after processing', 'error');
+      return null;
+    }
+
+    // Determine reporting type
+    const reportingType = raw.reportingType ??
+      (['NBFC', 'Bank', 'Financials', 'Insurance'].includes(raw.sector) ? 'financial' : 'nonFinancial');
+
+    // Handle missing/invalid valuation multiple
+    let valuationMultiple = Number(raw.valuationMultiple ?? 0);
+    const valuationMetric = raw.valuationMetric ?? (reportingType === 'financial' ? 'pb' : 'pe');
+
+    // If valuation multiple is 0, try to estimate from latest history
+    if (valuationMultiple <= 0) {
+      const latest = history[history.length - 1];
+      if (valuationMetric === 'pe' && latest.netProfitCr > 0) {
+        // Rough P/E estimate based on sector typical multiples
+        const sectorMultiples: Record<string, number> = {
+          'Technology': 25, 'Information Technology': 25, 'IT': 25,
+          'Financials': 12, 'Bank': 15, 'NBFC': 12, 'Insurance': 14,
+          'Consumer Staples': 35, 'Consumer Discretionary': 28,
+          'Healthcare': 32, 'Pharma': 30,
+          'Energy': 12, 'Oil & Gas': 11,
+          'Metals': 10, 'Materials': 14,
+          'Industrials': 18, 'Capital Goods': 20,
+          'Automobiles': 22, 'Auto': 20,
+          'Telecom': 18,
+          'Utilities': 14, 'Power': 14,
+          'Real Estate': 16,
+          'Unknown': 15
+        };
+        valuationMultiple = sectorMultiples[raw.sector] ?? 15;
+        addQualityIssue(ticker, `Missing P/E, using sector estimate ${valuationMultiple}x`, 'info');
+      } else if (valuationMetric === 'pb' && latest.roePct > 0) {
+        // Rough P/B based on ROE: P/B = (ROE - g) / (r - g), assume g=5%, r=12%
+        valuationMultiple = Math.round((latest.roePct / 100) * 1.5 * 10) / 10;
+        valuationMultiple = Math.max(0.5, Math.min(5, valuationMultiple));
+        addQualityIssue(ticker, `Missing P/B, using ROE-based estimate ${valuationMultiple}x`, 'info');
+      }
+    }
+
+    // FIX: Handle weightPct = 0 (use equal weight as fallback, will be normalized later)
+    let weightPct = Number(raw.weightPct ?? 0);
+    if (weightPct <= 0) {
+      // Use equal weight for now - will be normalized across batch
+      weightPct = 100 / totalCount;
+    }
+
+    // FIX: Handle marketCapCr = 0
+    let marketCapCr = Number(raw.marketCapCr ?? 0);
+    if (marketCapCr <= 0) {
+      // Estimate from net profit and valuation multiple
+      const latest = history[history.length - 1];
+      if (latest.netProfitCr > 0 && valuationMultiple > 0) {
+        if (valuationMetric === 'pe') {
+          marketCapCr = Math.round(latest.netProfitCr * valuationMultiple);
+        } else {
+          // P/B route - estimate book value from ROE and net profit
+          const estimatedBookValue = latest.roePct > 0 ? (latest.netProfitCr / (latest.roePct / 100)) : latest.netProfitCr * 5;
+          marketCapCr = Math.round(estimatedBookValue * valuationMultiple);
+        }
+        if (marketCapCr > 0) {
+          addQualityIssue(ticker, `Missing market cap, estimated ${(marketCapCr/100).toFixed(0)} Cr from ${valuationMetric.toUpperCase()}`, 'info');
+        }
+      }
+    }
+
+    // FIX: Handle cmp = 0 (can't compute without shares outstanding, leave as 0)
+    const cmp = Number(raw.cmp ?? 0);
+    if (cmp <= 0) {
+      addQualityIssue(ticker, 'Current market price not available', 'warning');
+    }
+
+    // Validate beta (should already be populated in Nifty750 data)
+    const beta = Math.max(0.1, Number(raw.beta ?? 1.0));
+    if (beta === 1.0 && raw.beta === undefined) {
+      addQualityIssue(ticker, 'Missing beta, using default 1.0', 'warning');
+    }
+
+    // Handle net debt for non-financials
+    let netDebtToEbitda: number | undefined;
+    if (reportingType !== 'financial') {
+      netDebtToEbitda = raw.netDebtToEbitda !== undefined ? Number(raw.netDebtToEbitda) : undefined;
+    }
+
     return {
-      id: raw.id ?? '',
-      name: raw.name ?? raw.ticker ?? '',
-      ticker: raw.ticker ?? '',
+      id,
+      name,
+      ticker,
       sector: raw.sector ?? 'Unknown',
-      reportingType: raw.reportingType ?? 'nonFinancial',
-      weightPct: raw.weightPct ?? 0,
-      marketCapCr: raw.marketCapCr ?? 0,
-      cmp: raw.cmp ?? 0,
-      valuationMetric: raw.valuationMetric ?? (raw.reportingType === 'financial' ? 'pb' : 'pe'),
-      valuationMultiple: raw.valuationMultiple ?? 0,
-      dividendYieldPct: raw.dividendYieldPct ?? 0,
+      reportingType,
+      weightPct,
+      marketCapCr,
+      cmp,
+      valuationMetric,
+      valuationMultiple,
+      dividendYieldPct: Number(raw.dividendYieldPct ?? 0),
       color: raw.color ?? '#60a5fa',
-      beta: raw.beta ?? 1.0,
+      beta,
+      netDebtToEbitda,
       history,
     };
-  } catch { return null; }
+  } catch (e) {
+    addQualityIssue(`#${index}`, `Adapter error: ${e instanceof Error ? e.message : 'unknown'}`, 'error');
+    return null;
+  }
+}
+
+/* ── Post-process batch to normalize weights ──────────────────────────────── */
+function normalizeBatchWeights(companies: SensexConstituent[]): SensexConstituent[] {
+  if (companies.length === 0) return companies;
+
+  // Check if all weights are equal (indicating fallback was used)
+  const firstWeight = companies[0].weightPct;
+  const allEqual = companies.every(c => Math.abs(c.weightPct - firstWeight) < 0.001);
+
+  if (allEqual && companies.length > 1) {
+    // Normalize by market cap if available
+    const totalMcap = companies.reduce((s, c) => s + c.marketCapCr, 0);
+    if (totalMcap > 0) {
+      return companies.map(c => ({
+        ...c,
+        weightPct: (c.marketCapCr / totalMcap) * 100
+      }));
+    }
+  }
+
+  return companies;
 }
