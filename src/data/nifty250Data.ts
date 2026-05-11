@@ -351,7 +351,7 @@ const SEEDS_RAW: Omit<Nifty250Seed, 'color'>[] = [
   { id: 'indian-hotels', name: 'Indian Hotels Company', ticker: 'INDHOTEL', sector: 'Consumer Discretionary', reportingType: 'nonFinancial', marketCapCr: 105000, cmp: 740, valuationMetric: 'pe', valuationMultiple: 70.0, dividendYieldPct: 0.2, beta: 1.05, netDebtToEbitda: -0.2, latestToplineCr: 6952, latestNetProfitCr: 1245, toplineCagrPct: 15.0, profitCagrPct: 30.0, latestRoePct: 14.0, latestOperatingMarginPct: 28.0, latestRocePct: 17.0 },
   { id: 'eih', name: 'EIH Limited', ticker: 'EIHOTEL', sector: 'Consumer Discretionary', reportingType: 'nonFinancial', marketCapCr: 25000, cmp: 405, valuationMetric: 'pe', valuationMultiple: 50.0, dividendYieldPct: 0.4, beta: 0.95, netDebtToEbitda: -0.3, latestToplineCr: 2741, latestNetProfitCr: 568, toplineCagrPct: 13.0, profitCagrPct: 38.0, latestRoePct: 18.0, latestOperatingMarginPct: 27.0, latestRocePct: 22.0 },
   { id: 'lemon-tree', name: 'Lemon Tree Hotels', ticker: 'LEMONTREE', sector: 'Consumer Discretionary', reportingType: 'nonFinancial', marketCapCr: 11000, cmp: 140, valuationMetric: 'pe', valuationMultiple: 80.0, dividendYieldPct: 0, beta: 1.10, netDebtToEbitda: 3.5, latestToplineCr: 1077, latestNetProfitCr: 144, toplineCagrPct: 16.0, profitCagrPct: 80.0, latestRoePct: 13.0, latestOperatingMarginPct: 35.0, latestRocePct: 12.0 },
-  { id: 'chalet', name: 'Chalet Hotels', ticker: 'CHALET', sector: 'Consumer Discretionary', reportingType: 'nonFinancial', marketCapCr: 17000, cmp: 800, valuationMetric: 'pe', valuationMultiple: 80.0, dividendYieldPct: 0, beta: 1.10, netDebtToEbitda: 2.8, latestToplineCr: 1417, latestNetProfitCr: 220, toplineCagrPct: 18.0, profitCagrPct: 60.0, latestRoePct: 12.0, costRocePct: undefined as never, latestOperatingMarginPct: 41.0, latestRocePct: 11.0 } as any,
+  { id: 'chalet', name: 'Chalet Hotels', ticker: 'CHALET', sector: 'Consumer Discretionary', reportingType: 'nonFinancial', marketCapCr: 17000, cmp: 800, valuationMetric: 'pe', valuationMultiple: 80.0, dividendYieldPct: 0, beta: 1.10, netDebtToEbitda: 2.8, latestToplineCr: 1417, latestNetProfitCr: 220, toplineCagrPct: 18.0, profitCagrPct: 60.0, latestRoePct: 12.0, latestOperatingMarginPct: 41.0, latestRocePct: 11.0 },
 
   // ── Real Estate ─────────────────────────────────────────────────────────
   { id: 'dlf', name: 'DLF', ticker: 'DLF', sector: 'Real Estate', reportingType: 'nonFinancial', marketCapCr: 200000, cmp: 810, valuationMetric: 'pe', valuationMultiple: 75.0, dividendYieldPct: 0.6, beta: 1.30, netDebtToEbitda: -0.4, latestToplineCr: 6427, latestNetProfitCr: 2724, toplineCagrPct: 11.0, profitCagrPct: 32.0, latestRoePct: 7.0, latestOperatingMarginPct: 30.0, latestRocePct: 8.0 },
@@ -391,11 +391,7 @@ const SEEDS_RAW: Omit<Nifty250Seed, 'color'>[] = [
   { id: 'lic-housing-2', name: 'LIC Housing', ticker: 'LICHOUSE', sector: 'NBFC', reportingType: 'financial', marketCapCr: 36000, cmp: 660, valuationMetric: 'pb', valuationMultiple: 1.0, dividendYieldPct: 1.4, beta: 1.20, latestToplineCr: 27228, latestNetProfitCr: 4765, toplineCagrPct: 7.0, profitCagrPct: 12.0, latestRoePct: 16.0 },
 ];
 
-// Strip the stray `costRocePct` artifact from a single seed (above) without breaking compile.
-const SEEDS: Omit<Nifty250Seed, 'color'>[] = SEEDS_RAW.map((row) => {
-  const { ...rest } = row;
-  return rest;
-});
+const SEEDS: Omit<Nifty250Seed, 'color'>[] = SEEDS_RAW; // raw entries already conform to Nifty250Seed
 
 /* ════════════════════════════════════════════════════════════════════════
  * History reconstruction (mirrors Sensex 30 dampened-CAGR taper)
