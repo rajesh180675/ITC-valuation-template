@@ -32,9 +32,11 @@ export type SortKey =
 
 export function HeroBanner(props: {
   filteredCount: number;
+  totalUniverseCount: number;
   filter: Filter;
   setFilter: (f: Filter) => void;
   rangeLabel: string;
+  historyCoverageLabel: string;
   rangeStart: number;
   rangeEnd: number;
   totalYears: number;
@@ -51,10 +53,11 @@ export function HeroBanner(props: {
   dataSource: 'loading' | 'screener-in' | 'reference';
 }) {
   const {
-    filteredCount, filter, setFilter, rangeLabel, rangeStart, rangeEnd, totalYears, setQuickRange,
+    filteredCount, totalUniverseCount, filter, setFilter, rangeLabel, historyCoverageLabel, rangeStart, rangeEnd, totalYears, setQuickRange,
     totalMarketCap, bfsiWeight, corpWeight, largestSector, universeProfitCagr, medianPatCagr,
     weightedBeta, weightedCoe, concentration, dataSource,
   } = props;
+  const quickRanges = [5, 10, Math.max(1, totalYears - 1)].filter((n, i, arr) => arr.indexOf(n) === i);
 
   return (
     <div className="premium-card p-6 md:p-7">
@@ -62,7 +65,7 @@ export function HeroBanner(props: {
         <div className="flex-1 min-w-[280px]">
           <div className="flex items-center gap-3 mb-3">
             <span className="pill"><span className="ticker-dot" /> Live Universe</span>
-            <span className="pill pill-muted">{NIFTY250_INDEX_LABEL} · {NIFTY250_CONSTITUENT_COUNT} Constituents</span>
+            <span className="pill pill-muted">{NIFTY250_INDEX_LABEL} · {totalUniverseCount} Constituents</span>
             {dataSource === 'screener-in' && <span className="pill pill-muted text-[10px]" style={{ borderColor: '#22c55e', color: '#22c55e' }}>Real Data</span>}
             {dataSource === 'reference' && <span className="pill pill-muted text-[10px]" style={{ borderColor: '#f59e0b', color: '#f59e0b' }}>Reference</span>}
             <span className="pill pill-muted">{rangeLabel}</span>
@@ -71,15 +74,15 @@ export function HeroBanner(props: {
             Nifty LargeMidcap 250 <span className="text-[color:var(--color-gold-light)]">Feature Universe</span>
           </h2>
           <p className="text-sm text-gray-400 mt-2 max-w-2xl leading-relaxed">
-            Institutional-grade cross-sectional view of {NIFTY250_CONSTITUENT_COUNT} real NSE-listed large &amp; mid-cap names &mdash;
-            10 fiscal years (FY2015&ndash;FY2024) anchored to FY24 reported financials, CAPM cost of equity,
+            Institutional-grade cross-sectional view of {totalUniverseCount} real NSE-listed large &amp; mid-cap names &mdash;
+            fiscal coverage {historyCoverageLabel}, CAPM cost of equity,
             reverse-Gordon implied growth, Greenblatt Magic Formula, sector momentum and valuation z-scores.
           </p>
         </div>
         <div className="flex flex-col items-end gap-3">
           <div className="segmented">
             {([
-              { id: 'all' as const, label: `All ${NIFTY250_CONSTITUENT_COUNT}` },
+              { id: 'all' as const, label: `All ${totalUniverseCount}` },
               { id: 'nonFinancial' as const, label: 'Corporates' },
               { id: 'financial' as const, label: 'BFSI' },
             ]).map(opt => (
@@ -89,7 +92,7 @@ export function HeroBanner(props: {
             ))}
           </div>
           <div className="segmented">
-            {[5, 10, 14].map(n => {
+            {quickRanges.map(n => {
               const isActive = rangeStart === Math.max(0, totalYears - 1 - n) && rangeEnd === totalYears - 1;
               return (
                 <button key={n} onClick={() => setQuickRange(n)} className={isActive ? 'active' : ''}>
@@ -102,7 +105,7 @@ export function HeroBanner(props: {
       </div>
       <div className="hairline-divider my-5" />
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-5">
-        <Kpi label="Constituents" value={String(filteredCount)} sub={`of ${nifty250Constituents.length} total`} />
+        <Kpi label="Constituents" value={String(filteredCount)} sub={`of ${totalUniverseCount} total`} />
         <Kpi label="Market Cap" value={fmt(totalMarketCap)} sub="aggregate float" />
         <Kpi label="BFSI / Corp Mix" value={`${fmtN(bfsiWeight, 1)} / ${fmtN(corpWeight, 1)}`} sub="by index weight" tabular />
         <Kpi label="Lead Sector" value={largestSector?.sector ?? '—'} sub={largestSector ? `${fmtN(largestSector.weightPct, 1)}% weight` : '—'} gold smallValue />

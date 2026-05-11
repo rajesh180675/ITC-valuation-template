@@ -64,6 +64,7 @@ export function Nifty250UniverseSection() {
 
   // ── Real data loading ──────────────────────────────────────────────────
   const [realData, setRealData] = useState<SensexConstituent[] | null>(null);
+  const [realFiscalYears, setRealFiscalYears] = useState<string[] | null>(null);
   const [dataSource, setDataSource] = useState<'loading' | 'screener-in' | 'reference'>('loading');
   // P1.1: adapter warnings surfaced from live feed validation
   const [adapterWarnings, setAdapterWarnings] = useState<string[]>([]);
@@ -75,6 +76,9 @@ export function Nifty250UniverseSection() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (json?.constituents?.length > 0) {
+          if (Array.isArray(json?.fiscalYears) && json.fiscalYears.length > 0) {
+            setRealFiscalYears(json.fiscalYears.map((fy: unknown) => String(fy)).sort());
+          }
           // P1.1: validate each raw entry and collect warnings
           const warnings: string[] = [];
           const adapted = json.constituents.map((raw: unknown) =>
@@ -87,11 +91,13 @@ export function Nifty250UniverseSection() {
             setSelectedId(adapted[0].id);
           }
         } else {
+          setRealFiscalYears(null);
           setDataSource('reference');
         }
       })
       .catch((err: unknown) => {
         if (err instanceof DOMException && err.name === 'AbortError') return;
+        setRealFiscalYears(null);
         setDataSource('reference');
       });
     return () => abort.abort();
@@ -102,13 +108,16 @@ export function Nifty250UniverseSection() {
 
   // Dynamic fiscal years from real data, or hardcoded as fallback
   const years = useMemo(() => {
+    if (realFiscalYears && realFiscalYears.length > 0) {
+      return [...realFiscalYears];
+    }
     if (realData && realData.length > 0) {
       const fySet = new Set<string>();
       realData.forEach(c => c.history.forEach(h => fySet.add(h.fy)));
       return Array.from(fySet).sort();
     }
     return [...NIFTY250_FISCAL_YEARS];
-  }, [realData]);
+  }, [realData, realFiscalYears]);
 
   const totalYears = years.length;
   const [rangeStart, setRangeStart] = useState(0);
@@ -117,7 +126,8 @@ export function Nifty250UniverseSection() {
   // Reset range when years change (e.g. real data loads)
   useEffect(() => {
     if (years.length > 0) {
-      setRangeEnd(years.length - 1);
+      setRangeStart((prev) => Math.min(prev, Math.max(0, years.length - 2)));
+      setRangeEnd((prev) => Math.min(Math.max(prev, 1), years.length - 1));
     }
   }, [years.length]);
 
@@ -136,30 +146,33 @@ export function Nifty250UniverseSection() {
     return activeConstituents.filter(c => c.reportingType === filter);
   }, [filter, activeConstituents]);
 
-  const startFy = years[rangeStart];
-  const endFy = years[rangeEnd];
-  const rangePeriods = Math.max(1, rangeEnd - rangeStart);
+  const safeRangeStart = Math.min(rangeStart, Math.max(0, totalYears - 1));
+  const safeRangeEnd = Math.min(rangeEnd, Math.max(0, totalYears - 1));
+  const startFy = years[safeRangeStart] ?? years[0] ?? '';
+  const endFy = years[safeRangeEnd] ?? years[years.length - 1] ?? '';
+  const rangePeriods = Math.max(1, safeRangeEnd - safeRangeStart);
   const rangeLabel = `${startFy}–${endFy}`;
+  const historyCoverageLabel = `${years[0] ?? ''}–${years[years.length - 1] ?? ''}`;
 
   /* ─── Derived analytics ─────────────────────────────────────────────── */
   const indexSeries = useMemo(() => buildSensexIndexTimeSeries(filteredCompanies), [filteredCompanies]);
   const sectorSummary = useMemo(() => buildSensexSectorSummary(filteredCompanies), [filteredCompanies]);
   const sectorAnalytics = useMemo(
-    () => buildSectorAnalytics(filteredCompanies, rangeStart, rangeEnd),
-    [filteredCompanies, rangeStart, rangeEnd],
+    () => buildSectorAnalytics(filteredCompanies, safeRangeStart, safeRangeEnd),
+    [filteredCompanies, safeRangeStart, safeRangeEnd],
   );
   const concentration = useMemo(() => computeConcentration(filteredCompanies), [filteredCompanies]);
   const factorScores = useMemo(
-    () => buildFactorScores(filteredCompanies, rangeStart, rangeEnd),
-    [filteredCompanies, rangeStart, rangeEnd],
+    () => buildFactorScores(filteredCompanies, safeRangeStart, safeRangeEnd),
+    [filteredCompanies, safeRangeStart, safeRangeEnd],
   );
   const magicFormula = useMemo(() => buildMagicFormulaRanks(filteredCompanies), [filteredCompanies]);
   const sectorMomentum = useMemo(() => buildSectorMomentumGrid(filteredCompanies), [filteredCompanies]);
   const valuationZ = useMemo(() => buildValuationZScores(filteredCompanies), [filteredCompanies]);
 
   const rows = useMemo(() => filteredCompanies.map(company => {
-    const firstRaw = company.history[rangeStart];
-    const lastRaw = company.history[rangeEnd];
+    const firstRaw = company.history[safeRangeStart];
+    const lastRaw = company.history[safeRangeEnd];
     const first = firstRaw ?? company.history[0] ?? { fy: 'N/A', toplineCr: 0, netProfitCr: 0, roePct: 0 };
     const last = lastRaw ?? company.history[company.history.length - 1] ?? { fy: 'N/A', toplineCr: 0, netProfitCr: 0, roePct: 0 };
     // P1.2: detect negative-PAT companies where CAGR is unreliable (returns 0)
@@ -187,7 +200,7 @@ export function Nifty250UniverseSection() {
       valuationZ: valZ?.zScore ?? 0,
       sectorMedianMultiple: valZ?.sectorMedian ?? company.valuationMultiple,
     };
-  }), [filteredCompanies, rangeStart, rangeEnd, rangePeriods, factorScores, valuationZ]);
+  }), [filteredCompanies, safeRangeStart, safeRangeEnd, rangePeriods, factorScores, valuationZ]);
 
   const sortedRows = useMemo(() => {
     const dir = sortDir === 'asc' ? 1 : -1;
@@ -214,8 +227,8 @@ export function Nifty250UniverseSection() {
   const corpWeight = 100 - bfsiWeight;
   const largestSector = sectorSummary[0];
 
-  const indexStart = indexSeries[rangeStart];
-  const indexEnd = indexSeries[rangeEnd];
+  const indexStart = indexSeries[safeRangeStart];
+  const indexEnd = indexSeries[safeRangeEnd];
   const universeToplineCagr = indexStart && indexEnd ? calculateCagr(indexStart.toplineCr, indexEnd.toplineCr, rangePeriods) : 0;
   const universeProfitCagr = indexStart && indexEnd ? calculateCagr(indexStart.netProfitCr, indexEnd.netProfitCr, rangePeriods) : 0;
 
@@ -276,7 +289,8 @@ export function Nifty250UniverseSection() {
     else { setSortKey(key); setSortDir('desc'); }
   };
   const setQuickRange = (n: number) => {
-    setRangeStart(Math.max(0, totalYears - 1 - n));
+    const clampedPeriods = Math.max(1, Math.min(n, Math.max(1, totalYears - 1)));
+    setRangeStart(Math.max(0, totalYears - 1 - clampedPeriods));
     setRangeEnd(totalYears - 1);
   };
 
@@ -315,9 +329,11 @@ export function Nifty250UniverseSection() {
 
       <HeroBanner
         filteredCount={filteredCompanies.length}
+        totalUniverseCount={activeConstituents.length}
         filter={filter}
         setFilter={setFilter}
         rangeLabel={rangeLabel}
+        historyCoverageLabel={historyCoverageLabel}
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
         totalYears={totalYears}
@@ -340,7 +356,7 @@ export function Nifty250UniverseSection() {
 
           <RangeSelector
             startFy={startFy} endFy={endFy} rangePeriods={rangePeriods}
-            rangeStart={rangeStart} rangeEnd={rangeEnd} totalYears={totalYears}
+            rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} totalYears={totalYears}
             setRangeStart={setRangeStart} setRangeEnd={setRangeEnd}
           />
 
@@ -383,7 +399,7 @@ export function Nifty250UniverseSection() {
             setSearchQuery={setSearchQuery}
           />
 
-          {selectedRow && <DrillDown row={selectedRow} rangeStart={rangeStart} rangeEnd={rangeEnd} rangePeriods={rangePeriods} />}
+          {selectedRow && <DrillDown row={selectedRow} rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} rangePeriods={rangePeriods} />}
         </>)}
     </div>
   );
@@ -420,7 +436,11 @@ function adaptNifty250Constituent(rawUnknown: unknown, warnings: string[]): Sens
       toplineCr: Number(hObj['toplineCr'] ?? 0),
       netProfitCr: Number(hObj['netProfitCr'] ?? 0),
       roePct: Number(hObj['roePct'] ?? 0),
-      operatingMarginPct: hObj['operatingMarginPct'] !== undefined ? Number(hObj['operatingMarginPct']) : undefined,
+      operatingMarginPct: hObj['operatingMarginPct'] !== undefined
+        ? Number(hObj['operatingMarginPct'])
+        : hObj['opmPct'] !== undefined
+          ? Number(hObj['opmPct'])
+          : undefined,
       rocePct: hObj['rocePct'] !== undefined ? Number(hObj['rocePct']) : undefined,
     };
   });
