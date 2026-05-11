@@ -3,6 +3,7 @@ import { ChartTooltip, fmt, fmtN } from '@/components/itc/shared';
 import { Kpi, FactorBar } from './index';
 import { computeDuPont, earningsVolatility } from '@/utils/sensexAnalytics';
 import type { SensexConstituent } from '@/data/sensexData';
+import { PeerComparison } from './PeerComparison';
 
 export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
   row: {
@@ -124,6 +125,9 @@ export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
           </div>
         </div>
       </div>
+
+      <div className="hairline-divider my-5" />
+      <PeerComparison ticker={company.ticker} currentPe={company.valuationMultiple} />
     </div>
   );
 }

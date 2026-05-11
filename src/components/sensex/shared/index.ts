@@ -15,4 +15,5 @@ export { DataProvenanceBanner } from './DataProvenanceBanner';
 export { ConstituentLedger } from './ConstituentLedger';
 export { DrillDown } from './DrillDown';
 export { ValuationBucketsTable } from './ValuationBucketsTable';
+export { PeerComparison } from './PeerComparison';
 export * from './utils';

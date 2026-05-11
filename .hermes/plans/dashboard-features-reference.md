@@ -139,6 +139,7 @@ The sidebar has 22 sections (ordered as displayed):
 | Source | What It Provides | Update Frequency |
 |--------|-----------------|-----------------|
 | Screener.in | P&L, BS, CF, Ratios (30+ fields) | On-demand via `npm run data:refresh-nifty250` |
+| Screener.in (Peers API) | Peer comparison: CMP, P/E, Mkt Cap, Div Yield, Quarterly NP/Sales, ROCE | On-demand via `scripts/collect_peers.py` |
 | yfinance | Beta vs ^NSEI (5Y weekly regression) | On-demand via `python scripts/compute_betas.py` |
 | NSE API | Constituent lists, industry classification | On-demand |
 | Hardcoded reference | Fallback data when live feed unavailable | Static |
