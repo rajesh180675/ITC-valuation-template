@@ -57,6 +57,20 @@ function round1(v) {
   return Math.round(v * 10) / 10;
 }
 
+function round4(v) {
+  if (v == null) return null;
+  return Math.round(v * 10000) / 10000;
+}
+
+function computePb(mkt) {
+  if (!mkt) return 0;
+  if (typeof mkt.pb === 'number' && Number.isFinite(mkt.pb) && mkt.pb > 0) return mkt.pb;
+  if (typeof mkt.currentPrice === 'number' && typeof mkt.bookValue === 'number' && mkt.bookValue > 0) {
+    return round1(mkt.currentPrice / mkt.bookValue);
+  }
+  return 0;
+}
+
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, 'utf8'));
 }
@@ -200,9 +214,6 @@ function main() {
 
     if (history.length === 0) continue;
 
-    const latestTopline = history[history.length - 1]?.toplineCr ?? 0;
-    const latestProfit = history[history.length - 1]?.netProfitCr ?? 0;
-
     outConstituents.push({
       id: sym.toLowerCase(),
       name: company.name,
@@ -213,7 +224,9 @@ function main() {
       marketCapCr: mkt?.marketCapCr ?? 0,
       cmp: mkt?.currentPrice ?? 0,
       valuationMetric: company.reportingType === 'financial' ? 'pb' : 'pe',
-      valuationMultiple: mkt?.stockPe ?? 0,
+      valuationMultiple: company.reportingType === 'financial'
+        ? computePb(mkt)
+        : (mkt?.stockPe ?? 0),
       dividendYieldPct: mkt?.dividendYieldPct ?? 0,
       color: colorFor(company.sector),
       beta: mkt?.beta ?? 0,
@@ -225,13 +238,9 @@ function main() {
 
   // Sort and normalize weights
   outConstituents.sort((a, b) => a.ticker.localeCompare(b.ticker));
-  const totalTopline = outConstituents.reduce((s, c) => {
-    const last = c.history[c.history.length - 1];
-    return s + (last?.toplineCr ?? 0);
-  }, 0);
+  const totalMarketCap = outConstituents.reduce((s, c) => s + (c.marketCapCr ?? 0), 0);
   for (const c of outConstituents) {
-    const last = c.history[c.history.length - 1];
-    c.weightPct = totalTopline > 0 ? round1((last?.toplineCr ?? 0) / totalTopline * 100) : 0;
+    c.weightPct = totalMarketCap > 0 ? round4(((c.marketCapCr ?? 0) / totalMarketCap) * 100) : 0;
   }
 
   console.log(`  Constituents: ${outConstituents.length}`);
