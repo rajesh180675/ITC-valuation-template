@@ -75,6 +75,19 @@ def find_annual_report(symbol, max_items=200):
         
         if best_url:
             return best_url, best_date, best_score
+
+def find_annual_report_direct(symbol):
+    """Try direct URL patterns for known company annual reports.
+    Returns list of (year, pdf_url) tuples."""
+    # ITC annual reports on itcportal.com
+    if symbol == 'ITC':
+        base = 'https://www.itcportal.com/content/dam/itc-corporate/pdfs/report-and-accounts'
+        results = []
+        for year in range(2016, 2026):
+            url = f'{base}/ITC-Report-and-Accounts-{year}.pdf'
+            results.append((year, url))
+        return results
+    return []
         
         # Fallback: try BSE
         return None, None, 0
