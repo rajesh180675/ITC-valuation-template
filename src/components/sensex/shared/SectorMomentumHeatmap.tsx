@@ -3,7 +3,7 @@ import { fmtN } from '@/components/itc/shared';
 import type { SectorMomentumRow } from '@/utils/sensexAnalytics';
 import { heatmapColor } from './utils';
 
-export function SectorMomentumHeatmap({ rows }: { rows: SectorMomentumRow[] }) {
+export function SectorMomentumHeatmap({ rows, rangePeriods }: { rows: SectorMomentumRow[]; rangePeriods?: number }) {
   const [colorBlindSafe, setColorBlindSafe] = useState(false);
   if (rows.length === 0) return null;
   const fyLabels = rows[0].cells.map((c) => c.fy);
@@ -49,7 +49,7 @@ export function SectorMomentumHeatmap({ rows }: { rows: SectorMomentumRow[] }) {
             <tr className="text-gray-500">
               <th className="text-left py-2 px-2 sticky left-0 bg-[rgba(15,23,41,0.96)] z-10" style={{ minWidth: 180 }}>Sector</th>
               <th className="text-right py-2 px-2">Wt</th>
-              <th className="text-right py-2 px-2">10Y CAGR</th>
+              <th className="text-right py-2 px-2">{rangePeriods != null ? `${rangePeriods}Y` : 'Full'} CAGR</th>
               {fyLabels.map((fy) => (
                 <th key={fy} className="text-center py-2 px-1.5 font-mono">{fy.replace('FY', '')}</th>
               ))}

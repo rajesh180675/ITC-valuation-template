@@ -1,12 +1,8 @@
-import { useState } from 'react';
 import { Area, Bar, BarChart, CartesianGrid, Cell, ComposedChart, LabelList, Legend, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
-import { Info, ShieldCheck } from 'lucide-react';
+import { Info } from 'lucide-react';
 
 import {
-  nifty250Constituents,
-  NIFTY250_CONSTITUENT_COUNT,
   NIFTY250_INDEX_LABEL,
-  NIFTY250_PROVENANCE,
 } from '@/data/nifty250Data';
 import type { SensexConstituent } from '@/data/sensexData';
 import {
@@ -16,7 +12,6 @@ import {
 import {
   MARKET_PARAMS,
   type MagicFormulaScore,
-  type SectorMomentumRow,
 } from '@/utils/sensexAnalytics';
 import { ChartTooltip, fmt, fmtN } from '@/components/itc/shared';
 import { Kpi } from './shared';

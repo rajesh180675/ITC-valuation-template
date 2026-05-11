@@ -7,13 +7,15 @@ export function ValuationBucketsTable({ buckets }: { buckets: ValuationBuckets[]
   const fmtCr = (v: number) => v >= 10000 ? `₹${(v / 10000).toFixed(1)}L Cr` : `₹${v.toFixed(0)} Cr`;
 
   return (
-    <div className="space-y-3">
-      <h3 className="text-sm font-semibold text-white">Valuation Buckets by Sector</h3>
-      <p className="text-[11px] text-gray-500">
-        Companies classified as <span className="text-emerald-400">Cheap</span> (z &lt; −1),{' '}
-        <span className="text-gray-300">Fair</span> (−1 ≤ z ≤ 1), or{' '}
-        <span className="text-rose-400">Expensive</span> (z &gt; 1) relative to sector median.
-      </p>
+    <div className="premium-card overflow-hidden">
+      <div className="p-5 pb-3">
+        <h3 className="text-sm font-semibold text-white">Valuation Buckets by Sector</h3>
+        <p className="text-[11px] text-gray-500 mt-0.5">
+          Companies classified as <span className="text-emerald-400">Cheap</span> (z &lt; −1),{' '}
+          <span className="text-gray-300">Fair</span> (−1 ≤ z ≤ 1), or{' '}
+          <span className="text-rose-400">Expensive</span> (z &gt; 1) relative to sector median.
+        </p>
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full text-[11px] sensex-table tabular-nums">
           <thead>

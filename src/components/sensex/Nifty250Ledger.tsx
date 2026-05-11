@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Area, ComposedChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from 'recharts';
 import { ChevronLeft, ChevronRight, Download, Search } from 'lucide-react';
-import { exportCsv } from '@/utils/export';
+import { exportCsv, csvEscape } from '@/utils/export';
 
 import type { SensexConstituent } from '@/data/sensexData';
 import {
@@ -63,9 +63,9 @@ export function ConstituentLedger(props: {
       'ImpliedGrowth_pct', 'CompositeScore',
     ];
     const data = rows.map((r) => [
-      r.company.ticker,
-      r.company.name,
-      r.company.sector,
+      csvEscape(r.company.ticker),
+      csvEscape(r.company.name),
+      csvEscape(r.company.sector),
       r.company.reportingType === 'financial' ? 'BFSI' : 'Corp',
       r.company.weightPct.toFixed(3),
       String(r.company.marketCapCr),

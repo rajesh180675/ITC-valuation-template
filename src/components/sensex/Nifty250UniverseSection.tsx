@@ -85,9 +85,9 @@ export function Nifty250UniverseSection() {
           }
           // P1.1: validate each raw entry and collect warnings
           const warnings: string[] = [];
-          const adapted = json.constituents.map((raw: unknown) =>
-            adaptNifty250Constituent(raw, warnings)
-          );
+          const adapted = json.constituents
+            .map((raw: unknown) => adaptNifty250Constituent(raw, warnings))
+            .filter((c: SensexConstituent | null): c is SensexConstituent => c !== null);
           if (warnings.length > 0) setAdapterWarnings(warnings.slice(0, 5));
           setRealData(adapted);
           setDataSource('screener-in');
@@ -425,7 +425,7 @@ export function Nifty250UniverseSection() {
           <SectorAnalyticsTable data={sectorAnalytics} />
           <ValuationBucketsTable buckets={valuationBuckets} />
 
-          <SectorMomentumHeatmap rows={sectorMomentum} />
+          <SectorMomentumHeatmap rows={sectorMomentum} rangePeriods={rangePeriods} />
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
             <TopWeightsChart data={topWeightData} />
@@ -440,13 +440,13 @@ export function Nifty250UniverseSection() {
             <button
               type="button"
               onClick={() => {
-                import('@/utils/export').then(({ exportCsv }) => {
-                  const headers = ['Sector', 'Companies', 'WeightPct', 'MarketCapCr', 'AvgROE_pct', 'PAT_CAGR_pct', 'AvgBeta', 'AvgCoE_pct', 'HHI', 'EffectiveN'];
+                import('@/utils/export').then(({ exportCsv, csvEscape }) => {
+                  const headers = ['Sector', 'Companies', 'WeightPct', 'MarketCapCr', 'AvgROE_pct', 'PAT_CAGR_pct', 'AvgBeta', 'AvgCoE_pct', 'HHI', 'Leader'];
                   const data = sectorAnalytics.map(s => [
-                    s.sector, String(s.count), s.weightPct.toFixed(2),
+                    csvEscape(s.sector), String(s.count), s.weightPct.toFixed(2),
                     String(s.marketCapCr), s.weightedRoePct.toFixed(2),
                     s.weightedPatCagrPct.toFixed(2), s.weightedBeta.toFixed(2),
-                    s.weightedCostOfEquityPct.toFixed(2), String(s.internalHHI), s.topConstituent,
+                    s.weightedCostOfEquityPct.toFixed(2), String(s.internalHHI), csvEscape(s.topConstituent),
                   ]);
                   exportCsv(`nifty250-sector-analytics-${endFy}.csv`, headers, data);
                 });
