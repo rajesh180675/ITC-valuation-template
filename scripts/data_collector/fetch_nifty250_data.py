@@ -103,11 +103,9 @@ def parse_eps(v_str):
 
 SCREENER_TICKER_MAP = {
     'LTIM': 'MINDTREE',       # LTIMindtree (merged entity, screener.in uses old name)
-    'M&MFIN': 'MMFIN',        # Mahindra & Mahindra Financial Services
-    'BAJAJ-AUTO': 'BAJAJAUTO', # Bajaj Auto (hyphen vs no hyphen)
     'MCDOWELL-N': 'MCDOWELL',  # United Spirits
     'ARE&M': 'ARE%26M',       # Amara Raja Energy & Mobility (URL-encoded &)
-    'TRIDENT': 'TRIDENT',     # Already OK, but for mapping
+    'M&MFIN': 'M%26MFIN',     # Mahindra & Mahindra Financial Services (URL-encoded &)
 }
 
 SCREENER_SECTOR_MAP = {
@@ -126,11 +124,13 @@ _fetch_cache = {}
 
 def fetch_screener_page(ticker):
     """Fetch screener.in page for a ticker with caching.
-    Tries consolidated first; falls back to standalone if no real data found."""
+    Tries both consolidated and standalone; returns whichever has MORE fiscal years (prefers recent data)."""
+    candidates = []
     for suffix in ['/consolidated/', '/']:
         full_url = f'https://www.screener.in/company/{ticker}{suffix}'
         if full_url in _fetch_cache:
-            return _fetch_cache[full_url], suffix
+            candidates.append((_fetch_cache[full_url], suffix))
+            continue
 
         for attempt in range(3):
             try:
@@ -149,7 +149,8 @@ def fetch_screener_page(ticker):
                             )
                             if has_real_headers:
                                 _fetch_cache[full_url] = resp.text
-                                return resp.text, suffix
+                                candidates.append((resp.text, suffix))
+                                break
                     _fetch_cache[full_url] = resp.text
                 elif resp.status_code == 429:
                     time.sleep(5 * (attempt + 1))
@@ -162,7 +163,26 @@ def fetch_screener_page(ticker):
                     time.sleep(3 * (attempt + 1))
                 else:
                     raise e
-    return None, None
+    
+    if not candidates:
+        return None, None
+    
+    # Prefer the one with MORE fiscal years; tiebreaker = more recent end year
+    def score_page(html):
+        soup = BeautifulSoup(html, 'html.parser')
+        tables = soup.find_all('table')
+        if len(tables) < 2: return (0, '1900')
+        rows = tables[1].find_all('tr')
+        if not rows: return (0, '1900')
+        cells = rows[0].find_all(['th', 'td'])
+        years = [c.get_text(strip=True) for c in cells[1:]]
+        matched = [(int(m.group(2)), m.group(0)) for y in years for m in [re.search(r'(Mar|Sep|Dec|Jun)\s+(\d{4})', y)] if m]
+        count = len(matched)
+        last_year = str(max((y for y, _ in matched), default=1900))
+        return (count, last_year)
+    
+    candidates.sort(key=lambda x: score_page(x[0]), reverse=True)
+    return candidates[0]
 
 def extract_table_rows(table):
     """Extract row names and values from a screener.in data table.
