@@ -34,18 +34,26 @@ const BATCH_LABELS: Record<BatchSlug, string> = {
 };
 
 /* ── Safe helpers ─────────────────────────────────────────────────────────── */
-function safeHistory(c: SensexConstituent, i: number) {
+const DEFAULT_HISTORY: SensexYearFinancial = {
+  fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0,
+  operatingMarginPct: undefined, rocePct: undefined
+};
+
+function safeHistory(c: SensexConstituent, i: number): SensexYearFinancial {
   try {
-    return c.history[i] ?? c.history[0] ?? { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+    if (!c?.history?.length) return DEFAULT_HISTORY;
+    return c.history[i] ?? c.history[0] ?? DEFAULT_HISTORY;
   } catch {
-    return { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+    return DEFAULT_HISTORY;
   }
 }
-function safeLastHistory(c: SensexConstituent) {
+
+function safeLastHistory(c: SensexConstituent): SensexYearFinancial {
   try {
-    return c.history[c.history.length - 1] ?? c.history[0] ?? { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+    if (!c?.history?.length) return DEFAULT_HISTORY;
+    return c.history[c.history.length - 1] ?? c.history[0] ?? DEFAULT_HISTORY;
   } catch {
-    return { fy: '', toplineCr: 0, netProfitCr: 0, roePct: 0 };
+    return DEFAULT_HISTORY;
   }
 }
 function safeCagr(start: number | undefined, end: number | undefined, periods: number): number {
@@ -62,6 +70,7 @@ export function Nifty750UniverseSection() {
   const [selectedBatch, setSelectedBatch] = useState<BatchSlug>('largemidcap250');
   const [rawData, setRawData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [dataQualityIssues, setDataQualityIssues] = useState<DataQualityIssue[]>([]);
 
   /* ── Data fetch with error boundary ───────────────────────────────────── */
   useEffect(() => {
@@ -80,14 +89,19 @@ export function Nifty750UniverseSection() {
       const batch = rawData.batches.find((b: any) => b.indexSlug === selectedBatch);
       if (!batch?.companies?.length) return [];
       const totalCount = batch.companies.length;
-      // Clear previous quality issues when loading new batch
-      dataQualityIssues.length = 0;
+      // Collect quality issues during adaptation
+      const issues: DataQualityIssue[] = [];
       const adapted = batch.companies
-        .map((c: any, idx: number) => adaptConstituent(c, idx, totalCount))
+        .map((c: any, idx: number) => adaptConstituent(c, idx, totalCount, issues))
         .filter((c: SensexConstituent | null): c is SensexConstituent => c !== null);
+      // Update quality issues state
+      setDataQualityIssues(issues.slice(0, 20)); // Limit to 20 issues
       // Normalize weights if all were fallback values
       return normalizeBatchWeights(adapted);
-    } catch { return []; }
+    } catch (e) {
+      console.error('Error processing batch:', e);
+      return [];
+    }
   }, [rawData, selectedBatch]);
 
   // Sort by weight descending (standard index convention)
@@ -450,20 +464,28 @@ interface DataQualityIssue {
   severity: 'error' | 'warning' | 'info';
 }
 
-const dataQualityIssues: DataQualityIssue[] = [];
-
-function addQualityIssue(company: string, issue: string, severity: 'error' | 'warning' | 'info' = 'warning') {
+function addQualityIssue(
+  issues: DataQualityIssue[],
+  company: string,
+  issue: string,
+  severity: 'error' | 'warning' | 'info' = 'warning'
+) {
   // Limit issues to avoid console spam
-  if (dataQualityIssues.length < 50) {
-    dataQualityIssues.push({ company, issue, severity });
+  if (issues.length < 50) {
+    issues.push({ company, issue, severity });
   }
 }
 
 /* ── Adapter ────────────────────────────────────────────────────────────────── */
-function adaptConstituent(raw: any, index: number, totalCount: number): SensexConstituent | null {
+function adaptConstituent(
+  raw: any,
+  index: number,
+  totalCount: number,
+  issues: DataQualityIssue[]
+): SensexConstituent | null {
   try {
     if (!raw) {
-      addQualityIssue(`#${index}`, 'Null/undefined raw data', 'error');
+      addQualityIssue(issues, `#${index}`, 'Null/undefined raw data', 'error');
       return null;
     }
 
@@ -473,20 +495,20 @@ function adaptConstituent(raw: any, index: number, totalCount: number): SensexCo
 
     // Validate required fields
     if (!ticker) {
-      addQualityIssue(id, 'Missing ticker symbol', 'error');
+      addQualityIssue(issues, id, 'Missing ticker symbol', 'error');
       return null;
     }
 
     // Process history with ROE computation from balance sheet
     const historyRaw = raw.history ?? [];
     if (historyRaw.length === 0) {
-      addQualityIssue(ticker, 'No financial history available', 'error');
+      addQualityIssue(issues, ticker, 'No financial history available', 'error');
       return null;
     }
 
     const history: SensexYearFinancial[] = historyRaw.map((h: any, idx: number) => {
       if (!h?.fy) {
-        addQualityIssue(ticker, `History entry #${idx} missing fiscal year`, 'warning');
+        addQualityIssue(issues, ticker, `History entry #${idx} missing fiscal year`, 'warning');
       }
 
       const toplineCr = h?.toplineCr ?? 0;
@@ -541,7 +563,7 @@ function adaptConstituent(raw: any, index: number, totalCount: number): SensexCo
     }).filter((h: SensexYearFinancial) => h.fy); // Remove entries without fiscal year
 
     if (history.length === 0) {
-      addQualityIssue(ticker, 'All history entries invalid after processing', 'error');
+      addQualityIssue(issues, ticker, 'All history entries invalid after processing', 'error');
       return null;
     }
 
@@ -573,12 +595,12 @@ function adaptConstituent(raw: any, index: number, totalCount: number): SensexCo
           'Unknown': 15
         };
         valuationMultiple = sectorMultiples[raw.sector] ?? 15;
-        addQualityIssue(ticker, `Missing P/E, using sector estimate ${valuationMultiple}x`, 'info');
+        addQualityIssue(issues, ticker, `Missing P/E, using sector estimate ${valuationMultiple}x`, 'info');
       } else if (valuationMetric === 'pb' && latest.roePct > 0) {
         // Rough P/B based on ROE: P/B = (ROE - g) / (r - g), assume g=5%, r=12%
         valuationMultiple = Math.round((latest.roePct / 100) * 1.5 * 10) / 10;
         valuationMultiple = Math.max(0.5, Math.min(5, valuationMultiple));
-        addQualityIssue(ticker, `Missing P/B, using ROE-based estimate ${valuationMultiple}x`, 'info');
+        addQualityIssue(issues, ticker, `Missing P/B, using ROE-based estimate ${valuationMultiple}x`, 'info');
       }
     }
 
@@ -603,7 +625,7 @@ function adaptConstituent(raw: any, index: number, totalCount: number): SensexCo
           marketCapCr = Math.round(estimatedBookValue * valuationMultiple);
         }
         if (marketCapCr > 0) {
-          addQualityIssue(ticker, `Missing market cap, estimated ${(marketCapCr/100).toFixed(0)} Cr from ${valuationMetric.toUpperCase()}`, 'info');
+          addQualityIssue(issues, ticker, `Missing market cap, estimated ${(marketCapCr/100).toFixed(0)} Cr from ${valuationMetric.toUpperCase()}`, 'info');
         }
       }
     }
@@ -611,13 +633,13 @@ function adaptConstituent(raw: any, index: number, totalCount: number): SensexCo
     // FIX: Handle cmp = 0 (can't compute without shares outstanding, leave as 0)
     const cmp = Number(raw.cmp ?? 0);
     if (cmp <= 0) {
-      addQualityIssue(ticker, 'Current market price not available', 'warning');
+      addQualityIssue(issues, ticker, 'Current market price not available', 'warning');
     }
 
     // Validate beta (should already be populated in Nifty750 data)
     const beta = Math.max(0.1, Number(raw.beta ?? 1.0));
     if (beta === 1.0 && raw.beta === undefined) {
-      addQualityIssue(ticker, 'Missing beta, using default 1.0', 'warning');
+      addQualityIssue(issues, ticker, 'Missing beta, using default 1.0', 'warning');
     }
 
     // Handle net debt for non-financials
@@ -644,7 +666,7 @@ function adaptConstituent(raw: any, index: number, totalCount: number): SensexCo
       history,
     };
   } catch (e) {
-    addQualityIssue(`#${index}`, `Adapter error: ${e instanceof Error ? e.message : 'unknown'}`, 'error');
+    addQualityIssue(issues, `#${index}`, `Adapter error: ${e instanceof Error ? e.message : 'unknown'}`, 'error');
     return null;
   }
 }
