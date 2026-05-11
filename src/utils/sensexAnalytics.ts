@@ -571,3 +571,69 @@ function medianAbsoluteDeviation(values: number[], median: number): number {
   const deviations = values.map((v) => Math.abs(v - median));
   return quantile(deviations, 0.5);
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Valuation Bucket Analysis
+ * ────────────────────────────────────────────────────────────────────────── */
+
+export interface ValuationBuckets {
+  sector: string;
+  total: number;
+  cheap: number;   // z < -1
+  fair: number;    // -1 ≤ z ≤ 1
+  expensive: number; // z > 1
+  cheapPct: number;
+  fairPct: number;
+  expensivePct: number;
+  cheapMcapCr: number;
+  fairMcapCr: number;
+  expensiveMcapCr: number;
+}
+
+/**
+ * Group companies into valuation buckets (cheap / fair / expensive) by sector
+ * using z-scores from buildValuationZScores.
+ */
+export function computeValuationBuckets(
+  companies: SensexConstituent[],
+  zScores: Map<string, { zScore: number }>,
+): ValuationBuckets[] {
+  const bySector = new Map<string, { z: number; mcap: number }[]>();
+
+  for (const c of companies) {
+    const z = zScores.get(c.id);
+    if (!z) continue;
+    let bucket = bySector.get(c.sector);
+    if (!bucket) {
+      bucket = [];
+      bySector.set(c.sector, bucket);
+    }
+    bucket.push({ z: z.zScore, mcap: c.marketCapCr });
+  }
+
+  const result: ValuationBuckets[] = [];
+  for (const [sector, vals] of bySector) {
+    let cheap = 0, fair = 0, expensive = 0;
+    let cheapMcap = 0, fairMcap = 0, expensiveMcap = 0;
+    for (const v of vals) {
+      if (v.z < -1) { cheap++; cheapMcap += v.mcap; }
+      else if (v.z > 1) { expensive++; expensiveMcap += v.mcap; }
+      else { fair++; fairMcap += v.mcap; }
+    }
+    const total = vals.length;
+    result.push({
+      sector,
+      total,
+      cheap, fair, expensive,
+      cheapPct: total ? (cheap / total) * 100 : 0,
+      fairPct: total ? (fair / total) * 100 : 0,
+      expensivePct: total ? (expensive / total) * 100 : 0,
+      cheapMcapCr: cheapMcap,
+      fairMcapCr: fairMcap,
+      expensiveMcapCr: expensiveMcap,
+    });
+  }
+
+  result.sort((a, b) => b.total - a.total);
+  return result;
+}

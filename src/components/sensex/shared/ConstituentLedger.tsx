@@ -1,4 +1,6 @@
-import { Download } from 'lucide-react';
+import * as React from 'react';
+import { exportCsv } from '@/utils/export';
+import { Download, ChevronLeft, ChevronRight } from 'lucide-react';
 import { fmt, fmtN } from '@/components/itc/shared';
 import { ScoreChip } from './FactorBar';
 import type { SensexConstituent } from '@/data/sensexData';
@@ -18,26 +20,33 @@ export function ConstituentLedger(props: {
   sortCaret: (key: any) => string;
   toggleSort: (key: any) => void;
   showZScore?: boolean;
+  pageSize?: number;
 }) {
-  const { rows, selectedId, onSelect, rangeLabel, endFy, sortCaret, toggleSort, showZScore = true } = props;
+  const { rows, selectedId, onSelect, rangeLabel, endFy, sortCaret, toggleSort, showZScore = true, pageSize } = props;
+  const [page, setPage] = React.useState(0);
+  const totalPages = pageSize ? Math.max(1, Math.ceil(rows.length / pageSize)) : 1;
+  const displayRows = pageSize ? rows.slice(page * pageSize, (page + 1) * pageSize) : rows;
+
+  // Reset page when rows change (e.g. search/filter)
+  React.useEffect(() => { setPage(0); }, [rows.length]);
 
   const handleExport = () => {
-    const header = [
+    const headers = [
       'Ticker', 'Name', 'Sector', 'Type', 'WeightPct', 'MarketCapCr', 'CMP',
       `Topline_${endFy}_Cr`, 'ToplineCAGR_pct', 'PATCAGR_pct',
       `ROE_${endFy}_pct`, 'Beta', 'CoE_pct', 'ValuationMetric',
       'Multiple', 'SectorMedianMultiple', 'Z_vs_sector',
       'ImpliedGrowth_pct', 'CompositeScore',
     ];
-    const lines = rows.map((r) => [
+    const data = rows.map((r) => [
       r.company.ticker,
-      JSON.stringify(r.company.name),
-      JSON.stringify(r.company.sector),
+      r.company.name,
+      r.company.sector,
       r.company.reportingType === 'financial' ? 'BFSI' : 'Corp',
       r.company.weightPct.toFixed(3),
-      r.company.marketCapCr,
-      r.company.cmp,
-      r.last?.toplineCr ?? 0,
+      String(r.company.marketCapCr),
+      String(r.company.cmp),
+      String(r.last?.toplineCr ?? 0),
       (r.toplineCagr ?? 0).toFixed(2),
       (r.profitCagr ?? 0).toFixed(2),
       (r.last?.roePct ?? 0).toFixed(2),
@@ -49,17 +58,8 @@ export function ConstituentLedger(props: {
       (r.valuationZ ?? 0).toFixed(2),
       (r.impliedG ?? 0).toFixed(2),
       (r.scores?.composite ?? 0).toFixed(1),
-    ].join(','));
-    const csv = [header.join(','), ...lines].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `nifty-ledger-${new Date().toISOString().slice(0, 10)}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    ]);
+    exportCsv(`nifty-ledger-${new Date().toISOString().slice(0, 10)}.csv`, headers, data);
   };
 
   return (
@@ -105,7 +105,7 @@ export function ConstituentLedger(props: {
             </tr>
           </thead>
           <tbody>
-            {rows.map(r => {
+            {displayRows.map(r => {
               const isSelected = r.company.id === selectedId;
               return (
                 <tr key={r.company.id} onClick={() => onSelect(r.company.id)} className={`cursor-pointer ${isSelected ? 'selected' : ''}`}>
@@ -147,6 +147,33 @@ export function ConstituentLedger(props: {
           </tbody>
         </table>
       </div>
+      {pageSize && totalPages > 1 && (
+        <div className="flex items-center justify-between px-5 py-2 border-t border-border/50">
+          <span className="text-[11px] text-gray-500">
+            Page {page + 1} of {totalPages}
+          </span>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              disabled={page === 0}
+              onClick={() => setPage(p => Math.max(0, p - 1))}
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-200 bg-black/40 hover:bg-black/60 disabled:opacity-30 disabled:cursor-not-allowed border border-border rounded-md px-2.5 py-1 transition"
+              aria-label="Previous page"
+            >
+              <ChevronLeft size={12} /> Prev
+            </button>
+            <button
+              type="button"
+              disabled={page >= totalPages - 1}
+              onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-200 bg-black/40 hover:bg-black/60 disabled:opacity-30 disabled:cursor-not-allowed border border-border rounded-md px-2.5 py-1 transition"
+              aria-label="Next page"
+            >
+              Next <ChevronRight size={12} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

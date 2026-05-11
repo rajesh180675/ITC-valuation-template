@@ -1,5 +1,7 @@
+import * as React from 'react';
 import { Area, ComposedChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from 'recharts';
-import { Download, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, Search } from 'lucide-react';
+import { exportCsv } from '@/utils/export';
 
 import type { SensexConstituent } from '@/data/sensexData';
 import {
@@ -29,10 +31,14 @@ export function ConstituentLedger(props: {
   toggleSort: (key: SortKey) => void;
   searchQuery: string;
   setSearchQuery: (q: string) => void;
+  allSectors?: string[];
+  sectorFilter?: string[];
+  onSectorFilterChange?: (sectors: string[]) => void;
+  pageSize?: number;
 }) {
   const {
     rows, selectedId, onSelect, rangeLabel, endFy, sortCaret, toggleSort,
-    searchQuery, setSearchQuery,
+    searchQuery, setSearchQuery, allSectors, sectorFilter, onSectorFilterChange, pageSize,
   } = props;
 
   // P4.1: client-side search filter
@@ -43,23 +49,28 @@ export function ConstituentLedger(props: {
       )
     : rows;
 
+  const [page, setPage] = React.useState(0);
+  const totalPages = pageSize ? Math.max(1, Math.ceil(visibleRows.length / pageSize)) : 1;
+  const displayRows = pageSize ? visibleRows.slice(page * pageSize, (page + 1) * pageSize) : visibleRows;
+  React.useEffect(() => { setPage(0); }, [visibleRows.length]);
+
   const handleExport = () => {
-    const header = [
+    const headers = [
       'Ticker', 'Name', 'Sector', 'Type', 'WeightPct', 'MarketCapCr', 'CMP',
       `Topline_${endFy}_Cr`, 'ToplineCAGR_pct', 'PATCAGR_pct',
       `ROE_${endFy}_pct`, 'Beta', 'CoE_pct', 'ValuationMetric',
       'Multiple', 'SectorMedianMultiple', 'Z_vs_sector',
       'ImpliedGrowth_pct', 'CompositeScore',
     ];
-    const lines = rows.map((r) => [
+    const data = rows.map((r) => [
       r.company.ticker,
-      JSON.stringify(r.company.name),
-      JSON.stringify(r.company.sector),
+      r.company.name,
+      r.company.sector,
       r.company.reportingType === 'financial' ? 'BFSI' : 'Corp',
       r.company.weightPct.toFixed(3),
-      r.company.marketCapCr,
-      r.company.cmp,
-      r.last?.toplineCr ?? 0,
+      String(r.company.marketCapCr),
+      String(r.company.cmp),
+      String(r.last?.toplineCr ?? 0),
       Number.isFinite(r.toplineCagr) ? r.toplineCagr.toFixed(2) : '',
       Number.isFinite(r.profitCagr) ? r.profitCagr.toFixed(2) : '',
       r.last?.roePct != null ? r.last.roePct.toFixed(2) : '',
@@ -71,14 +82,8 @@ export function ConstituentLedger(props: {
       r.valuationZ.toFixed(3),
       Number.isFinite(r.impliedG) ? r.impliedG.toFixed(2) : '',
       r.scores.composite.toFixed(0),
-    ].join(','));
-    const blob = new Blob([header.join(',') + '\n' + lines.join('\n')], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `nifty250-ledger-${endFy}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+    ]);
+    exportCsv(`nifty250-ledger-${endFy}.csv`, headers, data);
   };
 
   return (
@@ -102,6 +107,46 @@ export function ConstituentLedger(props: {
               className="pl-7 pr-3 py-1.5 text-[11px] bg-black/40 border border-border rounded-md text-gray-200 placeholder-gray-600 focus:outline-none focus:border-[color:var(--color-gold-light)]/50 w-44"
             />
           </div>
+          {allSectors && sectorFilter !== undefined && onSectorFilterChange && (
+            <div className="relative group">
+              <button
+                type="button"
+                className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-gray-200 bg-black/40 hover:bg-black/60 border border-border rounded-md px-3 py-1.5 transition"
+              >
+                Sector {sectorFilter.length > 0 ? `(${sectorFilter.length})` : ''}
+              </button>
+              <div className="absolute right-0 top-full mt-1 z-50 bg-[#1a1f2e] border border-border rounded-lg shadow-xl p-2 min-w-[180px] hidden group-hover:block hover:block">
+                <div className="max-h-[240px] overflow-y-auto space-y-0.5">
+                  <label className="flex items-center gap-2 px-2 py-1 text-[11px] text-gray-300 hover:text-white cursor-pointer rounded hover:bg-black/40">
+                    <input
+                      type="checkbox"
+                      checked={sectorFilter.length === 0}
+                      onChange={() => onSectorFilterChange([])}
+                      className="accent-[var(--color-gold-light)]"
+                    />
+                    All Sectors
+                  </label>
+                  <div className="border-t border-border/50 my-1" />
+                  {allSectors.map(s => (
+                    <label key={s} className="flex items-center gap-2 px-2 py-1 text-[11px] text-gray-300 hover:text-white cursor-pointer rounded hover:bg-black/40">
+                      <input
+                        type="checkbox"
+                        checked={sectorFilter.includes(s)}
+                        onChange={() => {
+                          const next = sectorFilter.includes(s)
+                            ? sectorFilter.filter(x => x !== s)
+                            : [...sectorFilter, s];
+                          onSectorFilterChange(next);
+                        }}
+                        className="accent-[var(--color-gold-light)]"
+                      />
+                      {s}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
           <button
             type="button"
             onClick={handleExport}
@@ -135,7 +180,7 @@ export function ConstituentLedger(props: {
             </tr>
           </thead>
           <tbody>
-            {visibleRows.map(r => {
+            {displayRows.map(r => {
               const isSelected = r.company.id === selectedId;
               return (
                 <tr key={r.company.id} onClick={() => onSelect(r.company.id)} className={`cursor-pointer ${isSelected ? 'selected' : ''}`}>
@@ -186,6 +231,33 @@ export function ConstituentLedger(props: {
           </tbody>
         </table>
       </div>
+      {pageSize && totalPages > 1 && (
+        <div className="flex items-center justify-between px-5 py-2 border-t border-border/50">
+          <span className="text-[11px] text-gray-500">
+            Page {page + 1} of {totalPages} ({visibleRows.length} filtered)
+          </span>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              disabled={page === 0}
+              onClick={() => setPage(p => Math.max(0, p - 1))}
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-200 bg-black/40 hover:bg-black/60 disabled:opacity-30 disabled:cursor-not-allowed border border-border rounded-md px-2.5 py-1 transition"
+              aria-label="Previous page"
+            >
+              <ChevronLeft size={12} /> Prev
+            </button>
+            <button
+              type="button"
+              disabled={page >= totalPages - 1}
+              onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-200 bg-black/40 hover:bg-black/60 disabled:opacity-30 disabled:cursor-not-allowed border border-border rounded-md px-2.5 py-1 transition"
+              aria-label="Next page"
+            >
+              Next <ChevronRight size={12} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -196,7 +268,7 @@ export function ConstituentLedger(props: {
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 
-export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
+export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods, peerScores }: {
   row: {
     company: SensexConstituent;
     first: { fy: string }; last: { fy: string; roePct: number; toplineCr: number; netProfitCr: number };
@@ -204,8 +276,10 @@ export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
     scores: { quality: number; value: number; growth: number; momentum: number; composite: number };
   };
   rangeStart: number; rangeEnd: number; rangePeriods: number;
+  peerScores?: { quality: number; value: number; growth: number; momentum: number };
 }) {
   const { company, first, last, profitCagr, coe, impliedG, gap, scores, valuationLabel } = row;
+  const [showPeers, setShowPeers] = React.useState(false);
   const dp = computeDuPont(company);
   const vol = earningsVolatility(company.history);
 
@@ -276,12 +350,47 @@ export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
 
         <div className="glass-card p-5 lg:col-span-2 space-y-4">
           <div>
-            <h4 className="text-sm font-semibold text-white mb-1">Factor Profile</h4>
+            <div className="flex items-center justify-between mb-1">
+              <h4 className="text-sm font-semibold text-white">Factor Profile</h4>
+              {peerScores && (
+                <button
+                  type="button"
+                  onClick={() => setShowPeers(v => !v)}
+                  className={`text-[10px] font-semibold px-2 py-0.5 rounded border transition ${
+                    showPeers
+                      ? 'text-[var(--color-gold-light)] border-[var(--color-gold-light)]/50 bg-[var(--color-gold-light)]/10'
+                      : 'text-gray-400 border-border bg-black/30 hover:bg-black/50'
+                  }`}
+                >
+                  {showPeers ? 'Hide' : 'Show'} Peer Median
+                </button>
+              )}
+            </div>
             <p className="text-[11px] text-gray-500 mb-3">Universe-relative percentile on each pillar</p>
-            <FactorBar label="Quality" value={scores.quality} color="#60a5fa" />
-            <FactorBar label="Value" value={scores.value} color="#22c55e" />
-            <FactorBar label="Growth" value={scores.growth} color="#d4a843" />
-            <FactorBar label="Momentum" value={scores.momentum} color="#a855f7" />
+            <div className="space-y-2">
+              {[
+                { label: 'Quality', value: scores.quality, peerVal: peerScores?.quality, color: '#60a5fa' },
+                { label: 'Value', value: scores.value, peerVal: peerScores?.value, color: '#22c55e' },
+                { label: 'Growth', value: scores.growth, peerVal: peerScores?.growth, color: '#d4a843' },
+                { label: 'Momentum', value: scores.momentum, peerVal: peerScores?.momentum, color: '#a855f7' },
+              ].map(({ label, value, peerVal, color }) => (
+                <div key={label} className="relative">
+                  <FactorBar label={label} value={value} color={color} />
+                  {showPeers && peerVal !== undefined && (
+                    <div
+                      className="absolute bottom-1 left-0 h-1 rounded bg-white/30 opacity-60"
+                      style={{ width: `${Math.max(2, peerVal)}%` }}
+                      title={`Sector median: ${Math.round(peerVal)}`}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+            {showPeers && (
+              <p className="text-[10px] text-gray-500 mt-1.5 italic">
+                Solid bar = company · thin line = sector median
+              </p>
+            )}
           </div>
 
           <div className="hairline-divider" />

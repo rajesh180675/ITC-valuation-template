@@ -4,7 +4,7 @@ import {
   nifty250Constituents,
   NIFTY250_FISCAL_YEARS,
 } from '@/data/nifty250Data';
-import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
+import type { SensexConstituent } from '@/data/sensexData';
 import {
   buildSensexIndexTimeSeries,
   buildSensexSectorSummary,
@@ -15,15 +15,18 @@ import {
 import {
   buildFactorScores, buildMagicFormulaRanks, buildSectorAnalytics,
   buildSectorMomentumGrid, buildValuationZScores, computeConcentration,
+  computeValuationBuckets,
   costOfEquity, impliedPerpetualGrowth,
   MARKET_PARAMS,
 } from '@/utils/sensexAnalytics';
+import { adaptNifty250Constituent } from '@/utils/adaptNifty250Constituent';
 import {
   hasNegativePat,
   isGordonUnreliable,
   DataProvenanceBanner,
   SectorMomentumHeatmap,
 } from './shared';
+import { ValuationBucketsTable } from './shared/ValuationBucketsTable';
 
 import {
   HeroBanner,
@@ -61,6 +64,7 @@ export function Nifty250UniverseSection() {
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
   // P4.1: search query for constituent ledger
   const [searchQuery, setSearchQuery] = useState('');
+  const [sectorFilter, setSectorFilter] = useState<string[]>([]);
 
   // ── Real data loading ──────────────────────────────────────────────────
   const [realData, setRealData] = useState<SensexConstituent[] | null>(null);
@@ -141,10 +145,18 @@ export function Nifty250UniverseSection() {
     }
   }, [realData]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const allSectors = useMemo(
+    () => [...new Set(activeConstituents.map(c => c.sector))].sort(),
+    [activeConstituents],
+  );
+
   const filteredCompanies = useMemo(() => {
-    if (filter === 'all') return activeConstituents;
-    return activeConstituents.filter(c => c.reportingType === filter);
-  }, [filter, activeConstituents]);
+    let list = filter === 'all' ? activeConstituents : activeConstituents.filter(c => c.reportingType === filter);
+    if (sectorFilter.length > 0) {
+      list = list.filter(c => sectorFilter.includes(c.sector));
+    }
+    return list;
+  }, [filter, sectorFilter, activeConstituents]);
 
   const safeRangeStart = Math.min(rangeStart, Math.max(0, totalYears - 1));
   const safeRangeEnd = Math.min(rangeEnd, Math.max(0, totalYears - 1));
@@ -169,6 +181,44 @@ export function Nifty250UniverseSection() {
   const magicFormula = useMemo(() => buildMagicFormulaRanks(filteredCompanies), [filteredCompanies]);
   const sectorMomentum = useMemo(() => buildSectorMomentumGrid(filteredCompanies), [filteredCompanies]);
   const valuationZ = useMemo(() => buildValuationZScores(filteredCompanies), [filteredCompanies]);
+
+  const valuationBuckets = useMemo(
+    () => computeValuationBuckets(filteredCompanies, valuationZ),
+    [filteredCompanies, valuationZ],
+  );
+
+  const sectorPeerScores = useMemo(() => {
+    const bySector = new Map<string, { quality: number[]; value: number[]; growth: number[]; momentum: number[] }>();
+    for (const company of filteredCompanies) {
+      const s = factorScores.get(company.id);
+      if (!s) continue;
+      let bucket = bySector.get(company.sector);
+      if (!bucket) {
+        bucket = { quality: [], value: [], growth: [], momentum: [] };
+        bySector.set(company.sector, bucket);
+      }
+      bucket.quality.push(s.quality);
+      bucket.value.push(s.value);
+      bucket.growth.push(s.growth);
+      bucket.momentum.push(s.momentum);
+    }
+    const medians = new Map<string, { quality: number; value: number; growth: number; momentum: number }>();
+    for (const [sector, vals] of bySector) {
+      const sorted = (arr: number[]) => [...arr].sort((a, b) => a - b);
+      const median = (arr: number[]) => {
+        const s = sorted(arr);
+        const mid = Math.floor(s.length / 2);
+        return s.length % 2 === 0 ? (s[mid - 1] + s[mid]) / 2 : s[mid];
+      };
+      medians.set(sector, {
+        quality: median(vals.quality),
+        value: median(vals.value),
+        growth: median(vals.growth),
+        momentum: median(vals.momentum),
+      });
+    }
+    return medians;
+  }, [filteredCompanies, factorScores]);
 
   const rows = useMemo(() => filteredCompanies.map(company => {
     const firstRaw = company.history[safeRangeStart];
@@ -373,6 +423,7 @@ export function Nifty250UniverseSection() {
           </div>
 
           <SectorAnalyticsTable data={sectorAnalytics} />
+          <ValuationBucketsTable buckets={valuationBuckets} />
 
           <SectorMomentumHeatmap rows={sectorMomentum} />
 
@@ -384,6 +435,27 @@ export function Nifty250UniverseSection() {
           <ImpliedVsRealizedScatter data={impliedVsRealized} rangePeriods={rangePeriods} />
 
           <MagicFormulaCard rows={magicFormula} onSelect={setSelectedId} />
+
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                import('@/utils/export').then(({ exportCsv }) => {
+                  const headers = ['Sector', 'Companies', 'WeightPct', 'MarketCapCr', 'AvgROE_pct', 'PAT_CAGR_pct', 'AvgBeta', 'AvgCoE_pct', 'HHI', 'EffectiveN'];
+                  const data = sectorAnalytics.map(s => [
+                    s.sector, String(s.count), s.weightPct.toFixed(2),
+                    String(s.marketCapCr), s.weightedRoePct.toFixed(2),
+                    s.weightedPatCagrPct.toFixed(2), s.weightedBeta.toFixed(2),
+                    s.weightedCostOfEquityPct.toFixed(2), String(s.internalHHI), s.topConstituent,
+                  ]);
+                  exportCsv(`nifty250-sector-analytics-${endFy}.csv`, headers, data);
+                });
+              }}
+              className="text-[11px] font-semibold text-gray-200 bg-black/40 hover:bg-black/60 border border-border rounded-md px-3 py-1.5 transition"
+            >
+              Export All Analytics
+            </button>
+          </div>
 
           <FactorScorecard rows={sortedRows} selectedId={selectedCompany?.id ?? ''} onSelect={setSelectedId} />
 
@@ -397,75 +469,15 @@ export function Nifty250UniverseSection() {
             toggleSort={toggleSort}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
+            allSectors={allSectors}
+            sectorFilter={sectorFilter}
+            onSectorFilterChange={setSectorFilter}
+            pageSize={25}
           />
 
-          {selectedRow && <DrillDown row={selectedRow} rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} rangePeriods={rangePeriods} />}
+          {selectedRow && <DrillDown row={selectedRow} rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} rangePeriods={rangePeriods} peerScores={sectorPeerScores.get(selectedRow.company.sector)} />}
         </>)}
     </div>
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
- * ADAPTER: Screener.in JSON → SensexConstituent
- * P1.1: Runtime shape validation — populates warnings[] for any field that
- * is missing or invalid. Falls back to safe defaults so the UI never crashes.
- * ════════════════════════════════════════════════════════════════════════ */
-
-function validateField<T>(raw: Record<string, unknown>, key: string, defaultVal: T, warnings: string[], label: string): T {
-  const val = raw[key];
-  if (val === undefined || val === null) {
-    warnings.push(`${label}: missing field '${key}', using default ${JSON.stringify(defaultVal)}`);
-    return defaultVal;
-  }
-  return val as T;
-}
-
-function adaptNifty250Constituent(rawUnknown: unknown, warnings: string[]): SensexConstituent {
-  const raw = (rawUnknown && typeof rawUnknown === 'object' ? rawUnknown : {}) as Record<string, unknown>;
-  const label = String(raw['ticker'] ?? raw['id'] ?? '?');
-
-  if (!raw['id'] || !raw['ticker']) {
-    warnings.push(`Entry missing id/ticker: ${JSON.stringify(raw).slice(0, 80)}`);
-  }
-
-  const history: SensexYearFinancial[] = (Array.isArray(raw['history']) ? raw['history'] : []).map((h: unknown) => {
-    const hObj = (h && typeof h === 'object' ? h : {}) as Record<string, unknown>;
-    if (!hObj['fy']) warnings.push(`${label}: history entry missing 'fy' field`);
-    return {
-      fy: String(hObj['fy'] ?? ''),
-      toplineCr: Number(hObj['toplineCr'] ?? 0),
-      netProfitCr: Number(hObj['netProfitCr'] ?? 0),
-      roePct: Number(hObj['roePct'] ?? 0),
-      operatingMarginPct: hObj['operatingMarginPct'] !== undefined
-        ? Number(hObj['operatingMarginPct'])
-        : hObj['opmPct'] !== undefined
-          ? Number(hObj['opmPct'])
-          : undefined,
-      rocePct: hObj['rocePct'] !== undefined ? Number(hObj['rocePct']) : undefined,
-    };
-  });
-
-  if (history.length === 0) warnings.push(`${label}: no history rows in feed`);
-
-  const reportingType = validateField(raw, 'reportingType', 'nonFinancial', warnings, label);
-  const valuationMultiple = Number(validateField(raw, 'valuationMultiple', 0, warnings, label));
-  if (valuationMultiple <= 0) warnings.push(`${label}: valuationMultiple is ${valuationMultiple} (≤ 0) — Gordon model will be unreliable`);
-
-  return {
-    id: String(raw['id'] ?? raw['ticker'] ?? 'unknown'),
-    name: String(raw['name'] ?? raw['ticker'] ?? 'Unknown'),
-    ticker: String(raw['ticker'] ?? ''),
-    sector: String(raw['sector'] ?? 'Unknown'),
-    reportingType: (reportingType === 'financial' ? 'financial' : 'nonFinancial'),
-    weightPct: Number(raw['weightPct'] ?? 0),
-    marketCapCr: Number(raw['marketCapCr'] ?? 0),
-    cmp: Number(raw['cmp'] ?? 0),
-    valuationMetric: (raw['valuationMetric'] === 'pb' ? 'pb' : 'pe'),
-    valuationMultiple: Math.max(0, valuationMultiple),
-    dividendYieldPct: Number(raw['dividendYieldPct'] ?? 0),
-    color: String(raw['color'] ?? '#60a5fa'),
-    beta: Math.max(0.1, Number(raw['beta'] ?? 1.0)),
-    netDebtToEbitda: raw['netDebtToEbitda'] !== undefined ? Number(raw['netDebtToEbitda']) : undefined,
-    history,
-  };
-}

@@ -88,4 +88,19 @@ describe('nifty250Data', () => {
       }
     });
   });
+
+  describe('weight integrity', () => {
+    it('total weightPct sums to approximately 100%', () => {
+      const total = nifty250Constituents.reduce((s, c) => s + c.weightPct, 0);
+      expect(total).toBeGreaterThan(95);
+      expect(total).toBeLessThan(105);
+    });
+
+    it('≥ 80% of constituents have at least 1 year of positive netProfitCr', () => {
+      const withPositive = nifty250Constituents.filter(c =>
+        c.history.some(h => h.netProfitCr > 0)
+      ).length;
+      expect(withPositive / nifty250Constituents.length).toBeGreaterThanOrEqual(0.8);
+    });
+  });
 });

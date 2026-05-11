@@ -10,6 +10,7 @@ import {
   buildValuationZScores,
   buildSectorAnalytics,
   buildSectorMomentumGrid,
+  computeValuationBuckets,
   MARKET_PARAMS,
 } from './sensexAnalytics';
 import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
@@ -99,6 +100,29 @@ describe('earningsVolatility', () => {
     const vol = earningsVolatility(volatile);
     expect(vol).toBeGreaterThan(0);
   });
+
+  it('skips deltas where prev year had negative PAT (loss-making company)', () => {
+    const lossThenProfit: SensexYearFinancial[] = [
+      { fy: 'FY2021', toplineCr: 100, netProfitCr: -10, roePct: -5 },
+      { fy: 'FY2022', toplineCr: 120, netProfitCr: 15, roePct: 10 },
+      { fy: 'FY2023', toplineCr: 140, netProfitCr: 20, roePct: 12 },
+    ];
+    // prev > 0 check skips FY2021→FY2022 since prev = -10
+    // Only FY2022→FY2023 (prev = 15 > 0) contributes a delta
+    const vol = earningsVolatility(lossThenProfit);
+    expect(vol).toBeGreaterThanOrEqual(0);
+    // With only 1 delta, stddev = 0 (single value has no variance)
+    expect(vol).toBe(0);
+  });
+
+  it('returns 0 when all prior years have negative PAT', () => {
+    const allLoss: SensexYearFinancial[] = [
+      { fy: 'FY2021', toplineCr: 100, netProfitCr: -10, roePct: -5 },
+      { fy: 'FY2022', toplineCr: 110, netProfitCr: -8, roePct: -4 },
+      { fy: 'FY2023', toplineCr: 120, netProfitCr: -5, roePct: -2 },
+    ];
+    expect(earningsVolatility(allLoss)).toBe(0);
+  });
 });
 
 // ─── impliedPerpetualGrowth ──────────────────────────────────────────────
@@ -180,6 +204,18 @@ describe('computeConcentration', () => {
     const c = makeCompany({ id: 'a', weightPct: 100 });
     expect(computeConcentration([c]).hhi).toBe(10000);
   });
+
+  it('top3Pct < top5Pct < top10Pct for real-world-like weight distribution', () => {
+    // Create 20 companies with declining weights (paretto-like)
+    const companies = Array.from({ length: 20 }, (_, i) =>
+      makeCompany({ id: `c${i}`, weightPct: Math.max(0.5, 30 - i * 1.5) })
+    );
+    const result = computeConcentration(companies);
+    expect(result.top3Pct).toBeGreaterThan(0);
+    expect(result.top5Pct).toBeGreaterThan(result.top3Pct);
+    expect(result.top10Pct).toBeGreaterThan(result.top5Pct);
+    expect(result.hhi).toBeGreaterThan(0);
+  });
 });
 
 // ─── buildFactorScores ───────────────────────────────────────────────────
@@ -202,6 +238,44 @@ describe('buildFactorScores', () => {
       expect(score.momentum).toBeGreaterThanOrEqual(0);
       expect(score.composite).toBeGreaterThanOrEqual(0);
     }
+  });
+
+  it('BFSI company with undefined operatingMarginPct still gets non-zero momentum (ROE-delta branch)', () => {
+    const finCo = makeFinancial({
+      id: 'bfsi-test',
+      beta: 1.0,
+      valuationMultiple: 2.0,
+      history: [
+        { fy: 'FY2021', toplineCr: 500, netProfitCr: 50, roePct: 14 },
+        { fy: 'FY2022', toplineCr: 550, netProfitCr: 58, roePct: 15 },
+        { fy: 'FY2023', toplineCr: 600, netProfitCr: 65, roePct: 16 },
+        { fy: 'FY2024', toplineCr: 650, netProfitCr: 72, roePct: 17 },
+      ],
+    });
+    // operatingMarginPct is undefined in all years (as is typical for banks)
+    // If BFSI branch were broken, momentum would be 0 (marginDelta = 0 for all undefined).
+    // With correct ROE-delta branch, momentum should be > 0 since ROE steadily improves.
+    const scores = buildFactorScores([finCo], 0, 3);
+    const score = scores.get('bfsi-test');
+    expect(score).toBeDefined();
+    expect(score!.momentum).toBeGreaterThan(0);
+  });
+
+  it('nonFinancial company momentum uses margin delta', () => {
+    const nonFin = makeCompany({
+      id: 'margin-test',
+      history: [
+        { fy: 'FY2021', toplineCr: 100, netProfitCr: 10, roePct: 15, operatingMarginPct: 10 },
+        { fy: 'FY2022', toplineCr: 120, netProfitCr: 14, roePct: 16, operatingMarginPct: 12 },
+        { fy: 'FY2023', toplineCr: 140, netProfitCr: 18, roePct: 17, operatingMarginPct: 14 },
+        { fy: 'FY2024', toplineCr: 165, netProfitCr: 22, roePct: 18, operatingMarginPct: 16 },
+      ],
+    });
+    const scores = buildFactorScores([nonFin], 0, 3);
+    const score = scores.get('margin-test');
+    expect(score).toBeDefined();
+    // Margin expanded every year, so momentum > 50 (above median)
+    expect(score!.momentum).toBeGreaterThan(0);
   });
 });
 
@@ -286,5 +360,58 @@ describe('buildSectorMomentumGrid', () => {
     expect(grid[1].sector).toBe('Energy');
     expect(grid[0].cells.length).toBeGreaterThan(0);
     expect(grid[0].cells[0].fy).toBeDefined();
+  });
+});
+
+// ─── computeValuationBuckets ──────────────────────────────────────────────
+
+describe('computeValuationBuckets', () => {
+  it('classifies companies into cheap / fair / expensive by sector', () => {
+    // Companies across 2 sectors with deliberately spread z-scores
+    const companies: SensexConstituent[] = [
+      makeCompany({ id: 'tech1', sector: 'Technology' }),
+      makeCompany({ id: 'tech2', sector: 'Technology' }),
+      makeCompany({ id: 'tech3', sector: 'Technology' }),
+      makeCompany({ id: 'fin1', sector: 'Financials' }),
+      makeCompany({ id: 'fin2', sector: 'Financials' }),
+    ];
+    const zScores = new Map([
+      ['tech1', { zScore: -1.5 }],  // cheap
+      ['tech2', { zScore: 0.2 }],   // fair
+      ['tech3', { zScore: 2.1 }],   // expensive
+      ['fin1', { zScore: -0.5 }],   // fair
+      ['fin2', { zScore: 1.5 }],    // expensive
+    ]);
+
+    const buckets = computeValuationBuckets(companies, zScores);
+    expect(buckets).toHaveLength(2);
+
+    const tech = buckets.find(b => b.sector === 'Technology');
+    expect(tech).toBeDefined();
+    expect(tech!.total).toBe(3);
+    expect(tech!.cheap).toBe(1);
+    expect(tech!.fair).toBe(1);
+    expect(tech!.expensive).toBe(1);
+
+    const fin = buckets.find(b => b.sector === 'Financials');
+    expect(fin).toBeDefined();
+    expect(fin!.total).toBe(2);
+    expect(fin!.cheap).toBe(0);
+    expect(fin!.fair).toBe(1);
+    expect(fin!.expensive).toBe(1);
+  });
+
+  it('returns empty array when no companies match zScores', () => {
+    const result = computeValuationBuckets([], new Map());
+    expect(result).toEqual([]);
+  });
+
+  it('computes market cap sums for each bucket', () => {
+    const companies = [makeCompany({ id: 'a', sector: 'Energy', marketCapCr: 100000 })];
+    const zScores = new Map([['a', { zScore: -2 }]]);
+    const buckets = computeValuationBuckets(companies, zScores);
+    expect(buckets[0].cheapMcapCr).toBe(100000);
+    expect(buckets[0].fairMcapCr).toBe(0);
+    expect(buckets[0].expensiveMcapCr).toBe(0);
   });
 });
