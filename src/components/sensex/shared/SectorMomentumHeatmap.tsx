@@ -1,33 +1,46 @@
+import { useState } from 'react';
 import { fmtN } from '@/components/itc/shared';
 import type { SectorMomentumRow } from '@/utils/sensexAnalytics';
+import { heatmapColor } from './utils';
 
 export function SectorMomentumHeatmap({ rows }: { rows: SectorMomentumRow[] }) {
+  const [colorBlindSafe, setColorBlindSafe] = useState(false);
   if (rows.length === 0) return null;
   const fyLabels = rows[0].cells.map((c) => c.fy);
   const cap = 60;
-  const colorFor = (v: number): string => {
-    const clamped = Math.max(-cap, Math.min(cap, v));
-    if (clamped >= 0) {
-      const t = clamped / cap;
-      const alpha = 0.18 + 0.62 * t;
-      return `rgba(34, 197, 94, ${alpha.toFixed(2)})`;
-    }
-    const t = -clamped / cap;
-    const alpha = 0.18 + 0.62 * t;
-    return `rgba(239, 68, 68, ${alpha.toFixed(2)})`;
-  };
 
   return (
     <div className="premium-card p-5">
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <div>
           <h3 className="text-sm font-semibold text-white">Sector Momentum Heatmap</h3>
-          <p className="text-[11px] text-gray-500 mt-0.5">YoY PAT growth by sector — read rotation across cycles. Green = expansion, red = contraction.</p>
+          <p className="text-[11px] text-gray-500 mt-0.5">YoY PAT growth by sector — read rotation across cycles.</p>
         </div>
-        <div className="flex items-center gap-3 text-[10px] text-gray-400">
-          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(239,68,68,0.7)' }} />−60%+</span>
-          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(148,163,184,0.25)' }} />~0%</span>
-          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(34,197,94,0.7)' }} />+60%+</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 text-[10px] text-gray-400">
+            {colorBlindSafe ? (
+              <>
+                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(230,159,0,0.7)' }} />−contraction</span>
+                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(0,114,178,0.7)' }} />+expansion</span>
+              </>
+            ) : (
+              <>
+                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(239,68,68,0.7)' }} />−60%+</span>
+                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(34,197,94,0.7)' }} />+60%+</span>
+              </>
+            )}
+          </div>
+          <button
+            onClick={() => setColorBlindSafe(v => !v)}
+            className={`text-[10px] px-2 py-1 rounded border transition ${
+              colorBlindSafe
+                ? 'border-blue-400 text-blue-300 bg-blue-900/30'
+                : 'border-border text-gray-400 bg-black/20'
+            }`}
+            title="Toggle color-blind-safe palette (blue/orange)"
+          >
+            {colorBlindSafe ? '🔵 CB-safe' : '🟢 Default'}
+          </button>
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -55,7 +68,7 @@ export function SectorMomentumHeatmap({ rows }: { rows: SectorMomentumRow[] }) {
                     key={cell.fy}
                     className="text-center font-semibold"
                     style={{
-                      background: colorFor(cell.yoyPatGrowthPct),
+                      background: heatmapColor(cell.yoyPatGrowthPct, cap, colorBlindSafe),
                       color: '#f8fafc',
                       padding: '6px 4px',
                       minWidth: 56,

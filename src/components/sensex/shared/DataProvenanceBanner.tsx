@@ -6,6 +6,7 @@ interface ProvenanceInfo {
   asOf: string;
   methodology: string[];
   disclaimer: string;
+  lastUpdated?: string;
 }
 
 export function DataProvenanceBanner({
@@ -49,6 +50,12 @@ export function DataProvenanceBanner({
               <p className="text-[12px] text-gray-400 leading-relaxed">
                 <span className="text-gray-200 font-semibold">As-of:</span> {provenance.asOf}
                 <span className="mx-2 text-gray-600">·</span>
+                {provenance.lastUpdated && (
+                  <>
+                    <span className="text-gray-200 font-semibold">Last updated:</span> {provenance.lastUpdated}
+                    <span className="mx-2 text-gray-600">·</span>
+                  </>
+                )}
                 <span className="text-gray-200 font-semibold">Universe:</span> {rows.length} NSE-listed names · {uniqueSectors} sectors · {corp} corporates / {bfsi} BFSI
               </p>
               <ul className="text-[11px] text-gray-400 leading-relaxed list-disc pl-4 space-y-0.5">

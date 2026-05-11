@@ -68,6 +68,8 @@ export const NIFTY250_INDEX_LABEL = 'Nifty LargeMidcap 250';
 export const NIFTY250_PROVENANCE = Object.freeze({
   source: 'Broker-consensus aggregate, anchored to FY2024 reported financials and Apr-2026 market regime.',
   asOf: 'FY2024 reported · Apr 2026 market snapshot',
+  /** ISO-8601 date of the last manual data refresh. Surfaced in the DataProvenanceBanner. */
+  lastUpdated: '2026-04-30',
   disclaimer:
     'Curated for institutional-style screening and back-of-envelope work. Cross-verify each line against company filings, NSE/BSE disclosures, or screener.in before any investment decision.',
   methodology: [
@@ -76,6 +78,7 @@ export const NIFTY250_PROVENANCE = Object.freeze({
     'Beta = 5Y weekly vs Nifty broker consensus.',
     'P/E used for non-financials; P/B used for banks/NBFCs/insurers.',
     'Net debt/EBITDA omitted for BFSI (regulatory capital governs).',
+    'FY2015–FY2019 values are algorithmically reconstructed — not sourced from filings.',
   ],
 });
 
@@ -388,7 +391,8 @@ const SEEDS_RAW: Omit<Nifty250Seed, 'color'>[] = [
   { id: 'grasim', name: 'Grasim Industries', ticker: 'GRASIM', sector: 'Materials', reportingType: 'nonFinancial', marketCapCr: 160000, cmp: 2350, valuationMetric: 'pe', valuationMultiple: 27.0, dividendYieldPct: 0.4, beta: 1.10, netDebtToEbitda: 1.2, latestToplineCr: 130978, latestNetProfitCr: 5926, toplineCagrPct: 14.0, profitCagrPct: 18.0, latestRoePct: 9.5, latestOperatingMarginPct: 18.0, latestRocePct: 11.0 },
   { id: 'adani-ent', name: 'Adani Enterprises', ticker: 'ADANIENT', sector: 'Materials', reportingType: 'nonFinancial', marketCapCr: 320000, cmp: 2820, valuationMetric: 'pe', valuationMultiple: 90.0, dividendYieldPct: 0, beta: 1.55, netDebtToEbitda: 3.2, latestToplineCr: 96420, latestNetProfitCr: 3395, toplineCagrPct: 38.0, profitCagrPct: 25.0, latestRoePct: 14.0, latestOperatingMarginPct: 8.0, latestRocePct: 11.0 },
   { id: 'irctc', name: 'IRCTC', ticker: 'IRCTC', sector: 'Logistics', reportingType: 'nonFinancial', marketCapCr: 60000, cmp: 760, valuationMetric: 'pe', valuationMultiple: 50.0, dividendYieldPct: 0.7, beta: 0.95, netDebtToEbitda: -2.5, latestToplineCr: 4270, latestNetProfitCr: 1111, toplineCagrPct: 14.0, profitCagrPct: 18.0, latestRoePct: 41.0, latestOperatingMarginPct: 36.0, latestRocePct: 53.0 },
-  { id: 'lic-housing-2', name: 'LIC Housing', ticker: 'LICHOUSE', sector: 'NBFC', reportingType: 'financial', marketCapCr: 36000, cmp: 660, valuationMetric: 'pb', valuationMultiple: 1.0, dividendYieldPct: 1.4, beta: 1.20, latestToplineCr: 27228, latestNetProfitCr: 4765, toplineCagrPct: 7.0, profitCagrPct: 12.0, latestRoePct: 16.0 },
+  // NOTE: lic-housing-2 removed — was a duplicate of lic-housing (same entity, wrong ticker 'LICHOUSE').
+  // The canonical entry is id: 'lic-housing', ticker: 'LICHSGFIN' above.
 ];
 
 const SEEDS: Omit<Nifty250Seed, 'color'>[] = SEEDS_RAW; // raw entries already conform to Nifty250Seed

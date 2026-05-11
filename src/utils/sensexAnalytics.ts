@@ -179,8 +179,19 @@ export function buildFactorScores(
     return recentCagr - full;
   });
 
+  // P1.3 FIX: For BFSI names operatingMarginPct is always undefined → marginDelta was always 0,
+  // zeroing out their entire momentum sub-score. We now branch by reportingType:
+  //   • nonFinancial → operating margin expansion (original signal)
+  //   • financial    → ROE YoY delta (reflects capital productivity trend in banking)
   const marginDelta = companies.map(c => {
     const h = c.history;
+    if (c.reportingType === 'financial') {
+      // Banking momentum signal: ROE delta (latest FY vs. ~3 years prior)
+      const latestRoe = last(c).roePct;
+      const pastIndex = Math.max(rangeStart, h.length - 4);
+      const pastRoe = h[pastIndex].roePct ?? latestRoe;
+      return latestRoe - pastRoe;
+    }
     const latestM = last(c).operatingMarginPct ?? 0;
     const pastIndex = Math.max(rangeStart, h.length - 6);
     const pastM = h[pastIndex].operatingMarginPct ?? latestM;
@@ -505,8 +516,7 @@ export function buildSectorMomentumGrid(
   const rows: SectorMomentumRow[] = [];
 
   map.forEach((members, sector) => {
-    const sectorMcap = members.reduce((s, c) => s + c.marketCapCr, 0) || 1;
-    // Mcap-weighted aggregate PAT trajectory (in Cr).
+    // Aggregate PAT trajectory across all sector members (in Cr).
     const aggregate = yearLabels.map((_, i) =>
       members.reduce((s, c) => s + (c.history[i]?.netProfitCr ?? 0), 0),
     );
@@ -525,9 +535,6 @@ export function buildSectorMomentumGrid(
       fullPeriodCagrPct: round1(fullCagr),
       cells,
     });
-
-    // suppress unused-var warning: sectorMcap kept for future weight schemes
-    void sectorMcap;
   });
 
   return rows.sort((a, b) => b.weightPct - a.weightPct);

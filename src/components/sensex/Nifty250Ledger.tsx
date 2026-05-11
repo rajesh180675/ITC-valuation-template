@@ -1,5 +1,5 @@
 import { Area, ComposedChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from 'recharts';
-import { Download } from 'lucide-react';
+import { Download, Search } from 'lucide-react';
 
 import type { SensexConstituent } from '@/data/sensexData';
 import {
@@ -7,6 +7,7 @@ import {
   earningsVolatility,
 } from '@/utils/sensexAnalytics';
 import { ChartTooltip, fmt, fmtN } from '@/components/itc/shared';
+import { Kpi, FactorBar, ScoreChip } from './shared';
 import type { SortKey } from './Nifty250AnalyticsCards';
 
 /* ══════════════════════════════════════════════════════════════════════════ */
@@ -18,6 +19,7 @@ export function ConstituentLedger(props: {
     toplineCagr: number; profitCagr: number; valuationLabel: string;
     coe: number; impliedG: number; scores: { composite: number };
     valuationZ: number; sectorMedianMultiple: number;
+    negPat?: boolean;
   }[];
   selectedId: string;
   onSelect: (id: string) => void;
@@ -25,8 +27,21 @@ export function ConstituentLedger(props: {
   endFy: string;
   sortCaret: (key: SortKey) => string;
   toggleSort: (key: SortKey) => void;
+  searchQuery: string;
+  setSearchQuery: (q: string) => void;
 }) {
-  const { rows, selectedId, onSelect, rangeLabel, endFy, sortCaret, toggleSort } = props;
+  const {
+    rows, selectedId, onSelect, rangeLabel, endFy, sortCaret, toggleSort,
+    searchQuery, setSearchQuery,
+  } = props;
+
+  // P4.1: client-side search filter
+  const visibleRows = searchQuery.trim()
+    ? rows.filter(r =>
+        r.company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        r.company.ticker.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : rows;
 
   const handleExport = () => {
     const header = [
@@ -75,7 +90,18 @@ export function ConstituentLedger(props: {
             Sortable · CAGR across {rangeLabel} · CAPM CoE · reverse-Gordon implied growth · valuation z-score vs sector · composite factor score
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* P4.1: search bar */}
+          <div className="relative">
+            <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Search name / ticker…"
+              className="pl-7 pr-3 py-1.5 text-[11px] bg-black/40 border border-border rounded-md text-gray-200 placeholder-gray-600 focus:outline-none focus:border-[color:var(--color-gold-light)]/50 w-44"
+            />
+          </div>
           <button
             type="button"
             onClick={handleExport}
@@ -84,7 +110,7 @@ export function ConstituentLedger(props: {
           >
             <Download size={12} /> CSV
           </button>
-          <span className="pill pill-muted">{rows.length} rows</span>
+          <span className="pill pill-muted">{visibleRows.length} / {rows.length} rows</span>
         </div>
       </div>
       <div className="overflow-x-auto max-h-[560px]">
@@ -109,7 +135,7 @@ export function ConstituentLedger(props: {
             </tr>
           </thead>
           <tbody>
-            {rows.map(r => {
+            {visibleRows.map(r => {
               const isSelected = r.company.id === selectedId;
               return (
                 <tr key={r.company.id} onClick={() => onSelect(r.company.id)} className={`cursor-pointer ${isSelected ? 'selected' : ''}`}>
@@ -132,7 +158,17 @@ export function ConstituentLedger(props: {
                   <td className="text-right text-gray-300">{fmt(r.company.marketCapCr)}</td>
                   <td className="text-right text-gray-300">{fmt(r.last.toplineCr)}</td>
                   <td className={`text-right font-semibold ${r.toplineCagr >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>{fmtN(r.toplineCagr, 1)}%</td>
-                  <td className={`text-right font-semibold ${r.profitCagr >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>{fmtN(r.profitCagr, 1)}%</td>
+                  {/* P1.2: show N/A for negative-PAT companies */}
+                  <td className={`text-right font-semibold ${
+                    r.negPat
+                      ? 'text-amber-400'
+                      : r.profitCagr >= 0 ? 'text-emerald-300' : 'text-red-300'
+                  }`}>
+                    {r.negPat
+                      ? <span title="PAT was negative at start or end of window — CAGR is unreliable">⚠ N/A</span>
+                      : `${fmtN(r.profitCagr, 1)}%`
+                    }
+                  </td>
                   <td className="text-right text-gray-200">{fmtN(r.last.roePct, 1)}%</td>
                   <td className="text-right text-gray-300">{r.company.beta.toFixed(2)}</td>
                   <td className="text-right text-gray-300">{fmtN(r.coe, 1)}%</td>
@@ -155,16 +191,8 @@ export function ConstituentLedger(props: {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════ */
-
-export function ScoreChip({ score }: { score: number }) {
-  const color = score >= 70 ? '#22c55e' : score >= 50 ? '#d4a843' : score >= 30 ? '#94a3b8' : '#ef4444';
-  return (
-    <span className="inline-flex items-center gap-1.5 tabular-nums font-semibold" style={{ color }}>
-      <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
-      {Math.round(score)}
-    </span>
-  );
-}
+/* ScoreChip, FactorBar now live in ./shared.tsx (P3.1 — removed duplicates) */
+/* ══════════════════════════════════════════════════════════════════════════ */
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 
@@ -319,32 +347,4 @@ export function DuPontStack({ dp }: { dp: { npm: number; leverageAndTurnover: nu
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════ */
-
-export function FactorBar({ label, value, color }: { label: string; value: number; color: string }) {
-  return (
-    <div className="flex items-center gap-2 mt-1.5">
-      <div className="text-[10px] text-gray-400 w-16 shrink-0">{label}</div>
-      <div className="flex-1 h-1.5 bg-black/40 rounded-full overflow-hidden">
-        <div className="h-full rounded-full" style={{ width: `${Math.max(2, value)}%`, background: color, opacity: 0.85 }} />
-      </div>
-      <div className="text-[10px] text-gray-200 tabular-nums w-8 text-right">{Math.round(value)}</div>
-    </div>
-  );
-}
-
-/* ─── local Kpi helper (same impl as in AnalyticsCards but kept as local duplicate) ─── */
-function Kpi({ label, value, sub, tone, gold, tabular, smallValue }: {
-  label: string; value: string; sub: string;
-  tone?: 'up' | 'down'; gold?: boolean; tabular?: boolean; smallValue?: boolean;
-}) {
-  const color = tone === 'up' ? 'text-emerald-300' : tone === 'down' ? 'text-red-300' : gold ? 'text-[color:var(--color-gold-light)]' : 'text-white';
-  const valueSize = smallValue ? 'text-base' : 'text-2xl';
-  return (
-    <div>
-      <div className="kpi-eyebrow">{label}</div>
-      <div className={`kpi-value ${valueSize} mt-1 ${color} ${tabular ? 'tabular-nums' : ''} truncate`}>{value}</div>
-      <div className={`text-[11px] mt-0.5 ${gold ? 'text-[color:var(--color-gold-light)]' : 'text-gray-500'}`}>{sub}</div>
-    </div>
-  );
-}
+/* FactorBar, Kpi, ScoreChip — imported from ./shared.tsx (P3.1) */

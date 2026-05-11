@@ -3,6 +3,18 @@ import { CartesianGrid, Cell, ReferenceLine, ResponsiveContainer, Scatter, Scatt
 import type { SensexConstituent } from '@/data/sensexData';
 import { buildSectorAnalytics } from '@/utils/sensexAnalytics';
 import { fmt, fmtN } from '@/components/itc/shared';
+import { FactorBar } from './shared';
+
+/* ── Typed scatter data shapes (P3.2) ───────────────────────────────────── */
+export interface GrowthValuationPoint {
+  name: string; x: number; y: number; z: number;
+  color: string; sector: string; metric: string;
+}
+export interface ImpliedVsRealizedPoint {
+  name: string; x: number; y: number; z: number;
+  color: string; sector: string; gap: number; coe: number;
+  gordonUnreliable?: boolean;
+}
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 
@@ -65,7 +77,7 @@ export function SectorAnalyticsTable({ data }: { data: ReturnType<typeof buildSe
 /* ══════════════════════════════════════════════════════════════════════════ */
 
 export function GrowthValuationScatter(props: {
-  data: any[]; medianPatCagr: number; rangePeriods: number;
+  data: GrowthValuationPoint[]; medianPatCagr: number; rangePeriods: number;
 }) {
   const avgMultiple = props.data.length
     ? props.data.reduce((s, d) => s + d.y, 0) / props.data.length
@@ -112,7 +124,7 @@ export function GrowthValuationScatter(props: {
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 
-export function ImpliedVsRealizedScatter({ data, rangePeriods }: { data: any[]; rangePeriods: number }) {
+export function ImpliedVsRealizedScatter({ data, rangePeriods }: { data: ImpliedVsRealizedPoint[]; rangePeriods: number }) {
   const xMin = Math.min(...data.map(d => Math.min(d.x, d.y)), -2);
   const xMax = Math.max(...data.map(d => Math.max(d.x, d.y)), 20);
 
@@ -128,6 +140,7 @@ export function ImpliedVsRealizedScatter({ data, rangePeriods }: { data: any[]; 
         <div className="text-[10px] text-gray-500 flex items-center gap-2">
           <span className="inline-flex items-center gap-1.5"><span className="w-4 h-0.5 bg-[color:var(--color-gold-light)] rounded" />y = x (fair)</span>
           <span>Above = market under-pricing</span>
+          <span className="text-amber-400/80">⚠ = Gordon model unreliable (zero-payout)</span>
         </div>
       </div>
       <ResponsiveContainer width="100%" height={380}>
@@ -141,7 +154,7 @@ export function ImpliedVsRealizedScatter({ data, rangePeriods }: { data: any[]; 
           <ReferenceLine segment={[{ x: xMin, y: xMin }, { x: xMax, y: xMax }]} stroke="#d4a843" strokeDasharray="4 4" opacity={0.7} />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} content={({ active, payload }: any) => {
             if (!active || !payload?.length) return null;
-            const d = payload[0].payload;
+            const d = payload[0].payload as ImpliedVsRealizedPoint;
             const verdict = d.gap > 3 ? 'Historically outran implied growth' : d.gap < -3 ? 'Expectation above track record' : 'Priced near historical pace';
             const verdictColor = d.gap > 3 ? 'text-emerald-300' : d.gap < -3 ? 'text-red-300' : 'text-gray-300';
             return (
@@ -153,11 +166,14 @@ export function ImpliedVsRealizedScatter({ data, rangePeriods }: { data: any[]; 
                 <p className="text-gray-300">Delivered: <span className="tabular-nums text-emerald-300">{fmtN(d.y, 1)}%</span></p>
                 <p className="text-gray-300">CoE: <span className="tabular-nums text-white">{fmtN(d.coe, 1)}%</span></p>
                 <p className={`mt-1 ${verdictColor}`}>{verdict}</p>
+                {d.gordonUnreliable && (
+                  <p className="mt-1 text-amber-400 text-[10px]">⚠ Gordon model unreliable — near-zero payout ratio. Implied growth is not meaningful.</p>
+                )}
               </div>
             );
           }} />
           <Scatter data={data} isAnimationActive={true}>
-            {data.map(e => <Cell key={e.name} fill={e.color} fillOpacity={0.78} stroke={e.color} />)}
+            {data.map(e => <Cell key={e.name} fill={e.gordonUnreliable ? '#f59e0b' : e.color} fillOpacity={e.gordonUnreliable ? 0.5 : 0.78} stroke={e.color} />)}
           </Scatter>
         </ScatterChart>
       </ResponsiveContainer>
@@ -224,19 +240,7 @@ export function FactorScorecard({ rows, selectedId, onSelect }: {
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════ */
-
-function FactorBar({ label, value, color }: { label: string; value: number; color: string }) {
-  return (
-    <div className="flex items-center gap-2 mt-1.5">
-      <div className="text-[10px] text-gray-400 w-16 shrink-0">{label}</div>
-      <div className="flex-1 h-1.5 bg-black/40 rounded-full overflow-hidden">
-        <div className="h-full rounded-full" style={{ width: `${Math.max(2, value)}%`, background: color, opacity: 0.85 }} />
-      </div>
-      <div className="text-[10px] text-gray-200 tabular-nums w-8 text-right">{Math.round(value)}</div>
-    </div>
-  );
-}
+/* FactorBar — imported from ./shared.tsx (P3.1) */
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 

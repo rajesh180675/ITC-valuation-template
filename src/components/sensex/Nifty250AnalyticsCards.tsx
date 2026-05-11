@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Area, Bar, BarChart, CartesianGrid, Cell, ComposedChart, LabelList, Legend, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
 import { Info, ShieldCheck } from 'lucide-react';
 
@@ -18,6 +19,7 @@ import {
   type SectorMomentumRow,
 } from '@/utils/sensexAnalytics';
 import { ChartTooltip, fmt, fmtN } from '@/components/itc/shared';
+import { Kpi } from './shared';
 
 /* ────────────────────────────────────────────────────────────────────────── */
 
@@ -113,22 +115,8 @@ export function HeroBanner(props: {
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════ */
+/* The Kpi component is now in ./shared.tsx (P3.1 — removed duplicate) */
 
-function Kpi({ label, value, sub, tone, gold, tabular, smallValue }: {
-  label: string; value: string; sub: string;
-  tone?: 'up' | 'down'; gold?: boolean; tabular?: boolean; smallValue?: boolean;
-}) {
-  const color = tone === 'up' ? 'text-emerald-300' : tone === 'down' ? 'text-red-300' : gold ? 'text-[color:var(--color-gold-light)]' : 'text-white';
-  const valueSize = smallValue ? 'text-base' : 'text-2xl';
-  return (
-    <div>
-      <div className="kpi-eyebrow">{label}</div>
-      <div className={`kpi-value ${valueSize} mt-1 ${color} ${tabular ? 'tabular-nums' : ''} truncate`}>{value}</div>
-      <div className={`text-[11px] mt-0.5 ${gold ? 'text-[color:var(--color-gold-light)]' : 'text-gray-500'}`}>{sub}</div>
-    </div>
-  );
-}
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 
@@ -312,136 +300,7 @@ export function TopWeightsChart({ data }: { data: { name: string; weightPct: num
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 
-export function DataProvenanceBanner({ rows, dataSource }: { rows: { company: SensexConstituent }[]; dataSource: 'loading' | 'screener-in' | 'reference' }) {
-  // Quick integrity tally — proves the universe is real, not synthetic.
-  const uniqueSectors = new Set(rows.map((r) => r.company.sector)).size;
-  const corp = rows.filter((r) => r.company.reportingType === 'nonFinancial').length;
-  const bfsi = rows.length - corp;
 
-  return (
-    <div className="glass-card p-5 border-l-2 border-[color:var(--color-gold-light)]">
-      <div className="flex items-start gap-4 flex-wrap">
-        <div className="flex items-center gap-2 shrink-0">
-          <ShieldCheck size={18} className="text-[color:var(--color-gold-light)]" />
-          <span className="text-sm font-semibold text-white">Data Provenance</span>
-        </div>
-        <div className="flex-1 min-w-[260px] space-y-2">
-          {dataSource === 'screener-in' ? (
-            <>
-              <p className="text-[12px] text-gray-300 leading-relaxed">
-                <span className="text-white font-semibold">Source:</span> Screener.in — real annual financial data
-                <span className="ml-2 pill pill-muted text-[10px]">No estimates</span>
-              </p>
-              <p className="text-[12px] text-gray-400 leading-relaxed">
-                <span className="text-gray-200 font-semibold">Universe:</span> {rows.length} NSE-listed names · {uniqueSectors} sectors · {corp} corporates / {bfsi} BFSI
-              </p>
-              <p className="text-[11px] text-gray-400 leading-relaxed">
-                Data collected from publicly available screener.in pages. Only years with real reported
-                data are included — no backfilling, no CAGR extrapolation, no synthetic values.
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="text-[12px] text-gray-300 leading-relaxed">
-                <span className="text-white font-semibold">Source:</span> {NIFTY250_PROVENANCE.source}
-              </p>
-              <p className="text-[12px] text-gray-400 leading-relaxed">
-                <span className="text-gray-200 font-semibold">As-of:</span> {NIFTY250_PROVENANCE.asOf}
-                <span className="mx-2 text-gray-600">·</span>
-                <span className="text-gray-200 font-semibold">Universe:</span> {rows.length} real NSE-listed names · {uniqueSectors} sectors · {corp} corporates / {bfsi} BFSI
-              </p>
-              <ul className="text-[11px] text-gray-400 leading-relaxed list-disc pl-4 space-y-0.5">
-                {NIFTY250_PROVENANCE.methodology.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
-              <p className="text-[11px] text-amber-200/80 leading-relaxed pt-1">
-                <span className="font-semibold">Disclaimer:</span> {NIFTY250_PROVENANCE.disclaimer}
-              </p>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ══════════════════════════════════════════════════════════════════════════ */
-
-export function SectorMomentumHeatmap({ rows }: { rows: SectorMomentumRow[] }) {
-  if (rows.length === 0) return null;
-  const fyLabels = rows[0].cells.map((c) => c.fy);
-
-  // Color scale: red → grey → green, capped at ±60% YoY for readability.
-  const cap = 60;
-  const colorFor = (v: number): string => {
-    const clamped = Math.max(-cap, Math.min(cap, v));
-    if (clamped >= 0) {
-      const t = clamped / cap;
-      const alpha = 0.18 + 0.62 * t;
-      return `rgba(34, 197, 94, ${alpha.toFixed(2)})`;
-    }
-    const t = -clamped / cap;
-    const alpha = 0.18 + 0.62 * t;
-    return `rgba(239, 68, 68, ${alpha.toFixed(2)})`;
-  };
-
-  return (
-    <div className="premium-card p-5">
-      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-        <div>
-          <h3 className="text-sm font-semibold text-white">Sector Momentum Heatmap</h3>
-          <p className="text-[11px] text-gray-500 mt-0.5">YoY PAT growth by sector — read rotation across cycles. Green = expansion, red = contraction.</p>
-        </div>
-        <div className="flex items-center gap-3 text-[10px] text-gray-400">
-          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(239,68,68,0.7)' }} />−60%+</span>
-          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(148,163,184,0.25)' }} />~0%</span>
-          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{ background: 'rgba(34,197,94,0.7)' }} />+60%+</span>
-        </div>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-[11px] tabular-nums">
-          <thead>
-            <tr className="text-gray-500">
-              <th className="text-left py-2 px-2 sticky left-0 bg-[rgba(15,23,41,0.96)] z-10" style={{ minWidth: 180 }}>Sector</th>
-              <th className="text-right py-2 px-2">Wt</th>
-              <th className="text-right py-2 px-2">10Y CAGR</th>
-              {fyLabels.map((fy) => (
-                <th key={fy} className="text-center py-2 px-1.5 font-mono">{fy.replace('FY', '')}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.sector} className="border-t border-border/40">
-                <td className="py-1.5 px-2 text-gray-200 font-semibold sticky left-0 bg-[rgba(15,23,41,0.96)] z-10">{row.sector}</td>
-                <td className="py-1.5 px-2 text-right text-gray-400">{fmtN(row.weightPct, 1)}%</td>
-                <td className={`py-1.5 px-2 text-right font-semibold ${row.fullPeriodCagrPct >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
-                  {fmtN(row.fullPeriodCagrPct, 1)}%
-                </td>
-                {row.cells.map((cell) => (
-                  <td
-                    key={cell.fy}
-                    className="text-center font-semibold"
-                    style={{
-                      background: colorFor(cell.yoyPatGrowthPct),
-                      color: '#f8fafc',
-                      padding: '6px 4px',
-                      minWidth: 56,
-                    }}
-                    title={`${row.sector} ${cell.fy}: ${cell.yoyPatGrowthPct.toFixed(1)}% YoY`}
-                  >
-                    {fmtN(cell.yoyPatGrowthPct, 0)}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 
