@@ -206,20 +206,14 @@ def main():
     )
     total_unknown += u
     
-    # Nifty750 - largemidcap250
-    print('\n--- Nifty750 LargeMidcap250 ---')
-    for slug in ['largemidcap250']:
+    # Nifty750 - all indices
+    print('\n--- Nifty750 indices ---')
+    for slug in ['largemidcap250', 'smallcap250', 'microcap250']:
         base = os.path.join(ROOT_DIR, 'scripts', 'nifty750', slug)
-        # Check if files exist at base level (new format)
-        if os.path.exists(os.path.join(base, 'constituents.json')):
-            u = fix_dataset(
-                os.path.join(base, 'constituents.json'),
-                os.path.join(base, 'financials.json'),
-                os.path.join(base, 'balance_sheets.json'),
-                os.path.join(base, 'cashflows.json'),
-                os.path.join(base, 'company_ratios.json'),
-                os.path.join(base, 'market_data.json'),
-            )
+        const_path = os.path.join(base, 'constituents.json')
+        mkt_path = os.path.join(base, 'market_data.json')
+        if os.path.exists(const_path):
+            u = fix_dataset_flat(const_path, mkt_path)
             total_unknown += u
     
     print(f'\nTotal remaining Unknown: {total_unknown}')

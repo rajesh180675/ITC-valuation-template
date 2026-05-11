@@ -1,5 +1,9 @@
 {
-  "generatedAt": "2026-05-10T20:26:39.677342+00:00",
+  "generatedAt": "2026-05-10T20:09:50.873969+00:00",
+  "asOfDate": "2026-05-10",
+  "source": "real",
+  "sourcePolicy": "screener-in",
+  "schemaVersion": 3,
   "fiscalYears": [
     "FY2006",
     "FY2008",
@@ -22,12 +26,14 @@
     "FY2025",
     "FY2026"
   ],
+  "sourceName": "NSE microcap250 (via screener.in)",
+  "downloadedAt": "2026-05-10T20:09:50.873969+00:00",
   "constituents": [
     {
       "symbol": "AARTIDRUGS",
       "name": "AARTIDRUGS",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -35,8 +41,8 @@
     {
       "symbol": "AARTIPHARM",
       "name": "AARTIPHARM",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -44,8 +50,8 @@
     {
       "symbol": "ACI",
       "name": "ACI",
-      "sector": "Chemicals",
-      "industry": "Specialty Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -53,8 +59,8 @@
     {
       "symbol": "ADVENZYMES",
       "name": "ADVENZYMES",
-      "sector": "Healthcare",
-      "industry": "Biotechnology",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -62,8 +68,8 @@
     {
       "symbol": "AEQUS",
       "name": "AEQUS",
-      "sector": "Aerospace & Defense",
-      "industry": "Aerospace & Defense",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -71,8 +77,8 @@
     {
       "symbol": "AETHER",
       "name": "AETHER",
-      "sector": "Chemicals",
-      "industry": "Specialty Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -80,8 +86,8 @@
     {
       "symbol": "AGARWALEYE",
       "name": "AGARWALEYE",
-      "sector": "Healthcare",
-      "industry": "Hospital",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -89,8 +95,8 @@
     {
       "symbol": "AHLUCONT",
       "name": "AHLUCONT",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -98,8 +104,8 @@
     {
       "symbol": "AKUMS",
       "name": "AKUMS",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -107,8 +113,8 @@
     {
       "symbol": "ALIVUS",
       "name": "ALIVUS",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -116,8 +122,8 @@
     {
       "symbol": "ALKYLAMINE",
       "name": "ALKYLAMINE",
-      "sector": "Chemicals",
-      "industry": "Specialty Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -125,8 +131,8 @@
     {
       "symbol": "ALOKINDS",
       "name": "ALOKINDS",
-      "sector": "Textiles",
-      "industry": "Other Textile Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -134,8 +140,8 @@
     {
       "symbol": "ANUP",
       "name": "ANUP",
-      "sector": "Capital Goods",
-      "industry": "Industrial Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -143,8 +149,8 @@
     {
       "symbol": "APLLTD",
       "name": "APLLTD",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -152,8 +158,8 @@
     {
       "symbol": "APOLLO",
       "name": "APOLLO",
-      "sector": "Aerospace & Defense",
-      "industry": "Aerospace & Defense",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -161,8 +167,8 @@
     {
       "symbol": "ARVIND",
       "name": "ARVIND",
-      "sector": "Consumer Durables",
-      "industry": "Garments & Apparels",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -170,8 +176,8 @@
     {
       "symbol": "ARVINDFASN",
       "name": "ARVINDFASN",
-      "sector": "Consumer Discretionary",
-      "industry": "Speciality Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -179,8 +185,8 @@
     {
       "symbol": "ASHAPURMIN",
       "name": "ASHAPURMIN",
-      "sector": "Materials",
-      "industry": "Industrial Minerals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -188,8 +194,8 @@
     {
       "symbol": "ASHOKA",
       "name": "ASHOKA",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -197,8 +203,8 @@
     {
       "symbol": "ASKAUTOLTD",
       "name": "ASKAUTOLTD",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -206,8 +212,8 @@
     {
       "symbol": "ASTRAMICRO",
       "name": "ASTRAMICRO",
-      "sector": "Aerospace & Defense",
-      "industry": "Aerospace & Defense",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -216,7 +222,7 @@
       "symbol": "ATLANTAELE",
       "name": "ATLANTAELE",
       "sector": "Unknown",
-      "industry": "",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -224,17 +230,8 @@
     {
       "symbol": "AURIONPRO",
       "name": "AURIONPRO",
-      "sector": "Information Technology",
-      "industry": "Computers - Software & Consulting",
-      "reportingType": "nonFinancial",
-      "listingExchange": "NSE",
-      "source": "screener-in"
-    },
-    {
-      "symbol": "AVALON",
-      "name": "AVALON",
-      "sector": "Capital Goods",
-      "industry": "Other Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -242,17 +239,8 @@
     {
       "symbol": "AVANTIFEED",
       "name": "AVANTIFEED",
-      "sector": "Consumer Staples",
-      "industry": "Animal Feed",
-      "reportingType": "nonFinancial",
-      "listingExchange": "NSE",
-      "source": "screener-in"
-    },
-    {
-      "symbol": "AVL",
-      "name": "AVL",
-      "sector": "Consumer Discretionary",
-      "industry": "Speciality Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -260,8 +248,8 @@
     {
       "symbol": "AWFIS",
       "name": "AWFIS",
-      "sector": "Industrials",
-      "industry": "Diversified Commercial Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -269,8 +257,8 @@
     {
       "symbol": "AXISCADES",
       "name": "AXISCADES",
-      "sector": "Aerospace & Defense",
-      "industry": "Aerospace & Defense",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -278,8 +266,8 @@
     {
       "symbol": "AZAD",
       "name": "AZAD",
-      "sector": "Capital Goods",
-      "industry": "Heavy Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -287,8 +275,8 @@
     {
       "symbol": "BAJAJELEC",
       "name": "BAJAJELEC",
-      "sector": "Consumer Durables",
-      "industry": "Household Appliances",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -296,8 +284,8 @@
     {
       "symbol": "BALAMINES",
       "name": "BALAMINES",
-      "sector": "Chemicals",
-      "industry": "Specialty Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -305,8 +293,8 @@
     {
       "symbol": "BALUFORGE",
       "name": "BALUFORGE",
-      "sector": "Capital Goods",
-      "industry": "Castings & Forgings",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -314,8 +302,8 @@
     {
       "symbol": "BANCOINDIA",
       "name": "BANCOINDIA",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -323,8 +311,8 @@
     {
       "symbol": "BBOX",
       "name": "BBOX",
-      "sector": "Information Technology",
-      "industry": "IT Enabled Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -332,8 +320,8 @@
     {
       "symbol": "BECTORFOOD",
       "name": "BECTORFOOD",
-      "sector": "Consumer Staples",
-      "industry": "Packaged Foods",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -341,8 +329,8 @@
     {
       "symbol": "BIRLACORPN",
       "name": "BIRLACORPN",
-      "sector": "Cement",
-      "industry": "Cement & Cement Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -350,8 +338,8 @@
     {
       "symbol": "BLACKBUCK",
       "name": "BLACKBUCK",
-      "sector": "Logistics",
-      "industry": "Transport Related Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -359,8 +347,8 @@
     {
       "symbol": "BLUESTONE",
       "name": "BLUESTONE",
-      "sector": "Consumer Durables",
-      "industry": "Gems Jewellery And Watches",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -368,8 +356,8 @@
     {
       "symbol": "BORORENEW",
       "name": "BORORENEW",
-      "sector": "Materials",
-      "industry": "Glass - Industrial",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -377,8 +365,8 @@
     {
       "symbol": "CAMPUS",
       "name": "CAMPUS",
-      "sector": "Consumer Durables",
-      "industry": "Footwear",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -386,8 +374,8 @@
     {
       "symbol": "CAPILLARY",
       "name": "CAPILLARY",
-      "sector": "Information Technology",
-      "industry": "Software Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -395,17 +383,17 @@
     {
       "symbol": "CCAVENUE",
       "name": "CCAVENUE",
-      "sector": "NBFC",
-      "industry": "Financial Technology (Fintech)",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "CELLO",
       "name": "CELLO",
-      "sector": "Consumer Durables",
-      "industry": "Houseware",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -413,8 +401,8 @@
     {
       "symbol": "CENTURYPLY",
       "name": "CENTURYPLY",
-      "sector": "Materials",
-      "industry": "Plywood Boards/ Laminates",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -422,8 +410,8 @@
     {
       "symbol": "CERA",
       "name": "CERA",
-      "sector": "Materials",
-      "industry": "Sanitary Ware",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -431,8 +419,8 @@
     {
       "symbol": "CIEINDIA",
       "name": "CIEINDIA",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -440,8 +428,8 @@
     {
       "symbol": "CIGNITITEC",
       "name": "CIGNITITEC",
-      "sector": "Information Technology",
-      "industry": "IT Enabled Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -449,8 +437,8 @@
     {
       "symbol": "CMSINFO",
       "name": "CMSINFO",
-      "sector": "Industrials",
-      "industry": "Diversified Commercial Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -458,8 +446,8 @@
     {
       "symbol": "CORONA",
       "name": "CORONA",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -467,17 +455,17 @@
     {
       "symbol": "CRAMC",
       "name": "CRAMC",
-      "sector": "NBFC",
-      "industry": "Asset Management Company",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "CRIZAC",
       "name": "CRIZAC",
-      "sector": "Consumer Discretionary",
-      "industry": "Internet & Catalogue Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -485,17 +473,17 @@
     {
       "symbol": "CSBBANK",
       "name": "CSBBANK",
-      "sector": "Banks",
-      "industry": "Private Sector Bank",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "CUPID",
       "name": "CUPID",
-      "sector": "Consumer Staples",
-      "industry": "Personal Care",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -503,8 +491,8 @@
     {
       "symbol": "DATAMATICS",
       "name": "DATAMATICS",
-      "sector": "Information Technology",
-      "industry": "IT Enabled Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -512,8 +500,8 @@
     {
       "symbol": "DBL",
       "name": "DBL",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -521,8 +509,8 @@
     {
       "symbol": "DBREALTY",
       "name": "DBREALTY",
-      "sector": "Real Estate",
-      "industry": "Residential Commercial Projects",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -530,17 +518,17 @@
     {
       "symbol": "DCBBANK",
       "name": "DCBBANK",
-      "sector": "Banks",
-      "industry": "Private Sector Bank",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "DIACABS",
       "name": "DIACABS",
-      "sector": "Capital Goods",
-      "industry": "Other Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -548,8 +536,8 @@
     {
       "symbol": "DYNAMATECH",
       "name": "DYNAMATECH",
-      "sector": "Capital Goods",
-      "industry": "Industrial Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -557,8 +545,8 @@
     {
       "symbol": "EDELWEISS",
       "name": "EDELWEISS",
-      "sector": "Industrials",
-      "industry": "Holding Company",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -566,8 +554,8 @@
     {
       "symbol": "EIEL",
       "name": "EIEL",
-      "sector": "Utilities",
-      "industry": "Water Supply & Management",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -575,8 +563,8 @@
     {
       "symbol": "ELECTCAST",
       "name": "ELECTCAST",
-      "sector": "Metals",
-      "industry": "Iron & Steel Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -584,8 +572,8 @@
     {
       "symbol": "ELLEN",
       "name": "ELLEN",
-      "sector": "Chemicals",
-      "industry": "Industrial Gases",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -593,8 +581,8 @@
     {
       "symbol": "EMBDL",
       "name": "EMBDL",
-      "sector": "Real Estate",
-      "industry": "Residential Commercial Projects",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -602,8 +590,8 @@
     {
       "symbol": "EMIL",
       "name": "EMIL",
-      "sector": "Consumer Discretionary",
-      "industry": "Diversified Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -611,8 +599,8 @@
     {
       "symbol": "ENTERO",
       "name": "ENTERO",
-      "sector": "Healthcare",
-      "industry": "Pharmacy Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -620,8 +608,8 @@
     {
       "symbol": "EPL",
       "name": "EPL",
-      "sector": "Materials",
-      "industry": "Packaging",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -629,17 +617,17 @@
     {
       "symbol": "EQUITASBNK",
       "name": "EQUITASBNK",
-      "sector": "Banks",
-      "industry": "Other Bank",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "ETHOSLTD",
       "name": "ETHOSLTD",
-      "sector": "Consumer Durables",
-      "industry": "Gems Jewellery And Watches",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -647,8 +635,8 @@
     {
       "symbol": "EUREKAFORB",
       "name": "EUREKAFORB",
-      "sector": "Consumer Durables",
-      "industry": "Household Appliances",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -656,17 +644,17 @@
     {
       "symbol": "FEDFINA",
       "name": "FEDFINA",
-      "sector": "NBFC",
-      "industry": "Non Banking Financial Company (NBFC)",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "FIEMIND",
       "name": "FIEMIND",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -674,8 +662,8 @@
     {
       "symbol": "FINPIPE",
       "name": "FINPIPE",
-      "sector": "Materials",
-      "industry": "Plastic Products - Industrial",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -683,8 +671,8 @@
     {
       "symbol": "GAEL",
       "name": "GAEL",
-      "sector": "Agriculture",
-      "industry": "Other Agricultural Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -692,8 +680,8 @@
     {
       "symbol": "GHCL",
       "name": "GHCL",
-      "sector": "Chemicals",
-      "industry": "Commodity Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -701,8 +689,8 @@
     {
       "symbol": "GMMPFAUDLR",
       "name": "GMMPFAUDLR",
-      "sector": "Capital Goods",
-      "industry": "Industrial Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -710,8 +698,8 @@
     {
       "symbol": "GMRP&UI",
       "name": "GMRP&UI",
-      "sector": "Utilities",
-      "industry": "Power Generation",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -719,8 +707,8 @@
     {
       "symbol": "GNFC",
       "name": "GNFC",
-      "sector": "Chemicals",
-      "industry": "Commodity Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -728,8 +716,8 @@
     {
       "symbol": "GODREJAGRO",
       "name": "GODREJAGRO",
-      "sector": "Consumer Staples",
-      "industry": "Animal Feed",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -737,8 +725,8 @@
     {
       "symbol": "GOKEX",
       "name": "GOKEX",
-      "sector": "Consumer Durables",
-      "industry": "Garments & Apparels",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -746,8 +734,8 @@
     {
       "symbol": "GOKULAGRO",
       "name": "GOKULAGRO",
-      "sector": "Consumer Staples",
-      "industry": "Edible Oil",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -755,8 +743,8 @@
     {
       "symbol": "GPPL",
       "name": "GPPL",
-      "sector": "Logistics",
-      "industry": "Port & Port services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -764,8 +752,8 @@
     {
       "symbol": "GREAVESCOT",
       "name": "GREAVESCOT",
-      "sector": "Capital Goods",
-      "industry": "Compressors Pumps & Diesel Engines",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -773,8 +761,8 @@
     {
       "symbol": "GRWRHITECH",
       "name": "GRWRHITECH",
-      "sector": "Materials",
-      "industry": "Plastic Products - Industrial",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -782,8 +770,8 @@
     {
       "symbol": "GSFC",
       "name": "GSFC",
-      "sector": "Chemicals",
-      "industry": "Fertilizers",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -791,8 +779,8 @@
     {
       "symbol": "HAPPSTMNDS",
       "name": "HAPPSTMNDS",
-      "sector": "Information Technology",
-      "industry": "Computers - Software & Consulting",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -800,8 +788,8 @@
     {
       "symbol": "HCC",
       "name": "HCC",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -809,8 +797,8 @@
     {
       "symbol": "HCG",
       "name": "HCG",
-      "sector": "Healthcare",
-      "industry": "Hospital",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -818,8 +806,8 @@
     {
       "symbol": "HEMIPROP",
       "name": "HEMIPROP",
-      "sector": "Industrials",
-      "industry": "Diversified Commercial Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -827,8 +815,8 @@
     {
       "symbol": "HERITGFOOD",
       "name": "HERITGFOOD",
-      "sector": "Consumer Staples",
-      "industry": "Dairy Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -836,8 +824,8 @@
     {
       "symbol": "HGINFRA",
       "name": "HGINFRA",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -845,8 +833,8 @@
     {
       "symbol": "ICIL",
       "name": "ICIL",
-      "sector": "Textiles",
-      "industry": "Other Textile Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -854,8 +842,8 @@
     {
       "symbol": "IFBIND",
       "name": "IFBIND",
-      "sector": "Consumer Durables",
-      "industry": "Household Appliances",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -863,17 +851,17 @@
     {
       "symbol": "IIFLCAPS",
       "name": "IIFLCAPS",
-      "sector": "NBFC",
-      "industry": "Stockbroking & Allied",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "IMFA",
       "name": "IMFA",
-      "sector": "Metals",
-      "industry": "Ferro & Silica Manganese",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -881,8 +869,8 @@
     {
       "symbol": "INDIAGLYCO",
       "name": "INDIAGLYCO",
-      "sector": "Consumer Discretionary",
-      "industry": "Breweries & Distilleries",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -890,17 +878,17 @@
     {
       "symbol": "INDIASHLTR",
       "name": "INDIASHLTR",
-      "sector": "NBFC",
-      "industry": "Housing Finance Company",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "INDIGOPNTS",
       "name": "INDIGOPNTS",
-      "sector": "Chemicals",
-      "industry": "Paints",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -908,8 +896,8 @@
     {
       "symbol": "INOXGREEN",
       "name": "INOXGREEN",
-      "sector": "Industrials",
-      "industry": "Diversified Commercial Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -917,8 +905,8 @@
     {
       "symbol": "INOXINDIA",
       "name": "INOXINDIA",
-      "sector": "Industrials",
-      "industry": "Other Industrial Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -926,8 +914,8 @@
     {
       "symbol": "IONEXCHANG",
       "name": "IONEXCHANG",
-      "sector": "Utilities",
-      "industry": "Water Supply & Management",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -935,8 +923,8 @@
     {
       "symbol": "IXIGO",
       "name": "IXIGO",
-      "sector": "Industrials",
-      "industry": "Tour Travel Related Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -944,8 +932,8 @@
     {
       "symbol": "JAIBALAJI",
       "name": "JAIBALAJI",
-      "sector": "Metals",
-      "industry": "Iron & Steel",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -953,8 +941,8 @@
     {
       "symbol": "JAMNAAUTO",
       "name": "JAMNAAUTO",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -962,8 +950,8 @@
     {
       "symbol": "JAYNECOIND",
       "name": "JAYNECOIND",
-      "sector": "Metals",
-      "industry": "Iron & Steel Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -971,8 +959,8 @@
     {
       "symbol": "JKLAKSHMI",
       "name": "JKLAKSHMI",
-      "sector": "Cement",
-      "industry": "Cement & Cement Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -980,8 +968,8 @@
     {
       "symbol": "JKPAPER",
       "name": "JKPAPER",
-      "sector": "Materials",
-      "industry": "Paper & Paper Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -989,8 +977,8 @@
     {
       "symbol": "JLHL",
       "name": "JLHL",
-      "sector": "Healthcare",
-      "industry": "Hospital",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -998,17 +986,17 @@
     {
       "symbol": "JSFB",
       "name": "JSFB",
-      "sector": "Banks",
-      "industry": "Other Bank",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "JSLL",
       "name": "JSLL",
-      "sector": "Healthcare",
-      "industry": "Wellness",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1016,8 +1004,8 @@
     {
       "symbol": "JUSTDIAL",
       "name": "JUSTDIAL",
-      "sector": "Consumer Discretionary",
-      "industry": "Internet & Catalogue Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1025,8 +1013,8 @@
     {
       "symbol": "JYOTHYLAB",
       "name": "JYOTHYLAB",
-      "sector": "Consumer Staples",
-      "industry": "Household Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1034,8 +1022,8 @@
     {
       "symbol": "KANSAINER",
       "name": "KANSAINER",
-      "sector": "Chemicals",
-      "industry": "Paints",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1043,8 +1031,8 @@
     {
       "symbol": "KIRLOSBROS",
       "name": "KIRLOSBROS",
-      "sector": "Capital Goods",
-      "industry": "Compressors Pumps & Diesel Engines",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1052,8 +1040,8 @@
     {
       "symbol": "KIRLPNU",
       "name": "KIRLPNU",
-      "sector": "Capital Goods",
-      "industry": "Compressors Pumps & Diesel Engines",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1061,8 +1049,8 @@
     {
       "symbol": "KITEX",
       "name": "KITEX",
-      "sector": "Consumer Durables",
-      "industry": "Garments & Apparels",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1070,8 +1058,8 @@
     {
       "symbol": "KNRCON",
       "name": "KNRCON",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1079,8 +1067,8 @@
     {
       "symbol": "KPIGREEN",
       "name": "KPIGREEN",
-      "sector": "Utilities",
-      "industry": "Power Generation",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1088,8 +1076,8 @@
     {
       "symbol": "KRBL",
       "name": "KRBL",
-      "sector": "Agriculture",
-      "industry": "Other Agricultural Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1097,8 +1085,8 @@
     {
       "symbol": "KRN",
       "name": "KRN",
-      "sector": "Industrials",
-      "industry": "Other Industrial Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1106,8 +1094,8 @@
     {
       "symbol": "KSB",
       "name": "KSB",
-      "sector": "Capital Goods",
-      "industry": "Compressors Pumps & Diesel Engines",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1115,8 +1103,8 @@
     {
       "symbol": "KSCL",
       "name": "KSCL",
-      "sector": "Agriculture",
-      "industry": "Other Agricultural Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1124,17 +1112,17 @@
     {
       "symbol": "KTKBANK",
       "name": "KTKBANK",
-      "sector": "Banks",
-      "industry": "Private Sector Bank",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "LLOYDSENGG",
       "name": "LLOYDSENGG",
-      "sector": "Capital Goods",
-      "industry": "Industrial Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1142,8 +1130,8 @@
     {
       "symbol": "LLOYDSENT",
       "name": "LLOYDSENT",
-      "sector": "Materials",
-      "industry": "Trading - Metals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1151,8 +1139,8 @@
     {
       "symbol": "LOTUSDEV",
       "name": "LOTUSDEV",
-      "sector": "Real Estate",
-      "industry": "Residential Commercial Projects",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1160,8 +1148,8 @@
     {
       "symbol": "LUMAXTECH",
       "name": "LUMAXTECH",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1169,8 +1157,8 @@
     {
       "symbol": "LXCHEM",
       "name": "LXCHEM",
-      "sector": "Chemicals",
-      "industry": "Specialty Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1178,17 +1166,17 @@
     {
       "symbol": "MAHSCOOTER",
       "name": "MAHSCOOTER",
-      "sector": "NBFC",
-      "industry": "Investment Company",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "MAHSEAMLES",
       "name": "MAHSEAMLES",
-      "sector": "Metals",
-      "industry": "Iron & Steel Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1196,8 +1184,8 @@
     {
       "symbol": "MANORAMA",
       "name": "MANORAMA",
-      "sector": "Consumer Staples",
-      "industry": "Other Food Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1205,8 +1193,8 @@
     {
       "symbol": "MANYAVAR",
       "name": "MANYAVAR",
-      "sector": "Consumer Discretionary",
-      "industry": "Speciality Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1214,8 +1202,8 @@
     {
       "symbol": "MARKSANS",
       "name": "MARKSANS",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1223,8 +1211,8 @@
     {
       "symbol": "MASTEK",
       "name": "MASTEK",
-      "sector": "Information Technology",
-      "industry": "Computers - Software & Consulting",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1232,8 +1220,8 @@
     {
       "symbol": "MEDPLUS",
       "name": "MEDPLUS",
-      "sector": "Healthcare",
-      "industry": "Pharmacy Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1241,8 +1229,8 @@
     {
       "symbol": "METROPOLIS",
       "name": "METROPOLIS",
-      "sector": "Healthcare",
-      "industry": "Healthcare Service Provider",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1250,8 +1238,8 @@
     {
       "symbol": "MIDHANI",
       "name": "MIDHANI",
-      "sector": "Aerospace & Defense",
-      "industry": "Aerospace & Defense",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1259,8 +1247,8 @@
     {
       "symbol": "MOIL",
       "name": "MOIL",
-      "sector": "Materials",
-      "industry": "Industrial Minerals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1268,8 +1256,8 @@
     {
       "symbol": "MSTCLTD",
       "name": "MSTCLTD",
-      "sector": "Industrials",
-      "industry": "Trading & Distributors",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1277,8 +1265,8 @@
     {
       "symbol": "MTARTECH",
       "name": "MTARTECH",
-      "sector": "Capital Goods",
-      "industry": "Other Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1286,8 +1274,8 @@
     {
       "symbol": "NAZARA",
       "name": "NAZARA",
-      "sector": "Media",
-      "industry": "Digital Entertainment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1295,8 +1283,8 @@
     {
       "symbol": "NEOGEN",
       "name": "NEOGEN",
-      "sector": "Chemicals",
-      "industry": "Specialty Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1304,8 +1292,8 @@
     {
       "symbol": "NESCO",
       "name": "NESCO",
-      "sector": "Industrials",
-      "industry": "Diversified Commercial Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1313,8 +1301,8 @@
     {
       "symbol": "NETWORK18",
       "name": "NETWORK18",
-      "sector": "Media",
-      "industry": "Media & Entertainment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1322,8 +1310,8 @@
     {
       "symbol": "NFL",
       "name": "NFL",
-      "sector": "Chemicals",
-      "industry": "Fertilizers",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1331,8 +1319,8 @@
     {
       "symbol": "OPTIEMUS",
       "name": "OPTIEMUS",
-      "sector": "Telecom",
-      "industry": "Telecom - Equipment & Accessories",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1340,8 +1328,8 @@
     {
       "symbol": "ORIENTCEM",
       "name": "ORIENTCEM",
-      "sector": "Cement",
-      "industry": "Cement & Cement Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1349,8 +1337,8 @@
     {
       "symbol": "ORKLAINDIA",
       "name": "ORKLAINDIA",
-      "sector": "Consumer Staples",
-      "industry": "Other Food Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1358,8 +1346,8 @@
     {
       "symbol": "OSWALPUMPS",
       "name": "OSWALPUMPS",
-      "sector": "Capital Goods",
-      "industry": "Compressors Pumps & Diesel Engines",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1367,8 +1355,8 @@
     {
       "symbol": "PARAS",
       "name": "PARAS",
-      "sector": "Aerospace & Defense",
-      "industry": "Aerospace & Defense",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1376,8 +1364,8 @@
     {
       "symbol": "PARKHOSPS",
       "name": "PARKHOSPS",
-      "sector": "Healthcare",
-      "industry": "Hospital",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1385,8 +1373,8 @@
     {
       "symbol": "PCJEWELLER",
       "name": "PCJEWELLER",
-      "sector": "Consumer Durables",
-      "industry": "Gems Jewellery And Watches",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1394,8 +1382,8 @@
     {
       "symbol": "PFOCUS",
       "name": "PFOCUS",
-      "sector": "Media",
-      "industry": "Media & Entertainment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1403,8 +1391,8 @@
     {
       "symbol": "PGIL",
       "name": "PGIL",
-      "sector": "Consumer Durables",
-      "industry": "Garments & Apparels",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1412,8 +1400,8 @@
     {
       "symbol": "PICCADIL",
       "name": "PICCADIL",
-      "sector": "Consumer Discretionary",
-      "industry": "Breweries & Distilleries",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1421,8 +1409,8 @@
     {
       "symbol": "PNCINFRA",
       "name": "PNCINFRA",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1430,8 +1418,8 @@
     {
       "symbol": "PNGJL",
       "name": "PNGJL",
-      "sector": "Consumer Durables",
-      "industry": "Gems Jewellery And Watches",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1439,8 +1427,8 @@
     {
       "symbol": "POWERMECH",
       "name": "POWERMECH",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1448,8 +1436,8 @@
     {
       "symbol": "PRAJIND",
       "name": "PRAJIND",
-      "sector": "Capital Goods",
-      "industry": "Industrial Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1457,8 +1445,8 @@
     {
       "symbol": "PRICOLLTD",
       "name": "PRICOLLTD",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1466,8 +1454,8 @@
     {
       "symbol": "PRIVISCL",
       "name": "PRIVISCL",
-      "sector": "Chemicals",
-      "industry": "Specialty Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1475,8 +1463,8 @@
     {
       "symbol": "PRSMJOHNSN",
       "name": "PRSMJOHNSN",
-      "sector": "Cement",
-      "industry": "Cement & Cement Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1484,17 +1472,17 @@
     {
       "symbol": "PRUDENT",
       "name": "PRUDENT",
-      "sector": "NBFC",
-      "industry": "Financial Products Distributor",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "PTC",
       "name": "PTC",
-      "sector": "Utilities",
-      "industry": "Power Trading",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1502,8 +1490,8 @@
     {
       "symbol": "PURVA",
       "name": "PURVA",
-      "sector": "Real Estate",
-      "industry": "Residential Commercial Projects",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1511,8 +1499,8 @@
     {
       "symbol": "QPOWER",
       "name": "QPOWER",
-      "sector": "Capital Goods",
-      "industry": "Heavy Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1520,8 +1508,8 @@
     {
       "symbol": "QUESS",
       "name": "QUESS",
-      "sector": "Industrials",
-      "industry": "Diversified Commercial Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1529,8 +1517,8 @@
     {
       "symbol": "RAIN",
       "name": "RAIN",
-      "sector": "Chemicals",
-      "industry": "Petrochemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1538,8 +1526,8 @@
     {
       "symbol": "RALLIS",
       "name": "RALLIS",
-      "sector": "Chemicals",
-      "industry": "Pesticides & Agrochemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1547,8 +1535,8 @@
     {
       "symbol": "RATEGAIN",
       "name": "RATEGAIN",
-      "sector": "Information Technology",
-      "industry": "Computers - Software & Consulting",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1556,8 +1544,8 @@
     {
       "symbol": "RAYMONDLSL",
       "name": "RAYMONDLSL",
-      "sector": "Textiles",
-      "industry": "Other Textile Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1565,8 +1553,8 @@
     {
       "symbol": "RBA",
       "name": "RBA",
-      "sector": "Consumer Discretionary",
-      "industry": "Restaurants",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1574,8 +1562,8 @@
     {
       "symbol": "RCF",
       "name": "RCF",
-      "sector": "Chemicals",
-      "industry": "Fertilizers",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1583,8 +1571,8 @@
     {
       "symbol": "REDTAPE",
       "name": "REDTAPE",
-      "sector": "Consumer Durables",
-      "industry": "Footwear",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1592,8 +1580,8 @@
     {
       "symbol": "REFEX",
       "name": "REFEX",
-      "sector": "Chemicals",
-      "industry": "Industrial Gases",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1601,8 +1589,8 @@
     {
       "symbol": "RELAXO",
       "name": "RELAXO",
-      "sector": "Consumer Durables",
-      "industry": "Footwear",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1610,17 +1598,17 @@
     {
       "symbol": "RELIGARE",
       "name": "RELIGARE",
-      "sector": "NBFC",
-      "industry": "Investment Company",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "RENUKA",
       "name": "RENUKA",
-      "sector": "Consumer Staples",
-      "industry": "Sugar",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1628,8 +1616,8 @@
     {
       "symbol": "ROUTE",
       "name": "ROUTE",
-      "sector": "Telecom",
-      "industry": "Other Telecom Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1637,8 +1625,8 @@
     {
       "symbol": "RTNINDIA",
       "name": "RTNINDIA",
-      "sector": "Consumer Discretionary",
-      "industry": "E-Retail/ E-Commerce",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1646,8 +1634,8 @@
     {
       "symbol": "RTNPOWER",
       "name": "RTNPOWER",
-      "sector": "Utilities",
-      "industry": "Power Generation",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1655,8 +1643,8 @@
     {
       "symbol": "RUBICON",
       "name": "RUBICON",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1664,8 +1652,8 @@
     {
       "symbol": "SAATVIKGL",
       "name": "SAATVIKGL",
-      "sector": "Capital Goods",
-      "industry": "Other Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1673,8 +1661,8 @@
     {
       "symbol": "SAFARI",
       "name": "SAFARI",
-      "sector": "Consumer Durables",
-      "industry": "Plastic Products - Consumer",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1682,8 +1670,8 @@
     {
       "symbol": "SAMHI",
       "name": "SAMHI",
-      "sector": "Consumer Discretionary",
-      "industry": "Hotels & Resorts",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1691,8 +1679,8 @@
     {
       "symbol": "SANDUMA",
       "name": "SANDUMA",
-      "sector": "Energy",
-      "industry": "Coal",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1700,17 +1688,8 @@
     {
       "symbol": "SANSERA",
       "name": "SANSERA",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
-      "reportingType": "nonFinancial",
-      "listingExchange": "NSE",
-      "source": "screener-in"
-    },
-    {
-      "symbol": "SENCO",
-      "name": "SENCO",
-      "sector": "Consumer Durables",
-      "industry": "Gems Jewellery And Watches",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1718,8 +1697,8 @@
     {
       "symbol": "SFL",
       "name": "SFL",
-      "sector": "Consumer Durables",
-      "industry": "Furniture Home Furnishing",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1727,8 +1706,8 @@
     {
       "symbol": "SHAILY",
       "name": "SHAILY",
-      "sector": "Consumer Durables",
-      "industry": "Plastic Products - Consumer",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1736,8 +1715,8 @@
     {
       "symbol": "SHAKTIPUMP",
       "name": "SHAKTIPUMP",
-      "sector": "Capital Goods",
-      "industry": "Compressors Pumps & Diesel Engines",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1745,8 +1724,8 @@
     {
       "symbol": "SHARDACROP",
       "name": "SHARDACROP",
-      "sector": "Chemicals",
-      "industry": "Pesticides & Agrochemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1754,17 +1733,17 @@
     {
       "symbol": "SHAREINDIA",
       "name": "SHAREINDIA",
-      "sector": "NBFC",
-      "industry": "Stockbroking & Allied",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "SHILPAMED",
       "name": "SHILPAMED",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1772,8 +1751,8 @@
     {
       "symbol": "SHRIPISTON",
       "name": "SHRIPISTON",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1781,8 +1760,8 @@
     {
       "symbol": "SKFINDIA",
       "name": "SKFINDIA",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1790,8 +1769,8 @@
     {
       "symbol": "SKFINDUS",
       "name": "SKFINDUS",
-      "sector": "Industrials",
-      "industry": "Abrasives & Bearings",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1799,8 +1778,8 @@
     {
       "symbol": "SKIPPER",
       "name": "SKIPPER",
-      "sector": "Capital Goods",
-      "industry": "Heavy Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1808,8 +1787,8 @@
     {
       "symbol": "SKYGOLD",
       "name": "SKYGOLD",
-      "sector": "Consumer Durables",
-      "industry": "Gems Jewellery And Watches",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1817,8 +1796,8 @@
     {
       "symbol": "SMARTWORKS",
       "name": "SMARTWORKS",
-      "sector": "Industrials",
-      "industry": "Diversified Commercial Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1826,8 +1805,8 @@
     {
       "symbol": "SMLMAH",
       "name": "SMLMAH",
-      "sector": "Automobiles",
-      "industry": "Commercial Vehicles",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1835,17 +1814,17 @@
     {
       "symbol": "SOUTHBANK",
       "name": "SOUTHBANK",
-      "sector": "Banks",
-      "industry": "Private Sector Bank",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "SPARC",
       "name": "SPARC",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1853,8 +1832,8 @@
     {
       "symbol": "STAR",
       "name": "STAR",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1862,8 +1841,8 @@
     {
       "symbol": "STARCEMENT",
       "name": "STARCEMENT",
-      "sector": "Cement",
-      "industry": "Cement & Cement Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1871,8 +1850,8 @@
     {
       "symbol": "STLTECH",
       "name": "STLTECH",
-      "sector": "Telecom",
-      "industry": "Telecom - Equipment & Accessories",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1880,17 +1859,17 @@
     {
       "symbol": "STYL",
       "name": "STYL",
-      "sector": "NBFC",
-      "industry": "Financial Technology (Fintech)",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "STYRENIX",
       "name": "STYRENIX",
-      "sector": "Chemicals",
-      "industry": "Specialty Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1898,8 +1877,8 @@
     {
       "symbol": "SUBROS",
       "name": "SUBROS",
-      "sector": "Industrials",
-      "industry": "Other Industrial Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1907,8 +1886,8 @@
     {
       "symbol": "SUDARSCHEM",
       "name": "SUDARSCHEM",
-      "sector": "Chemicals",
-      "industry": "Dyes And Pigments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1916,8 +1895,8 @@
     {
       "symbol": "SUDEEPPHRM",
       "name": "SUDEEPPHRM",
-      "sector": "Chemicals",
-      "industry": "Specialty Chemicals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1925,8 +1904,8 @@
     {
       "symbol": "SUNTECK",
       "name": "SUNTECK",
-      "sector": "Real Estate",
-      "industry": "Residential Commercial Projects",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1934,8 +1913,8 @@
     {
       "symbol": "SUPRIYA",
       "name": "SUPRIYA",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1943,8 +1922,8 @@
     {
       "symbol": "SURYAROSNI",
       "name": "SURYAROSNI",
-      "sector": "Metals",
-      "industry": "Iron & Steel Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1952,8 +1931,8 @@
     {
       "symbol": "SWSOLAR",
       "name": "SWSOLAR",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1961,8 +1940,8 @@
     {
       "symbol": "TANLA",
       "name": "TANLA",
-      "sector": "Information Technology",
-      "industry": "Software Products",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1970,8 +1949,8 @@
     {
       "symbol": "TARC",
       "name": "TARC",
-      "sector": "Real Estate",
-      "industry": "Residential Commercial Projects",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1979,8 +1958,8 @@
     {
       "symbol": "TDPOWERSYS",
       "name": "TDPOWERSYS",
-      "sector": "Capital Goods",
-      "industry": "Heavy Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1988,8 +1967,8 @@
     {
       "symbol": "TEXRAIL",
       "name": "TEXRAIL",
-      "sector": "Industrials",
-      "industry": "Railway Wagons",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -1997,8 +1976,8 @@
     {
       "symbol": "THANGAMAYL",
       "name": "THANGAMAYL",
-      "sector": "Consumer Durables",
-      "industry": "Gems Jewellery And Watches",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2006,8 +1985,8 @@
     {
       "symbol": "THOMASCOOK",
       "name": "THOMASCOOK",
-      "sector": "Industrials",
-      "industry": "Tour Travel Related Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2015,8 +1994,8 @@
     {
       "symbol": "THYROCARE",
       "name": "THYROCARE",
-      "sector": "Healthcare",
-      "industry": "Healthcare Service Provider",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2024,8 +2003,8 @@
     {
       "symbol": "TI",
       "name": "TI",
-      "sector": "Consumer Discretionary",
-      "industry": "Breweries & Distilleries",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2033,8 +2012,8 @@
     {
       "symbol": "TIMETECHNO",
       "name": "TIMETECHNO",
-      "sector": "Materials",
-      "industry": "Plastic Products - Industrial",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2042,8 +2021,8 @@
     {
       "symbol": "TIPSMUSIC",
       "name": "TIPSMUSIC",
-      "sector": "Media",
-      "industry": "Media & Entertainment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2051,17 +2030,17 @@
     {
       "symbol": "TMB",
       "name": "TMB",
-      "sector": "Banks",
-      "industry": "Private Sector Bank",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "TRANSRAILL",
       "name": "TRANSRAILL",
-      "sector": "Capital Goods",
-      "industry": "Heavy Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2069,8 +2048,8 @@
     {
       "symbol": "TRIVENI",
       "name": "TRIVENI",
-      "sector": "Consumer Staples",
-      "industry": "Sugar",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2078,17 +2057,17 @@
     {
       "symbol": "TSFINV",
       "name": "TSFINV",
-      "sector": "NBFC",
-      "industry": "Investment Company",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "TVSSCS",
       "name": "TVSSCS",
-      "sector": "Logistics",
-      "industry": "Logistics Solution Provider",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2096,17 +2075,17 @@
     {
       "symbol": "UJJIVANSFB",
       "name": "UJJIVANSFB",
-      "sector": "Banks",
-      "industry": "Other Bank",
-      "reportingType": "financial",
+      "sector": "Unknown",
+      "industry": "Unknown",
+      "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     },
     {
       "symbol": "UTLSOLAR",
       "name": "UTLSOLAR",
-      "sector": "Capital Goods",
-      "industry": "Other Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2114,8 +2093,8 @@
     {
       "symbol": "V2RETAIL",
       "name": "V2RETAIL",
-      "sector": "Consumer Discretionary",
-      "industry": "Speciality Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2123,8 +2102,8 @@
     {
       "symbol": "VAIBHAVGBL",
       "name": "VAIBHAVGBL",
-      "sector": "Consumer Durables",
-      "industry": "Gems Jewellery And Watches",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2132,8 +2111,8 @@
     {
       "symbol": "VARROC",
       "name": "VARROC",
-      "sector": "Auto Components",
-      "industry": "Auto Components & Equipments",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2141,8 +2120,8 @@
     {
       "symbol": "VGUARD",
       "name": "VGUARD",
-      "sector": "Consumer Durables",
-      "industry": "Household Appliances",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2150,8 +2129,8 @@
     {
       "symbol": "VIKRAMSOLR",
       "name": "VIKRAMSOLR",
-      "sector": "Capital Goods",
-      "industry": "Other Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2159,8 +2138,8 @@
     {
       "symbol": "VIPIND",
       "name": "VIPIND",
-      "sector": "Consumer Durables",
-      "industry": "Plastic Products - Consumer",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2168,8 +2147,8 @@
     {
       "symbol": "VIYASH",
       "name": "VIYASH",
-      "sector": "Pharmaceuticals",
-      "industry": "Pharmaceuticals",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2177,8 +2156,8 @@
     {
       "symbol": "VMART",
       "name": "VMART",
-      "sector": "Consumer Discretionary",
-      "industry": "Diversified Retail",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2186,8 +2165,8 @@
     {
       "symbol": "VOLTAMP",
       "name": "VOLTAMP",
-      "sector": "Capital Goods",
-      "industry": "Heavy Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2195,8 +2174,8 @@
     {
       "symbol": "WAAREERTL",
       "name": "WAAREERTL",
-      "sector": "Capital Goods",
-      "industry": "Other Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2204,8 +2183,8 @@
     {
       "symbol": "WABAG",
       "name": "WABAG",
-      "sector": "Utilities",
-      "industry": "Water Supply & Management",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2213,8 +2192,8 @@
     {
       "symbol": "WAKEFIT",
       "name": "WAKEFIT",
-      "sector": "Consumer Durables",
-      "industry": "Furniture Home Furnishing",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2222,8 +2201,8 @@
     {
       "symbol": "WEBELSOLAR",
       "name": "WEBELSOLAR",
-      "sector": "Capital Goods",
-      "industry": "Other Electrical Equipment",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2231,8 +2210,8 @@
     {
       "symbol": "WELENT",
       "name": "WELENT",
-      "sector": "Industrials",
-      "industry": "Civil Construction",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2240,8 +2219,8 @@
     {
       "symbol": "WESTLIFE",
       "name": "WESTLIFE",
-      "sector": "Consumer Discretionary",
-      "industry": "Restaurants",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2249,8 +2228,8 @@
     {
       "symbol": "WEWORK",
       "name": "WEWORK",
-      "sector": "Industrials",
-      "industry": "Diversified Commercial Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2258,8 +2237,8 @@
     {
       "symbol": "YATHARTH",
       "name": "YATHARTH",
-      "sector": "Healthcare",
-      "industry": "Hospital",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
@@ -2267,12 +2246,11 @@
     {
       "symbol": "ZAGGLE",
       "name": "ZAGGLE",
-      "sector": "Information Technology",
-      "industry": "IT Enabled Services",
+      "sector": "Unknown",
+      "industry": "Unknown",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "screener-in"
     }
-  ],
-  "schemaVersion": 3
+  ]
 }
