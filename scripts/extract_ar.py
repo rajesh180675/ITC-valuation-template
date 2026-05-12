@@ -38,24 +38,28 @@ def download_ar(ticker, year):
     except: return None
 
 def find_pnl_page(doc, fy_cur):
-    """Find standalone P&L page robustly."""
+    """Find standalone P&L page robustly across all report formats."""
     for i in range(50, min(320, len(doc))):
         text = doc[i].get_text()
         tl = text.lower()
-        if 'revenue from operations' not in tl: continue
-        if 'total income' not in tl: continue
-        if 'auditor' in tl[:150] or 'certify' in tl[:150]: continue
-        if 'consolidated' in tl[:400]: continue
-        if re.search(r'\d{4,6}\.\d{2}', text):
+        # Must have revenue + expenses + total income (any format)
+        has_rev = 'revenue from operations' in tl or 'revenue from operations*' in tl
+        has_costs = 'cost of materials' in tl or 'employee benefits' in tl
+        has_total = 'total income' in tl or 'total revenue' in tl
+        has_numbers = len(re.findall(r'\b\d{3,}\.\d{2}\b', text)) >= 3
+        if has_rev and has_costs and has_total and has_numbers:
+            if 'consolidated' in tl[:400]: continue
             return i
-    # Broader fallback
+    # Broader: just check for revenue items + lots of numbers
     for i in range(50, min(320, len(doc))):
         text = doc[i].get_text()
         tl = text.lower()
-        if ('revenue from operations' in tl or 'gross revenue' in tl) and 'employee benefits' in tl:
-            if 'auditor' not in tl[:200] and 'consolidated' not in tl[:400]:
-                if re.search(r'\d{4,6}\.\d{2}', text):
-                    return i
+        has_rev = 'revenue from operations' in tl or 'gross revenue' in tl or 'revenue from operations*' in tl
+        has_items = 'cost of materials' in tl and 'depreciation' in tl
+        numbers = re.findall(r'\b\d{3,}\.\d{2}\b', text)
+        if has_rev and has_items and len(numbers) >= 5:
+            if 'consolidated' in tl[:400]: continue
+            return i
     return None
 
 def find_bs_page(doc):
@@ -63,9 +67,11 @@ def find_bs_page(doc):
         text = doc[i].get_text()
         tl = text.lower()
         if 'balance sheet' in tl and 'as at' in tl:
-            if 'auditor' in tl[:100]: continue
             if 'consolidated' in tl[:400]: continue
-            if 'total assets' in tl and 'equity' in tl:
+            # Check for total values (either 'total assets' or just 'total' with numbers)
+            has_total = 'total assets' in tl or 'total' + 'equity' in tl
+            has_numbers = len(re.findall(r'\b\d{3,}\.\d{2}\b', text)) >= 3
+            if has_total or has_numbers:
                 return i
     return None
 
@@ -73,10 +79,10 @@ def find_cf_page(doc):
     for i in range(50, min(320, len(doc))):
         text = doc[i].get_text()
         tl = text.lower()
-        if 'cash flow' in tl and ('operating' in tl or 'investing' in tl or 'financing' in tl):
-            if 'auditor' in tl[:150]: continue
+        # Must say "Cash Flow Statement" or "Statement of Cash Flows"
+        if ('cash flow statement' in tl or 'statement of cash flow' in tl) and 'for the year ended' in tl:
             if 'consolidated' in tl[:400]: continue
-            if 'profit before tax' in tl:
+            if 'profit before tax' in tl or 'operating activities' in tl:
                 return i
     return None
 
