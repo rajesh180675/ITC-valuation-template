@@ -24,6 +24,7 @@ const TABS: { id: Tab; label: string; icon: any }[] = [
 ];
 
 const COLORS = ['#10b981', '#34d399', '#6ee7b7', '#f59e0b', '#f97316', '#ef4444', '#8b5cf6', '#3b82f6', '#06b6d4', '#ec4899'];
+const SEGMENT_DONUT_ORDER = ['FMCG - Cigarettes', 'FMCG - Others', 'Agri Business', 'Paperboards, Paper and Packaging', 'Others'];
 const COMPANY_MAP: Record<string, string> = {
   ITC: 'ITC Limited', RELIANCE: 'Reliance Industries', TCS: 'Tata Consultancy Services',
   HDFCBANK: 'HDFC Bank', INFY: 'Infosys', ICICIBANK: 'ICICI Bank', SBIN: 'SBI', WIPRO: 'Wipro',
@@ -211,7 +212,7 @@ export function AnnualReportsSection() {
           </div>
 
           {/* Tab content */}
-          {tab === 'segments' ? <SegmentsView segData={segData} /> :
+          {tab === 'segments' ? <SegmentsView segData={segData} activeTicker={activeTicker} /> :
            tab === 'charts' ? <ChartsView kpiData={kpiData} /> :
            <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
         </>
@@ -467,7 +468,11 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
 }
 
 /* ── Segments Tab ─────────────────────────────────────────────────────────── */
-function SegmentsView({ segData }: { segData: any }) {
+function SegmentsView({ segData, activeTicker }: { segData: any; activeTicker: string }) {
+  if (activeTicker !== 'ITC') {
+    return <div className="glass-card p-5 text-center text-gray-400">No segment data for this company yet.</div>;
+  }
+
   const series = segData?.segment_time_series;
   if (!series || Object.keys(series).length === 0) {
     return <div className="glass-card p-5 text-center text-gray-400">No segment data.</div>;
@@ -475,23 +480,42 @@ function SegmentsView({ segData }: { segData: any }) {
 
   const sectionLabels: Record<string, string> = { revenue: 'Segment Revenue', results: 'Segment Results', assets: 'Segment Assets', liabilities: 'Segment Liabilities' };
   const allFys = [...new Set(Object.values(series as Record<string, Record<string, number>>).flatMap(v => Object.keys(v)))].sort();
+  const displayFys = allFys.filter(fy => fy >= 'FY2016');
+  const basis = segData?.basis ? String(segData.basis) : 'standalone';
+  const coverage = segData?.coverageBySection;
+  const isExcludedDonutLabel = (name: string) => {
+    const lower = name.toLowerCase();
+    return lower.includes('total') || lower.includes('elimination') || lower.includes('unallocated') || lower.includes('discontinued');
+  };
 
   return (
     <div className="space-y-6">
+      <div className="text-[11px] text-gray-500 flex flex-wrap gap-x-3 gap-y-1">
+        <span>Basis: <span className="text-emerald-300 capitalize">{basis}</span></span>
+        <span>Years: <span className="text-gray-300">{displayFys[0]}-{displayFys[displayFys.length - 1]}</span></span>
+        {coverage && (
+          <span>
+            Coverage: {Object.entries(coverage as Record<string, { items?: number }>).map(([k, v]) => `${k} ${v.items ?? 0}`).join(' / ')}
+          </span>
+        )}
+      </div>
+
       <div className="glass-card p-4">
         <h3 className="text-sm font-semibold text-white mb-3">Segment Revenue Mix (Latest Year)</h3>
         <div className="h-[250px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie data={(() => {
-                const latest = allFys[allFys.length - 1];
+                const latest = displayFys[displayFys.length - 1];
                 return Object.entries(series).filter(([k]) => k.startsWith('revenue|'))
                   .map(([k, v]) => ({ name: k.split('|')[1], value: (v as any)[latest] || 0 }))
-                  .filter(d => d.value > 0 && d.value !== Infinity && !Number.isNaN(d.value));
+                  .filter(d => !isExcludedDonutLabel(d.name))
+                  .filter(d => d.value > 0 && d.value !== Infinity && !Number.isNaN(d.value))
+                  .sort((a, b) => SEGMENT_DONUT_ORDER.indexOf(a.name) - SEGMENT_DONUT_ORDER.indexOf(b.name));
               })()} cx="50%" cy="50%" outerRadius={80} dataKey="value"
                 label={({ name, value }: any) => `${name} (${fmtN(value, 0)})`} labelLine
               >
-                {Object.keys(series).filter(k => k.startsWith('revenue|')).map((_, i) => (
+                {SEGMENT_DONUT_ORDER.map((_, i) => (
                   <Cell key={i} fill={COLORS[i % COLORS.length]} />
                 ))}
               </Pie>
@@ -510,7 +534,7 @@ function SegmentsView({ segData }: { segData: any }) {
             <table className="w-full text-xs tabular-nums" style={{ minWidth: 500 }}>
               <thead>
                 <tr><th className="text-left py-2 pr-4 text-gray-400 font-medium">Segment</th>
-                  {allFys.map(fy => <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "'")}</th>)}
+                  {displayFys.map(fy => <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "'")}</th>)}
                 </tr>
               </thead>
               <tbody>
@@ -520,7 +544,7 @@ function SegmentsView({ segData }: { segData: any }) {
                   return (
                     <tr key={key} className="hover:bg-white/[0.03]">
                       <td className="py-1.5 pr-4 text-gray-300 text-[11px]">{name}</td>
-                      {allFys.map(fy => (
+                      {displayFys.map(fy => (
                         <td key={fy} className={`text-right py-1.5 px-2 text-[11px] ${vmap[fy] ? 'text-white' : 'text-gray-600'}`}>
                           {vmap[fy] ? fmtN(vmap[fy], 0) : '\u2014'}
                         </td>
