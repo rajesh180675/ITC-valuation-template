@@ -1,40 +1,58 @@
 import { useEffect, useState } from 'react';
-import { BookOpen, TrendingUp, PieChart, Layers, BarChart3, Table2 } from 'lucide-react';
+import { BookOpen, TrendingUp, PieChart, Layers, BarChart3, DollarSign, Activity } from 'lucide-react';
 import { fmt, fmtN } from '@/components/itc/shared';
 import { Kpi } from './shared';
 
-type Tab = 'pnl' | 'balanceSheet' | 'segments';
+type Tab = 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments';
 
-interface PlItem {
-  type: string;
-  label: string;
-  note_ref: string;
-  current: number | null;
-  prior: number | null;
-  section: string | null;
+interface Item {
+  type: string; label: string; note_ref: string;
+  current: number | null; prior: number | null; section: string | null;
+}
+
+interface Statement {
+  fy: string; items: Item[]; kpIs: Record<string, number | null>;
 }
 
 interface YearData {
-  profitLoss?: { fy: string; items: PlItem[]; kpIs: Record<string, number | null> };
-  balanceSheet?: { fy: string; items: PlItem[]; kpIs: Record<string, number | null> };
+  profitLoss?: Statement;
+  balanceSheet?: Statement;
+  cashFlow?: Statement;
 }
 
 interface ARDataset {
-  ticker: string;
-  years: Record<string, YearData>;
-  metadata: { source: string };
+  ticker: string; years: Record<string, YearData>; metadata: Record<string, string>;
 }
 
-const TABS: { id: Tab; label: string; icon: typeof Table2 }[] = [
+const TABS: { id: Tab; label: string; icon: typeof BarChart3 }[] = [
   { id: 'pnl', label: 'P&L', icon: TrendingUp },
   { id: 'balanceSheet', label: 'Balance Sheet', icon: PieChart },
+  { id: 'cashFlow', label: 'Cash Flow', icon: DollarSign },
   { id: 'segments', label: 'Segments', icon: Layers },
 ];
 
-function guessPnlTotal(items: PlItem[], field: string): number {
-  const item = items.find(i => i.label.toLowerCase().includes(field));
-  return item?.current ?? 0;
-}
+const ROW_GROUPS: Record<string, { label: string; keys: string[] }[]> = {
+  pnl: [
+    { label: 'REVENUE', keys: ['revenue from operations', 'other income', 'total income'] },
+    { label: 'EXPENSES', keys: ['cost of materials consumed', 'purchases of stock-in-trade',
+      'changes in inventories of finished goods', 'excise duty', 'employee benefits expense',
+      'finance costs', 'depreciation and amortization', 'other expenses', 'total expenses'] },
+    { label: 'PROFITABILITY', keys: ['profit before exceptional', 'exceptional items',
+      'profit before tax', 'current tax', 'deferred tax', 'tax expense',
+      'profit for the year from continuing', 'profit for the year'] },
+    { label: 'PER SHARE', keys: ['earning per share'] },
+  ],
+  cashFlow: [
+    { label: 'OPERATING', keys: ['profit before tax', 'depreciation', 'working capital',
+      'cash generated from operations', 'net cash from operating', 'net cash flow from operating'] },
+    { label: 'INVESTING', keys: ['purchase of fixed assets', 'sale of fixed assets',
+      'net cash used in investing', 'net cash flow from investing'] },
+    { label: 'FINANCING', keys: ['proceeds from borrowings', 'repayment of borrowings',
+      'dividend paid', 'net cash from financing', 'net cash flow from financing'] },
+    { label: 'SUMMARY', keys: ['net increase in cash', 'cash and cash equivalents at the end',
+      'cash and cash equivalents at beginning'] },
+  ],
+};
 
 export function AnnualReportsSection() {
   const [data, setData] = useState<ARDataset | null>(null);
@@ -49,15 +67,16 @@ export function AnnualReportsSection() {
     ]).then(([ar, seg]) => {
       setData(ar);
       setSegData(seg);
-      const years = Object.keys(ar.years).sort();
-      setSelectedYears(years.slice(-5)); // default: last 5 years
+      setSelectedYears(Object.keys(ar.years).sort().slice(-5));
     });
   }, []);
 
-  if (!data) return <div className="glass-card p-8 text-center text-gray-400 animate-pulse">Loading annual report data…</div>;
+  if (!data) {
+    return <div className="glass-card p-8 text-center text-gray-400 animate-pulse">Loading annual report data…</div>;
+  }
 
   const years = Object.keys(data.years).sort();
-  const allYears = selectedYears.length > 0 ? selectedYears : years.slice(-5);
+  const displayYears = selectedYears.length > 0 ? selectedYears : years.slice(-5);
 
   return (
     <div className="space-y-4 p-4 md:p-6 max-w-7xl mx-auto">
@@ -69,27 +88,22 @@ export function AnnualReportsSection() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-white">Annual Reports</h1>
-            <p className="text-xs text-gray-400">ITC Limited • {data.metadata.source} • 10 years</p>
+            <p className="text-xs text-gray-400">
+              ITC Limited · {data.metadata.source} · {years.length} years · {tab.toUpperCase()} view
+            </p>
           </div>
         </div>
-        {/* Year selector */}
         <div className="flex gap-1.5 flex-wrap">
           {years.map(fy => (
-            <button
-              key={fy}
-              onClick={() => {
-                setSelectedYears(prev =>
-                  prev.includes(fy) ? prev.filter(y => y !== fy) : [...prev, fy].sort()
-                );
-              }}
+            <button key={fy} onClick={() => setSelectedYears(prev =>
+              prev.includes(fy) ? prev.filter(y => y !== fy) : [...prev, fy].sort()
+            )}
               className={`px-2.5 py-1 text-[11px] rounded-md font-mono transition-all ${
                 selectedYears.includes(fy)
                   ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                   : 'bg-gray-800/50 text-gray-400 border border-transparent hover:text-gray-200'
               }`}
-            >
-              {fy.replace('FY', "'")}
-            </button>
+            >{fy.replace('FY', "'")}</button>
           ))}
         </div>
       </div>
@@ -99,173 +113,185 @@ export function AnnualReportsSection() {
         {TABS.map(t => {
           const Icon = t.icon;
           return (
-            <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
+            <button key={t.id} onClick={() => setTab(t.id)}
               className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-all ${
-                tab === t.id
-                  ? 'text-emerald-300 border-emerald-500'
-                  : 'text-gray-500 border-transparent hover:text-gray-300'
-              }`}
-            >
-              <Icon size={16} />
-              {t.label}
-            </button>
+                tab === t.id ? 'text-emerald-300 border-emerald-500' : 'text-gray-500 border-transparent hover:text-gray-300'}`}
+            ><Icon size={16} /> {t.label}</button>
           );
         })}
       </div>
 
-      {/* Tab content */}
-      {tab === 'pnl' && <PnLView data={data} years={allYears} />}
-      {tab === 'balanceSheet' && <BalanceSheetView data={data} years={allYears} />}
+      {/* Content */}
+      {tab === 'pnl' && <StatementTable data={data} years={displayYears} stmtType="profitLoss" groups={ROW_GROUPS.pnl} />}
+      {tab === 'balanceSheet' && <StatementTable data={data} years={displayYears} stmtType="balanceSheet" groups={[]} />}
+      {tab === 'cashFlow' && <StatementTable data={data} years={displayYears} stmtType="cashFlow" groups={ROW_GROUPS.cashFlow} />}
       {tab === 'segments' && <SegmentsView segData={segData} />}
     </div>
   );
 }
 
-/* ── P&L Tab ──────────────────────────────────────────────────────────────── */
-function PnLView({ data, years }: { data: ARDataset; years: string[] }) {
-  const yearData = years.map(fy => data.years[fy]?.profitLoss).filter(Boolean);
+/* ── Reusable Statement Table ─────────────────────────────────────────────── */
+function StatementTable({ data, years, stmtType, groups }: {
+  data: ARDataset; years: string[]; stmtType: string; groups: { label: string; keys: string[] }[];
+}) {
+  const columnLabel = stmtType === 'profitLoss' ? 'P&L Item' : stmtType === 'balanceSheet' ? 'Balance Sheet Item' : 'Cash Flow Item';
 
-  // Build multi-year table: rows = items, cols = FYs
-  const allLabels = new Set<string>();
-  yearData.forEach(yd => yd!.items.forEach((i: PlItem) => { if (i.type === 'item') allLabels.add(i.label); }));
+  // KPI cards
+  const kpiKeys = data.years[years[years.length - 1]]?.[stmtType as keyof YearData]?.kpIs;
+  const kpiCards = kpiKeys ? Object.entries(kpiKeys).filter(([k, v]) => v !== null && k !== 'epsRs').slice(0, 4) : [];
 
-  const rowGroups = [
-    { label: 'REVENUE', keys: ['revenue from operations', 'other income', 'total income'] },
-    { label: 'EXPENSES', keys: ['cost of materials', 'purchases of stock', 'changes in inventories',
-      'excise duty', 'employee benefits', 'finance costs', 'depreciation', 'other expenses', 'total expenses'] },
-    { label: 'PROFITABILITY', keys: ['profit before exceptional', 'exceptional items', 'profit before tax',
-      'tax expense', 'profit for the year'] },
-  ];
+  if (!kpiCards.length && !groups.length) {
+    // BS mode: show all section items
+    return <BsView data={data} years={years} />;
+  }
 
+  // KPI cards row
   return (
-    <div className="glass-card p-5 overflow-x-auto">
-      <div className="flex items-center gap-2 mb-4">
-        <TrendingUp size={16} className="text-emerald-400" />
-        <h2 className="text-sm font-semibold text-white">Income Statement — Multi-Year Comparison</h2>
-        <span className="text-[10px] text-gray-500 ml-auto">* in Rs. Crores</span>
-      </div>
-
-      <table className="w-full text-xs sensex-table tabular-nums" style={{ minWidth: 600 }}>
-        <thead>
-          <tr>
-            <th className="text-left py-2 pr-4 text-gray-400 font-medium">Item</th>
-            {years.map(fy => (
-              <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY ")}</th>
-            ))}
-            <th className="text-right py-2 pl-2 text-gray-400 font-medium">Trend</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rowGroups.map(group => (
-            <>
-              <tr key={group.label}>
-                <td className="text-[11px] font-bold text-gray-300 pt-4 pb-1" colSpan={years.length + 2}>
-                  {group.label}
-                </td>
-              </tr>
-              {group.keys.map(key => {
-                const vals = years.map(fy => {
-                  const yd = data.years[fy]?.profitLoss;
-                  if (!yd) return null;
-                  const item = yd.items.find((i: PlItem) => i.label.toLowerCase().includes(key));
-                  return item?.current ?? null;
-                });
-                const hasData = vals.some(v => v !== null);
-                if (!hasData) return null;
-                const first = vals.find(v => v !== null && v !== 0) ?? 0;
-                const last = [...vals].reverse().find(v => v !== null && v !== 0) ?? 0;
-                const trend = first !== 0 ? ((last - first) / Math.abs(first) * 100).toFixed(1) : '—';
-                const trendNum = parseFloat(trend);
-                return (
-                  <tr key={key} className="hover:bg-white/5">
-                    <td className="py-1.5 pr-4 text-gray-300 capitalize">{key}</td>
-                    {vals.map((v, i) => (
-                      <td key={i} className={`text-right py-1.5 px-2 ${v !== null ? 'text-white' : 'text-gray-600'}`}>
-                        {v !== null ? fmtN(v, 0) : '—'}
-                      </td>
-                    ))}
-                    <td className={`text-right py-1.5 pl-2 ${trendNum > 5 ? 'text-emerald-400' : trendNum < -5 ? 'text-rose-400' : 'text-gray-500'}`}>
-                      {trend !== '—' ? `${trendNum > 0 ? '▲' : '▼'} ${Math.abs(trendNum).toFixed(1)}%` : '—'}
-                    </td>
-                  </tr>
-                );
-              })}
-            </>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-/* ── Balance Sheet Tab ────────────────────────────────────────────────────── */
-function BalanceSheetView({ data, years }: { data: ARDataset; years: string[] }) {
-  const allItems = years.map(fy => data.years[fy]?.balanceSheet?.items ?? []).flat();
-  const totalAssets = years.map(fy => data.years[fy]?.balanceSheet?.kpIs?.totalAssetsCr ?? null);
-  const totalAssetsExists = totalAssets.some(v => v !== null);
-
-  return (
-    <div className="glass-card p-5 overflow-x-auto">
-      <div className="flex items-center gap-2 mb-4">
-        <PieChart size={16} className="text-emerald-400" />
-        <h2 className="text-sm font-semibold text-white">Balance Sheet — Multi-Year Comparison</h2>
-        <span className="text-[10px] text-gray-500 ml-auto">* in Rs. Crores</span>
-      </div>
-
-      {totalAssetsExists && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          {years.map((fy, i) => (
-            totalAssets[i] ? (
-              <Kpi key={fy} label={`Total Assets ${fy.replace('FY', "'")}`} value={fmt(totalAssets[i]!)} smallValue />
-            ) : null
+    <div className="space-y-4">
+      {kpiCards.length > 0 && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {kpiCards.map(([key, val]) => (
+            <Kpi key={key} label={key.replace(/([A-Z])/g, ' $1').replace(/Cr$/, ' (Cr)').trim()}
+              value={fmt(val ?? 0)} smallValue />
           ))}
         </div>
       )}
 
-      <table className="w-full text-xs sensex-table tabular-nums" style={{ minWidth: 500 }}>
-        <thead>
-          <tr>
-            <th className="text-left py-2 pr-4 text-gray-400 font-medium">Item</th>
-            {years.map(fy => (
-              <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY ")}</th>
+      <div className="glass-card p-5 overflow-x-auto">
+        <table className="w-full text-xs sensex-table tabular-nums" style={{ minWidth: 600 }}>
+          <thead>
+            <tr>
+              <th className="text-left py-2 pr-4 text-gray-400 font-medium">{columnLabel}</th>
+              {years.map(fy => (
+                <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY '")}</th>
+              ))}
+              <th className="text-right py-2 pl-2 text-gray-400 font-medium">Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            {groups.map(group => (
+              <>{group.label !== groups[0]?.label && <tr><td colSpan={years.length + 2} className="h-2" /></tr>}
+                <tr key={group.label}>
+                  <td className="text-[11px] font-bold text-gray-300 pt-3 pb-1" colSpan={years.length + 2}>{group.label}</td>
+                </tr>
+                {group.keys.map(key => {
+                  const vals = years.map(fy => {
+                    const stmt = data.years[fy]?.[stmtType as keyof YearData];
+                    if (!stmt) return null;
+                    const item = (stmt as Statement).items.find((i: Item) => i.label.toLowerCase().includes(key));
+                    return item?.current ?? null;
+                  });
+                  const hasData = vals.some(v => v !== null);
+                  if (!hasData) return null;
+                  const first = vals.find(v => v !== null && v !== 0) ?? 0;
+                  const last = [...vals].reverse().find(v => v !== null && v !== 0) ?? 0;
+                  const trend = first !== 0 ? ((last - first) / Math.abs(first) * 100) : 0;
+                  return (
+                    <tr key={key} className="hover:bg-white/5">
+                      <td className="py-1.5 pr-4 text-gray-300 capitalize">{key}</td>
+                      {vals.map((v, i) => (
+                        <td key={i} className={`text-right py-1.5 px-2 ${v !== null ? 'text-white' : 'text-gray-600'}`}>
+                          {v !== null ? fmtN(v, 0) : '—'}
+                        </td>
+                      ))}
+                      <td className={`text-right py-1.5 pl-2 ${
+                        trend > 5 ? 'text-emerald-400' : trend < -5 ? 'text-rose-400' : 'text-gray-500'
+                      }`}>
+                        {trend !== 0 ? `${trend > 0 ? '▲' : '▼'} ${Math.abs(trend).toFixed(1)}%` : '—'}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </>
             ))}
-          </tr>
-        </thead>
-        <tbody>
-          {['TOTAL ASSETS', 'EQUITY AND LIABILITIES', 'Non-current assets', 'Current assets',
-            'Equity', 'Non-current liabilities', 'Current liabilities'].map(sectionLabel => {
-            // Find matching items across years
-            const rows = years.map(fy => {
-              const items = data.years[fy]?.balanceSheet?.items ?? [];
-              const matching = items.filter((i: PlItem) => i.type === 'section' && i.label.toLowerCase().includes(sectionLabel.toLowerCase()));
-              return matching.length > 0 ? matching[0] : null;
-            });
-            const hasData = rows.some(r => r !== null);
-            if (!hasData) return null;
-            return (
-              <tr key={sectionLabel} className="bg-gray-800/30">
-                <td className="py-1.5 pr-4 text-gray-300 font-medium text-[11px]">{sectionLabel}</td>
-                {years.map((fy, i) => (
-                  <td key={fy} className="text-right py-1.5 px-2 text-gray-400">—</td>
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+/* ── Balance Sheet (section-based) ────────────────────────────────────────── */
+function BsView({ data, years }: { data: ARDataset; years: string[] }) {
+  const lastYear = years[years.length - 1];
+  const lastBs = data.years[lastYear]?.balanceSheet;
+  const totalAssets = lastBs?.kpIs?.totalAssetsCr;
+
+  // Extract unique sections
+  const sections: { label: string; itemKeys: { label: string }[] }[] = [];
+  if (lastBs) {
+    let currentSection: { label: string; itemKeys: { label: string }[] } | null = null;
+    for (const item of lastBs.items) {
+      if (item.type === 'section') {
+        currentSection = { label: item.label, itemKeys: [] };
+        sections.push(currentSection);
+      } else if (currentSection && item.current !== null) {
+        currentSection.itemKeys.push({ label: item.label });
+      }
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      {totalAssets && (
+        <div className="flex gap-4">
+          <Kpi label={`Total Assets (${lastYear})`} value={fmt(totalAssets)} smallValue />
+        </div>
+      )}
+
+      <div className="glass-card p-5 overflow-x-auto">
+        <table className="w-full text-xs sensex-table tabular-nums" style={{ minWidth: 600 }}>
+          <thead>
+            <tr>
+              <th className="text-left py-2 pr-4 text-gray-400 font-medium">Line Item</th>
+              {years.map(fy => (
+                <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "'")}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {sections.map(sec => (
+              <>
+                <tr key={sec.label}>
+                  <td className="text-[11px] font-bold text-gray-300 pt-3 pb-1" colSpan={years.length + 1}>{sec.label}</td>
+                </tr>
+                {sec.itemKeys.map((ik, idx) => {
+                  const vals = years.map(fy => {
+                    const bs = data.years[fy]?.balanceSheet;
+                    if (!bs) return null;
+                    const item = bs.items.find((i: Item) =>
+                      i.label.includes(ik.label.slice(0, Math.max(15, ik.label.length))) &&
+                      i.type === 'item'
+                    );
+                    return item?.current ?? null;
+                  });
+                  return (
+                    <tr key={`${sec.label}-${idx}`} className="hover:bg-white/5">
+                      <td className="py-1 pr-4 text-gray-300 text-[11px]">{ik.label}</td>
+                      {vals.map((v, i) => (
+                        <td key={i} className={`text-right py-1 px-2 text-[11px] ${v !== null ? 'text-white' : 'text-gray-600'}`}>
+                          {v !== null ? fmtN(v, 0) : '—'}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
 
 /* ── Segments Tab ─────────────────────────────────────────────────────────── */
 function SegmentsView({ segData }: { segData: any }) {
-  if (!segData?.segment_time_series) {
-    return <div className="glass-card p-5 text-center text-gray-400">No segment data available.</div>;
+  const series = segData?.segment_time_series;
+  if (!series || Object.keys(series).length === 0) {
+    return <div className="glass-card p-5 text-center text-gray-400">No segment data available. Run <code className="text-emerald-400">python scripts/extract_itc_segments.py</code> first.</div>;
   }
 
-  const series = segData.segment_time_series;
   const sectionLabels: Record<string, string> = {
     'revenue': 'Segment Revenue',
     'results': 'Segment Results',
@@ -273,10 +299,11 @@ function SegmentsView({ segData }: { segData: any }) {
     'liabilities': 'Segment Liabilities',
   };
 
-  // Find all FYs
   const allFys = new Set<string>();
-  Object.values(series as Record<string, Record<string, number>>).forEach(v => Object.keys(v).forEach(fy => allFys.add(fy)));
-  const fys = [...allFys].sort().reverse();
+  Object.values(series as Record<string, Record<string, number>>).forEach(v =>
+    Object.keys(v).forEach(fy => allFys.add(fy))
+  );
+  const fys = [...allFys].sort();
 
   return (
     <div className="space-y-6">
@@ -285,7 +312,6 @@ function SegmentsView({ segData }: { segData: any }) {
           .filter(([k]) => k.startsWith(prefix + '|'))
           .sort();
         if (items.length === 0) return null;
-
         return (
           <div key={prefix} className="glass-card p-5 overflow-x-auto">
             <h3 className="text-sm font-semibold text-white mb-3">{title}</h3>
@@ -300,7 +326,7 @@ function SegmentsView({ segData }: { segData: any }) {
               </thead>
               <tbody>
                 {items.map(([key, vals]) => {
-                  const name = key.split('|')[1];
+                  const name = key.split('|').slice(1).join('|');
                   return (
                     <tr key={key} className="hover:bg-white/5">
                       <td className="py-1.5 pr-4 text-gray-300">{name}</td>

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Annual Report Data Engine — Extract ALL financial statements from ITC PDFs
+Annual Report Data Engine — Extract ALL financial statements from PDFs
 =======================================================================
-Extracts: Standalone Balance Sheet, P&L, Cash Flow, Changes in Equity, Notes 1-33
-Compiles 10-year time-series (FY2016-FY2025) into a single JSON dataset.
+Extracts: Standalone P&L, Balance Sheet, Cash Flow from annual report PDFs.
+Compiles multi-year time-series.
 
 Usage: python scripts/extract_ar.py --ticker ITC
 """
@@ -17,59 +17,71 @@ PDF_DIR = os.path.join(ROOT, "public", "data", "annual_reports")
 OUTPUT_DIR = os.path.join(ROOT, "public", "data", "ar")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# ── Company URL Database ──────────────────────────────────────────────────────
 AR_URLS = {
     'ITC': lambda y: f"https://www.itcportal.com/content/dam/itc-corporate/pdfs/report-and-accounts/ITC-Report-and-Accounts-{y}.pdf",
 }
 
-# ── Download Annual Report ────────────────────────────────────────────────────
 def download_ar(ticker, year):
-    """Download annual report PDF if not cached."""
     path = os.path.join(PDF_DIR, f"{ticker}_AR_{year}.pdf")
-    if os.path.exists(path) and os.path.getsize(path) > 10000:
-        return path
-    
+    if os.path.exists(path) and os.path.getsize(path) > 10000: return path
     url_fn = AR_URLS.get(ticker)
-    if not url_fn:
-        return None
-    
+    if not url_fn: return None
     url = url_fn(year)
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+    headers = {'User-Agent': 'Mozilla/5.0'}
     try:
         r = requests.get(url, headers=headers, stream=True, timeout=60)
-        if r.status_code != 200:
-            return None
+        if r.status_code != 200: return None
         with open(path, 'wb') as f:
             for chunk in r.iter_content(8192):
                 if chunk: f.write(chunk)
         return path if os.path.getsize(path) > 10000 else None
-    except:
-        return None
+    except: return None
 
-# ── Page Finder ───────────────────────────────────────────────────────────────
-def find_page_by_text(doc, keywords, required_all=False):
-    """Find first page containing all keywords."""
-    for i in range(len(doc)):
-        text = doc[i].get_text()[:300].lower()
-        if required_all:
-            if all(kw.lower() in text for kw in keywords):
-                return i
-        else:
-            if any(kw.lower() in text for kw in keywords):
+def find_pnl_page(doc, fy_cur):
+    """Find standalone P&L page robustly."""
+    for i in range(50, min(320, len(doc))):
+        text = doc[i].get_text()
+        tl = text.lower()
+        if 'revenue from operations' not in tl: continue
+        if 'total income' not in tl: continue
+        if 'auditor' in tl[:150] or 'certify' in tl[:150]: continue
+        if 'consolidated' in tl[:400]: continue
+        if re.search(r'\d{4,6}\.\d{2}', text):
+            return i
+    # Broader fallback
+    for i in range(50, min(320, len(doc))):
+        text = doc[i].get_text()
+        tl = text.lower()
+        if ('revenue from operations' in tl or 'gross revenue' in tl) and 'employee benefits' in tl:
+            if 'auditor' not in tl[:200] and 'consolidated' not in tl[:400]:
+                if re.search(r'\d{4,6}\.\d{2}', text):
+                    return i
+    return None
+
+def find_bs_page(doc):
+    for i in range(50, min(320, len(doc))):
+        text = doc[i].get_text()
+        tl = text.lower()
+        if 'balance sheet' in tl and 'as at' in tl:
+            if 'auditor' in tl[:100]: continue
+            if 'consolidated' in tl[:400]: continue
+            if 'total assets' in tl and 'equity' in tl:
                 return i
     return None
 
-def find_pages_containing(doc, keyword):
-    """Find all pages containing a keyword (for multi-page statements)."""
-    pages = []
-    for i in range(len(doc)):
-        if keyword.lower() in doc[i].get_text()[:200].lower():
-            pages.append(i)
-    return pages
+def find_cf_page(doc):
+    for i in range(50, min(320, len(doc))):
+        text = doc[i].get_text()
+        tl = text.lower()
+        if 'cash flow' in tl and ('operating' in tl or 'investing' in tl or 'financing' in tl):
+            if 'auditor' in tl[:150]: continue
+            if 'consolidated' in tl[:400]: continue
+            if 'profit before tax' in tl:
+                return i
+    return None
 
-# ── Parse 2-Column Table (BS, P&L: FY_current, FY_prior) ─────────────────────
-def parse_two_col_table(page, fy_current, fy_prior):
-    """Parse a standard 2-column financial statement (BS, P&L, CF) with note refs."""
+def parse_statement(page, fy_cur, fy_pri):
+    """Parse a 2-column financial statement with position-based extraction."""
     blocks = page.get_text('dict')['blocks']
     lines = []
     for block in blocks:
@@ -77,199 +89,153 @@ def parse_two_col_table(page, fy_current, fy_prior):
             for line in block['lines']:
                 spans = line['spans']
                 text = ''.join(s['text'] for s in spans)
-                x0 = spans[0]['bbox'][0] if spans else 0
-                y0 = line['bbox'][1]
-                lines.append((x0, y0, text))
+                lines.append((spans[0]['bbox'][0], line['bbox'][1], text))
     
     lines.sort(key=lambda l: (l[1], l[0]))
     
-    # Group into rows by y-position (8px threshold for multi-line descriptions)
+    # Group into rows
     rows = []
-    current_y, current_cells = None, []
+    cur_y, cur_cells = None, []
     for x, y, text in lines:
-        if current_y is None or abs(y - current_y) < 8:
-            current_cells.append((x, text))
-            current_y = y
+        if cur_y is None or abs(y - cur_y) < 8:
+            cur_cells.append((x, text))
+            cur_y = y
         else:
-            if current_cells: rows.append((current_y, current_cells))
-            current_cells = [(x, text)]
-            current_y = y
-    if current_cells: rows.append((current_y, current_cells))
+            if cur_cells: rows.append((cur_y, cur_cells))
+            cur_cells = [(x, text)]
+            cur_y = y
+    if cur_cells: rows.append((cur_y, cur_cells))
     
-    # Detect column layout from header row
     items = []
-    in_section = None  # Track section header (EQUITY, ASSETS, etc.)
+    in_section = None
+    
+    section_keywords = ['equity', 'equity and liabilities', 'assets', 'non-current assets',
+                       'current assets', 'current liabilities', 'non-current liabilities',
+                       'revenue', 'expenses', 'income']
     
     for y, cells in rows:
-        cells_by_x = sorted(cells, key=lambda c: c[0])
+        cells = sorted(cells, key=lambda c: c[0])
+        left = [c for c in cells if c[0] < 280]
+        mid = [c for c in cells if 280 <= c[0] < 400]
+        right = [c for c in cells if c[0] >= 400]
         
-        # Three columns: label (x<280), note_ref (280<=x<400), values (x>=400)
-        left_cells = [c for c in cells_by_x if c[0] < 280]
-        mid_cells = [c for c in cells_by_x if 280 <= c[0] < 400]
-        right_cells = [c for c in cells_by_x if c[0] >= 400]
+        label_parts = [c[1].strip().rstrip(',').strip() for c in left
+                       if not re.match(r'^[\dA-Z,\s/]+$', c[1].strip()) or len(c[1].strip()) > 8]
+        label = ' '.join(label_parts) if label_parts else (left[0][1].strip() if left else '')
         
-        # Combine label from all left cells
-        label_parts = [c[1].strip().rstrip(',').strip() for c in left_cells
-                       if not re.match(r'^[\dA-Z,\s]+$', c[1].strip()) or len(c[1].strip()) > 8]
-        label = ' '.join(label_parts) if label_parts else (left_cells[0][1].strip() if left_cells else '')
-        
-        # Detect section headers
         ll = label.lower()
-        if ll in ['equity', 'equity and liabilities', 'assets', 'non-current assets',
-                  'current assets', 'current liabilities', 'non-current liabilities']:
+        if any(ll.startswith(k) for k in ['equity', 'assets', 'non-current', 'current ']):
             in_section = label
             items.append({'type': 'section', 'label': label})
             continue
         
-        if not label:
-            continue
+        if not label: continue
         
-        # Extract note reference from middle column
+        # Note ref from middle
         note_ref = ''
-        for cell in mid_cells:
-            ct = cell[1].strip()
-            if re.match(r'^[\dA-Z,\s/]+$', ct) and len(ct) < 15 and not ct.startswith('-'):
+        for c in mid:
+            ct = c[1].strip()
+            if re.match(r'^[\dA-Z,\s/]+$', ct) and len(ct) < 15:
                 if not re.match(r'^-?\d+\.?\d*$', ct) or ',' in ct:
                     note_ref = ct
                     break
         
-        # Extract values (right-side cells) - note refs like "23" are in the middle area (x 280-400)
-        values = []
-        for c in right_cells:
+        # Values from right
+        vals = []
+        for c in right:
             ct = c[1].strip().replace(',', '').replace('(', '-').replace(')', '')
-            if bool(re.match(r'^-?[\d.]+$', ct)):
-                values.append(ct)
+            if re.match(r'^-?[\d.]+$', ct):
+                vals.append(round(float(ct), 2))
         
-        cur_val = values[0] if len(values) >= 1 else None
-        pri_val = values[1] if len(values) >= 2 else None
+        cur_val = vals[0] if len(vals) >= 1 else None
+        pri_val = vals[1] if len(vals) >= 2 else None
         
-        if cur_val:
-            try: cur_val = round(float(cur_val.replace('(','-').replace(')','')), 2)
-            except: cur_val = None
-        if pri_val:
-            try: pri_val = round(float(pri_val.replace('(','-').replace(')','')), 2)
-            except: pri_val = None
-        
-        # Only include substantive lines
-        if cur_val is not None or any(kw in label.lower() for kw in ['total', 'net', 'gross',
-            'property', 'plant', 'equipment', 'capital', 'reserve', 'share', 'investment',
-            'inventory', 'trade', 'cash', 'bank', 'revenue', 'income', 'expense', 'cost',
-            'depreciation', 'finance', 'tax', 'profit', 'loss', 'dividend', 'earning',
-            'employee', 'other', 'intangible', 'deferred', 'provision', 'borrowing']):
+        if cur_val is not None:
             items.append({
-                'type': 'item',
-                'label': label,
-                'note_ref': note_ref,
-                'current': cur_val,
-                'prior': pri_val,
-                'section': in_section,
+                'type': 'item', 'label': label, 'note_ref': note_ref,
+                'current': cur_val, 'prior': pri_val, 'section': in_section,
             })
     
     return items
 
-# ── Parse P&L ────────────────────────────────────────────────────────────────
-def extract_pnl(doc, fy_cur, fy_pri):
-    """Extract P&L from annual report."""
-    # Find P&L page
-    pnl_idx = find_page_by_text(doc, [f"Statement of Profit and Loss", f"for the year ended"])
-    if pnl_idx is None:
-        return None
-    
-    # P&L is on one page, extract it
-    items = parse_two_col_table(doc[pnl_idx], fy_cur, fy_pri)
-    
-    # Extract summary KPIs
-    revenue = next((x for x in items if x['type'] == 'item' and 'revenue from operation' in x['label'].lower()), None)
-    total_income = next((x for x in items if x['type'] == 'item' and 'total income' in x['label'].lower() and 'expense' not in x['label'].lower()), None)
-    ebitda_line = next((x for x in items if x['type'] == 'item' and 'ebitda' in x['label'].lower()), None)
-    pbt = next((x for x in items if x['type'] == 'item' and 'profit before tax' in x['label'].lower()), None)
-    pat = next((x for x in items if x['type'] == 'item' and 'profit for the year' in x['label'].lower() and 'continuing' in x['label'].lower()), None)
-    eps = next((x for x in items if x['type'] == 'item' and 'earning per share' in x['label'].lower()), None)
-    
-    return {
-        'fy': f"FY{fy_cur}",
-        'items': items,
-        'kpIs': {
-            'revenueCr': revenue['current'] if revenue else None,
-            'totalIncomeCr': total_income['current'] if total_income else None,
-            'pbtCr': pbt['current'] if pbt else None,
-            'patCr': pat['current'] if pat else None,
-        }
-    }
+def extract_kpis(items, stmt_type):
+    """Extract key KPIs from parsed items."""
+    kpis = {}
+    if stmt_type == 'pnl':
+        rev = next((i for i in items if 'revenue from operations' in i['label'].lower()), None)
+        ti = next((i for i in items if 'total income' in i['label'].lower() and 'expense' not in i['label'].lower()), None)
+        pbt = next((i for i in items if 'profit before tax' in i['label'].lower() and 'exceptional' not in i['label'].lower()), None)
+        pat = next((i for i in items if 'profit for the year' in i['label'].lower() and 'continuing' in i['label'].lower()), None)
+        pat2 = next((i for i in items if 'profit for the year' in i['label'].lower() and 'discontinued' not in i['label'].lower()), None)
+        ebitda_item = next((i for i in items if 'ebitda' in i['label'].lower()), None)
+        eps_item = next((i for i in items if 'earning per share' in i['label'].lower() and 'diluted' not in i['label'].lower()), None)
+        kpis['revenueCr'] = rev['current'] if rev else None
+        kpis['totalIncomeCr'] = ti['current'] if ti else None
+        kpis['pbtCr'] = pbt['current'] if pbt else None
+        kpis['patCr'] = pat['current'] if pat else pat2['current'] if pat2 else None
+        kpis['ebitdaCr'] = ebitda_item['current'] if ebitda_item else None
+        kpis['epsRs'] = eps_item['current'] if eps_item else None
+    elif stmt_type == 'bs':
+        ta = next((i for i in items if 'total assets' in i['label'].lower() and i['type'] == 'item'), None)
+        tel = next((i for i in items if 'total equity and liability' in i['label'].lower() and i['type'] == 'item'), None)
+        kpis['totalAssetsCr'] = ta['current'] if ta else None
+        kpis['totalEquityLiabCr'] = tel['current'] if tel else None
+    return kpis
 
-# ── Parse Balance Sheet ──────────────────────────────────────────────────────
-def extract_bs(doc, fy_cur, fy_pri):
-    """Extract Balance Sheet."""
-    # Find BS page(s) - BS might span 1-2 pages
-    bs_start = find_page_by_text(doc, [f"Balance Sheet as at"])
-    if bs_start is None:
-        return None
-    
-    # Check if BS continues to next page
-    items = parse_two_col_table(doc[bs_start], fy_cur, fy_pri)
-    
-    total_assets = next((x for x in items if x['type'] == 'item' and 'total assets' in x['label'].lower()), None)
-    total_equity = next((x for x in items if x['type'] == 'item' and 'total equity and liability' in x['label'].lower()), None)
-    
-    return {
-        'fy': f"FY{fy_cur}",
-        'items': items,
-        'kpIs': {
-            'totalAssetsCr': total_assets['current'] if total_assets else None,
-            'totalEquityAndLiabCr': total_equity['current'] if total_equity else None,
-        }
-    }
-
-# ── Full Pipeline ────────────────────────────────────────────────────────────
-def extract_all(ticker, years=range(2016, 2026)):
-    """Extract all financial data for a ticker across years."""
-    all_data = {
-        'ticker': ticker,
-        'years': {},
-        'metadata': {'source': 'Annual Reports', 'pdf_paths': {}}
-    }
+def extract_all(ticker, years=range(2019, 2026)):
+    """Extract all financial data for a ticker (focus on recent years first)."""
+    all_data = {'ticker': ticker, 'years': {}, 'metadata': {'source': 'Annual Reports', 'pdf_paths': {}}}
     
     for year in years:
         path = os.path.join(PDF_DIR, f"{ticker}_AR_{year}.pdf")
         if not os.path.exists(path):
-            print(f"  FY{year}: downloading...", end=' ', flush=True)
             path = download_ar(ticker, year)
             if not path:
-                print('FAILED', flush=True)
+                print(f"  FY{year}: download FAILED", flush=True)
                 continue
-            print('OK', end='', flush=True)
         
-        print(f"  FY{year}: opening...", end=' ', flush=True)
+        print(f"  FY{year}: ", end='', flush=True)
         t0 = time.time()
         doc = fitz.open(path)
-        
         fy_cur, fy_pri = year, year - 1
-        
-        # Extract P&L
-        print('P&L', end=' ', flush=True)
-        pnl = extract_pnl(doc, fy_cur, fy_pri)
-        
-        # Extract Balance Sheet
-        print('BS', end=' ', flush=True)
-        bs = extract_bs(doc, fy_cur, fy_pri)
-        
-        elapsed = time.time() - t0
-        doc.close()
-        
         year_data = {}
-        if pnl: year_data['profitLoss'] = pnl
-        if bs: year_data['balanceSheet'] = bs
+        
+        # P&L
+        pnl_idx = find_pnl_page(doc, fy_cur)
+        if pnl_idx is not None:
+            items = parse_statement(doc[pnl_idx], fy_cur, fy_pri)
+            kpis = extract_kpis(items, 'pnl')
+            year_data['profitLoss'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': kpis}
+            print(f"P&L(p{pnl_idx+1},{len(items)}i) ", end='', flush=True)
+        else:
+            print("P&L(?) ", end='', flush=True)
+        
+        # BS
+        bs_idx = find_bs_page(doc)
+        if bs_idx is not None:
+            items = parse_statement(doc[bs_idx], fy_cur, fy_pri)
+            kpis = extract_kpis(items, 'bs')
+            year_data['balanceSheet'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': kpis}
+            print(f"BS(p{bs_idx+1},{len(items)}i) ", end='', flush=True)
+        else:
+            print("BS(?) ", end='', flush=True)
+        
+        # CF
+        cf_idx = find_cf_page(doc)
+        if cf_idx is not None:
+            items = parse_statement(doc[cf_idx], fy_cur, fy_pri)
+            year_data['cashFlow'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': {}}
+            print(f"CF(p{cf_idx+1},{len(items)}i)", end='', flush=True)
         
         if year_data:
             all_data['years'][f"FY{year}"] = year_data
-            print(f"({elapsed:.1f}s)", flush=True)
-        else:
-            print(f'FAILED ({elapsed:.1f}s)', flush=True)
+        
+        doc.close()
+        print(f" ({time.time()-t0:.1f}s)", flush=True)
     
     return all_data
 
 def save(all_data):
-    """Save extracted data to JSON."""
     path = os.path.join(OUTPUT_DIR, f"{all_data['ticker']}.json")
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(all_data, f, indent=2, default=str)
@@ -279,17 +245,15 @@ def save(all_data):
 def main():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--ticker', default='ITC', help='Ticker symbol')
-    parser.add_argument('--years', default='2016-2025', help='Year range')
+    parser.add_argument('--ticker', default='ITC')
+    parser.add_argument('--years', default='2019-2025')
     args = parser.parse_args()
-    
-    year_parts = args.years.split('-')
-    years = range(int(year_parts[0]), int(year_parts[1]) + 1)
-    
-    print(f"Extracting {args.ticker} annual reports...\n", flush=True)
+    parts = args.years.split('-')
+    years = range(int(parts[0]), int(parts[1]) + 1)
+    print(f"Extracting {args.ticker}...\n", flush=True)
     data = extract_all(args.ticker, years)
-    path = save(data)
-    print(f"Extraction complete: {path}", flush=True)
+    save(data)
+    print(f"Done.", flush=True)
 
 if __name__ == '__main__':
     main()
