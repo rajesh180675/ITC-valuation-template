@@ -14,6 +14,7 @@ import { FinancialsSection } from './components/itc/FinancialsSection';
 import { SegmentsSection } from './components/itc/SegmentsSection';
 import { TaxAnalyzerSection } from './components/itc/TaxAnalyzerSection';
 import { SensexUniverseSection } from './components/sensex/SensexUniverseSection';
+import { AnnualReportsSection } from './components/sensex/AnnualReportsSection';
 import { Nifty250UniverseSection } from './components/sensex/Nifty250UniverseSection';
 import { Nifty750UniverseSection } from './components/sensex/Nifty750UniverseSection';
 const NiftyIndexDataSection = lazy(() =>
@@ -57,6 +58,7 @@ const NAV: NavItem[] = [
   { id: 'projections', label: 'Projections', icon: <TrendingUp size={18} /> },
   { id: 'playbook', label: 'Budget Playbook', icon: <Target size={18} /> },
   { id: 'global', label: 'Global Compare', icon: <Globe size={18} /> },
+  { id: 'annualReports', label: 'Annual Reports', icon: <BookOpen size={18} /> },
   { id: 'sensex', label: 'Sensex Universe', icon: <Layers size={18} /> },
   { id: 'nifty250', label: 'Nifty 250 Universe', icon: <Layers size={18} /> },
   { id: 'nifty750data', label: 'Nifty 750 Data Hub', icon: <Database size={18} /> },
@@ -92,6 +94,7 @@ export default function App() {
       case 'projections': return <ProjectionsSection assumptions={assumptions} setAssumptions={setAssumptions} />;
       case 'playbook': return <PlaybookSection />;
       case 'global': return <GlobalCompareSection />;
+      case 'annualReports': return <AnnualReportsSection />;
       case 'sensex': return <SensexUniverseSection />;
       case 'nifty250': return <Nifty250UniverseSection />;
       case 'nifty750': return <Nifty750UniverseSection />;
