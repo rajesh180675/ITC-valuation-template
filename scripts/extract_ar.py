@@ -314,6 +314,15 @@ def parse_statement(pages, fy_cur, fy_pri, stmt_type='generic'):
                 if values[col] is None:
                     values[col] = num
                 continue
+            # Handle cells with multiple space-separated numbers (e.g. "(b) Other Equity"
+            # shows "66648.73  67900.14" where the SECOND value is the closing balance)
+            parts = [p for p in text.split() if parse_number(p) is not None]
+            if len(parts) >= 2:
+                n = parse_number(parts[-1])
+                col = nearest_value_column(x1, value_cols)  # use x1 (left edge) not x2 — concatenated span is too wide
+                if col is not None and col < 2 and values[col] is None:
+                    values[col] = n
+                continue
             if x1 < first_value_x and is_probable_label(text):
                 label_parts.append(text.rstrip(',').strip())
             elif x1 < first_value_x and re.match(r'^[\dA-Z,\s/]+$', text) and len(text) < 15:

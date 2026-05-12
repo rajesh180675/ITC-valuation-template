@@ -260,7 +260,15 @@
           },
           {
             "type": "item",
-            "label": "Total outstanding dues of creditors other than micro enterprises and small enterprises 2232.67 2265.59 Other current liabilities",
+            "label": "Total outstanding dues of creditors other than micro enterprises and small enterprises",
+            "note_ref": "",
+            "current": 2265.59,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "Other current liabilities",
             "note_ref": "8",
             "current": 4000.08,
             "prior": 3671.18,
@@ -1141,6 +1149,14 @@
             "section": "Non-current assets"
           },
           {
+            "type": "item",
+            "label": "(f) Other non-current assets",
+            "note_ref": "7",
+            "current": 26797.36,
+            "prior": 21989.69,
+            "section": "Non-current assets"
+          },
+          {
             "type": "section",
             "label": "Current assets"
           },
@@ -1194,7 +1210,23 @@
           },
           {
             "type": "item",
-            "label": "(vi) Others 1004.91 16062.83 (c) Other current assets 610.57 24537.39 TOTAL ASSETS",
+            "label": "(vi) Others",
+            "note_ref": "6",
+            "current": 14207.95,
+            "prior": 14382.47,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Other current assets",
+            "note_ref": "7",
+            "current": 23233.92,
+            "prior": 22775.12,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL ASSETS",
             "note_ref": "",
             "current": 54215.95,
             "prior": 50031.28,
@@ -1214,6 +1246,14 @@
             "note_ref": "13",
             "current": 804.72,
             "prior": 801.55,
+            "section": "Equity"
+          },
+          {
+            "type": "item",
+            "label": "(b) Other Equity",
+            "note_ref": "",
+            "current": 41656.43,
+            "prior": 37287.83,
             "section": "Equity"
           },
           {
@@ -1324,7 +1364,7 @@
         "kpIs": {
           "totalAssetsCr": 54215.95,
           "totalEquityLiabCr": 54215.95,
-          "equityCr": null
+          "equityCr": 42461.15
         }
       },
       "cashFlow": {
@@ -2140,7 +2180,15 @@
           },
           {
             "type": "item",
-            "label": "(vi) Others 1147.95 16007.44 (c) Other current assets",
+            "label": "(vi) Others",
+            "note_ref": "6",
+            "current": 16062.83,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Other current assets",
             "note_ref": "7",
             "current": 1258.41,
             "prior": 610.57,
@@ -3026,6 +3074,14 @@
           },
           {
             "type": "item",
+            "label": "(iii) Others",
+            "note_ref": "6",
+            "current": 15242.45,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
             "label": "(g) Other non-current assets",
             "note_ref": "7",
             "current": 1883.05,
@@ -3086,7 +3142,15 @@
           },
           {
             "type": "item",
-            "label": "(vi) Others 1360.29 21286.81 (c) Other current assets",
+            "label": "(vi) Others",
+            "note_ref": "6",
+            "current": 16007.44,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Other current assets",
             "note_ref": "7",
             "current": 694.91,
             "prior": 1258.41,
@@ -3876,6 +3940,14 @@
             "current": 12.31,
             "prior": 10.13,
             "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "In terms of our report attached On behalf of the Board For S R B C & CO LLP Chartered Accountants Firm Registration Number: 324982E/E300003 Sudhir Soni S. PURI R. TANDON Partner R. K. SINGHI",
+            "note_ref": "",
+            "current": 2020.0,
+            "prior": null,
+            "section": "Current Tax"
           }
         ],
         "kpIs": {
@@ -3964,7 +4036,15 @@
           },
           {
             "type": "item",
-            "label": "(iii) Others 607.09 14065.99 (h) Other non-current assets",
+            "label": "(iii) Others",
+            "note_ref": "6",
+            "current": 16458.15,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(h) Other non-current assets",
             "note_ref": "7",
             "current": 1364.71,
             "prior": 1883.05,
@@ -4024,7 +4104,15 @@
           },
           {
             "type": "item",
-            "label": "(vi) Others 1505.94 27621.10 (c) Other current assets",
+            "label": "(vi) Others",
+            "note_ref": "6",
+            "current": 21286.81,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Other current assets",
             "note_ref": "7",
             "current": 847.74,
             "prior": 694.91,
@@ -4136,7 +4224,15 @@
           },
           {
             "type": "item",
-            "label": "(iii) Other financial liabilities 1147.24 4658.85 (b) Other current liabilities",
+            "label": "(iii) Other financial liabilities",
+            "note_ref": "16",
+            "current": 4341.22,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(b) Other current liabilities",
             "note_ref": "19",
             "current": 4175.91,
             "prior": 4910.4,
@@ -4806,6 +4902,22 @@
             "current": 10.59,
             "prior": 12.31,
             "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "In terms of our report attached For S R B C & CO LLP On behalf of the Board Chartered Accountants Firm Registration Number: 324982E/E300003 Sudhir Soni Partner S. DUTTA Chief Financial Officer R. TANDON Kolkata, India Director S. PURI Chairman & Managing Director R. K. SINGHI Mumbai, India Kolkata, India",
+            "note_ref": "",
+            "current": 2021.0,
+            "prior": null,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "ITC Limited",
+            "note_ref": "",
+            "current": 147.0,
+            "prior": null,
+            "section": "Current Tax"
           }
         ],
         "kpIs": {
@@ -4901,6 +5013,22 @@
             "section": "Non-current assets"
           },
           {
+            "type": "item",
+            "label": "(iii) Others",
+            "note_ref": "6",
+            "current": 14065.99,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(i) Other non-current assets",
+            "note_ref": "7",
+            "current": 39765.12,
+            "prior": 38728.45,
+            "section": "Non-current assets"
+          },
+          {
             "type": "section",
             "label": "Current assets"
           },
@@ -4954,7 +5082,23 @@
           },
           {
             "type": "item",
-            "label": "(vi) Others 1197.15 21338.48 (c) Other current assets 1006.07 31815.42 TOTAL ASSETS",
+            "label": "(vi) Others",
+            "note_ref": "6",
+            "current": 27621.1,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Other current assets",
+            "note_ref": "7",
+            "current": 31815.42,
+            "prior": 36506.91,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL ASSETS",
             "note_ref": "",
             "current": 71580.54,
             "prior": 75235.36,
@@ -4974,6 +5118,14 @@
             "note_ref": "13",
             "current": 1230.88,
             "prior": 1229.22,
+            "section": "Equity"
+          },
+          {
+            "type": "item",
+            "label": "(b) Other Equity",
+            "note_ref": "",
+            "current": 59004.58,
+            "prior": 64029.16,
             "section": "Equity"
           },
           {
@@ -5074,6 +5226,14 @@
           },
           {
             "type": "item",
+            "label": "(d) Current Tax Liabilities (Net)",
+            "note_ref": "20",
+            "current": 10174.17,
+            "prior": 136.71,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
             "label": "TOTAL EQUITY AND LIABILITIES",
             "note_ref": "",
             "current": 71580.54,
@@ -5084,7 +5244,7 @@
         "kpIs": {
           "totalAssetsCr": 71580.54,
           "totalEquityLiabCr": 71580.54,
-          "equityCr": null
+          "equityCr": 60235.46
         }
       },
       "cashFlow": {
@@ -5743,6 +5903,22 @@
             "note_ref": "",
             "current": 12.22,
             "prior": 10.59,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "In terms of our report attached For S R B C & CO LLP S. PURI Chartered Accountants Firm Registration Number: 324982E / E300003 Sudhir Soni S. DUTTA R. TANDON Partner R. K. SINGHI",
+            "note_ref": "",
+            "current": 2022.0,
+            "prior": null,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "ITC Limited",
+            "note_ref": "",
+            "current": 147.0,
+            "prior": null,
             "section": "Current Tax"
           }
         ],
@@ -6730,6 +6906,22 @@
             "current": 15.11,
             "prior": 12.22,
             "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "In terms of our report attached For S R B C & CO LLP Chartered Accountants Firm Registration Number: 324982E / E300003 Arvind Sethi Partner R. K. SINGHI S. PURI S. DUTTA",
+            "note_ref": "",
+            "current": 2023.0,
+            "prior": null,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "ITC Limited",
+            "note_ref": "",
+            "current": 147.0,
+            "prior": null,
+            "section": "Current Tax"
           }
         ],
         "kpIs": {
@@ -6825,6 +7017,22 @@
             "section": "Non-current assets"
           },
           {
+            "type": "item",
+            "label": "(iii) Others",
+            "note_ref": "6",
+            "current": 17234.78,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(i) Other non-current assets",
+            "note_ref": "7",
+            "current": 47058.3,
+            "prior": 44150.49,
+            "section": "Non-current assets"
+          },
+          {
             "type": "section",
             "label": "Current assets"
           },
@@ -6878,7 +7086,23 @@
           },
           {
             "type": "item",
-            "label": "(vi) Others 705.84 23221.45 (c) Other current assets 1388.09 35203.44 TOTAL ASSETS",
+            "label": "(vi) Others",
+            "note_ref": "6",
+            "current": 19749.09,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Other current assets",
+            "note_ref": "7",
+            "current": 35203.44,
+            "prior": 30942.01,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL ASSETS",
             "note_ref": "",
             "current": 82261.74,
             "prior": 75092.5,
@@ -6898,6 +7122,14 @@
             "note_ref": "13",
             "current": 1242.8,
             "prior": 1232.33,
+            "section": "Equity"
+          },
+          {
+            "type": "item",
+            "label": "(b) Other Equity",
+            "note_ref": "",
+            "current": 67593.8,
+            "prior": 61399.57,
             "section": "Equity"
           },
           {
@@ -7006,7 +7238,15 @@
           },
           {
             "type": "item",
-            "label": "(d) Current Tax Liabilities (Net) 776.13 12415.62 TOTAL EQUITY AND LIABILITIES",
+            "label": "(d) Current Tax Liabilities (Net)",
+            "note_ref": "20",
+            "current": 12415.62,
+            "prior": 11478.09,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL EQUITY AND LIABILITIES",
             "note_ref": "",
             "current": 82261.74,
             "prior": 75092.5,
@@ -7016,7 +7256,7 @@
         "kpIs": {
           "totalAssetsCr": 82261.74,
           "totalEquityLiabCr": 82261.74,
-          "equityCr": null
+          "equityCr": 68836.6
         }
       },
       "cashFlow": {
@@ -7699,6 +7939,14 @@
             "note_ref": "",
             "current": 16.35,
             "prior": 15.11,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "In terms of our report attached For S R B C & CO LLP S. PURI Chartered Accountants (DIN : 00280529) Firm Registration Number: 324982E / E300003 S. DUTTA Arvind Sethi (DIN : 01804345) (Membership No.: 89802) Partner R. K. SINGHI (Membership No.: FCS 3770) ITC Limited",
+            "note_ref": "",
+            "current": 165.0,
+            "prior": null,
             "section": "Current Tax"
           }
         ],
@@ -8766,6 +9014,14 @@
             "current": 28.11,
             "prior": 16.35,
             "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "In terms of our report attached For S R B C & CO LLP Chartered Accountants Firm Registration Number: 324982E / E300003 Arvind Sethi Partner (Membership No.: 89802) (DIN : 00280529) S. DUTTA (DIN : 01804345) R. K. SINGHI (Membership No.: FCS 3770) S. PURI ITC Limited",
+            "note_ref": "",
+            "current": 139.0,
+            "prior": null,
+            "section": "Current Tax"
           }
         ],
         "kpIs": {
@@ -8861,6 +9117,22 @@
             "section": "Non-current assets"
           },
           {
+            "type": "item",
+            "label": "(iii) Others",
+            "note_ref": "6",
+            "current": 23197.45,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(i) Other non-current assets",
+            "note_ref": "7",
+            "current": 44253.26,
+            "prior": 51256.93,
+            "section": "Non-current assets"
+          },
+          {
             "type": "section",
             "label": "Current assets"
           },
@@ -8914,7 +9186,23 @@
           },
           {
             "type": "item",
-            "label": "(vi) Others 1261.20 23651.22 (c) Other current assets 1043.71 39755.94 TOTAL ASSETS",
+            "label": "(vi) Others",
+            "note_ref": "6",
+            "current": 22304.98,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Other current assets",
+            "note_ref": "7",
+            "current": 39755.94,
+            "prior": 36070.67,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL ASSETS",
             "note_ref": "",
             "current": 84009.2,
             "prior": 87327.6,
@@ -8934,6 +9222,14 @@
             "note_ref": "13",
             "current": 1251.41,
             "prior": 1248.47,
+            "section": "Equity"
+          },
+          {
+            "type": "item",
+            "label": "(b) Other Equity",
+            "note_ref": "",
+            "current": 67900.14,
+            "prior": 72233.3,
             "section": "Equity"
           },
           {
@@ -9034,7 +9330,15 @@
           },
           {
             "type": "item",
-            "label": "(d) Current Tax Liabilities (Net) 1027.78 13122.14 TOTAL EQUITY AND LIABILITIES",
+            "label": "(d) Current Tax Liabilities (Net)",
+            "note_ref": "21",
+            "current": 13122.14,
+            "prior": 12415.61,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL EQUITY AND LIABILITIES",
             "note_ref": "",
             "current": 84009.2,
             "prior": 87327.6,
@@ -9044,7 +9348,7 @@
         "kpIs": {
           "totalAssetsCr": 84009.2,
           "totalEquityLiabCr": 84009.2,
-          "equityCr": null
+          "equityCr": 69151.55
         }
       },
       "cashFlow": {
@@ -9500,7 +9804,7 @@
   },
   "metadata": {
     "schemaVersion": 2,
-    "generatedAt": "2026-05-12T13:09:31.611475+00:00",
+    "generatedAt": "2026-05-12T13:52:10.252288+00:00",
     "source": "Annual Reports",
     "yearsCovered": [
       "FY2016",

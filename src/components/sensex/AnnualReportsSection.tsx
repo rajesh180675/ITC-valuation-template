@@ -39,7 +39,7 @@ const COMPANY_MAP: Record<string, string> = {
   HDFCBANK: 'HDFC Bank', INFY: 'Infosys', ICICIBANK: 'ICICI Bank', SBIN: 'SBI', WIPRO: 'Wipro',
 };
 
-function findItem(items: { label: string; current: number | null }[], key: string): number | null {
+function findItem(items: { label: string; current?: number | null }[], key: string): number | null {
   const m = items.find(i => i.label.toLowerCase().includes(key.toLowerCase()) && i.current !== null);
   return m?.current ?? null;
 }
