@@ -390,7 +390,7 @@ def extract_kpis(items, stmt_type):
             kpis['fcfCr'] = None
     return kpis
 
-def extract_all(ticker, years=range(2019, 2026)):
+def extract_all(ticker, years=range(2016, 2026)):
     """Extract all financial data for a ticker (focus on recent years first)."""
     all_data = {'ticker': ticker, 'years': {}, 'metadata': {'source': 'Annual Reports', 'pdf_paths': {}}}
     
@@ -462,7 +462,7 @@ def main():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--ticker', default='ITC')
-    parser.add_argument('--years', default='2019-2025')
+    parser.add_argument('--years', default='2016-2025')
     args = parser.parse_args()
     parts = args.years.split('-')
     years = range(int(parts[0]), int(parts[1]) + 1)

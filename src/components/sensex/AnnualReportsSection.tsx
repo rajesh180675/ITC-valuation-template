@@ -47,6 +47,11 @@ function safeSub(a: number | null, b: number | null): number | null {
   return a - b;
 }
 
+export function getDisplayYears(selectedYears: string[], years: string[], tab: Tab): string[] {
+  if (selectedYears.length > 0) return selectedYears;
+  return tab === 'cashFlow' ? years : years.slice(-5);
+}
+
 function KpiCard({ label, value, trend, suffix }: { label: string; value: number | null; trend?: number | null; suffix?: string; }) {
   const valStr = value != null ? fmt(value) : '\u2014';
   let trendEl = null;
@@ -92,7 +97,7 @@ export function AnnualReportsSection() {
       if (!ar.years) throw new Error('Missing .years in AR data');
       setYearsData(ar.years);
       setSegData(seg);
-      setSelectedYears(Object.keys(ar.years).sort().slice(-5));
+      setSelectedYears([]);
     }).catch(err => {
       if (!cancelled) setError(err.message);
     });
@@ -100,7 +105,7 @@ export function AnnualReportsSection() {
   }, [activeTicker]);
 
   const years = useMemo(() => yearsData ? Object.keys(yearsData).sort() : [], [yearsData]);
-  const displayYears = selectedYears.length > 0 ? selectedYears : years.slice(-5);
+  const displayYears = getDisplayYears(selectedYears, years, tab);
 
   const kpiData = useMemo(() => displayYears.map(fy => {
     const y = yearsData?.[fy];
@@ -172,7 +177,7 @@ export function AnnualReportsSection() {
           <p className="text-rose-400 mb-2">Could not load data for {activeTicker}</p>
           <p className="text-gray-500 text-xs mb-4">{error}</p>
           <p className="text-gray-500 text-xs">Select another company from the dropdown above, or run:<br/>
-            <code className="text-emerald-400">python scripts/extract_ar.py --ticker {activeTicker} --years 2019-2025</code></p>
+            <code className="text-emerald-400">python scripts/extract_ar.py --ticker {activeTicker} --years 2016-2025</code></p>
         </div>
       )}
 
