@@ -160,6 +160,9 @@ def parse_statement(page, fy_cur, fy_pri):
     section_keywords = ['equity', 'equity and liabilities', 'assets', 'non-current assets',
                        'current assets', 'current liabilities', 'non-current liabilities',
                        'revenue', 'expenses', 'income']
+    cf_section_keywords = ['operating profit before', 'cash generated from operations',
+                          'cash flow from operating', 'cash flow from investing', 'cash flow from financing',
+                          'operating activities', 'investing activities', 'financing activities']
     
     for y, cells in rows:
         cells = sorted(cells, key=lambda c: c[0])
@@ -172,6 +175,7 @@ def parse_statement(page, fy_cur, fy_pri):
         label = ' '.join(label_parts) if label_parts else (left[0][1].strip() if left else '')
         
         ll = label.lower()
+        # Section detection for BS/PNL
         if any(ll.startswith(k) for k in ['equity', 'assets', 'non-current', 'current ']):
             in_section = label
             items.append({'type': 'section', 'label': label})
@@ -204,7 +208,18 @@ def parse_statement(page, fy_cur, fy_pri):
                 'current': cur_val, 'prior': pri_val, 'section': in_section,
             })
     
-    return items
+    # Post-process: inject section markers for CF statements
+    # Labels containing 'net cash from operating/investing/financing' are section boundaries
+    cf_total_labels = ['net cash from operating', 'net cash from investing', 'net cash from financing',
+                       'operating profit before working capital changes', 'cash generated from operations']
+    result = []
+    for item in items:
+        ll = item['label'].lower()
+        if any(t in ll for t in cf_total_labels):
+            result.append({'type': 'section', 'label': item['label']})
+        result.append(item)
+    
+    return result
 
 def extract_kpis(items, stmt_type):
     """Extract key KPIs from parsed items."""
@@ -236,6 +251,30 @@ def extract_kpis(items, stmt_type):
                 ta = next((i for i in items if i['type'] == 'item' and i['label'] == 'TOTAL' and i is not tel), None)
         kpis['totalAssetsCr'] = ta['current'] if ta else None
         kpis['totalEquityLiabCr'] = tel['current'] if tel else None
+    elif stmt_type == 'cf':
+        all_cf = [i for i in items if i['type'] == 'item']  # items with values only, skip section markers
+        cfo = next((i for i in all_cf if 'net cash from operating' in i['label'].lower()), None)
+        cfi = next((i for i in all_cf if 'net cash' in i['label'].lower() and 'investing' in i['label'].lower()), None)
+        cff = next((i for i in all_cf if 'net cash' in i['label'].lower() and 'financing' in i['label'].lower()), None)
+        capex = next((i for i in all_cf if ('purchase' in i['label'].lower() and 'fixed asset' in i['label'].lower()) 
+                     or ('purchase' in i['label'].lower() and 'property' in i['label'].lower() and 'plant' in i['label'].lower())), None)
+        div = next((i for i in all_cf if 'dividend paid' in i['label'].lower()), None)
+        netchg = next((i for i in all_cf if 'net increase' in i['label'].lower() and 'cash' in i['label'].lower()), None)
+        clos = next((i for i in all_cf if 'cash and cash equivalents at the end' in i['label'].lower()), None)
+        open_bal = next((i for i in all_cf if 'cash and cash equivalents at beginning' in i['label'].lower()), None)
+        kpis['cfoCr'] = cfo.get('current') if cfo else None
+        kpis['cfiCr'] = cfi.get('current') if cfi else None
+        kpis['cffCr'] = cff.get('current') if cff else None
+        kpis['capexCr'] = capex.get('current') if capex else None
+        kpis['dividendCr'] = abs(div.get('current')) if div and div.get('current') else None
+        kpis['netChangeCr'] = netchg.get('current') if netchg else None
+        kpis['closingCashCr'] = clos.get('current') if clos else None
+        kpis['openingCashCr'] = open_bal.get('current') if open_bal else None
+        # Derived
+        if kpis['cfoCr'] is not None and kpis['capexCr'] is not None and kpis['capexCr'] < 0:
+            kpis['fcfCr'] = kpis['cfoCr'] + kpis['capexCr']  # capex is negative
+        else:
+            kpis['fcfCr'] = None
     return kpis
 
 def extract_all(ticker, years=range(2019, 2026)):
@@ -286,7 +325,7 @@ def extract_all(ticker, years=range(2019, 2026)):
             cf_idx = find_cf_page(doc)
             if cf_idx is not None:
                 items = parse_statement(doc[cf_idx], fy_cur, fy_pri)
-                year_data['cashFlow'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': {}}
+                year_data['cashFlow'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': extract_kpis(items, 'cf')}
                 print(f"CF(p{cf_idx+1},{len(items)}i)", end='', flush=True)
         except Exception as e:
             print(f"EXTRACT ERROR: {e}", end='', flush=True)

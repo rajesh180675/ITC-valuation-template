@@ -107,15 +107,19 @@ export function AnnualReportsSection() {
     const pnl = y?.profitLoss;
     const bs = y?.balanceSheet;
     const cf = y?.cashFlow;
+    const cfk = cf?.kpIs || {};
     const rev = pnl?.kpIs?.revenueCr ?? findItem(pnl?.items ?? [], 'Revenue From Operations');
     const pat = pnl?.kpIs?.patCr ?? findItem(pnl?.items ?? [], 'Profit for the year');
     const ta = bs?.kpIs?.totalAssetsCr ?? findItem(bs?.items ?? [], 'TOTAL');
-    const cfo = findItem(cf?.items ?? [], 'NET CASH FROM OPERATING');
-    const pbt = findItem(pnl?.items ?? [], 'Profit before tax');
+    const cfo = cfk.cfoCr ?? findItem(cf?.items ?? [], 'NET CASH FROM OPERATING');
+    const pbt = pnl?.kpIs?.pbtCr ?? findItem(pnl?.items ?? [], 'Profit before tax');
     const empCost = findItem(pnl?.items ?? [], 'Employee benefits');
     const depr = findItem(pnl?.items ?? [], 'Depreciation');
     const finCost = findItem(pnl?.items ?? [], 'Finance costs');
-    return { fy, rev, pat, ta, cfo, pbt, empCost, depr, finCost };
+    const cfi = cfk.cfiCr ?? null;
+    const capex = cfk.capexCr ?? null;
+    const fcf = cfk.fcfCr ?? null;
+    return { fy, rev, pat, ta, cfo, pbt, empCost, depr, finCost, cfi, capex, fcf };
   }).filter((d): d is typeof d & { rev: number } => d.rev !== null), [yearsData, displayYears]);
 
   const latest = kpiData[kpiData.length - 1];
@@ -182,12 +186,25 @@ export function AnnualReportsSection() {
           {/* KPI cards */}
           {latest && (
             <div className="flex gap-3 flex-wrap">
-              <KpiCard label="Revenue" value={latest.rev} trend={kpiData.length > 1 ? yoy(latest.rev, kpiData[kpiData.length - 2]?.rev) : null} />
-              <KpiCard label="PAT" value={latest.pat} trend={kpiData.length > 1 ? yoy(latest.pat, kpiData[kpiData.length - 2]?.pat) : null} />
-              <KpiCard label="Total Assets" value={latest.ta} />
-              <KpiCard label="CFO" value={latest.cfo} />
-              <KpiCard label="PBT Margin" value={safePct(latest.pbt, latest.rev)} suffix="%" />
-              <KpiCard label="CAGR Rev" value={cagr(latest.rev, first?.rev, kpiData.length)} suffix="%" />
+              {tab === 'cashFlow' ? (
+                <>
+                  <KpiCard label="CFO" value={latest.cfo} trend={kpiData.length > 1 ? yoy(latest.cfo, kpiData[kpiData.length - 2]?.cfo) : null} />
+                  <KpiCard label="CFI" value={latest.cfi} />
+                  <KpiCard label="FCF" value={latest.fcf} trend={kpiData.length > 1 ? yoy(latest.fcf, kpiData[kpiData.length - 2]?.fcf) : null} />
+                  <KpiCard label="Capex" value={latest.capex} />
+                  <KpiCard label="Cash Conv" value={safePct(latest.cfo, latest.pat)} suffix="%" />
+                  <KpiCard label="CFO CAGR" value={cagr(latest.cfo, first?.cfo, kpiData.length)} suffix="%" />
+                </>
+              ) : (
+                <>
+                  <KpiCard label="Revenue" value={latest.rev} trend={kpiData.length > 1 ? yoy(latest.rev, kpiData[kpiData.length - 2]?.rev) : null} />
+                  <KpiCard label="PAT" value={latest.pat} trend={kpiData.length > 1 ? yoy(latest.pat, kpiData[kpiData.length - 2]?.pat) : null} />
+                  <KpiCard label="Total Assets" value={latest.ta} />
+                  <KpiCard label="CFO" value={latest.cfo} />
+                  <KpiCard label="PBT Margin" value={safePct(latest.pbt, latest.rev)} suffix="%" />
+                  <KpiCard label="CAGR Rev" value={cagr(latest.rev, first?.rev, kpiData.length)} suffix="%" />
+                </>
+              )}
             </div>
           )}
 
