@@ -128,98 +128,203 @@ def find_cf_page(doc):
                 return i
     return None
 
-def parse_statement(page, fy_cur, fy_pri):
-    """Parse a 2-column financial statement with position-based extraction."""
+def find_cf_pages(doc):
+    """Find standalone CF page plus continuation pages with financing/summary rows."""
+    start = find_cf_page(doc)
+    if start is None:
+        return []
+
+    pages = [start]
+    for i in range(start + 1, min(start + 4, len(doc))):
+        tl = doc[i].get_text().lower()
+        has_cf_continuation = any(k in tl for k in [
+            'cash flow from financing activities',
+            'net cash used in financing activities',
+            'net cash from financing activities',
+            'net increase',
+            'opening cash and cash equivalents',
+            'closing cash and cash equivalents',
+        ])
+        if has_cf_continuation:
+            pages.append(i)
+        elif pages[-1] != start:
+            break
+    return pages
+
+def clean_text(text):
+    text = text.replace('\u2009', ' ').replace('\xa0', ' ')
+    text = text.replace('\u2013', '-').replace('\u2014', '-')
+    text = text.replace('\ufeff', '').replace('\b', '')
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()
+
+def parse_number(text):
+    text = clean_text(text).replace(',', '')
+    if text in {'', '-', '\u2013', '\u2014', '...'}:
+        return None
+    text = text.replace('(', '-').replace(')', '')
+    if re.match(r'^-?\d+(?:\.\d+)?$', text):
+        return round(float(text), 2)
+    return None
+
+def is_probable_label(text):
+    text = clean_text(text)
+    if not text or parse_number(text) is not None:
+        return False
+    if re.match(r'^[A-Z]$', text):
+        return False
+    if re.match(r'^(`|₹|rs\.?|in crores)$', text.lower()):
+        return False
+    if re.match(r'^(for the year ended|as at|31st march|notes?|note no\.?)', text.lower()):
+        return False
+    return True
+
+def extract_page_rows(page):
     blocks = page.get_text('dict')['blocks']
     lines = []
     for block in blocks:
         if 'lines' in block:
             for line in block['lines']:
                 spans = line['spans']
-                text = ''.join(s['text'] for s in spans)
-                lines.append((spans[0]['bbox'][0], line['bbox'][1], text))
+                text = clean_text(''.join(s['text'] for s in spans))
+                if text:
+                    lines.append((line['bbox'][0], line['bbox'][2], line['bbox'][1], text))
     
-    lines.sort(key=lambda l: (l[1], l[0]))
+    lines.sort(key=lambda l: (l[2], l[0]))
     
-    # Group into rows
     rows = []
     cur_y, cur_cells = None, []
-    for x, y, text in lines:
+    for x1, x2, y, text in lines:
         if cur_y is None or abs(y - cur_y) < 8:
-            cur_cells.append((x, text))
+            cur_cells.append((x1, x2, text))
             cur_y = y
         else:
             if cur_cells: rows.append((cur_y, cur_cells))
-            cur_cells = [(x, text)]
+            cur_cells = [(x1, x2, text)]
             cur_y = y
     if cur_cells: rows.append((cur_y, cur_cells))
-    
+    return [(y, sorted(cells, key=lambda c: c[0])) for y, cells in rows]
+
+def detect_value_columns(rows):
+    paired = []
+    for _, cells in rows:
+        numeric_xs = sorted(x2 for _, x2, text in cells if x2 > 250 and parse_number(text) is not None)
+        if len(numeric_xs) == 2:
+            paired.append(numeric_xs)
+    if len(paired) >= 5:
+        first = sorted(p[0] for p in paired)[len(paired) // 2]
+        second = sorted(p[1] for p in paired)[len(paired) // 2]
+        return [first, second]
+
+    xs = []
+    for _, cells in rows:
+        for x1, x2, text in cells:
+            if x2 > 250 and parse_number(text) is not None:
+                xs.append(x2)
+    if not xs:
+        return []
+
+    clusters = []
+    for x in sorted(xs):
+        if not clusters or abs(x - clusters[-1][-1]) > 24:
+            clusters.append([x])
+        else:
+            clusters[-1].append(x)
+
+    centers = [(sum(c) / len(c), len(c)) for c in clusters if len(c) >= 3]
+    if len(centers) < 2:
+        centers = [(sum(c) / len(c), len(c)) for c in clusters]
+    return sorted([c[0] for c in sorted(centers, key=lambda c: c[1], reverse=True)[:2]])
+
+def nearest_value_column(x, value_cols):
+    if not value_cols:
+        return None
+    idx, center = min(enumerate(value_cols), key=lambda p: abs(p[1] - x))
+    dist = abs(center - x)
+    return idx if dist <= 70 else None
+
+def section_for_label(label, stmt_type):
+    ll = label.lower()
+    if stmt_type == 'cf':
+        if 'cash flow from operating activities' in ll:
+            return 'Operating Activities'
+        if 'cash flow from investing activities' in ll:
+            return 'Investing Activities'
+        if 'cash flow from financing activities' in ll:
+            return 'Financing Activities'
+        if 'net' in ll and ('increase' in ll or 'decrease' in ll) and 'cash' in ll and 'equivalents' in ll:
+            return 'Summary'
+        return None
+    if any(ll.startswith(k) for k in ['equity', 'assets', 'non-current', 'current ']):
+        return label
+    return None
+
+def parse_statement(pages, fy_cur, fy_pri, stmt_type='generic'):
+    """Parse a 2-column financial statement with dynamic value columns."""
+    if not isinstance(pages, list):
+        pages = [pages]
+
     items = []
     in_section = None
-    
-    section_keywords = ['equity', 'equity and liabilities', 'assets', 'non-current assets',
-                       'current assets', 'current liabilities', 'non-current liabilities',
-                       'revenue', 'expenses', 'income']
-    cf_section_keywords = ['operating profit before', 'cash generated from operations',
-                          'cash flow from operating', 'cash flow from investing', 'cash flow from financing',
-                          'operating activities', 'investing activities', 'financing activities']
-    
-    for y, cells in rows:
-        cells = sorted(cells, key=lambda c: c[0])
-        left = [c for c in cells if c[0] < 280]
-        mid = [c for c in cells if 280 <= c[0] < 400]
-        right = [c for c in cells if c[0] >= 400]
-        
-        label_parts = [c[1].strip().rstrip(',').strip() for c in left
-                       if not re.match(r'^[\dA-Z,\s/]+$', c[1].strip()) or len(c[1].strip()) > 8]
-        label = ' '.join(label_parts) if label_parts else (left[0][1].strip() if left else '')
-        
-        ll = label.lower()
-        # Section detection for BS/PNL
-        if any(ll.startswith(k) for k in ['equity', 'assets', 'non-current', 'current ']):
-            in_section = label
-            items.append({'type': 'section', 'label': label})
-            continue
-        
-        if not label: continue
-        
-        # Note ref from middle
+    pending_label = []
+
+    page_row_sets = []
+    for page in pages:
+        rows = extract_page_rows(page)
+        value_cols = detect_value_columns(rows)
+        first_value_x = min(value_cols) - 28 if value_cols else 280
+        page_row_sets.append((rows, value_cols, first_value_x))
+
+    for rows, value_cols, first_value_x in page_row_sets:
+      for y, cells in rows:
+        values = [None, None]
         note_ref = ''
-        for c in mid:
-            ct = c[1].strip()
-            if re.match(r'^[\dA-Z,\s/]+$', ct) and len(ct) < 15:
-                if not re.match(r'^-?\d+\.?\d*$', ct) or ',' in ct:
-                    note_ref = ct
-                    break
-        
-        # Values from right
-        vals = []
-        for c in right:
-            ct = c[1].strip().replace(',', '').replace('(', '-').replace(')', '')
-            if re.match(r'^-?[\d.]+$', ct):
-                vals.append(round(float(ct), 2))
-        
-        cur_val = vals[0] if len(vals) >= 1 else None
-        pri_val = vals[1] if len(vals) >= 2 else None
-        
+        label_parts = []
+
+        for x1, x2, text in cells:
+            num = parse_number(text)
+            col = nearest_value_column(x2, value_cols) if num is not None else None
+            if col is not None and col < 2:
+                if values[col] is None:
+                    values[col] = num
+                continue
+            if x1 < first_value_x and is_probable_label(text):
+                label_parts.append(text.rstrip(',').strip())
+            elif x1 < first_value_x and re.match(r'^[\dA-Z,\s/]+$', text) and len(text) < 15:
+                note_ref = text
+
+        row_label = clean_text(' '.join(label_parts))
+        cur_val, pri_val = values
+        section = section_for_label(row_label, stmt_type)
+        if section:
+            in_section = section
+            if not items or items[-1].get('label') != section:
+                items.append({'type': 'section', 'label': section})
+            pending_label = []
+            if cur_val is None and pri_val is None:
+                continue
+
+        if cur_val is None and pri_val is None:
+            if row_label and stmt_type == 'cf':
+                pending_label.append(row_label)
+            continue
+
+        label = clean_text(' '.join(pending_label + ([row_label] if row_label else [])))
+        pending_label = []
+        if not label:
+            continue
+
         if cur_val is not None:
             items.append({
                 'type': 'item', 'label': label, 'note_ref': note_ref,
                 'current': cur_val, 'prior': pri_val, 'section': in_section,
             })
-    
-    # Post-process: inject section markers for CF statements
-    # Labels containing 'net cash from operating/investing/financing' are section boundaries
-    cf_total_labels = ['net cash from operating', 'net cash from investing', 'net cash from financing',
-                       'operating profit before working capital changes', 'cash generated from operations']
-    result = []
-    for item in items:
-        ll = item['label'].lower()
-        if any(t in ll for t in cf_total_labels):
-            result.append({'type': 'section', 'label': item['label']})
-        result.append(item)
-    
-    return result
+
+    if stmt_type == 'cf':
+        for idx, item in enumerate(items):
+            if item.get('type') == 'item' and 'closing cash and cash equivalents' in item.get('label', '').lower():
+                return items[:idx + 1]
+    return items
 
 def extract_kpis(items, stmt_type):
     """Extract key KPIs from parsed items."""
@@ -253,15 +358,23 @@ def extract_kpis(items, stmt_type):
         kpis['totalEquityLiabCr'] = tel['current'] if tel else None
     elif stmt_type == 'cf':
         all_cf = [i for i in items if i['type'] == 'item']  # items with values only, skip section markers
-        cfo = next((i for i in all_cf if 'net cash from operating' in i['label'].lower()), None)
-        cfi = next((i for i in all_cf if 'net cash' in i['label'].lower() and 'investing' in i['label'].lower()), None)
-        cff = next((i for i in all_cf if 'net cash' in i['label'].lower() and 'financing' in i['label'].lower()), None)
-        capex = next((i for i in all_cf if ('purchase' in i['label'].lower() and 'fixed asset' in i['label'].lower()) 
-                     or ('purchase' in i['label'].lower() and 'property' in i['label'].lower() and 'plant' in i['label'].lower())), None)
+        def label_has(item, *parts):
+            label = clean_text(item['label']).lower()
+            return all(part in label for part in parts)
+
+        cfo = next((i for i in all_cf if label_has(i, 'net cash', 'operating activities')), None)
+        cfi = next((i for i in all_cf if label_has(i, 'net cash', 'investing activities')), None)
+        cff = next((i for i in all_cf if label_has(i, 'net cash', 'financing activities')), None)
+        capex = next((i for i in all_cf if label_has(i, 'purchase') and (
+            label_has(i, 'fixed asset') or
+            label_has(i, 'property', 'plant') or
+            label_has(i, 'rou asset') or
+            label_has(i, 'intangibles')
+        )), None)
         div = next((i for i in all_cf if 'dividend paid' in i['label'].lower()), None)
-        netchg = next((i for i in all_cf if 'net increase' in i['label'].lower() and 'cash' in i['label'].lower()), None)
-        clos = next((i for i in all_cf if 'cash and cash equivalents at the end' in i['label'].lower()), None)
-        open_bal = next((i for i in all_cf if 'cash and cash equivalents at beginning' in i['label'].lower()), None)
+        netchg = next((i for i in all_cf if label_has(i, 'net') and ('increase' in i['label'].lower() or 'decrease' in i['label'].lower()) and label_has(i, 'cash', 'equivalents')), None)
+        clos = next((i for i in all_cf if label_has(i, 'closing cash and cash equivalents') or label_has(i, 'cash and cash equivalents at the end')), None)
+        open_bal = next((i for i in all_cf if label_has(i, 'opening cash and cash equivalents') or label_has(i, 'cash and cash equivalents at beginning')), None)
         kpis['cfoCr'] = cfo.get('current') if cfo else None
         kpis['cfiCr'] = cfi.get('current') if cfi else None
         kpis['cffCr'] = cff.get('current') if cff else None
@@ -304,7 +417,7 @@ def extract_all(ticker, years=range(2019, 2026)):
             # P&L
             pnl_idx = find_pnl_page(doc, fy_cur)
             if pnl_idx is not None:
-                items = parse_statement(doc[pnl_idx], fy_cur, fy_pri)
+                items = parse_statement(doc[pnl_idx], fy_cur, fy_pri, 'pnl')
                 kpis = extract_kpis(items, 'pnl')
                 year_data['profitLoss'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': kpis}
                 print(f"P&L(p{pnl_idx+1},{len(items)}i) ", end='', flush=True)
@@ -314,7 +427,7 @@ def extract_all(ticker, years=range(2019, 2026)):
             # BS
             bs_idx = find_bs_page(doc)
             if bs_idx is not None:
-                items = parse_statement(doc[bs_idx], fy_cur, fy_pri)
+                items = parse_statement(doc[bs_idx], fy_cur, fy_pri, 'bs')
                 kpis = extract_kpis(items, 'bs')
                 year_data['balanceSheet'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': kpis}
                 print(f"BS(p{bs_idx+1},{len(items)}i) ", end='', flush=True)
@@ -322,11 +435,12 @@ def extract_all(ticker, years=range(2019, 2026)):
                 print("BS(?) ", end='', flush=True)
             
             # CF
-            cf_idx = find_cf_page(doc)
-            if cf_idx is not None:
-                items = parse_statement(doc[cf_idx], fy_cur, fy_pri)
+            cf_pages = find_cf_pages(doc)
+            if cf_pages:
+                items = parse_statement([doc[i] for i in cf_pages], fy_cur, fy_pri, 'cf')
                 year_data['cashFlow'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': extract_kpis(items, 'cf')}
-                print(f"CF(p{cf_idx+1},{len(items)}i)", end='', flush=True)
+                page_label = f"p{cf_pages[0]+1}" if len(cf_pages) == 1 else f"p{cf_pages[0]+1}-{cf_pages[-1]+1}"
+                print(f"CF({page_label},{len(items)}i)", end='', flush=True)
         except Exception as e:
             print(f"EXTRACT ERROR: {e}", end='', flush=True)
         finally:

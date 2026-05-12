@@ -191,7 +191,7 @@ export function AnnualReportsSection() {
                   <KpiCard label="CFO" value={latest.cfo} trend={kpiData.length > 1 ? yoy(latest.cfo, kpiData[kpiData.length - 2]?.cfo) : null} />
                   <KpiCard label="CFI" value={latest.cfi} />
                   <KpiCard label="FCF" value={latest.fcf} trend={kpiData.length > 1 ? yoy(latest.fcf, kpiData[kpiData.length - 2]?.fcf) : null} />
-                  <KpiCard label="Capex" value={latest.capex} />
+                  <KpiCard label="Capex Outflow" value={latest.capex == null ? null : Math.abs(latest.capex)} />
                   <KpiCard label="Cash Conv" value={safePct(latest.cfo, latest.pat)} suffix="%" />
                   <KpiCard label="CFO CAGR" value={cagr(latest.cfo, first?.cfo, kpiData.length)} suffix="%" />
                 </>
@@ -231,6 +231,7 @@ export function AnnualReportsSection() {
           {/* Tab content */}
           {tab === 'segments' ? <SegmentsView segData={segData} activeTicker={activeTicker} /> :
            tab === 'charts' ? <ChartsView kpiData={kpiData} /> :
+           tab === 'cashFlow' ? <CashFlowView data={yearsData} years={displayYears} /> :
            <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
         </>
       )}
@@ -239,6 +240,107 @@ export function AnnualReportsSection() {
 }
 
 /* ── Charts (safe null math) ─────────────────────────────────────────────── */
+function CashFlowView({ data, years }: { data: Record<string, YearData>; years: string[] }) {
+  const { groups, itemIndex } = useMemo(() => {
+    const order = ['Operating Activities', 'Investing Activities', 'Financing Activities', 'Summary'];
+    const groupMap = new Map<string, string[]>();
+    const seen = new Set<string>();
+    order.forEach(section => groupMap.set(section, []));
+
+    for (const fy of years) {
+      const stmt = data[fy]?.cashFlow;
+      if (!stmt) continue;
+      let activeSection = 'Operating Activities';
+      for (const item of stmt.items) {
+        if (item.type === 'section') {
+          activeSection = item.label;
+          if (!groupMap.has(activeSection)) groupMap.set(activeSection, []);
+          continue;
+        }
+        if (seen.has(item.label)) continue;
+        seen.add(item.label);
+        if (!groupMap.has(activeSection)) groupMap.set(activeSection, []);
+        groupMap.get(activeSection)?.push(item.label);
+      }
+    }
+
+    const groups = [...groupMap.entries()]
+      .filter(([, rows]) => rows.length > 0)
+      .sort(([a], [b]) => {
+        const ai = order.indexOf(a);
+        const bi = order.indexOf(b);
+        return (ai === -1 ? order.length : ai) - (bi === -1 ? order.length : bi);
+      })
+      .map(([header, rows]) => ({ header, rows }));
+
+    const itemIndex: Record<string, (number | null)[]> = {};
+    for (const group of groups) {
+      for (const label of group.rows) {
+        itemIndex[label] = years.map(fy => {
+          const stmt = data[fy]?.cashFlow;
+          const match = stmt?.items.find(i => i.type === 'item' && i.label === label);
+          return match?.current ?? null;
+        });
+      }
+    }
+
+    return { groups, itemIndex };
+  }, [data, years]);
+
+  if (groups.length === 0) return <div className="glass-card p-5 text-gray-400">No cash flow data for selected years.</div>;
+
+  const formatVal = (v: number | null): string => {
+    if (v == null || v === 0) return '\u2014';
+    const abs = Math.abs(v);
+    const body = abs >= 100 ? fmtN(abs, 0) : fmtN(abs, 1);
+    return v < 0 ? `(${body})` : body;
+  };
+
+  return (
+    <div className="glass-card p-5 overflow-x-auto">
+      <table className="w-full text-xs tabular-nums" style={{ minWidth: 700 }}>
+        <thead>
+          <tr>
+            <th className="text-left py-2 pr-4 text-gray-400 font-medium">Cash Flow Statement</th>
+            {years.map(fy => (
+              <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY '")}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {groups.map(group => (
+            <React.Fragment key={group.header}>
+              <tr>
+                <td className="text-[11px] font-bold text-emerald-300 pt-4 pb-1 border-b border-emerald-500/20" colSpan={years.length + 1}>
+                  {group.header}
+                </td>
+              </tr>
+              {group.rows.map(label => {
+                const vals = itemIndex[label];
+                if (!vals || vals.every(v => v == null)) return null;
+                const lower = label.toLowerCase();
+                const isTotal = lower.includes('net cash') || lower.includes('closing cash');
+                return (
+                  <tr key={`${group.header}-${label}`} className={`hover:bg-white/[0.03] ${isTotal ? 'border-t border-gray-800/80' : ''}`}>
+                    <td className={`py-1.5 pr-4 text-[11px] max-w-[280px] ${isTotal ? 'text-white font-semibold' : 'text-gray-300'}`}>{label}</td>
+                    {vals.map((v, idx) => (
+                      <td key={idx} className={`text-right py-1.5 px-2 text-[11px] ${
+                        v == null || v === 0 ? 'text-gray-600' : v < 0 ? 'text-rose-300' : 'text-white'
+                      }`}>
+                        {formatVal(v)}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function ChartsView({ kpiData }: { kpiData: any[] }) {
   if (kpiData.length < 2) return <div className="glass-card p-5 text-gray-400">Need at least 2 years of data for charts.</div>;
 
