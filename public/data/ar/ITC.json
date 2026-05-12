@@ -1,6 +1,2268 @@
 {
   "ticker": "ITC",
   "years": {
+    "FY2016": {
+      "profitLoss": {
+        "fy": "FY2016",
+        "items": [
+          {
+            "type": "item",
+            "label": "Gross Income",
+            "note_ref": "",
+            "current": 53748.31,
+            "prior": 51932.14,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Gross Revenue from sale of products and services",
+            "note_ref": "",
+            "current": 51582.45,
+            "prior": 49964.82,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Less: Excise Duty",
+            "note_ref": "",
+            "current": 15107.18,
+            "prior": 13881.61,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Net Revenue from sale of products and services",
+            "note_ref": "",
+            "current": 36475.27,
+            "prior": 36083.21,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Other operating revenue",
+            "note_ref": "",
+            "current": 362.12,
+            "prior": 424.19,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Revenue from operations",
+            "note_ref": "",
+            "current": 36837.39,
+            "prior": 36507.4,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Other income",
+            "note_ref": "",
+            "current": 1803.74,
+            "prior": 1543.13,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Total Revenue",
+            "note_ref": "",
+            "current": 38641.13,
+            "prior": 38050.53,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Cost of materials consumed",
+            "note_ref": "",
+            "current": 11054.75,
+            "prior": 10987.83,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchases of Stock-in-Trade",
+            "note_ref": "",
+            "current": 2590.08,
+            "prior": 3898.66,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Work-in-progress, Stock-in-Trade and Intermediates",
+            "note_ref": "",
+            "current": 58.17,
+            "prior": -214.53,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Employee benefits expense",
+            "note_ref": "",
+            "current": 1883.51,
+            "prior": 1780.04,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Finance costs",
+            "note_ref": "",
+            "current": 49.13,
+            "prior": 57.42,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Depreciation and amortisation expense",
+            "note_ref": "",
+            "current": 1034.45,
+            "prior": 961.74,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Other expenses",
+            "note_ref": "",
+            "current": 7012.65,
+            "prior": 6581.85,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Total Expenses",
+            "note_ref": "",
+            "current": 23682.74,
+            "prior": 24053.01,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Profit before tax",
+            "note_ref": "",
+            "current": 14958.39,
+            "prior": 13997.52,
+            "section": null
+          },
+          {
+            "type": "section",
+            "label": "Current tax"
+          },
+          {
+            "type": "item",
+            "label": "Deferred tax",
+            "note_ref": "",
+            "current": 217.62,
+            "prior": 368.8,
+            "section": "Current tax"
+          },
+          {
+            "type": "item",
+            "label": "Profit for the year",
+            "note_ref": "",
+            "current": 9844.71,
+            "prior": 9607.73,
+            "section": "Current tax"
+          }
+        ],
+        "kpIs": {
+          "revenueCr": 36837.39,
+          "totalIncomeCr": null,
+          "pbtCr": 14958.39,
+          "patCr": 9844.71,
+          "ebitdaCr": null,
+          "epsRs": null
+        }
+      },
+      "balanceSheet": {
+        "fy": "FY2016",
+        "items": [
+          {
+            "type": "section",
+            "label": "EQUITY AND LIABILITIES"
+          },
+          {
+            "type": "item",
+            "label": "Share capital",
+            "note_ref": "",
+            "current": 801.55,
+            "prior": null,
+            "section": "EQUITY AND LIABILITIES"
+          },
+          {
+            "type": "item",
+            "label": "Reserves and surplus",
+            "note_ref": "",
+            "current": 29934.14,
+            "prior": 30735.69,
+            "section": "EQUITY AND LIABILITIES"
+          },
+          {
+            "type": "section",
+            "label": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "Long-term borrowings",
+            "note_ref": "",
+            "current": 38.69,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "Deferred tax liabilities (Net)",
+            "note_ref": "",
+            "current": 1631.6,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "Other Long term liabilities",
+            "note_ref": "",
+            "current": 7.05,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "Long-term provisions",
+            "note_ref": "",
+            "current": 100.72,
+            "prior": 1778.06,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "section",
+            "label": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "Short-term borrowings",
+            "note_ref": "",
+            "current": 0.02,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "and small enterprises",
+            "note_ref": "",
+            "current": 21.91,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "Other current liabilities",
+            "note_ref": "",
+            "current": 3671.18,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "Short-term provisions",
+            "note_ref": "",
+            "current": 6106.09,
+            "prior": 11681.91,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL",
+            "note_ref": "",
+            "current": 44195.66,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "section",
+            "label": "ASSETS"
+          },
+          {
+            "type": "section",
+            "label": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "Tangible assets",
+            "note_ref": "",
+            "current": 13777.14,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "Intangible assets",
+            "note_ref": "",
+            "current": 401.35,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "Capital work-in-progress - Tangible assets",
+            "note_ref": "",
+            "current": 2085.49,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "Intangible assets under development",
+            "note_ref": "",
+            "current": 28.65,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "section",
+            "label": "Non-current investments"
+          },
+          {
+            "type": "item",
+            "label": "Long-term loans and advances",
+            "note_ref": "",
+            "current": 1506.36,
+            "prior": 20240.63,
+            "section": "Non-current investments"
+          },
+          {
+            "type": "section",
+            "label": "Current assets"
+          },
+          {
+            "type": "section",
+            "label": "Current investments"
+          },
+          {
+            "type": "item",
+            "label": "Inventories",
+            "note_ref": "",
+            "current": 7836.76,
+            "prior": null,
+            "section": "Current investments"
+          },
+          {
+            "type": "item",
+            "label": "Trade receivables",
+            "note_ref": "",
+            "current": 1722.4,
+            "prior": null,
+            "section": "Current investments"
+          },
+          {
+            "type": "item",
+            "label": "Cash and bank balances",
+            "note_ref": "",
+            "current": 7588.61,
+            "prior": null,
+            "section": "Current investments"
+          },
+          {
+            "type": "item",
+            "label": "Short-term loans and advances",
+            "note_ref": "",
+            "current": 549.89,
+            "prior": null,
+            "section": "Current investments"
+          },
+          {
+            "type": "item",
+            "label": "Other current assets",
+            "note_ref": "",
+            "current": 293.55,
+            "prior": 23955.03,
+            "section": "Current investments"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL",
+            "note_ref": "",
+            "current": 44195.66,
+            "prior": null,
+            "section": "Current investments"
+          }
+        ],
+        "kpIs": {
+          "totalAssetsCr": null,
+          "totalEquityLiabCr": null
+        }
+      },
+      "cashFlow": {
+        "fy": "FY2016",
+        "items": [
+          {
+            "type": "item",
+            "label": "PROFIT BEFORE TAX",
+            "note_ref": "",
+            "current": 13997.52,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Depreciation and Amortisation Expense",
+            "note_ref": "",
+            "current": 961.74,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Finance costs",
+            "note_ref": "",
+            "current": 57.42,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Interest Income",
+            "note_ref": "",
+            "current": -611.22,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Dividend Income from Long-Term Investments",
+            "note_ref": "",
+            "current": -357.55,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Dividend Income from Current Investments",
+            "note_ref": "",
+            "current": -219.37,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Loss on Sale of Fixed Assets - Net",
+            "note_ref": "",
+            "current": 24.89,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Net gain on sale of Current Investments",
+            "note_ref": "",
+            "current": -334.44,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Doubtful and Bad Debts",
+            "note_ref": "",
+            "current": 19.79,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Doubtful and Bad Advances, Loans and Deposits - Net",
+            "note_ref": "",
+            "current": 0.54,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Excess of Cost of Current Investments over Fair Value, reversed - Net",
+            "note_ref": "",
+            "current": -29.53,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Foreign Currency translations and transactions - Net",
+            "note_ref": "",
+            "current": -717.57,
+            "prior": -5.33,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "OPERATING PROFIT BEFORE WORKING CAPITAL CHANGES",
+            "note_ref": "",
+            "current": 13504.46,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Trade Receivables, Loans and Advances and Other Assets",
+            "note_ref": "",
+            "current": 571.85,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Inventories",
+            "note_ref": "",
+            "current": -469.39,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Trade Payables, Other Liabilities and Provisions",
+            "note_ref": "",
+            "current": -161.75,
+            "prior": -72.27,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "CASH GENERATED FROM OPERATIONS",
+            "note_ref": "",
+            "current": 13534.65,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Income Tax Paid",
+            "note_ref": "",
+            "current": -4225.78,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "NET CASH FROM OPERATING ACTIVITIES",
+            "note_ref": "",
+            "current": 9308.87,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of Fixed Assets",
+            "note_ref": "",
+            "current": -3051.06,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Sale of Fixed Assets",
+            "note_ref": "",
+            "current": 6.56,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of Current Investments",
+            "note_ref": "",
+            "current": -88047.1,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Sale/Redemption of Current Investments",
+            "note_ref": "",
+            "current": 88780.8,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Investment in Joint Ventures",
+            "note_ref": "",
+            "current": -3.87,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Investment in Subsidiaries",
+            "note_ref": "",
+            "current": -88.79,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Dividend Income from Long-Term Investments Received",
+            "note_ref": "",
+            "current": 357.55,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Dividend Income from Current Investments Received",
+            "note_ref": "",
+            "current": 219.37,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Interest Received",
+            "note_ref": "",
+            "current": 551.95,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "(original maturity more than 3 months)",
+            "note_ref": "",
+            "current": -7183.08,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "(original maturity more than 3 months)",
+            "note_ref": "",
+            "current": 2820.29,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Redemption/Maturity of deposits with financial institutions",
+            "note_ref": "",
+            "current": 750.0,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Loans Realised",
+            "note_ref": "",
+            "current": 64.81,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "NET CASH USED IN INVESTING ACTIVITIES",
+            "note_ref": "",
+            "current": -4822.57,
+            "prior": null,
+            "section": null
+          }
+        ],
+        "kpIs": {}
+      }
+    },
+    "FY2017": {
+      "profitLoss": {
+        "fy": "FY2017",
+        "items": [
+          {
+            "type": "item",
+            "label": "Revenue From Operations",
+            "note_ref": "21A",
+            "current": 55448.46,
+            "prior": 51944.57,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Other Income",
+            "note_ref": "",
+            "current": 1985.91,
+            "prior": 1769.26,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Total Income (I+II)",
+            "note_ref": "",
+            "current": 57434.37,
+            "prior": 53713.83,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Cost of materials consumed",
+            "note_ref": "",
+            "current": 11765.56,
+            "prior": 11054.75,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchases of Stock-in-Trade",
+            "note_ref": "",
+            "current": 3566.57,
+            "prior": 2591.8,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Stock-in-Trade, work-in-progress and intermediates",
+            "note_ref": "",
+            "current": 644.17,
+            "prior": -196.55,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Excise duty",
+            "note_ref": "",
+            "current": 15359.78,
+            "prior": 15361.9,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Employee benefits expense",
+            "note_ref": "",
+            "current": 2444.31,
+            "prior": 2331.59,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Finance costs",
+            "note_ref": "",
+            "current": 22.95,
+            "prior": 49.13,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Depreciation and amortization expense",
+            "note_ref": "",
+            "current": 1038.04,
+            "prior": 1000.68,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Other expenses",
+            "note_ref": "",
+            "current": 7090.03,
+            "prior": 7086.46,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Total expenses (IV)",
+            "note_ref": "",
+            "current": 41931.41,
+            "prior": 39279.76,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Profit before tax (III- IV)",
+            "note_ref": "",
+            "current": 15502.96,
+            "prior": 14434.07,
+            "section": null
+          },
+          {
+            "type": "section",
+            "label": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Deferred Tax",
+            "note_ref": "",
+            "current": 16.41,
+            "prior": 209.64,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "VII Profit for the year (V-VI)",
+            "note_ref": "",
+            "current": 10200.9,
+            "prior": 9328.37,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "benefit plans",
+            "note_ref": "",
+            "current": -27.96,
+            "prior": -53.84,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "comprehensive income",
+            "note_ref": "",
+            "current": 129.95,
+            "prior": -29.85,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "cash flow hedge",
+            "note_ref": "",
+            "current": -61.19,
+            "prior": null,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "will not be reclassified to profit or loss",
+            "note_ref": "",
+            "current": 24.22,
+            "prior": 18.63,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "in a cash flow hedge",
+            "note_ref": "",
+            "current": 18.29,
+            "prior": -2.32,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "reclassified to profit or loss",
+            "note_ref": "",
+            "current": -6.31,
+            "prior": 0.8,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "VIII Other Comprehensive Income [A(i-ii)+B(i-ii)]",
+            "note_ref": "",
+            "current": 77.0,
+            "prior": -66.58,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Total Comprehensive Income for the year (VII+VIII)",
+            "note_ref": "",
+            "current": 10277.9,
+            "prior": 9261.79,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "(1) Basic (in `)",
+            "note_ref": "",
+            "current": 8.43,
+            "prior": 7.74,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "(2) Diluted (in `)",
+            "note_ref": "",
+            "current": 8.38,
+            "prior": 7.7,
+            "section": "Current Tax"
+          }
+        ],
+        "kpIs": {
+          "revenueCr": 55448.46,
+          "totalIncomeCr": 57434.37,
+          "pbtCr": 15502.96,
+          "patCr": 10200.9,
+          "ebitdaCr": null,
+          "epsRs": null
+        }
+      },
+      "balanceSheet": {
+        "fy": "FY2017",
+        "items": [
+          {
+            "type": "section",
+            "label": "ASSETS"
+          },
+          {
+            "type": "section",
+            "label": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(a) Property, Plant and Equipment 14469.32",
+            "note_ref": "",
+            "current": 13572.99,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(b) Capital work-in-progress 3491.33",
+            "note_ref": "",
+            "current": 2010.47,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Intangible assets 410.92",
+            "note_ref": "",
+            "current": 401.35,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(d) Intangible assets under development 45.69",
+            "note_ref": "",
+            "current": 28.65,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(i) Investments 8485.51",
+            "note_ref": "",
+            "current": 2878.03,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(ii) Loans 5.84",
+            "note_ref": "",
+            "current": 9.34,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(iii) Others 99.83 8591.18",
+            "note_ref": "",
+            "current": 1381.22,
+            "prior": 4268.59,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "section",
+            "label": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(a) Inventories 7863.99",
+            "note_ref": "",
+            "current": 7836.76,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(i) Investments 10099.78",
+            "note_ref": "",
+            "current": 6091.59,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(ii) Trade receivables 2207.50",
+            "note_ref": "",
+            "current": 1722.4,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(iii) Cash and cash equivalents 156.15",
+            "note_ref": "",
+            "current": 36.29,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(iv) Other Bank Balances 2591.12",
+            "note_ref": "",
+            "current": 6236.52,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(v) Loans 3.37",
+            "note_ref": "",
+            "current": 40.09,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL ASSETS 54215.95",
+            "note_ref": "",
+            "current": 44764.81,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "section",
+            "label": "EQUITY AND LIABILITIES"
+          },
+          {
+            "type": "section",
+            "label": "Equity"
+          },
+          {
+            "type": "item",
+            "label": "(a) Equity Share capital 1214.74",
+            "note_ref": "",
+            "current": 801.55,
+            "prior": null,
+            "section": "Equity"
+          },
+          {
+            "type": "section",
+            "label": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(i) Borrowings 17.99",
+            "note_ref": "",
+            "current": 38.69,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(ii) Other financial liabilities 9.21 27.20",
+            "note_ref": "",
+            "current": 7.05,
+            "prior": 45.74,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(b) Provisions 131.37",
+            "note_ref": "",
+            "current": 100.72,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(c) Deferred tax liabilities (Net) 1871.70",
+            "note_ref": "",
+            "current": 1677.22,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(d) Other non-current liabilities 14.65",
+            "note_ref": "",
+            "current": 1823.68,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "section",
+            "label": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(i) Borrowings 0.01",
+            "note_ref": "",
+            "current": 0.02,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(ii) Trade payables 2551.22",
+            "note_ref": "",
+            "current": 1872.97,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(iii) Other financial liabilities 784.78 3336.01",
+            "note_ref": "",
+            "current": 646.79,
+            "prior": 2519.78,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(b) Other current liabilities 3351.15",
+            "note_ref": "",
+            "current": 3056.99,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(c) Provisions 41.83",
+            "note_ref": "",
+            "current": 74.98,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(d) Current Tax Liabilities (Net) 101.08",
+            "note_ref": "",
+            "current": 1.55,
+            "prior": 5653.3,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL EQUITY AND LIABILITIES 54215.95",
+            "note_ref": "",
+            "current": 44764.81,
+            "prior": null,
+            "section": "Current liabilities"
+          }
+        ],
+        "kpIs": {
+          "totalAssetsCr": 44764.81,
+          "totalEquityLiabCr": null
+        }
+      },
+      "cashFlow": {
+        "fy": "FY2017",
+        "items": [
+          {
+            "type": "item",
+            "label": "PROFIT BEFORE TAX",
+            "note_ref": "",
+            "current": 14434.07,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Depreciation and amortization expense",
+            "note_ref": "",
+            "current": 1000.68,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Share based payments to employees",
+            "note_ref": "",
+            "current": 501.91,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Finance costs",
+            "note_ref": "",
+            "current": 49.13,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Interest Income",
+            "note_ref": "",
+            "current": -851.63,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Dividend Income",
+            "note_ref": "",
+            "current": -376.9,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Loss on sale of property, plant and equipment - Net",
+            "note_ref": "",
+            "current": 45.21,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Doubtful and bad debts",
+            "note_ref": "",
+            "current": 22.4,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Doubtful and bad advances, loans and deposits",
+            "note_ref": "",
+            "current": -9.5,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "reversed - Net",
+            "note_ref": "",
+            "current": -26.0,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "return of capital by subsidiary",
+            "note_ref": "",
+            "current": 34.48,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "measured at Fair value through profit and loss",
+            "note_ref": "",
+            "current": -522.68,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Foreign currency translations and transactions - Net",
+            "note_ref": "",
+            "current": -351.09,
+            "prior": -9.74,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "OPERATING PROFIT BEFORE WORKING CAPITAL CHANGES",
+            "note_ref": "",
+            "current": 14291.43,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Trade receivables, loans, advances and other assets",
+            "note_ref": "",
+            "current": -196.85,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Inventories",
+            "note_ref": "",
+            "current": -683.06,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Trade payables, other liabilities and provisions",
+            "note_ref": "",
+            "current": 63.11,
+            "prior": 628.12,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "CASH GENERATED FROM OPERATIONS",
+            "note_ref": "",
+            "current": 14039.64,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Income tax paid",
+            "note_ref": "",
+            "current": -4827.72,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "NET CASH FROM OPERATING ACTIVITIES",
+            "note_ref": "",
+            "current": 9211.92,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of property, plant and equipment, Intangibles etc.",
+            "note_ref": "",
+            "current": -2144.78,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Sale of property, plant and equipment",
+            "note_ref": "",
+            "current": 7.11,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of current investments",
+            "note_ref": "",
+            "current": -140152.13,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Sale/redemption of current investments",
+            "note_ref": "",
+            "current": 141499.39,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Investment in subsidiaries",
+            "note_ref": "",
+            "current": -286.98,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of non-current investments from subsidiary",
+            "note_ref": "",
+            "current": -121.0,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of non-current investments",
+            "note_ref": "",
+            "current": -4926.25,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Sale of non-current investments to subsidiary",
+            "note_ref": "",
+            "current": 5.4,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Redemption proceeds of non-current investments",
+            "note_ref": "",
+            "current": 187.0,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Dividend Income",
+            "note_ref": "",
+            "current": 376.9,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Interest received",
+            "note_ref": "",
+            "current": 716.31,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "(original maturity more than 3 months)",
+            "note_ref": "",
+            "current": -5366.87,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "(original maturity more than 3 months)",
+            "note_ref": "",
+            "current": 6450.13,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Loans given",
+            "note_ref": "",
+            "current": -3.2,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Loans realised",
+            "note_ref": "",
+            "current": 48.07,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "NET CASH USED IN INVESTING ACTIVITIES",
+            "note_ref": "",
+            "current": -3710.9,
+            "prior": null,
+            "section": null
+          }
+        ],
+        "kpIs": {}
+      }
+    },
+    "FY2018": {
+      "profitLoss": {
+        "fy": "FY2018",
+        "items": [
+          {
+            "type": "item",
+            "label": "Revenue From Operations*",
+            "note_ref": "21A, 21B",
+            "current": 44329.77,
+            "prior": 55448.46,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Other Income",
+            "note_ref": "",
+            "current": 2129.84,
+            "prior": 1985.91,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Total Income (I+II)",
+            "note_ref": "",
+            "current": 46459.61,
+            "prior": 57434.37,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Cost of materials consumed",
+            "note_ref": "",
+            "current": 11756.21,
+            "prior": 11765.56,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchases of Stock-in-Trade",
+            "note_ref": "",
+            "current": 2991.98,
+            "prior": 3566.57,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "work-in-progress and intermediates",
+            "note_ref": "",
+            "current": 1041.85,
+            "prior": 644.17,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Excise duty",
+            "note_ref": "",
+            "current": 3702.23,
+            "prior": 15359.78,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Employee benefits expense",
+            "note_ref": "",
+            "current": 2487.46,
+            "prior": 2444.31,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Finance costs",
+            "note_ref": "",
+            "current": 86.65,
+            "prior": 22.95,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Depreciation and amortization expense",
+            "note_ref": "",
+            "current": 1145.37,
+            "prior": 1038.04,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Other expenses",
+            "note_ref": "",
+            "current": 6809.06,
+            "prior": 7090.03,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Total expenses (IV)",
+            "note_ref": "",
+            "current": 30020.81,
+            "prior": 41931.41,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Profit before exceptional items and tax (III-IV)",
+            "note_ref": "",
+            "current": 16438.8,
+            "prior": 15502.96,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Exceptional Items",
+            "note_ref": "",
+            "current": 412.9,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "VII Profit before tax (V+VI)",
+            "note_ref": "",
+            "current": 16851.7,
+            "prior": 15502.96,
+            "section": null
+          },
+          {
+            "type": "section",
+            "label": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Deferred Tax",
+            "note_ref": "",
+            "current": 28.62,
+            "prior": 16.41,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Profit for the year (VII-VIII)",
+            "note_ref": "",
+            "current": 11223.25,
+            "prior": 10200.9,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "benefit plans",
+            "note_ref": "",
+            "current": 80.83,
+            "prior": -27.96,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "comprehensive income",
+            "note_ref": "",
+            "current": 335.1,
+            "prior": 129.95,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "in a cash flow hedge",
+            "note_ref": "",
+            "current": 10.29,
+            "prior": -61.19,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "reclassified to profit or loss",
+            "note_ref": "",
+            "current": -31.61,
+            "prior": 24.22,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "in a cash flow hedge",
+            "note_ref": "",
+            "current": -18.69,
+            "prior": 18.29,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "reclassified to profit or loss",
+            "note_ref": "",
+            "current": 6.42,
+            "prior": -6.31,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Other Comprehensive Income [A (i-ii)+B (i-ii)]",
+            "note_ref": "",
+            "current": 382.34,
+            "prior": 77.0,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Total Comprehensive Income for the year (IX+X)",
+            "note_ref": "",
+            "current": 11605.59,
+            "prior": 10277.9,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "(1) Basic (in `)",
+            "note_ref": "",
+            "current": 9.22,
+            "prior": 8.43,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "(2) Diluted (in `)",
+            "note_ref": "",
+            "current": 9.16,
+            "prior": 8.38,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Gross Sales Value (net of rebates and discounts) (A)",
+            "note_ref": "",
+            "current": 67081.92,
+            "prior": 64174.17,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Taxes other than Excise Duty/NCCD (B)@",
+            "note_ref": "",
+            "current": 23125.02,
+            "prior": 9172.48,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Gross Revenue from sale of products and services [C = (A-B)]",
+            "note_ref": "",
+            "current": 43956.9,
+            "prior": 55001.69,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Other Operating Revenues (D)",
+            "note_ref": "",
+            "current": 372.87,
+            "prior": 446.77,
+            "section": "Current Tax"
+          },
+          {
+            "type": "item",
+            "label": "Revenue From Operations [E = (C+D)]",
+            "note_ref": "",
+            "current": 44329.77,
+            "prior": 55448.46,
+            "section": "Current Tax"
+          }
+        ],
+        "kpIs": {
+          "revenueCr": 44329.77,
+          "totalIncomeCr": 46459.61,
+          "pbtCr": 16851.7,
+          "patCr": 11223.25,
+          "ebitdaCr": null,
+          "epsRs": null
+        }
+      },
+      "balanceSheet": {
+        "fy": "FY2018",
+        "items": [
+          {
+            "type": "section",
+            "label": "ASSETS"
+          },
+          {
+            "type": "section",
+            "label": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(a) Property, Plant and Equipment",
+            "note_ref": "",
+            "current": 14469.32,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(b) Capital work-in-progress",
+            "note_ref": "",
+            "current": 3491.33,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Intangible assets",
+            "note_ref": "",
+            "current": 410.92,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(d) Intangible assets under development",
+            "note_ref": "",
+            "current": 45.69,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(i) Investments 13493.77",
+            "note_ref": "",
+            "current": 8485.51,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(ii) Loans",
+            "note_ref": "",
+            "current": 5.84,
+            "prior": null,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(iii) Others 1741.28 15242.45",
+            "note_ref": "",
+            "current": 99.83,
+            "prior": 8591.18,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "item",
+            "label": "(g) Other non-current assets",
+            "note_ref": "",
+            "current": 2670.12,
+            "prior": 29678.56,
+            "section": "Non-current assets"
+          },
+          {
+            "type": "section",
+            "label": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(a) Inventories",
+            "note_ref": "",
+            "current": 7863.99,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(i) Investments 9903.45",
+            "note_ref": "",
+            "current": 10099.78,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(ii) Trade receivables 2357.01",
+            "note_ref": "",
+            "current": 2207.5,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(iii) Cash and cash equivalents",
+            "note_ref": "",
+            "current": 156.15,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(iv) Other Bank Balances 2498.85",
+            "note_ref": "",
+            "current": 2591.12,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(v) Loans",
+            "note_ref": "",
+            "current": 3.37,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "(c) Other current assets",
+            "note_ref": "",
+            "current": 610.57,
+            "prior": 24537.39,
+            "section": "Current assets"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL ASSETS",
+            "note_ref": "",
+            "current": 54215.95,
+            "prior": null,
+            "section": "Current assets"
+          },
+          {
+            "type": "section",
+            "label": "EQUITY AND LIABILITIES"
+          },
+          {
+            "type": "section",
+            "label": "Equity"
+          },
+          {
+            "type": "item",
+            "label": "(a) Equity Share capital",
+            "note_ref": "",
+            "current": 1214.74,
+            "prior": null,
+            "section": "Equity"
+          },
+          {
+            "type": "item",
+            "label": "(b) Other Equity",
+            "note_ref": "",
+            "current": 44126.22,
+            "prior": 45340.96,
+            "section": "Equity"
+          },
+          {
+            "type": "section",
+            "label": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(i) Borrowings",
+            "note_ref": "",
+            "current": 17.99,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(ii) Other financial liabilities",
+            "note_ref": "",
+            "current": 9.21,
+            "prior": 27.2,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(b) Provisions",
+            "note_ref": "",
+            "current": 131.37,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(c) Deferred tax liabilities (Net)",
+            "note_ref": "",
+            "current": 1871.7,
+            "prior": null,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(d) Other non-current liabilities",
+            "note_ref": "",
+            "current": 14.65,
+            "prior": 2044.92,
+            "section": "Non-current liabilities"
+          },
+          {
+            "type": "section",
+            "label": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(i) Borrowings",
+            "note_ref": "",
+            "current": 0.01,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(ii) Trade payables 3382.28",
+            "note_ref": "",
+            "current": 2551.22,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(iii) Other financial liabilities 778.30",
+            "note_ref": "",
+            "current": 784.78,
+            "prior": 3336.01,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(b) Other current liabilities",
+            "note_ref": "",
+            "current": 3351.15,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(c) Provisions",
+            "note_ref": "",
+            "current": 41.83,
+            "prior": null,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "(d) Current Tax Liabilities (Net)",
+            "note_ref": "",
+            "current": 101.08,
+            "prior": 6830.07,
+            "section": "Current liabilities"
+          },
+          {
+            "type": "item",
+            "label": "TOTAL EQUITY AND LIABILITIES",
+            "note_ref": "",
+            "current": 54215.95,
+            "prior": null,
+            "section": "Current liabilities"
+          }
+        ],
+        "kpIs": {
+          "totalAssetsCr": 54215.95,
+          "totalEquityLiabCr": null
+        }
+      },
+      "cashFlow": {
+        "fy": "FY2018",
+        "items": [
+          {
+            "type": "item",
+            "label": "PROFIT BEFORE TAX",
+            "note_ref": "",
+            "current": 15502.96,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Depreciation and amortization expense",
+            "note_ref": "",
+            "current": 1038.04,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Share based payments to employees",
+            "note_ref": "",
+            "current": 450.32,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Finance costs",
+            "note_ref": "",
+            "current": 22.95,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Interest Income",
+            "note_ref": "",
+            "current": -864.58,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Dividend Income",
+            "note_ref": "",
+            "current": -248.85,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Loss on sale of property, plant and equipment - Net",
+            "note_ref": "",
+            "current": 5.0,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Doubtful and bad debts",
+            "note_ref": "",
+            "current": 30.74,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Doubtful and bad advances, loans and deposits",
+            "note_ref": "",
+            "current": 1.25,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Impairment of investment in joint venture/subsidiary company",
+            "note_ref": "",
+            "current": 16.29,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "return of capital by subsidiary",
+            "note_ref": "",
+            "current": -203.95,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "at fair value through profit and loss",
+            "note_ref": "",
+            "current": -605.2,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Foreign currency translations and transactions - Net",
+            "note_ref": "",
+            "current": -401.44,
+            "prior": 6.9,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "OPERATING PROFIT BEFORE WORKING CAPITAL CHANGES",
+            "note_ref": "",
+            "current": 15151.87,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Trade receivables, loans, advances and other assets",
+            "note_ref": "",
+            "current": -859.05,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Inventories",
+            "note_ref": "",
+            "current": 655.83,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Trade payables, other liabilities and provisions",
+            "note_ref": "",
+            "current": 266.33,
+            "prior": 63.11,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "CASH GENERATED FROM OPERATIONS",
+            "note_ref": "",
+            "current": 15214.98,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Income tax paid",
+            "note_ref": "",
+            "current": -5212.96,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "NET CASH FROM OPERATING ACTIVITIES",
+            "note_ref": "",
+            "current": 10002.02,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of property, plant and equipment, Intangibles etc.",
+            "note_ref": "",
+            "current": -2944.49,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Sale of property, plant and equipment",
+            "note_ref": "",
+            "current": 47.38,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of current investments",
+            "note_ref": "",
+            "current": -76998.7,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Sale/redemption of current investments",
+            "note_ref": "",
+            "current": 74903.71,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Investment in subsidiaries",
+            "note_ref": "",
+            "current": -139.8,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of non-current investments",
+            "note_ref": "",
+            "current": -2280.65,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Proceeds on disposal of subsidiary",
+            "note_ref": "",
+            "current": 132.88,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Return of capital by subsidiary",
+            "note_ref": "",
+            "current": 126.57,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Dividend Income",
+            "note_ref": "",
+            "current": 248.85,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Interest received",
+            "note_ref": "",
+            "current": 720.43,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "(original maturity more than 3 months)",
+            "note_ref": "",
+            "current": -1714.79,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "(original maturity more than 3 months)",
+            "note_ref": "",
+            "current": 5615.52,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Investment in deposit with housing finance company",
+            "note_ref": "",
+            "current": -500.0,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Loans realised",
+            "note_ref": "",
+            "current": 2.76,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "NET CASH USED IN INVESTING ACTIVITIES",
+            "note_ref": "",
+            "current": -2780.33,
+            "prior": null,
+            "section": null
+          }
+        ],
+        "kpIs": {}
+      }
+    },
     "FY2019": {
       "profitLoss": {
         "fy": "FY2019",
@@ -557,263 +2819,291 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations*",
-            "note_ref": "21A, 21B",
-            "current": 45784.39,
-            "prior": 44329.77,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Other Income",
+            "label": "PROFIT BEFORE TAX",
             "note_ref": "",
-            "current": 2484.54,
-            "prior": 2129.84,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Total Income (I+II)",
-            "note_ref": "",
-            "current": 48268.93,
-            "prior": 46459.61,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Cost of materials consumed",
-            "note_ref": "",
-            "current": 13184.97,
-            "prior": 11756.21,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Purchases of Stock-in-Trade",
-            "note_ref": "",
-            "current": 4300.32,
-            "prior": 2991.98,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "work-in-progress and intermediates",
-            "note_ref": "",
-            "current": -180.14,
-            "prior": 1041.85,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Excise duty",
-            "note_ref": "",
-            "current": 788.74,
-            "prior": 3702.23,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Employee benefits expense",
-            "note_ref": "",
-            "current": 2728.44,
-            "prior": 2487.46,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Finance costs",
-            "note_ref": "",
-            "current": 34.19,
-            "prior": 86.65,
+            "current": 16851.7,
+            "prior": null,
             "section": null
           },
           {
             "type": "item",
             "label": "Depreciation and amortization expense",
             "note_ref": "",
-            "current": 1311.7,
-            "prior": 1145.37,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Other expenses",
-            "note_ref": "",
-            "current": 7656.55,
-            "prior": 6809.06,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Total expenses (IV)",
-            "note_ref": "",
-            "current": 29824.77,
-            "prior": 30020.81,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Profit before exceptional items and tax (III-IV)",
-            "note_ref": "",
-            "current": 18444.16,
-            "prior": 16438.8,
-            "section": null
-          },
-          {
-            "type": "item",
-            "label": "Exceptional Items",
-            "note_ref": "",
-            "current": 412.9,
+            "current": 1145.37,
             "prior": null,
             "section": null
           },
           {
             "type": "item",
-            "label": "VII Profit before tax (V+VI)",
+            "label": "Share based payments to employees",
             "note_ref": "",
-            "current": 18444.16,
-            "prior": 16851.7,
+            "current": 349.28,
+            "prior": null,
             "section": null
           },
           {
-            "type": "section",
-            "label": "Current Tax"
+            "type": "item",
+            "label": "Finance costs",
+            "note_ref": "",
+            "current": 86.65,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "Deferred Tax",
+            "label": "Interest Income",
             "note_ref": "",
-            "current": 130.6,
-            "prior": 28.62,
-            "section": "Current Tax"
+            "current": -917.8,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "Profit for the year (VII-VIII)",
+            "label": "Dividend Income",
             "note_ref": "",
-            "current": 12464.32,
-            "prior": 11223.25,
-            "section": "Current Tax"
+            "current": -409.79,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "benefit plans",
+            "label": "Loss on sale of property, plant and equipment - Net",
             "note_ref": "",
-            "current": 9.26,
-            "prior": 80.83,
-            "section": "Current Tax"
+            "current": 14.48,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "comprehensive income",
+            "label": "Doubtful and bad debts",
             "note_ref": "",
-            "current": 370.11,
-            "prior": 335.1,
-            "section": "Current Tax"
+            "current": 25.14,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "in a cash flow hedge",
+            "label": "Doubtful and bad advances, loans and deposits",
             "note_ref": "",
-            "current": -21.05,
-            "prior": 10.29,
-            "section": "Current Tax"
+            "current": 3.74,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "reclassified to profit or loss",
+            "label": "Impairment of investment in joint venture",
             "note_ref": "",
-            "current": 3.69,
-            "prior": -31.61,
-            "section": "Current Tax"
+            "current": 23.45,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "in a cash flow hedge",
+            "label": "Net gain recognised on disposal of subsidiary",
             "note_ref": "",
-            "current": 0.85,
-            "prior": -18.69,
-            "section": "Current Tax"
+            "current": -9.61,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "reclassified to profit or loss",
+            "label": "at fair value through profit or loss",
             "note_ref": "",
-            "current": -0.3,
-            "prior": 6.42,
-            "section": "Current Tax"
+            "current": -716.81,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "Other Comprehensive Income [A (i-ii)+B (i-ii)]",
+            "label": "Foreign currency translations and transactions - Net",
             "note_ref": "",
-            "current": 362.56,
-            "prior": 382.34,
-            "section": "Current Tax"
+            "current": -709.57,
+            "prior": 4.46,
+            "section": null
           },
           {
             "type": "item",
-            "label": "Total Comprehensive Income for the year (IX+X)",
+            "label": "OPERATING PROFIT BEFORE WORKING CAPITAL CHANGES",
             "note_ref": "",
-            "current": 12826.88,
-            "prior": 11605.59,
-            "section": "Current Tax"
+            "current": 16450.26,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "(1) Basic (in `)",
+            "label": "Trade receivables, loans, advances and other assets",
             "note_ref": "",
-            "current": 10.19,
-            "prior": 9.22,
-            "section": "Current Tax"
+            "current": -784.11,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "(2) Diluted (in `)",
+            "label": "Inventories",
             "note_ref": "",
-            "current": 10.13,
-            "prior": 9.16,
-            "section": "Current Tax"
+            "current": 626.84,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "Gross Sales Value (net of rebates and discounts) (A)",
+            "label": "Trade payables, other liabilities and provisions",
             "note_ref": "",
-            "current": 75309.36,
-            "prior": 67081.92,
-            "section": "Current Tax"
+            "current": -499.66,
+            "prior": 2077.43,
+            "section": null
           },
           {
             "type": "item",
-            "label": "Taxes other than Excise duty/NCCD (B)@",
+            "label": "CASH GENERATED FROM OPERATIONS",
             "note_ref": "",
-            "current": 30087.95,
-            "prior": 23125.02,
-            "section": "Current Tax"
+            "current": 18370.42,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "Gross Revenue from sale of products and services [C = (A-B)]",
+            "label": "Income tax paid",
             "note_ref": "",
-            "current": 45221.41,
-            "prior": 43956.9,
-            "section": "Current Tax"
+            "current": -5719.57,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "Other Operating Revenues (D)",
+            "label": "NET CASH FROM OPERATING ACTIVITIES",
             "note_ref": "",
-            "current": 562.98,
-            "prior": 372.87,
-            "section": "Current Tax"
+            "current": 12650.85,
+            "prior": null,
+            "section": null
           },
           {
             "type": "item",
-            "label": "Revenue From Operations [E = (C+D)]",
+            "label": "Purchase of property, plant and equipment, Intangibles etc.",
             "note_ref": "",
-            "current": 45784.39,
-            "prior": 44329.77,
-            "section": "Current Tax"
+            "current": -2619.04,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Sale of property, plant and equipment",
+            "note_ref": "",
+            "current": 71.23,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of current investments",
+            "note_ref": "",
+            "current": -89843.68,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Sale/redemption of current investments",
+            "note_ref": "",
+            "current": 91080.09,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Investment in subsidiaries",
+            "note_ref": "",
+            "current": -224.19,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Purchase of non-current investments",
+            "note_ref": "",
+            "current": -4713.31,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Proceeds on disposal of subsidiary",
+            "note_ref": "",
+            "current": 17.53,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Dividend Income",
+            "note_ref": "",
+            "current": 409.79,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Interest received",
+            "note_ref": "",
+            "current": 691.4,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "(original maturity more than 3 months)",
+            "note_ref": "",
+            "current": -3920.32,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "(original maturity more than 3 months)",
+            "note_ref": "",
+            "current": 2997.48,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Investment in deposit with housing finance companies",
+            "note_ref": "",
+            "current": -1135.88,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Redemption/maturity of deposit with housing finance companies",
+            "note_ref": "",
+            "current": 500.0,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Loans given",
+            "note_ref": "",
+            "current": -7.52,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "Loans realised",
+            "note_ref": "",
+            "current": 5.18,
+            "prior": null,
+            "section": null
+          },
+          {
+            "type": "item",
+            "label": "NET CASH USED IN INVESTING ACTIVITIES",
+            "note_ref": "",
+            "current": -6691.24,
+            "prior": null,
+            "section": null
           }
         ],
         "kpIs": {}

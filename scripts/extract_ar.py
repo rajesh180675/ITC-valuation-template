@@ -21,12 +21,54 @@ AR_URLS = {
     'ITC': lambda y: f"https://www.itcportal.com/content/dam/itc-corporate/pdfs/report-and-accounts/ITC-Report-and-Accounts-{y}.pdf",
 }
 
+# Known tickers that can be extracted once URLs are discovered
+NIFTY50_TICKERS = [
+    'RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'WIPRO', 'ICICIBANK',
+    'SBIN', 'BHARTIARTL', 'BAJFINANCE', 'KOTAKBANK', 'LT', 'HCLTECH',
+    'AXISBANK', 'MARUTI', 'ITC', 'TITAN', 'ONGC', 'NTPC', 'POWERGRID',
+    'ULTRACEMCO', 'ASIANPAINT', 'M&M', 'SUNPHARMA', 'BAJAJFINSV',
+    'HINDUNILVR', 'TATAMOTORS', 'NESTLEIND', 'ADANIENT', 'ADANIPORTS',
+    'JSWSTEEL', 'COALINDIA', 'GRASIM', 'BRITANNIA', 'DIVISLAB',
+    'DRREDDY', 'APOLLOHOSP', 'WIPRO', 'TECHM', 'BAJAJ-AUTO', 'EICHERMOT',
+    'INDUSINDBK', 'HEROMOTOCO', 'CIPLA', 'BEL', 'IOC', 'HAL', 'BPCL',
+    'TRENT', 'SHRIRAMFIN',
+]
+
+def discover_ar_url(ticker, year):
+    """Discover annual report URL for a company using web search."""
+    name_map = {
+        'RELIANCE': 'Reliance+Industries', 'TCS': 'Tata+Consultancy+Services',
+        'HDFCBANK': 'HDFC+Bank', 'INFY': 'Infosys', 'ICICIBANK': 'ICICI+Bank',
+        'SBIN': 'SBI', 'MARUTI': 'Maruti+Suzuki', 'TITAN': 'Titan+Company',
+        'LT': 'Larsen+%26+Tourbo', 'SUNPHARMA': 'Sun+Pharmaceutical',
+        'HINDUNILVR': 'Hindustan+Unilever', 'TATAMOTORS': 'Tata+Motors',
+        'NESTLEIND': 'Nestle+India', 'BAJAJ-AUTO': 'Bajaj+Auto',
+        'EICHERMOT': 'Eicher+Motors', 'HEROMOTOCO': 'Hero+MotoCorp',
+        'M&M': 'Mahindra+%26+Mahindra', 'APOLLOHOSP': 'Apollo+Hospitals',
+    }
+    name = name_map.get(ticker, ticker)
+    query = f'{name}+annual+report+{year-1}+-{year%1000}+PDF'
+    try:
+        r = requests.get(f'https://www.google.com/search?q={query}+filetype%3Apdf', 
+                        headers={'User-Agent': 'Mozilla/5.0'}, timeout=15)
+        if r.status_code == 200:
+            urls = re.findall(r'href="(https?://[^"]*\.pdf)"', r.text)
+            for url in urls:
+                if 'annual' in url.lower() or 'annualreport' in url.lower():
+                    return url
+    except:
+        pass
+    return None
+
 def download_ar(ticker, year):
     path = os.path.join(PDF_DIR, f"{ticker}_AR_{year}.pdf")
     if os.path.exists(path) and os.path.getsize(path) > 10000: return path
     url_fn = AR_URLS.get(ticker)
-    if not url_fn: return None
-    url = url_fn(year)
+    if not url_fn:
+        url = discover_ar_url(ticker, year)
+        if not url: return None
+    else:
+        url = url_fn(year)
     headers = {'User-Agent': 'Mozilla/5.0'}
     try:
         r = requests.get(url, headers=headers, stream=True, timeout=60)
