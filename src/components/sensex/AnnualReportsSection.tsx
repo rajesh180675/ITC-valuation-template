@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-import { BookOpen, TrendingUp, PieChart, Layers, BarChart3, DollarSign, Activity } from 'lucide-react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { BookOpen, TrendingUp, PieChart, Layers, DollarSign } from 'lucide-react';
 import { fmt, fmtN } from '@/components/itc/shared';
-import { Kpi } from './shared';
 
 type Tab = 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments';
 
@@ -20,63 +19,64 @@ interface YearData {
   cashFlow?: Statement;
 }
 
-interface ARDataset {
-  ticker: string; years: Record<string, YearData>; metadata: Record<string, string>;
-}
-
-const TABS: { id: Tab; label: string; icon: typeof BarChart3 }[] = [
+const TABS: { id: Tab; label: string; icon: any }[] = [
   { id: 'pnl', label: 'P&L', icon: TrendingUp },
   { id: 'balanceSheet', label: 'Balance Sheet', icon: PieChart },
   { id: 'cashFlow', label: 'Cash Flow', icon: DollarSign },
   { id: 'segments', label: 'Segments', icon: Layers },
 ];
 
-const ROW_GROUPS: Record<string, { label: string; keys: string[] }[]> = {
-  pnl: [
-    { label: 'REVENUE', keys: ['revenue from operations', 'other income', 'total income'] },
-    { label: 'EXPENSES', keys: ['cost of materials consumed', 'purchases of stock-in-trade',
-      'changes in inventories of finished goods', 'excise duty', 'employee benefits expense',
-      'finance costs', 'depreciation and amortization', 'other expenses', 'total expenses'] },
-    { label: 'PROFITABILITY', keys: ['profit before exceptional', 'exceptional items',
-      'profit before tax', 'current tax', 'deferred tax', 'tax expense',
-      'profit for the year from continuing', 'profit for the year'] },
-    { label: 'PER SHARE', keys: ['earning per share'] },
-  ],
-  cashFlow: [
-    { label: 'OPERATING', keys: ['profit before tax', 'depreciation', 'working capital',
-      'cash generated from operations', 'net cash from operating', 'net cash flow from operating'] },
-    { label: 'INVESTING', keys: ['purchase of fixed assets', 'sale of fixed assets',
-      'net cash used in investing', 'net cash flow from investing'] },
-    { label: 'FINANCING', keys: ['proceeds from borrowings', 'repayment of borrowings',
-      'dividend paid', 'net cash from financing', 'net cash flow from financing'] },
-    { label: 'SUMMARY', keys: ['net increase in cash', 'cash and cash equivalents at the end',
-      'cash and cash equivalents at beginning'] },
-  ],
-};
+// ── Group rows by sections found in the actual data ────────────────────────
+function useRowGroups(items: Item[]) {
+  return useMemo(() => {
+    const groups: { header: string; rows: Item[] }[] = [];
+    let currentHeader = 'GENERAL';
+    let currentRows: Item[] = [];
 
+    for (const item of items) {
+      if (item.type === 'section') {
+        if (currentRows.length) groups.push({ header: currentHeader, rows: currentRows });
+        currentHeader = item.label;
+        currentRows = [];
+      } else {
+        currentRows.push(item);
+      }
+    }
+    if (currentRows.length) groups.push({ header: currentHeader, rows: currentRows });
+    return groups;
+  }, [items]);
+}
+
+// ── Component ───────────────────────────────────────────────────────────────
 export function AnnualReportsSection() {
-  const [data, setData] = useState<ARDataset | null>(null);
+  const [data, setData] = useState<Record<string, YearData> | null>(null);
   const [segData, setSegData] = useState<any>(null);
   const [tab, setTab] = useState<Tab>('pnl');
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     Promise.all([
       fetch('/data/ar/ITC.json').then(r => r.json()),
       fetch('/data/segment_data_itc.json').then(r => r.json()),
     ]).then(([ar, seg]) => {
-      setData(ar);
+      setData(ar.years);
       setSegData(seg);
       setSelectedYears(Object.keys(ar.years).sort().slice(-5));
-    });
+      setLoading(false);
+    }).catch(() => setLoading(false));
   }, []);
 
-  if (!data) {
-    return <div className="glass-card p-8 text-center text-gray-400 animate-pulse">Loading annual report data…</div>;
-  }
+  if (loading) return <div className="glass-card p-8 text-center text-gray-400">Loading annual report data…</div>;
+  if (!data) return <div className="glass-card p-8 text-center text-gray-400">No data available. Run <code className="text-emerald-400">python scripts/extract_ar.py</code> first.</div>;
 
-  const years = Object.keys(data.years).sort();
+  const years = Object.keys(data).sort();
   const displayYears = selectedYears.length > 0 ? selectedYears : years.slice(-5);
+
+  // Get items for current tab from latest year to determine row groups
+  const getStmtType = (t: Tab): keyof YearData =>
+    t === 'pnl' ? 'profitLoss' : t === 'balanceSheet' ? 'balanceSheet' : 'cashFlow';
 
   return (
     <div className="space-y-4 p-4 md:p-6 max-w-7xl mx-auto">
@@ -88,9 +88,7 @@ export function AnnualReportsSection() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-white">Annual Reports</h1>
-            <p className="text-xs text-gray-400">
-              ITC Limited · {data.metadata.source} · {years.length} years · {tab.toUpperCase()} view
-            </p>
+            <p className="text-xs text-gray-400">ITC Limited · {years.length} years · {tab.toUpperCase()}</p>
           </div>
         </div>
         <div className="flex gap-1.5 flex-wrap">
@@ -122,181 +120,139 @@ export function AnnualReportsSection() {
       </div>
 
       {/* Content */}
-      {tab === 'pnl' && <StatementTable data={data} years={displayYears} stmtType="profitLoss" groups={ROW_GROUPS.pnl} />}
-      {tab === 'balanceSheet' && <StatementTable data={data} years={displayYears} stmtType="balanceSheet" groups={[]} />}
-      {tab === 'cashFlow' && <StatementTable data={data} years={displayYears} stmtType="cashFlow" groups={ROW_GROUPS.cashFlow} />}
-      {tab === 'segments' && <SegmentsView segData={segData} />}
+      {tab === 'segments'
+        ? <SegmentsView segData={segData} />
+        : <DataDrivenTable data={data} years={displayYears} stmtType={getStmtType(tab)} />
+      }
     </div>
   );
 }
 
-/* ── Reusable Statement Table ─────────────────────────────────────────────── */
-function StatementTable({ data, years, stmtType, groups }: {
-  data: ARDataset; years: string[]; stmtType: string; groups: { label: string; keys: string[] }[];
+// ── Data-Driven Table (shows EVERYTHING from the JSON) ─────────────────────
+function DataDrivenTable({ data, years, stmtType }: {
+  data: Record<string, YearData>; years: string[]; stmtType: keyof YearData;
 }) {
-  const columnLabel = stmtType === 'profitLoss' ? 'P&L Item' : stmtType === 'balanceSheet' ? 'Balance Sheet Item' : 'Cash Flow Item';
+  // Build row groups from the union of all items across all years
+  const { groups, itemIndex } = useMemo(() => {
+    // Collect all unique labels (preserving order from the latest year)
+    const latestYear = years[years.length - 1];
+    const latestStmt = data[latestYear]?.[stmtType];
+    const allItems = latestStmt?.items ?? [];
 
-  // KPI cards
-  const kpiKeys = data.years[years[years.length - 1]]?.[stmtType as keyof YearData]?.kpIs;
-  const kpiCards = kpiKeys ? Object.entries(kpiKeys).filter(([k, v]) => v !== null && k !== 'epsRs').slice(0, 4) : [];
+    // Build groups from latest year's structure
+    const groups: { header: string; rows: string[] }[] = [];
+    let currentHeader = '';
+    let currentRows: string[] = [];
 
-  if (!kpiCards.length && !groups.length) {
-    // BS mode: show all section items
-    return <BsView data={data} years={years} />;
-  }
-
-  // KPI cards row
-  return (
-    <div className="space-y-4">
-      {kpiCards.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {kpiCards.map(([key, val]) => (
-            <Kpi key={key} label={key.replace(/([A-Z])/g, ' $1').replace(/Cr$/, ' (Cr)').trim()}
-              value={fmt(val ?? 0)} smallValue />
-          ))}
-        </div>
-      )}
-
-      <div className="glass-card p-5 overflow-x-auto">
-        <table className="w-full text-xs sensex-table tabular-nums" style={{ minWidth: 600 }}>
-          <thead>
-            <tr>
-              <th className="text-left py-2 pr-4 text-gray-400 font-medium">{columnLabel}</th>
-              {years.map(fy => (
-                <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY '")}</th>
-              ))}
-              <th className="text-right py-2 pl-2 text-gray-400 font-medium">Trend</th>
-            </tr>
-          </thead>
-          <tbody>
-            {groups.map(group => (
-              <>{group.label !== groups[0]?.label && <tr><td colSpan={years.length + 2} className="h-2" /></tr>}
-                <tr key={group.label}>
-                  <td className="text-[11px] font-bold text-gray-300 pt-3 pb-1" colSpan={years.length + 2}>{group.label}</td>
-                </tr>
-                {group.keys.map(key => {
-                  const vals = years.map(fy => {
-                    const stmt = data.years[fy]?.[stmtType as keyof YearData];
-                    if (!stmt) return null;
-                    const item = (stmt as Statement).items.find((i: Item) => i.label.toLowerCase().includes(key));
-                    return item?.current ?? null;
-                  });
-                  const hasData = vals.some(v => v !== null);
-                  if (!hasData) return null;
-                  const first = vals.find(v => v !== null && v !== 0) ?? 0;
-                  const last = [...vals].reverse().find(v => v !== null && v !== 0) ?? 0;
-                  const trend = first !== 0 ? ((last - first) / Math.abs(first) * 100) : 0;
-                  return (
-                    <tr key={key} className="hover:bg-white/5">
-                      <td className="py-1.5 pr-4 text-gray-300 capitalize">{key}</td>
-                      {vals.map((v, i) => (
-                        <td key={i} className={`text-right py-1.5 px-2 ${v !== null ? 'text-white' : 'text-gray-600'}`}>
-                          {v !== null ? fmtN(v, 0) : '—'}
-                        </td>
-                      ))}
-                      <td className={`text-right py-1.5 pl-2 ${
-                        trend > 5 ? 'text-emerald-400' : trend < -5 ? 'text-rose-400' : 'text-gray-500'
-                      }`}>
-                        {trend !== 0 ? `${trend > 0 ? '▲' : '▼'} ${Math.abs(trend).toFixed(1)}%` : '—'}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
-/* ── Balance Sheet (section-based) ────────────────────────────────────────── */
-function BsView({ data, years }: { data: ARDataset; years: string[] }) {
-  const lastYear = years[years.length - 1];
-  const lastBs = data.years[lastYear]?.balanceSheet;
-  const totalAssets = lastBs?.kpIs?.totalAssetsCr;
-
-  // Extract unique sections
-  const sections: { label: string; itemKeys: { label: string }[] }[] = [];
-  if (lastBs) {
-    let currentSection: { label: string; itemKeys: { label: string }[] } | null = null;
-    for (const item of lastBs.items) {
+    for (const item of allItems) {
       if (item.type === 'section') {
-        currentSection = { label: item.label, itemKeys: [] };
-        sections.push(currentSection);
-      } else if (currentSection && item.current !== null) {
-        currentSection.itemKeys.push({ label: item.label });
+        if (currentRows.length) groups.push({ header: currentHeader, rows: currentRows });
+        currentHeader = item.label;
+        currentRows = [];
+      } else {
+        currentRows.push(item.label);
       }
     }
-  }
+    if (currentRows.length) groups.push({ header: currentHeader, rows: currentRows });
+
+    // Build index: label -> per-year values
+    const index: Record<string, (number | null)[]> = {};
+    for (const group of groups) {
+      for (const label of group.rows) {
+        const vals = years.map(fy => {
+          const stmt = data[fy]?.[stmtType];
+          if (!stmt) return null;
+          const match = stmt.items.find((i: Item) => i.label === label);
+          return match?.current ?? null;
+        });
+        index[label] = vals;
+      }
+    }
+
+    return { groups, itemIndex: index };
+  }, [data, years, stmtType]);
+
+  const hasData = groups.some(g => g.rows.length > 0);
+  if (!hasData) return <div className="glass-card p-5 text-gray-400">No data for this statement in selected years.</div>;
+
+  const colLabel = stmtType === 'profitLoss' ? 'Income Statement' :
+                  stmtType === 'balanceSheet' ? 'Balance Sheet' : 'Cash Flow';
 
   return (
-    <div className="space-y-4">
-      {totalAssets && (
-        <div className="flex gap-4">
-          <Kpi label={`Total Assets (${lastYear})`} value={fmt(totalAssets)} smallValue />
-        </div>
-      )}
-
-      <div className="glass-card p-5 overflow-x-auto">
-        <table className="w-full text-xs sensex-table tabular-nums" style={{ minWidth: 600 }}>
-          <thead>
-            <tr>
-              <th className="text-left py-2 pr-4 text-gray-400 font-medium">Line Item</th>
-              {years.map(fy => (
-                <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "'")}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {sections.map(sec => (
-              <>
-                <tr key={sec.label}>
-                  <td className="text-[11px] font-bold text-gray-300 pt-3 pb-1" colSpan={years.length + 1}>{sec.label}</td>
-                </tr>
-                {sec.itemKeys.map((ik, idx) => {
-                  const vals = years.map(fy => {
-                    const bs = data.years[fy]?.balanceSheet;
-                    if (!bs) return null;
-                    const item = bs.items.find((i: Item) =>
-                      i.label.includes(ik.label.slice(0, Math.max(15, ik.label.length))) &&
-                      i.type === 'item'
-                    );
-                    return item?.current ?? null;
-                  });
-                  return (
-                    <tr key={`${sec.label}-${idx}`} className="hover:bg-white/5">
-                      <td className="py-1 pr-4 text-gray-300 text-[11px]">{ik.label}</td>
-                      {vals.map((v, i) => (
-                        <td key={i} className={`text-right py-1 px-2 text-[11px] ${v !== null ? 'text-white' : 'text-gray-600'}`}>
-                          {v !== null ? fmtN(v, 0) : '—'}
-                        </td>
-                      ))}
-                    </tr>
-                  );
-                })}
-              </>
+    <div className="glass-card p-5 overflow-x-auto">
+      <table className="w-full text-xs tabular-nums" style={{ minWidth: 600 }}>
+        <thead>
+          <tr>
+            <th className="text-left py-2 pr-4 text-gray-400 font-medium">{colLabel}</th>
+            {years.map(fy => (
+              <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY '")}</th>
             ))}
-          </tbody>
-        </table>
-      </div>
+            <th className="text-right py-2 pl-2 text-gray-400 font-medium">CAGR</th>
+          </tr>
+        </thead>
+        <tbody>
+          {groups.map((group, gi) => (
+            <React.Fragment key={`${group.header}-${gi}`}>
+              {/* Section header row */}
+              {group.header && group.header !== 'GENERAL' && (
+                <tr>
+                  <td className="text-[11px] font-bold text-emerald-300 pt-3 pb-1 border-b border-emerald-500/20" colSpan={years.length + 2}>
+                    {group.header}
+                  </td>
+                </tr>
+              )}
+              {group.rows.map((label, ri) => {
+                const vals = itemIndex[label];
+                if (!vals || vals.every(v => v === null || v === undefined)) return null;
+
+                // CAGR from first non-null to last non-null
+                const validVals = vals.filter(v => v !== null && v !== 0) as number[];
+                const first = validVals[0];
+                const last = validVals[validVals.length - 1];
+                const numYears = vals.filter(v => v !== null).length;
+                let cagr = '';
+                if (first && last && first > 0 && numYears >= 2) {
+                  cagr = (((Math.abs(last / first)) ** (1 / (numYears - 1)) - 1) * (last >= first ? 1 : -1) * 100).toFixed(1) + '%';
+                }
+
+                return (
+                  <tr key={`${gi}-${ri}`} className="hover:bg-white/[0.03]">
+                    <td className="py-1 pr-4 text-gray-300 text-[11px] truncate max-w-[200px]">{label}</td>
+                    {vals.map((v, i) => (
+                      <td key={i} className={`text-right py-1 px-2 text-[11px] ${
+                        v !== null ? 'text-white' : 'text-gray-600'
+                      }`}>
+                        {v !== null ? fmtN(Math.abs(v), v >= 100 ? 0 : 1) : '—'}
+                      </td>
+                    ))}
+                    <td className={`text-right py-1 pl-2 text-[11px] ${
+                      cagr.startsWith('-') ? 'text-rose-400' : cagr ? 'text-emerald-400' : 'text-gray-600'
+                    }`}>
+                      {cagr}
+                    </td>
+                  </tr>
+                );
+              })}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
 
-/* ── Segments Tab ─────────────────────────────────────────────────────────── */
+// ── Segments Tab ───────────────────────────────────────────────────────────
 function SegmentsView({ segData }: { segData: any }) {
   const series = segData?.segment_time_series;
   if (!series || Object.keys(series).length === 0) {
-    return <div className="glass-card p-5 text-center text-gray-400">No segment data available. Run <code className="text-emerald-400">python scripts/extract_itc_segments.py</code> first.</div>;
+    return <div className="glass-card p-5 text-center text-gray-400">
+      No segment data. Run <code className="text-emerald-400">python scripts/extract_itc_segments.py</code>.
+    </div>;
   }
 
   const sectionLabels: Record<string, string> = {
-    'revenue': 'Segment Revenue',
-    'results': 'Segment Results',
-    'assets': 'Segment Assets',
-    'liabilities': 'Segment Liabilities',
+    revenue: 'Segment Revenue', results: 'Segment Results',
+    assets: 'Segment Assets', liabilities: 'Segment Liabilities',
   };
 
   const allFys = new Set<string>();
@@ -315,12 +271,14 @@ function SegmentsView({ segData }: { segData: any }) {
         return (
           <div key={prefix} className="glass-card p-5 overflow-x-auto">
             <h3 className="text-sm font-semibold text-white mb-3">{title}</h3>
-            <table className="w-full text-xs sensex-table tabular-nums" style={{ minWidth: 500 }}>
+            <table className="w-full text-xs tabular-nums" style={{ minWidth: 500 }}>
               <thead>
                 <tr>
                   <th className="text-left py-2 pr-4 text-gray-400 font-medium">Segment</th>
                   {fys.map(fy => (
-                    <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "'")}</th>
+                    <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">
+                      {fy.replace('FY', "'")}
+                    </th>
                   ))}
                 </tr>
               </thead>
@@ -328,10 +286,10 @@ function SegmentsView({ segData }: { segData: any }) {
                 {items.map(([key, vals]) => {
                   const name = key.split('|').slice(1).join('|');
                   return (
-                    <tr key={key} className="hover:bg-white/5">
-                      <td className="py-1.5 pr-4 text-gray-300">{name}</td>
+                    <tr key={key} className="hover:bg-white/[0.03]">
+                      <td className="py-1.5 pr-4 text-gray-300 text-[11px]">{name}</td>
                       {fys.map(fy => (
-                        <td key={fy} className={`text-right py-1.5 px-2 ${vals[fy] ? 'text-white' : 'text-gray-600'}`}>
+                        <td key={fy} className={`text-right py-1.5 px-2 text-[11px] ${vals[fy] ? 'text-white' : 'text-gray-600'}`}>
                           {vals[fy] ? fmtN(vals[fy], 0) : '—'}
                         </td>
                       ))}
