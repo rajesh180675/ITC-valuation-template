@@ -101,7 +101,6 @@ export function PeerComparison({ ticker, currentPe }: { ticker: string; currentP
               const pe = parseFloat(p.pe) || 0;
               const mcap = parseFloat(p.mcapCr.replace(/,/g, '')) || 0;
               const roce = parseFloat(p.roce) || 0;
-              const div = parseFloat(p.divYield) || 0;
               const isSelf = p.name.toUpperCase().includes(ticker.toUpperCase().replace('-', ' ')) ||
                            ticker.toUpperCase().includes(p.name.replace(/[^A-Z]/g, '').slice(0, 4));
               return (
@@ -128,17 +127,17 @@ export function PeerComparison({ ticker, currentPe }: { ticker: string; currentP
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-        <PeerStat label="P/E" val={currentPe} median={medPe} rank={rankPct(currentPe, peVals)} unit="x" lower={false} />
-        <PeerStat label="ROCE" val={roceVals[0] || 0} median={medRoce} rank={50} unit="%" lower={false} />
-        <PeerStat label="Mkt Cap" val={mcapVals[0] || 0} median={medMcap} rank={rankPct(mcapVals[0] || 0, mcapVals)} unit=" Cr" lower={false} />
-        <PeerStat label="Div Yield" val={divVals[0] || 0} median={medDiv} rank={rankPct(divVals[0] || 0, divVals)} unit="%" lower={false} />
+        <PeerStat label="P/E" val={currentPe} median={medPe} rank={rankPct(currentPe, peVals)} unit="x" />
+        <PeerStat label="ROCE" val={roceVals[0] || 0} median={medRoce} rank={50} unit="%" />
+        <PeerStat label="Mkt Cap" val={mcapVals[0] || 0} median={medMcap} rank={rankPct(mcapVals[0] || 0, mcapVals)} unit=" Cr" />
+        <PeerStat label="Div Yield" val={divVals[0] || 0} median={medDiv} rank={rankPct(divVals[0] || 0, divVals)} unit="%" />
       </div>
     </div>
   );
 }
 
-function PeerStat({ label, val, median: med, rank, unit, lower }: {
-  label: string; val: number; median: number; rank: number; unit: string; lower: boolean;
+function PeerStat({ label, val, median: med, rank, unit }: {
+  label: string; val: number; median: number; rank: number; unit: string;
 }) {
   const barW = Math.min(rank, 100);
   const barColor = rank >= 70 ? 'bg-emerald-500' : rank >= 40 ? 'bg-amber-500' : 'bg-rose-500';

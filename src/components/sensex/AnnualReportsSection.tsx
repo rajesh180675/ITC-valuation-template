@@ -34,20 +34,25 @@ function findItem(items: Item[], key: string): number | null {
   return m?.current ?? null;
 }
 
-/* ── Safe percentage helper — never returns 0 caused by null/0 division ──── */
+/** Safe percentage helper - never returns 0 caused by null/0 division */
 function safePct(num: number | null, den: number | null): number | null {
   if (num == null || den == null || den === 0) return null;
   return Math.round((num / den) * 1000) / 10;
 }
 
-/* ── KPI Card ─────────────────────────────────────────────────────────────── */
+/** Safe subtraction - returns null if either operand is null */
+function safeSub(a: number | null, b: number | null): number | null {
+  if (a == null || b == null) return null;
+  return a - b;
+}
+
 function KpiCard({ label, value, trend, suffix }: { label: string; value: number | null; trend?: number | null; suffix?: string; }) {
-  const valStr = value != null ? fmt(value) : '—';
+  const valStr = value != null ? fmt(value) : '\u2014';
   let trendEl = null;
   if (trend != null && trend !== 0) {
     trendEl = (
       <span className={`text-[10px] font-mono ${trend > 5 ? 'text-emerald-400' : trend < -5 ? 'text-rose-400' : 'text-gray-500'}`}>
-        {trend > 0 ? '▲' : '▼'} {Math.abs(trend).toFixed(1)}%
+        {trend > 0 ? '\u25B2' : '\u25BC'} {Math.abs(trend).toFixed(1)}%
       </span>
     );
   }
@@ -60,14 +65,9 @@ function KpiCard({ label, value, trend, suffix }: { label: string; value: number
   );
 }
 
-/* ── Loader wrapper — all hooks here, no early return before hooks ───────── */
+/* ── Main Component (stable hook tree, no key-remount) ──────────────────── */
 export function AnnualReportsSection() {
   const [tab, setTab] = useState<Tab>('charts');
-  return <AnnualReportsInner key={tab} tab={tab} setTab={setTab} />;
-}
-
-/* ── Inner component that remounts on tab change for hook consistency ────── */
-function AnnualReportsInner({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
   const [yearsData, setYearsData] = useState<Record<string, YearData> | null>(null);
   const [segData, setSegData] = useState<any>(null);
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
@@ -75,17 +75,16 @@ function AnnualReportsInner({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => voi
   const [error, setError] = useState<string | null>(null);
   const [activeTicker, setActiveTicker] = useState('ITC');
 
-  // Always-memoized helpers (no deps, no conditional)
-  const getStmtType = useMemo(() => (t: Tab): keyof YearData =>
-    t === 'pnl' ? 'profitLoss' : t === 'balanceSheet' ? 'balanceSheet' : 'cashFlow', []);
+  const getStmtType = (t: Tab): keyof YearData =>
+    t === 'pnl' ? 'profitLoss' : t === 'balanceSheet' ? 'balanceSheet' : 'cashFlow';
 
-  // Fetch
+  // Fetch on ticker change or mount
   useEffect(() => {
     let cancelled = false;
     setError(null);
     setYearsData(null);
     Promise.all([
-      fetch(`/data/ar/${activeTicker}.json`).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status} for ${activeTicker}`); return r.json(); }),
+      fetch(`/data/ar/${activeTicker}.json`).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status} - run python scripts/extract_ar.py --ticker ${activeTicker}`); return r.json(); }),
       fetch('/data/segment_data_itc.json').then(r => r.ok ? r.json() : { segment_time_series: {} }).catch(() => ({ segment_time_series: {} })),
     ]).then(([ar, seg]) => {
       if (cancelled) return;
@@ -102,7 +101,6 @@ function AnnualReportsInner({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => voi
   const years = useMemo(() => yearsData ? Object.keys(yearsData).sort() : [], [yearsData]);
   const displayYears = selectedYears.length > 0 ? selectedYears : years.slice(-5);
 
-  // KPI computation
   const kpiData = useMemo(() => displayYears.map(fy => {
     const y = yearsData?.[fy];
     const pnl = y?.profitLoss;
@@ -116,9 +114,8 @@ function AnnualReportsInner({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => voi
     const empCost = findItem(pnl?.items ?? [], 'Employee benefits');
     const depr = findItem(pnl?.items ?? [], 'Depreciation');
     const finCost = findItem(pnl?.items ?? [], 'Finance costs');
-    const oi = findItem(pnl?.items ?? [], 'Other Income');
-    return { fy, rev, pat, ta, cfo, pbt, empCost, depr, finCost, oi };
-  }).filter(d => d.rev !== null), [yearsData, displayYears]);
+    return { fy, rev, pat, ta, cfo, pbt, empCost, depr, finCost };
+  }).filter((d): d is typeof d & { rev: number } => d.rev !== null), [yearsData, displayYears]);
 
   const latest = kpiData[kpiData.length - 1];
   const first = kpiData[0];
@@ -128,23 +125,9 @@ function AnnualReportsInner({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => voi
   const cagr = (v: number | null, p: number | null, n: number): number | null =>
     v != null && p != null && p > 0 && n > 1 ? ((v / p) ** (1 / (n - 1)) - 1) * 100 : null;
 
-  // Error / loading states
-  if (error) {
-    return (
-      <div className="glass-card p-8 text-center">
-        <p className="text-rose-400 mb-2">Failed to load annual report data</p>
-        <p className="text-gray-500 text-xs">{error}</p>
-        <p className="text-gray-500 text-xs mt-2">Run <code className="text-emerald-400">python scripts/extract_ar.py --ticker {activeTicker}</code> first.</p>
-      </div>
-    );
-  }
-  if (!yearsData) {
-    return <div className="glass-card p-8 text-center text-gray-400 animate-pulse">Loading annual report data…</div>;
-  }
-
   return (
     <div className="space-y-4 p-4 md:p-6 max-w-7xl mx-auto">
-      {/* Header */}
+      {/* Header — always visible, even on error */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-700/20 border border-emerald-500/20 flex items-center justify-center">
@@ -159,7 +142,7 @@ function AnnualReportsInner({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => voi
                   <option key={t} value={t}>{n} ({t})</option>
                 ))}
               </select>
-              {' · '}{years.length} years · {tab.toUpperCase()}
+              {(years.length > 0 && !error) && <>{' \u00B7 '}{years.length} years{' \u00B7 '}{tab.toUpperCase()}</>}
             </p>
           </div>
         </div>
@@ -178,47 +161,66 @@ function AnnualReportsInner({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => voi
         </div>
       </div>
 
-      {/* KPI cards row */}
-      {latest && (
-        <div className="flex gap-3 flex-wrap">
-          <KpiCard label="Revenue" value={latest.rev} trend={kpiData.length > 1 ? yoy(latest.rev, kpiData[kpiData.length - 2]?.rev) : null} />
-          <KpiCard label="PAT" value={latest.pat} trend={kpiData.length > 1 ? yoy(latest.pat, kpiData[kpiData.length - 2]?.pat) : null} />
-          <KpiCard label="Total Assets" value={latest.ta} />
-          <KpiCard label="CFO" value={latest.cfo} />
-          <KpiCard label="PBT Margin" value={safePct(latest.pbt, latest.rev)} suffix="%" />
-          <KpiCard label="CAGR Rev" value={cagr(latest.rev, first?.rev, kpiData.length)} suffix="%" />
+      {/* Error or Loading */}
+      {error && (
+        <div className="glass-card p-6 text-center">
+          <p className="text-rose-400 mb-2">Could not load data for {activeTicker}</p>
+          <p className="text-gray-500 text-xs mb-4">{error}</p>
+          <p className="text-gray-500 text-xs">Select another company from the dropdown above, or run:<br/>
+            <code className="text-emerald-400">python scripts/extract_ar.py --ticker {activeTicker} --years 2019-2025</code></p>
         </div>
       )}
 
-      {/* Tab bar */}
-      <div className="flex gap-1 border-b border-gray-800">
-        {TABS.map(t => (
-          <button key={t.id} onClick={() => setTab(t.id)}
-            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-all ${
-              tab === t.id ? 'text-emerald-300 border-emerald-500' : 'text-gray-500 border-transparent hover:text-gray-300'
-            }`}>
-            <t.icon size={16} /> {t.label}
-          </button>
-        ))}
-        {tab !== 'segments' && tab !== 'charts' && (
-          <button onClick={() => setCommonSize(!commonSize)}
-            className={`ml-auto flex items-center gap-1.5 px-3 py-2 text-[11px] rounded-t-md transition-all ${
-              commonSize ? 'text-purple-300 bg-purple-500/10 border-b-2 border-purple-500' : 'text-gray-500 hover:text-gray-300'
-            }`}>
-            <Percent size={13} /> {commonSize ? 'Absolute' : 'Common-Size'}
-          </button>
-        )}
-      </div>
+      {!error && !yearsData && (
+        <div className="glass-card p-8 text-center text-gray-400 animate-pulse">Loading annual report data...</div>
+      )}
 
-      {/* Content */}
-      {tab === 'segments' ? <SegmentsView segData={segData} /> :
-       tab === 'charts' ? <ChartsView kpiData={kpiData} /> :
-       <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
+      {/* Main content — only when data is loaded */}
+      {!error && yearsData && (
+        <>
+          {/* KPI cards */}
+          {latest && (
+            <div className="flex gap-3 flex-wrap">
+              <KpiCard label="Revenue" value={latest.rev} trend={kpiData.length > 1 ? yoy(latest.rev, kpiData[kpiData.length - 2]?.rev) : null} />
+              <KpiCard label="PAT" value={latest.pat} trend={kpiData.length > 1 ? yoy(latest.pat, kpiData[kpiData.length - 2]?.pat) : null} />
+              <KpiCard label="Total Assets" value={latest.ta} />
+              <KpiCard label="CFO" value={latest.cfo} />
+              <KpiCard label="PBT Margin" value={safePct(latest.pbt, latest.rev)} suffix="%" />
+              <KpiCard label="CAGR Rev" value={cagr(latest.rev, first?.rev, kpiData.length)} suffix="%" />
+            </div>
+          )}
+
+          {/* Tab bar */}
+          <div className="flex gap-1 border-b border-gray-800">
+            {TABS.map(t => (
+              <button key={t.id} onClick={() => setTab(t.id)}
+                className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-all ${
+                  tab === t.id ? 'text-emerald-300 border-emerald-500' : 'text-gray-500 border-transparent hover:text-gray-300'
+                }`}>
+                <t.icon size={16} /> {t.label}
+              </button>
+            ))}
+            {tab !== 'segments' && tab !== 'charts' && (
+              <button onClick={() => setCommonSize(!commonSize)}
+                className={`ml-auto flex items-center gap-1.5 px-3 py-2 text-[11px] rounded-t-md transition-all ${
+                  commonSize ? 'text-purple-300 bg-purple-500/10 border-b-2 border-purple-500' : 'text-gray-500 hover:text-gray-300'
+                }`}>
+                <Percent size={13} /> {commonSize ? 'Absolute' : 'Common-Size'}
+              </button>
+            )}
+          </div>
+
+          {/* Tab content */}
+          {tab === 'segments' ? <SegmentsView segData={segData} /> :
+           tab === 'charts' ? <ChartsView kpiData={kpiData} /> :
+           <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
+        </>
+      )}
     </div>
   );
 }
 
-/* ── Charts View (safe null math) ────────────────────────────────────────── */
+/* ── Charts (safe null math) ─────────────────────────────────────────────── */
 function ChartsView({ kpiData }: { kpiData: any[] }) {
   if (kpiData.length < 2) return <div className="glass-card p-5 text-gray-400">Need at least 2 years of data for charts.</div>;
 
@@ -239,10 +241,12 @@ function ChartsView({ kpiData }: { kpiData: any[] }) {
   for (let i = 1; i < kpiData.length; i++) {
     const prev = kpiData[i - 1];
     const curr = kpiData[i];
+    const revDiff = safeSub(curr.rev, prev.rev);
+    const patDiff = safeSub(curr.pat, prev.pat);
     yoyData.push({
       fy: curr.fy,
-      'Rev Growth': safePct(curr.rev - prev.rev, prev.rev),
-      'PAT Growth': safePct(curr.pat - prev.pat, prev.pat),
+      'Rev Growth': safePct(revDiff, prev.rev),
+      'PAT Growth': safePct(patDiff, prev.pat),
     });
   }
 
@@ -312,17 +316,15 @@ function ChartPanel({ title, icon, children }: { title: string; icon: React.Reac
   );
 }
 
-/* ── Data-Driven Table (union of ALL years' items, not just latest) ──────── */
+/* ── Data-Driven Table ───────────────────────────────────────────────────── */
 function DataDrivenTable({ data, years, stmtType, commonSize }: {
   data: Record<string, YearData>; years: string[]; stmtType: keyof YearData; commonSize: boolean;
 }) {
   const { groups, itemIndex, baseValues } = useMemo(() => {
-    // Build union of ALL labels across all selected years, preserving order from latest year
     const latestYear = years[years.length - 1];
     const latestStmt = data[latestYear]?.[stmtType];
     const latestLabels = latestStmt?.items ?? [];
 
-    // Start with latest year's structure
     const groups: { header: string; rows: string[] }[] = [];
     let currentHeader = '';
     let currentRows: string[] = [];
@@ -340,7 +342,6 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
     }
     if (currentRows.length) groups.push({ header: currentHeader, rows: currentRows });
 
-    // Append labels from older years that aren't in latest year
     for (const fy of years) {
       const stmt = data[fy]?.[stmtType];
       if (!stmt) continue;
@@ -350,7 +351,6 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
           activeSection = item.label;
         } else if (!seenLabels.has(item.label)) {
           seenLabels.add(item.label);
-          // Find or create group for this section
           const groupIdx = groups.findIndex(g => g.header === activeSection);
           if (groupIdx >= 0) {
             groups[groupIdx].rows.push(item.label);
@@ -373,7 +373,6 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
       }
     }
 
-    // Common-size denominator
     const baseVals: (number | null)[] = years.map(fy => {
       const stmt = data[fy]?.[stmtType];
       if (!stmt) return null;
@@ -397,7 +396,7 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
                   stmtType === 'balanceSheet' ? 'Balance Sheet' : 'Cash Flow';
 
   const formatVal = (v: number | null, isBase: boolean): string => {
-    if (v == null) return '—';
+    if (v == null) return '\u2014';
     if (commonSize && !isBase) return (v * 100).toFixed(1) + '%';
     return v >= 100 ? fmtN(v, 0) : fmtN(v, 1);
   };
@@ -449,7 +448,7 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
                       const displayVal = v != null && div != null && div !== 0 ? v / div : v;
                       return (
                         <td key={i} className={`text-right py-1 px-2 text-[11px] ${v != null ? 'text-white' : 'text-gray-600'}`}>
-                          {v != null && v !== 0 ? formatVal(displayVal, isBase) : '—'}
+                          {v != null && v !== 0 ? formatVal(displayVal, isBase) : '\u2014'}
                         </td>
                       );
                     })}
@@ -523,7 +522,7 @@ function SegmentsView({ segData }: { segData: any }) {
                       <td className="py-1.5 pr-4 text-gray-300 text-[11px]">{name}</td>
                       {allFys.map(fy => (
                         <td key={fy} className={`text-right py-1.5 px-2 text-[11px] ${vmap[fy] ? 'text-white' : 'text-gray-600'}`}>
-                          {vmap[fy] ? fmtN(vmap[fy], 0) : '—'}
+                          {vmap[fy] ? fmtN(vmap[fy], 0) : '\u2014'}
                         </td>
                       ))}
                     </tr>

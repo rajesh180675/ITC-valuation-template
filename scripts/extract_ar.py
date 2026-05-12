@@ -224,8 +224,16 @@ def extract_kpis(items, stmt_type):
         kpis['ebitdaCr'] = ebitda_item['current'] if ebitda_item else None
         kpis['epsRs'] = eps_item['current'] if eps_item else None
     elif stmt_type == 'bs':
-        ta = next((i for i in items if 'total assets' in i['label'].lower() and i['type'] == 'item'), None)
-        tel = next((i for i in items if 'total equity and liability' in i['label'].lower() and i['type'] == 'item'), None)
+        ta = next((i for i in items if i['type'] == 'item' and ('total assets' in i['label'].lower() or i['label'] == 'TOTAL')), None)
+        tel = next((i for i in items if i['type'] == 'item' and ('total equity and liabilit' in i['label'].lower() or i['label'] == 'TOTAL')), None)
+        # For pre-2019 reports where both 'TOTAL' lines exist, pick the last one for TEL
+        if ta and tel and ta == tel:
+            ta_idx = next((idx for idx, i in enumerate(items) if i is ta), 0)
+            tel_idx = next((idx for idx, i in enumerate(items) if i is tel), len(items))
+            if tel_idx < ta_idx:
+                # Flip: first TOTAL is equity, second is assets
+                tel, ta = ta, None
+                ta = next((i for i in items if i['type'] == 'item' and i['label'] == 'TOTAL' and i is not tel), None)
         kpis['totalAssetsCr'] = ta['current'] if ta else None
         kpis['totalEquityLiabCr'] = tel['current'] if tel else None
     return kpis
