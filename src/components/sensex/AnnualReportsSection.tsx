@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import {
   BookOpen, TrendingUp, PieChart, Layers, DollarSign, LineChart,
-  BarChart3, Percent, Building2
+  BarChart3, Percent
 } from 'lucide-react';
 import {
-  Line, Bar, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+  Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, ComposedChart, Legend, Pie, Cell
 } from 'recharts';
 import { fmt, fmtN } from '@/components/itc/shared';
@@ -24,19 +24,27 @@ const TABS: { id: Tab; label: string; icon: any }[] = [
 ];
 
 const COLORS = ['#10b981', '#34d399', '#6ee7b7', '#f59e0b', '#f97316', '#ef4444', '#8b5cf6', '#3b82f6', '#06b6d4', '#ec4899'];
-const PNL_LINE_ITEMS = ['Revenue From Operations', 'Total Income', 'Profit before tax', 'Profit for the year'];
-const MARGIN_ITEMS = ['Other Income', 'Employee benefits expense', 'Finance costs', 'Depreciation and amortization expense'];
+const COMPANY_MAP: Record<string, string> = {
+  ITC: 'ITC Limited', RELIANCE: 'Reliance Industries', TCS: 'Tata Consultancy Services',
+  HDFCBANK: 'HDFC Bank', INFY: 'Infosys', ICICIBANK: 'ICICI Bank', SBIN: 'SBI', WIPRO: 'Wipro',
+};
 
 function findItem(items: Item[], key: string): number | null {
   const m = items.find(i => i.label.toLowerCase().includes(key.toLowerCase()) && i.current !== null);
   return m?.current ?? null;
 }
 
-// ── KPI Card ────────────────────────────────────────────────────────────────
-function KpiCard({ label, value, prev, suffix, trend }: { label: string; value: number | null; prev?: number | null; suffix?: string; trend?: number }) {
+/* ── Safe percentage helper — never returns 0 caused by null/0 division ──── */
+function safePct(num: number | null, den: number | null): number | null {
+  if (num == null || den == null || den === 0) return null;
+  return Math.round((num / den) * 1000) / 10;
+}
+
+/* ── KPI Card ─────────────────────────────────────────────────────────────── */
+function KpiCard({ label, value, trend, suffix }: { label: string; value: number | null; trend?: number | null; suffix?: string; }) {
   const valStr = value != null ? fmt(value) : '—';
   let trendEl = null;
-  if (trend !== undefined && trend !== 0) {
+  if (trend != null && trend !== 0) {
     trendEl = (
       <span className={`text-[10px] font-mono ${trend > 5 ? 'text-emerald-400' : trend < -5 ? 'text-rose-400' : 'text-gray-500'}`}>
         {trend > 0 ? '▲' : '▼'} {Math.abs(trend).toFixed(1)}%
@@ -52,36 +60,51 @@ function KpiCard({ label, value, prev, suffix, trend }: { label: string; value: 
   );
 }
 
-// ── Main Component ──────────────────────────────────────────────────────────
+/* ── Loader wrapper — all hooks here, no early return before hooks ───────── */
 export function AnnualReportsSection() {
+  const [tab, setTab] = useState<Tab>('charts');
+  return <AnnualReportsInner key={tab} tab={tab} setTab={setTab} />;
+}
+
+/* ── Inner component that remounts on tab change for hook consistency ────── */
+function AnnualReportsInner({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
   const [yearsData, setYearsData] = useState<Record<string, YearData> | null>(null);
   const [segData, setSegData] = useState<any>(null);
-  const [tab, setTab] = useState<Tab>('charts');
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
   const [commonSize, setCommonSize] = useState(false);
-
+  const [error, setError] = useState<string | null>(null);
   const [activeTicker, setActiveTicker] = useState('ITC');
-  const companyNameMap: Record<string, string> = { ITC: 'ITC Limited', RELIANCE: 'Reliance Industries', TCS: 'Tata Consultancy Services', HDFCBANK: 'HDFC Bank', INFY: 'Infosys', ICICIBANK: 'ICICI Bank', SBIN: 'SBI', WIPRO: 'Wipro' };
 
+  // Always-memoized helpers (no deps, no conditional)
+  const getStmtType = useMemo(() => (t: Tab): keyof YearData =>
+    t === 'pnl' ? 'profitLoss' : t === 'balanceSheet' ? 'balanceSheet' : 'cashFlow', []);
+
+  // Fetch
   useEffect(() => {
+    let cancelled = false;
+    setError(null);
+    setYearsData(null);
     Promise.all([
-      fetch(`/data/ar/ITC.json`).then(r => r.json()),
-      fetch('/data/segment_data_itc.json').then(r => r.json()).catch(() => ({ segment_time_series: {} })),
+      fetch(`/data/ar/${activeTicker}.json`).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status} for ${activeTicker}`); return r.json(); }),
+      fetch('/data/segment_data_itc.json').then(r => r.ok ? r.json() : { segment_time_series: {} }).catch(() => ({ segment_time_series: {} })),
     ]).then(([ar, seg]) => {
+      if (cancelled) return;
+      if (!ar.years) throw new Error('Missing .years in AR data');
       setYearsData(ar.years);
       setSegData(seg);
       setSelectedYears(Object.keys(ar.years).sort().slice(-5));
+    }).catch(err => {
+      if (!cancelled) setError(err.message);
     });
-  }, []);
+    return () => { cancelled = true; };
+  }, [activeTicker]);
 
-  if (!yearsData) return <div className="glass-card p-8 text-center text-gray-400">Loading annual report data…</div>;
-
-  const years = Object.keys(yearsData).sort();
+  const years = useMemo(() => yearsData ? Object.keys(yearsData).sort() : [], [yearsData]);
   const displayYears = selectedYears.length > 0 ? selectedYears : years.slice(-5);
 
-  // Compute KPIs across years
+  // KPI computation
   const kpiData = useMemo(() => displayYears.map(fy => {
-    const y = yearsData[fy];
+    const y = yearsData?.[fy];
     const pnl = y?.profitLoss;
     const bs = y?.balanceSheet;
     const cf = y?.cashFlow;
@@ -90,17 +113,34 @@ export function AnnualReportsSection() {
     const ta = bs?.kpIs?.totalAssetsCr ?? findItem(bs?.items ?? [], 'TOTAL');
     const cfo = findItem(cf?.items ?? [], 'NET CASH FROM OPERATING');
     const pbt = findItem(pnl?.items ?? [], 'Profit before tax');
-    const totalInc = findItem(pnl?.items ?? [], 'Total Income');
-    const matCost = findItem(pnl?.items ?? [], 'Cost of materials');
     const empCost = findItem(pnl?.items ?? [], 'Employee benefits');
     const depr = findItem(pnl?.items ?? [], 'Depreciation');
     const finCost = findItem(pnl?.items ?? [], 'Finance costs');
     const oi = findItem(pnl?.items ?? [], 'Other Income');
-    return { fy, rev, pat, ta, cfo, pbt, totalInc, matCost, empCost, depr, finCost, oi };
+    return { fy, rev, pat, ta, cfo, pbt, empCost, depr, finCost, oi };
   }).filter(d => d.rev !== null), [yearsData, displayYears]);
 
-  const getStmtType = (t: Tab): keyof YearData =>
-    t === 'pnl' ? 'profitLoss' : t === 'balanceSheet' ? 'balanceSheet' : 'cashFlow';
+  const latest = kpiData[kpiData.length - 1];
+  const first = kpiData[0];
+
+  const yoy = (v: number | null, p: number | null): number | null =>
+    v != null && p != null && p !== 0 ? ((v - p) / Math.abs(p)) * 100 : null;
+  const cagr = (v: number | null, p: number | null, n: number): number | null =>
+    v != null && p != null && p > 0 && n > 1 ? ((v / p) ** (1 / (n - 1)) - 1) * 100 : null;
+
+  // Error / loading states
+  if (error) {
+    return (
+      <div className="glass-card p-8 text-center">
+        <p className="text-rose-400 mb-2">Failed to load annual report data</p>
+        <p className="text-gray-500 text-xs">{error}</p>
+        <p className="text-gray-500 text-xs mt-2">Run <code className="text-emerald-400">python scripts/extract_ar.py --ticker {activeTicker}</code> first.</p>
+      </div>
+    );
+  }
+  if (!yearsData) {
+    return <div className="glass-card p-8 text-center text-gray-400 animate-pulse">Loading annual report data…</div>;
+  }
 
   return (
     <div className="space-y-4 p-4 md:p-6 max-w-7xl mx-auto">
@@ -115,7 +155,7 @@ export function AnnualReportsSection() {
             <p className="text-xs text-gray-400">
               <select value={activeTicker} onChange={e => setActiveTicker(e.target.value)}
                 className="bg-gray-800 text-emerald-300 border border-gray-700 rounded px-1.5 py-0.5 text-[11px] font-mono cursor-pointer">
-                {Object.entries(companyNameMap).map(([t, n]) => (
+                {Object.entries(COMPANY_MAP).map(([t, n]) => (
                   <option key={t} value={t}>{n} ({t})</option>
                 ))}
               </select>
@@ -139,28 +179,27 @@ export function AnnualReportsSection() {
       </div>
 
       {/* KPI cards row */}
-      {kpiData.length > 0 && (() => {
-        const latest = kpiData[kpiData.length - 1];
-        const first = kpiData[0];
-        const yoy = (v: number | null, p: number | null) =>
-          v != null && p != null && p !== 0 ? ((v - p) / Math.abs(p)) * 100 : undefined;
-        const cagr = (v: number | null, p: number | null, n: number) =>
-          v != null && p != null && p > 0 && n > 1 ? ((v / p) ** (1 / (n - 1)) - 1) * 100 : undefined;
-        return (
-          <div className="flex gap-3 flex-wrap">
-            <KpiCard label="Revenue" value={latest.rev} trend={yoy(latest.rev, kpiData.length > 1 ? kpiData[kpiData.length - 2]?.rev ?? null : null)} />
-            <KpiCard label="PAT" value={latest.pat} trend={yoy(latest.pat, kpiData.length > 1 ? kpiData[kpiData.length - 2]?.pat ?? null : null)} />
-            <KpiCard label="Total Assets" value={latest.ta} />
-            <KpiCard label="CFO" value={latest.cfo} />
-            <KpiCard label="PBT Margin" value={latest.pbt != null && latest.rev ? Math.round((latest.pbt / latest.rev) * 1000) / 10 : null} suffix="%" />
-            <KpiCard label="CAGR Rev" value={cagr(latest.rev, first.rev, kpiData.length)} suffix="%" />
-          </div>
-        );
-      })()}
+      {latest && (
+        <div className="flex gap-3 flex-wrap">
+          <KpiCard label="Revenue" value={latest.rev} trend={kpiData.length > 1 ? yoy(latest.rev, kpiData[kpiData.length - 2]?.rev) : null} />
+          <KpiCard label="PAT" value={latest.pat} trend={kpiData.length > 1 ? yoy(latest.pat, kpiData[kpiData.length - 2]?.pat) : null} />
+          <KpiCard label="Total Assets" value={latest.ta} />
+          <KpiCard label="CFO" value={latest.cfo} />
+          <KpiCard label="PBT Margin" value={safePct(latest.pbt, latest.rev)} suffix="%" />
+          <KpiCard label="CAGR Rev" value={cagr(latest.rev, first?.rev, kpiData.length)} suffix="%" />
+        </div>
+      )}
 
       {/* Tab bar */}
       <div className="flex gap-1 border-b border-gray-800">
-        {TABS.map(t => (<Icon key={t.id} t={t} tab={tab} setTab={setTab} />))}
+        {TABS.map(t => (
+          <button key={t.id} onClick={() => setTab(t.id)}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-all ${
+              tab === t.id ? 'text-emerald-300 border-emerald-500' : 'text-gray-500 border-transparent hover:text-gray-300'
+            }`}>
+            <t.icon size={16} /> {t.label}
+          </button>
+        ))}
         {tab !== 'segments' && tab !== 'charts' && (
           <button onClick={() => setCommonSize(!commonSize)}
             className={`ml-auto flex items-center gap-1.5 px-3 py-2 text-[11px] rounded-t-md transition-all ${
@@ -173,176 +212,172 @@ export function AnnualReportsSection() {
 
       {/* Content */}
       {tab === 'segments' ? <SegmentsView segData={segData} /> :
-       tab === 'charts' ? <ChartsView kpiData={kpiData} yearsData={yearsData} displayYears={displayYears} /> :
-       <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />
-      }
+       tab === 'charts' ? <ChartsView kpiData={kpiData} /> :
+       <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
     </div>
   );
 }
 
-function Icon({ t, tab, setTab }: { t: typeof TABS[0]; tab: Tab; setTab: (t: Tab) => void }) {
-  const I = t.icon;
-  return (
-    <button key={t.id} onClick={() => setTab(t.id)}
-      className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-all ${
-        tab === t.id ? 'text-emerald-300 border-emerald-500' : 'text-gray-500 border-transparent hover:text-gray-300'
-      }`}>
-      <I size={16} /> {t.label}
-    </button>
-  );
-}
+/* ── Charts View (safe null math) ────────────────────────────────────────── */
+function ChartsView({ kpiData }: { kpiData: any[] }) {
+  if (kpiData.length < 2) return <div className="glass-card p-5 text-gray-400">Need at least 2 years of data for charts.</div>;
 
-// ── Charts View ─────────────────────────────────────────────────────────────
-function ChartsView({ kpiData, yearsData, displayYears }: any) {
+  const marginData = kpiData.map((d: any) => ({
+    fy: d.fy,
+    'PBT %': safePct(d.pbt, d.rev),
+    'PAT %': safePct(d.pat, d.rev),
+    'Emp Cost %': safePct(d.empCost, d.rev),
+    'Depr %': safePct(d.depr, d.rev),
+  }));
+
+  const cashConvData = kpiData.map((d: any) => ({
+    fy: d.fy, CFO: d.cfo ?? null, PAT: d.pat ?? null,
+    'CFO/PAT %': safePct(d.cfo, d.pat),
+  }));
+
+  const yoyData: any[] = [];
+  for (let i = 1; i < kpiData.length; i++) {
+    const prev = kpiData[i - 1];
+    const curr = kpiData[i];
+    yoyData.push({
+      fy: curr.fy,
+      'Rev Growth': safePct(curr.rev - prev.rev, prev.rev),
+      'PAT Growth': safePct(curr.pat - prev.pat, prev.pat),
+    });
+  }
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      {/* Revenue + PAT trend */}
-      <div className="glass-card p-4">
-        <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <TrendingUp size={14} className="text-emerald-400" /> Revenue & Profit Trend
-        </h3>
-        <ResponsiveContainer width="100%" height={260}>
-          <ComposedChart data={kpiData}>
-            <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
-            <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
-            <YAxis tick={{ fontSize: 10, fill: '#9ca3af' }} />
-            <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="rev" name="Revenue" fill="#10b981" radius={[4, 4, 0, 0]} />
-            <Line dataKey="pat" name="PAT" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
+      <ChartPanel title="Revenue & Profit Trend" icon={<TrendingUp size={14} className="text-emerald-400" />}>
+        <ComposedChart data={kpiData}>
+          <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
+          <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
+          <YAxis tick={{ fontSize: 10, fill: '#9ca3af' }} />
+          <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
+          <Legend wrapperStyle={{ fontSize: 11 }} />
+          <Bar dataKey="rev" name="Revenue" fill="#10b981" radius={[4, 4, 0, 0]} />
+          <Line dataKey="pat" name="PAT" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+        </ComposedChart>
+      </ChartPanel>
 
-      {/* Margin Analysis */}
-      <div className="glass-card p-4">
-        <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <Percent size={14} className="text-emerald-400" /> Margin Analysis (% of Revenue)
-        </h3>
-        <ResponsiveContainer width="100%" height={260}>
-          <ComposedChart data={kpiData.map((d: any) => ({
-            fy: d.fy,
-            'PBT %': d.rev ? Math.round(d.pbt / d.rev * 1000) / 10 : null,
-            'PAT %': d.rev ? Math.round(d.pat / d.rev * 1000) / 10 : null,
-            'Emp Cost %': d.rev ? Math.round(d.empCost / d.rev * 1000) / 10 : null,
-            'Depr %': d.rev ? Math.round(d.depr / d.rev * 1000) / 10 : null,
-            'Fin Cost %': d.rev ? Math.round(d.finCost / d.rev * 1000) / 10 : null,
-          }))}>
-            <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
-            <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
-            <YAxis tick={{ fontSize: 10, fill: '#9ca3af' }} domain={[-5, 45]} />
-            <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Line dataKey="PBT %" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
-            <Line dataKey="PAT %" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} />
-            <Line dataKey="Emp Cost %" stroke="#8b5cf6" strokeWidth={1.5} strokeDasharray="4 4" dot={{ r: 2 }} />
-            <Line dataKey="Depr %" stroke="#06b6d4" strokeWidth={1.5} strokeDasharray="4 4" dot={{ r: 2 }} />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
+      <ChartPanel title="Margin Analysis (% of Revenue)" icon={<Percent size={14} className="text-emerald-400" />}>
+        <ComposedChart data={marginData}>
+          <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
+          <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
+          <YAxis tick={{ fontSize: 10, fill: '#9ca3af' }} domain={[-5, 45]} />
+          <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
+          <Legend wrapperStyle={{ fontSize: 11 }} />
+          <Line dataKey="PBT %" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+          <Line dataKey="PAT %" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+          <Line dataKey="Emp Cost %" stroke="#8b5cf6" strokeWidth={1.5} strokeDasharray="4 4" dot={{ r: 2 }} connectNulls />
+          <Line dataKey="Depr %" stroke="#06b6d4" strokeWidth={1.5} strokeDasharray="4 4" dot={{ r: 2 }} connectNulls />
+        </ComposedChart>
+      </ChartPanel>
 
-      {/* CFO vs PAT Cash Conversion */}
-      <div className="glass-card p-4">
-        <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <DollarSign size={14} className="text-emerald-400" /> CFO vs PAT (Cash Conversion)
-        </h3>
-        <ResponsiveContainer width="100%" height={260}>
-          <ComposedChart data={kpiData.map((d: any) => ({
-            fy: d.fy,
-            CFO: d.cfo,
-            PAT: d.pat,
-            'CFO/PAT %': d.pat ? Math.round(d.cfo / d.pat * 1000) / 10 : null,
-          }))}>
-            <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
-            <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
-            <YAxis yAxisId="L" tick={{ fontSize: 10, fill: '#9ca3af' }} />
-            <YAxis yAxisId="R" orientation="right" tick={{ fontSize: 10, fill: '#9ca3af' }} domain={[0, 150]} />
-            <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar yAxisId="L" dataKey="CFO" name="CFO" fill="#10b981" radius={[4, 4, 0, 0]} />
-            <Bar yAxisId="L" dataKey="PAT" name="PAT" fill="#f59e0b" radius={[4, 4, 0, 0]} />
-            <Line yAxisId="R" dataKey="CFO/PAT %" name="Cash Conv %" stroke="#8b5cf6" strokeWidth={2} dot={{ r: 3 }} />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
+      <ChartPanel title="CFO vs PAT (Cash Conversion)" icon={<DollarSign size={14} className="text-emerald-400" />}>
+        <ComposedChart data={cashConvData}>
+          <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
+          <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
+          <YAxis yAxisId="L" tick={{ fontSize: 10, fill: '#9ca3af' }} />
+          <YAxis yAxisId="R" orientation="right" tick={{ fontSize: 10, fill: '#9ca3af' }} domain={[0, 150]} />
+          <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
+          <Legend wrapperStyle={{ fontSize: 11 }} />
+          <Bar yAxisId="L" dataKey="CFO" name="CFO" fill="#10b981" radius={[4, 4, 0, 0]} />
+          <Bar yAxisId="L" dataKey="PAT" name="PAT" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+          <Line yAxisId="R" dataKey="CFO/PAT %" name="Cash Conv %" stroke="#8b5cf6" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+        </ComposedChart>
+      </ChartPanel>
 
-      {/* Revenue Growth YoY */}
-      <div className="glass-card p-4">
-        <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <BarChart3 size={14} className="text-emerald-400" /> YoY Growth (%)
-        </h3>
-        <ResponsiveContainer width="100%" height={260}>
-          <ComposedChart data={(() => {
-            const result: any[] = [];
-            for (let i = 1; i < kpiData.length; i++) {
-              const prev = kpiData[i - 1];
-              const curr = kpiData[i];
-              result.push({
-                fy: curr.fy,
-                'Rev Growth': prev.rev ? Math.round((curr.rev - prev.rev) / prev.rev * 1000) / 10 : null,
-                'PAT Growth': prev.pat ? Math.round((curr.pat - prev.pat) / prev.pat * 1000) / 10 : null,
-                'PBT Growth': prev.pbt ? Math.round((curr.pbt - prev.pbt) / prev.pbt * 1000) / 10 : null,
-              });
-            }
-            return result;
-          })()}>
-            <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
-            <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
-            <YAxis tick={{ fontSize: 10, fill: '#9ca3af' }} domain={[-10, 30]} />
-            <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="Rev Growth" name="Revenue Growth" fill="#10b981" radius={[4, 4, 0, 0]} />
-            <Line dataKey="PAT Growth" name="PAT Growth" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
+      <ChartPanel title="YoY Growth (%)" icon={<BarChart3 size={14} className="text-emerald-400" />}>
+        <ComposedChart data={yoyData}>
+          <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
+          <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
+          <YAxis tick={{ fontSize: 10, fill: '#9ca3af' }} domain={[-10, 30]} />
+          <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
+          <Legend wrapperStyle={{ fontSize: 11 }} />
+          <Bar dataKey="Rev Growth" name="Revenue Growth" fill="#10b981" radius={[4, 4, 0, 0]} />
+          <Line dataKey="PAT Growth" name="PAT Growth" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+        </ComposedChart>
+      </ChartPanel>
     </div>
   );
 }
 
-// ── Data-Driven Table (with common-size toggle) ────────────────────────────
+function ChartPanel({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div className="glass-card p-4">
+      <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">{icon} {title}</h3>
+      <ResponsiveContainer width="100%" height={260}>{children}</ResponsiveContainer>
+    </div>
+  );
+}
+
+/* ── Data-Driven Table (union of ALL years' items, not just latest) ──────── */
 function DataDrivenTable({ data, years, stmtType, commonSize }: {
   data: Record<string, YearData>; years: string[]; stmtType: keyof YearData; commonSize: boolean;
 }) {
   const { groups, itemIndex, baseValues } = useMemo(() => {
+    // Build union of ALL labels across all selected years, preserving order from latest year
     const latestYear = years[years.length - 1];
     const latestStmt = data[latestYear]?.[stmtType];
-    const allItems = latestStmt?.items ?? [];
+    const latestLabels = latestStmt?.items ?? [];
 
+    // Start with latest year's structure
     const groups: { header: string; rows: string[] }[] = [];
     let currentHeader = '';
     let currentRows: string[] = [];
+    const seenLabels = new Set<string>();
 
-    for (const item of allItems) {
+    for (const item of latestLabels) {
       if (item.type === 'section') {
         if (currentRows.length) groups.push({ header: currentHeader, rows: currentRows });
         currentHeader = item.label;
         currentRows = [];
       } else {
+        seenLabels.add(item.label);
         currentRows.push(item.label);
       }
     }
     if (currentRows.length) groups.push({ header: currentHeader, rows: currentRows });
 
+    // Append labels from older years that aren't in latest year
+    for (const fy of years) {
+      const stmt = data[fy]?.[stmtType];
+      if (!stmt) continue;
+      let activeSection = '';
+      for (const item of stmt.items) {
+        if (item.type === 'section') {
+          activeSection = item.label;
+        } else if (!seenLabels.has(item.label)) {
+          seenLabels.add(item.label);
+          // Find or create group for this section
+          const groupIdx = groups.findIndex(g => g.header === activeSection);
+          if (groupIdx >= 0) {
+            groups[groupIdx].rows.push(item.label);
+          } else {
+            groups.push({ header: activeSection || 'OTHER', rows: [item.label] });
+          }
+        }
+      }
+    }
+
     const index: Record<string, (number | null)[]> = {};
     for (const group of groups) {
       for (const label of group.rows) {
-        const vals = years.map(fy => {
+        index[label] = years.map(fy => {
           const stmt = data[fy]?.[stmtType];
           if (!stmt) return null;
           const match = stmt.items.find((i: Item) => i.label === label);
           return match?.current ?? null;
         });
-        index[label] = vals;
       }
     }
 
-    // For common-size, compute base (revenue for P&L, total assets for BS)
+    // Common-size denominator
     const baseVals: (number | null)[] = years.map(fy => {
       const stmt = data[fy]?.[stmtType];
       if (!stmt) return null;
       if (stmtType === 'profitLoss') {
-        // Use Revenue From Operations as denominator
         const rev = stmt.items.find(i => i.label.toLowerCase().includes('revenue from operations'));
         return rev?.current ?? null;
       } else if (stmtType === 'balanceSheet') {
@@ -387,7 +422,7 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
         <tbody>
           {groups.map((group, gi) => (
             <React.Fragment key={`g${gi}`}>
-              {group.header && group.header !== 'GENERAL' && (
+              {group.header && group.header !== 'OTHER' && (
                 <tr><td className="text-[11px] font-bold text-emerald-300 pt-3 pb-1 border-b border-emerald-500/20" colSpan={years.length + 2}>{group.header}</td></tr>
               )}
               {group.rows.map((label, ri) => {
@@ -398,9 +433,9 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
                 const first = validVals[0];
                 const last = validVals[validVals.length - 1];
                 const numYears = vals.filter(v => v != null).length;
-                let cagr = '';
+                let cagrStr = '';
                 if (first && last && first > 0 && numYears >= 2) {
-                  cagr = (((Math.abs(last / first)) ** (1 / (numYears - 1)) - 1) * (last >= first ? 1 : -1) * 100).toFixed(1) + '%';
+                  cagrStr = (((Math.abs(last / first)) ** (1 / (numYears - 1)) - 1) * (last >= first ? 1 : -1) * 100).toFixed(1) + '%';
                 }
 
                 const isBase = label.toLowerCase().includes('revenue from operations') || label.toLowerCase().includes('total assets') || label === 'TOTAL';
@@ -418,8 +453,8 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
                         </td>
                       );
                     })}
-                    <td className={`text-right py-1 pl-2 text-[11px] ${cagr.startsWith('-') ? 'text-rose-400' : cagr ? 'text-emerald-400' : 'text-gray-600'}`}>
-                      {cagr}
+                    <td className={`text-right py-1 pl-2 text-[11px] ${cagrStr.startsWith('-') ? 'text-rose-400' : cagrStr ? 'text-emerald-400' : 'text-gray-600'}`}>
+                      {cagrStr}
                     </td>
                   </tr>
                 );
@@ -432,7 +467,7 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
   );
 }
 
-// ── Segments Tab ───────────────────────────────────────────────────────────
+/* ── Segments Tab ─────────────────────────────────────────────────────────── */
 function SegmentsView({ segData }: { segData: any }) {
   const series = segData?.segment_time_series;
   if (!series || Object.keys(series).length === 0) {
@@ -444,7 +479,6 @@ function SegmentsView({ segData }: { segData: any }) {
 
   return (
     <div className="space-y-6">
-      {/* Segment Revenue Donut */}
       <div className="glass-card p-4">
         <h3 className="text-sm font-semibold text-white mb-3">Segment Revenue Mix (Latest Year)</h3>
         <div className="h-[250px]">
@@ -452,12 +486,11 @@ function SegmentsView({ segData }: { segData: any }) {
             <PieChart>
               <Pie data={(() => {
                 const latest = allFys[allFys.length - 1];
-                return Object.entries(series)
-                  .filter(([k]) => k.startsWith('revenue|'))
+                return Object.entries(series).filter(([k]) => k.startsWith('revenue|'))
                   .map(([k, v]) => ({ name: k.split('|')[1], value: (v as any)[latest] || 0 }))
-                  .filter(d => d.value > 0);
-              })()} cx="50%" cy="50%" outerRadius={80} dataKey="value" label={({ name, value }) => `${name} (${fmtN(value, 0)})`}
-                labelLine={true}
+                  .filter(d => d.value > 0 && d.value !== Infinity && !Number.isNaN(d.value));
+              })()} cx="50%" cy="50%" outerRadius={80} dataKey="value"
+                label={({ name, value }: any) => `${name} (${fmtN(value, 0)})`} labelLine
               >
                 {Object.keys(series).filter(k => k.startsWith('revenue|')).map((_, i) => (
                   <Cell key={i} fill={COLORS[i % COLORS.length]} />
@@ -470,8 +503,7 @@ function SegmentsView({ segData }: { segData: any }) {
       </div>
 
       {Object.entries(sectionLabels).map(([prefix, title]) => {
-        const items = Object.entries(series as Record<string, Record<string, number>>)
-          .filter(([k]) => k.startsWith(prefix + '|')).sort();
+        const items = Object.entries(series).filter(([k]) => k.startsWith(prefix + '|')).sort();
         if (items.length === 0) return null;
         return (
           <div key={prefix} className="glass-card p-5 overflow-x-auto">
@@ -485,12 +517,13 @@ function SegmentsView({ segData }: { segData: any }) {
               <tbody>
                 {items.map(([key, vals]) => {
                   const name = key.split('|').slice(1).join('|');
+                  const vmap = vals as Record<string, number>;
                   return (
                     <tr key={key} className="hover:bg-white/[0.03]">
                       <td className="py-1.5 pr-4 text-gray-300 text-[11px]">{name}</td>
                       {allFys.map(fy => (
-                        <td key={fy} className={`text-right py-1.5 px-2 text-[11px] ${vals[fy] ? 'text-white' : 'text-gray-600'}`}>
-                          {vals[fy] ? fmtN(vals[fy], 0) : '—'}
+                        <td key={fy} className={`text-right py-1.5 px-2 text-[11px] ${vmap[fy] ? 'text-white' : 'text-gray-600'}`}>
+                          {vmap[fy] ? fmtN(vmap[fy], 0) : '—'}
                         </td>
                       ))}
                     </tr>

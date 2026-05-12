@@ -111,7 +111,7 @@ def find_bs_page(doc):
         if 'balance sheet' in tl and 'as at' in tl:
             if 'consolidated' in tl[:400]: continue
             # Check for total values (either 'total assets' or just 'total' with numbers)
-            has_total = 'total assets' in tl or 'total' + 'equity' in tl
+            has_total = 'total assets' in tl or ('total' in tl and 'equity' in tl)
             has_numbers = len(re.findall(r'\b\d{3,}\.\d{2}\b', text)) >= 3
             if has_total or has_numbers:
                 return i
@@ -244,42 +244,49 @@ def extract_all(ticker, years=range(2019, 2026)):
         
         print(f"  FY{year}: ", end='', flush=True)
         t0 = time.time()
-        doc = fitz.open(path)
+        try:
+            doc = fitz.open(path)
+        except Exception as e:
+            print(f"FAILED to open PDF: {e}", flush=True)
+            continue
+        
         fy_cur, fy_pri = year, year - 1
         year_data = {}
         
-        # P&L
-        pnl_idx = find_pnl_page(doc, fy_cur)
-        if pnl_idx is not None:
-            items = parse_statement(doc[pnl_idx], fy_cur, fy_pri)
-            kpis = extract_kpis(items, 'pnl')
-            year_data['profitLoss'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': kpis}
-            print(f"P&L(p{pnl_idx+1},{len(items)}i) ", end='', flush=True)
-        else:
-            print("P&L(?) ", end='', flush=True)
-        
-        # BS
-        bs_idx = find_bs_page(doc)
-        if bs_idx is not None:
-            items = parse_statement(doc[bs_idx], fy_cur, fy_pri)
-            kpis = extract_kpis(items, 'bs')
-            year_data['balanceSheet'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': kpis}
-            print(f"BS(p{bs_idx+1},{len(items)}i) ", end='', flush=True)
-        else:
-            print("BS(?) ", end='', flush=True)
-        
-        # CF
-        cf_idx = find_cf_page(doc)
-        if cf_idx is not None:
-            items = parse_statement(doc[cf_idx], fy_cur, fy_pri)
-            year_data['cashFlow'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': {}}
-            print(f"CF(p{cf_idx+1},{len(items)}i)", end='', flush=True)
-        
-        if year_data:
-            all_data['years'][f"FY{year}"] = year_data
-        
-        doc.close()
-        print(f" ({time.time()-t0:.1f}s)", flush=True)
+        try:
+            # P&L
+            pnl_idx = find_pnl_page(doc, fy_cur)
+            if pnl_idx is not None:
+                items = parse_statement(doc[pnl_idx], fy_cur, fy_pri)
+                kpis = extract_kpis(items, 'pnl')
+                year_data['profitLoss'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': kpis}
+                print(f"P&L(p{pnl_idx+1},{len(items)}i) ", end='', flush=True)
+            else:
+                print("P&L(?) ", end='', flush=True)
+            
+            # BS
+            bs_idx = find_bs_page(doc)
+            if bs_idx is not None:
+                items = parse_statement(doc[bs_idx], fy_cur, fy_pri)
+                kpis = extract_kpis(items, 'bs')
+                year_data['balanceSheet'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': kpis}
+                print(f"BS(p{bs_idx+1},{len(items)}i) ", end='', flush=True)
+            else:
+                print("BS(?) ", end='', flush=True)
+            
+            # CF
+            cf_idx = find_cf_page(doc)
+            if cf_idx is not None:
+                items = parse_statement(doc[cf_idx], fy_cur, fy_pri)
+                year_data['cashFlow'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': {}}
+                print(f"CF(p{cf_idx+1},{len(items)}i)", end='', flush=True)
+        except Exception as e:
+            print(f"EXTRACT ERROR: {e}", end='', flush=True)
+        finally:
+            if year_data:
+                all_data['years'][f"FY{year}"] = year_data
+            doc.close()
+            print(f" ({time.time()-t0:.1f}s)", flush=True)
     
     return all_data
 

@@ -37,7 +37,7 @@ import { PlaybookSection } from './components/itc/PlaybookSection';
 import { GlobalCompareSection } from './components/itc/GlobalCompareSection';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'nifty750' | 'ralph' | 'deepdive55y' | 'itDeepDive' | 'stockPerf' | 'businessModel' | 'dividend' | 'capitalAllocation' | 'workingCapital';
+type Section = 'dashboard' | 'financials' | 'segments' | 'tax' | 'valuation' | 'advanced' | 'ideaLab' | 'universe' | 'projections' | 'playbook' | 'global' | 'sensex' | 'nifty250' | 'nifty750data' | 'nifty750' | 'ralph' | 'deepdive55y' | 'itDeepDive' | 'stockPerf' | 'businessModel' | 'dividend' | 'capitalAllocation' | 'workingCapital' | 'annualReports';
 
 interface NavItem { id: Section; label: string; icon: React.ReactNode; }
 
