@@ -331,7 +331,8 @@ def parse_statement(pages, fy_cur, fy_pri, stmt_type='generic'):
                 continue
 
         if cur_val is None and pri_val is None:
-            if row_label and stmt_type == 'cf':
+            # Buffer partial labels for ALL statement types (fixes fragmented multi-line PDF labels in BS too)
+            if row_label:
                 pending_label.append(row_label)
             continue
 
@@ -356,14 +357,38 @@ def extract_kpis(items, stmt_type):
     """Extract key KPIs from parsed items."""
     kpis = {}
     if stmt_type == 'pnl':
-        rev = next((i for i in items if 'revenue from operations' in i['label'].lower()), None)
+        # Revenue: prefer exact label match (GST-era) → net revenue (pre-GST) → any partial match.
+        # This prevents picking up the gross-including-excise-duty line in FY2016-FY2018 reports.
+        rev = (
+            next((i for i in items if i['label'].lower() == 'revenue from operations'), None)
+            or next((i for i in items if 'net revenue from sale' in i['label'].lower()), None)
+            or next((i for i in items if 'revenue from operations' in i['label'].lower()
+                     and 'gross' not in i['label'].lower()), None)
+        )
+        # Pre-GST adjustment: if excise duty appears as an EXPENSE (after revenue in the items
+        # list), it was included in the reported gross revenue — subtract to get net comparable.
+        # If it appears BEFORE revenue (labelled 'Less: Excise Duty'), it was already deducted.
+        rev_idx = items.index(rev) if rev in items else -1
+        excise = None
+        for idx, i in enumerate(items):
+            if i['type'] == 'item' and idx > rev_idx and i.get('current') is not None:
+                lbl = i['label'].lower()
+                if 'excise duty' in lbl and 'less' not in lbl and i['current'] > 0:
+                    excise = i
+                    break
+        rev_value = None
+        if rev and rev.get('current') is not None:
+            rev_value = rev['current']
+            if excise and excise.get('current') is not None:
+                # Gross revenue was picked (includes excise) — subtract to normalise
+                rev_value = round(rev_value - excise['current'], 2)
         ti = next((i for i in items if 'total income' in i['label'].lower() and 'expense' not in i['label'].lower()), None)
         pbt = next((i for i in items if 'profit before tax' in i['label'].lower() and 'exceptional' not in i['label'].lower()), None)
         pat = next((i for i in items if 'profit for the year' in i['label'].lower() and 'continuing' in i['label'].lower()), None)
         pat2 = next((i for i in items if 'profit for the year' in i['label'].lower() and 'discontinued' not in i['label'].lower()), None)
         ebitda_item = next((i for i in items if 'ebitda' in i['label'].lower()), None)
         eps_item = next((i for i in items if 'earning per share' in i['label'].lower() and 'diluted' not in i['label'].lower()), None)
-        kpis['revenueCr'] = rev['current'] if rev else None
+        kpis['revenueCr'] = rev_value
         kpis['totalIncomeCr'] = ti['current'] if ti else None
         kpis['pbtCr'] = pbt['current'] if pbt else None
         kpis['patCr'] = pat['current'] if pat else pat2['current'] if pat2 else None
@@ -382,6 +407,42 @@ def extract_kpis(items, stmt_type):
                 ta = next((i for i in items if i['type'] == 'item' and i['label'] == 'TOTAL' and i is not tel), None)
         kpis['totalAssetsCr'] = ta['current'] if ta else None
         kpis['totalEquityLiabCr'] = tel['current'] if tel else None
+        # Extract equity: look for dedicated total equity line (exact match only),
+        # then fall back to summing share capital + reserves.
+        # IMPORTANT: must NOT match 'TOTAL EQUITY AND LIABILITIES' (which equals total assets).
+        total_eq = next((i for i in items if i['type'] == 'item' and
+            i['label'].lower() in [
+                'total equity',
+                "total shareholders' equity",
+                'total shareholders equity',
+                "shareholders' funds",
+                'shareholders funds',
+                'total shareholders funds',
+                "total shareholders' funds",
+            ]), None)
+        if total_eq:
+            kpis['equityCr'] = total_eq['current']
+        else:
+            # Fallback: find equity share capital + reserves lines and sum them.
+            # Handles both modern ("Equity Share capital") and pre-2019 ("Shareholders' funds Share capital") labels.
+            sc = next((i for i in items if i['type'] == 'item' and (
+                'equity share capital' in i['label'].lower()
+                or i['label'].lower() == 'share capital'
+                or ("shareholders" in i['label'].lower() and "share capital" in i['label'].lower())
+            )), None)
+            reserves = next((i for i in items if i['type'] == 'item' and (
+                'reserves and surplus' in i['label'].lower()
+                or ('reserve' in i['label'].lower() and 'surplus' in i['label'].lower())
+                or i['label'].lower() in ['reserves', 'reserves & surplus']
+                or 'other equity' in i['label'].lower()  # Ind AS modern label: '(b) Other equity'
+            )), None)
+            if sc and reserves and sc['current'] is not None and reserves['current'] is not None:
+                kpis['equityCr'] = round(sc['current'] + reserves['current'], 2)
+            else:
+                # Cannot reliably compute equity: modern Ind AS BS has '(b) Other equity' on a
+                # line whose PDF coordinates don't align with the value columns reliably.
+                # Leave as None rather than derive an inaccurate figure from assets - liabilities.
+                kpis['equityCr'] = None
     elif stmt_type == 'cf':
         all_cf = [i for i in items if i['type'] == 'item']  # items with values only, skip section markers
         def label_has(item, *parts):
@@ -409,9 +470,9 @@ def extract_kpis(items, stmt_type):
         kpis['netChangeCr'] = netchg.get('current') if netchg else None
         kpis['closingCashCr'] = clos.get('current') if clos else None
         kpis['openingCashCr'] = open_bal.get('current') if open_bal else None
-        # Derived
+        # Derived — round to 2dp to avoid floating-point artifacts (e.g. 7067.370000000001)
         if kpis['cfoCr'] is not None and kpis['capexCr'] is not None and kpis['capexCr'] < 0:
-            kpis['fcfCr'] = kpis['cfoCr'] + kpis['capexCr']  # capex is negative
+            kpis['fcfCr'] = round(kpis['cfoCr'] + kpis['capexCr'], 2)
         else:
             kpis['fcfCr'] = None
     return kpis

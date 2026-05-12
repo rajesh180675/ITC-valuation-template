@@ -123,7 +123,9 @@ export function getYearPresetYears(preset: CashFlowPreset, years: string[]): str
 }
 
 export function formatCashFlowValue(value: number | null): string {
-  if (value == null || value === 0) return '\u2014';
+  if (value == null) return '\u2014';
+  // Explicit 0 is meaningful in CF (e.g. no financing outflows) — show '0' not dash
+  if (value === 0) return '0';
   const magnitude = Math.abs(value);
   const body = magnitude >= 100
     ? new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(magnitude)

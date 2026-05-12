@@ -8,6 +8,14 @@ export interface SensexYearFinancial {
   roePct: number;
   operatingMarginPct?: number;
   rocePct?: number;
+  // Cash Flow (P1.5)
+  operatingCFCr?: number;
+  freeCashFlowCr?: number;
+  cfoToPatRatio?: number;
+  // Balance Sheet (P1.6)
+  totalAssetsCr?: number;
+  totalEquityCr?: number;
+  totalDebtCr?: number;
 }
 
 export interface SensexConstituent {

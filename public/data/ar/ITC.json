@@ -7,7 +7,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Gross Income",
+            "label": "Statement of Profit and Loss for the year ended 31st March, 2016 (` in Crores) Gross Income",
             "note_ref": "19",
             "current": 53748.31,
             "prior": 51932.14,
@@ -71,7 +71,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "Expenses Cost of materials consumed",
             "note_ref": "23",
             "current": 11054.75,
             "prior": 10987.83,
@@ -87,7 +87,7 @@
           },
           {
             "type": "item",
-            "label": "Work-in-progress, Stock-in-Trade and Intermediates",
+            "label": "Changes in inventories of finished goods Work-in-progress, Stock-in-Trade and Intermediates",
             "note_ref": "25",
             "current": 58.17,
             "prior": -214.53,
@@ -188,7 +188,7 @@
           },
           {
             "type": "item",
-            "label": "Share capital",
+            "label": "Shareholders\u2019 funds Share capital",
             "note_ref": "1",
             "current": 804.72,
             "prior": 801.55,
@@ -252,7 +252,7 @@
           },
           {
             "type": "item",
-            "label": "and small enterprises",
+            "label": "Trade payables Total outstanding dues of micro enterprises and small enterprises",
             "note_ref": "",
             "current": 32.92,
             "prior": 21.91,
@@ -260,7 +260,7 @@
           },
           {
             "type": "item",
-            "label": "Other current liabilities",
+            "label": "Total outstanding dues of creditors other than micro enterprises and small enterprises 2232.67 2265.59 Other current liabilities",
             "note_ref": "8",
             "current": 4000.08,
             "prior": 3671.18,
@@ -292,7 +292,7 @@
           },
           {
             "type": "item",
-            "label": "Tangible assets",
+            "label": "Fixed assets Tangible assets",
             "note_ref": "",
             "current": 13816.77,
             "prior": 13777.14,
@@ -409,7 +409,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 49518.43,
-          "totalEquityLiabCr": 49518.43
+          "totalEquityLiabCr": 49518.43,
+          "equityCr": 32929.0
         }
       },
       "cashFlow": {
@@ -833,7 +834,7 @@
           "netChangeCr": 39.5,
           "closingCashCr": 75.79,
           "openingCashCr": 36.29,
-          "fcfCr": 7067.370000000001
+          "fcfCr": 7067.37
         }
       },
       "metadata": {
@@ -852,7 +853,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations 21A",
+            "label": "Statement of Profit and Loss for the year ended 31st March, 2017 (` in Crores) Revenue From Operations 21A",
             "note_ref": "I",
             "current": 55448.46,
             "prior": 51944.57,
@@ -876,7 +877,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "IV EXPENSES Cost of materials consumed",
             "note_ref": "",
             "current": 11765.56,
             "prior": 11054.75,
@@ -892,7 +893,7 @@
           },
           {
             "type": "item",
-            "label": "Stock-in-Trade, work-in-progress and intermediates",
+            "label": "Changes in inventories of finished goods Stock-in-Trade, work-in-progress and intermediates",
             "note_ref": "",
             "current": 644.17,
             "prior": -196.55,
@@ -984,7 +985,7 @@
           },
           {
             "type": "item",
-            "label": "benefit plans 27(vi)(a)",
+            "label": "Other Comprehensive Income (i) Items that will not be reclassified to profit or loss: - Remeasurements of the defined benefit plans 27(vi)(a)",
             "note_ref": "",
             "current": -27.96,
             "prior": -53.84,
@@ -992,7 +993,7 @@
           },
           {
             "type": "item",
-            "label": "comprehensive income",
+            "label": "- Equity instruments through other comprehensive income",
             "note_ref": "",
             "current": 129.95,
             "prior": -29.85,
@@ -1000,7 +1001,7 @@
           },
           {
             "type": "item",
-            "label": "cash flow hedge",
+            "label": "- Effective portion of losses on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -61.19,
             "prior": null,
@@ -1008,7 +1009,7 @@
           },
           {
             "type": "item",
-            "label": "will not be reclassified to profit or loss",
+            "label": "(ii) Income tax relating to items that will not be reclassified to profit or loss",
             "note_ref": "26",
             "current": 24.22,
             "prior": 18.63,
@@ -1016,7 +1017,7 @@
           },
           {
             "type": "item",
-            "label": "in a cash flow hedge",
+            "label": "(i) Items that will be reclassified to profit or loss: - Effective portion of gains/(losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": 18.29,
             "prior": -2.32,
@@ -1024,7 +1025,7 @@
           },
           {
             "type": "item",
-            "label": "reclassified to profit or loss",
+            "label": "(ii) Income tax relating to items that will be reclassified to profit or loss",
             "note_ref": "26",
             "current": -6.31,
             "prior": 0.8,
@@ -1048,7 +1049,7 @@
           },
           {
             "type": "item",
-            "label": "(1) Basic (in `)",
+            "label": "Earnings per equity share (Face Value ` 1.00 each): 27(i) (1) Basic (in `)",
             "note_ref": "",
             "current": 8.43,
             "prior": 7.74,
@@ -1064,7 +1065,7 @@
           }
         ],
         "kpIs": {
-          "revenueCr": 55448.46,
+          "revenueCr": 40088.68,
           "totalIncomeCr": 57434.37,
           "pbtCr": 15502.96,
           "patCr": 10200.9,
@@ -1117,7 +1118,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(e) Financial Assets (i) Investments",
             "note_ref": "4",
             "current": 6853.2,
             "prior": 2878.03,
@@ -1153,7 +1154,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(b) Financial Assets (i) Investments",
             "note_ref": "9",
             "current": 6471.33,
             "prior": 6091.59,
@@ -1193,7 +1194,7 @@
           },
           {
             "type": "item",
-            "label": "TOTAL ASSETS",
+            "label": "(vi) Others 1004.91 16062.83 (c) Other current assets 610.57 24537.39 TOTAL ASSETS",
             "note_ref": "",
             "current": 54215.95,
             "prior": 50031.28,
@@ -1221,7 +1222,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 25.83,
             "prior": 38.69,
@@ -1265,7 +1266,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "19",
             "current": 3.6,
             "prior": 0.02,
@@ -1322,7 +1323,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 54215.95,
-          "totalEquityLiabCr": 54215.95
+          "totalEquityLiabCr": 54215.95,
+          "equityCr": null
         }
       },
       "cashFlow": {
@@ -1714,7 +1716,7 @@
           "netChangeCr": 84.07,
           "closingCashCr": 156.26,
           "openingCashCr": 72.19,
-          "fcfCr": 7057.530000000001
+          "fcfCr": 7057.53
         }
       },
       "metadata": {
@@ -1733,7 +1735,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations* 21A, 21B",
+            "label": "Statement of Profit and Loss for the year ended 31st March, 2018 (` in Crores) Revenue From Operations* 21A, 21B",
             "note_ref": "I",
             "current": 44329.77,
             "prior": 55448.46,
@@ -1757,7 +1759,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "IV EXPENSES Cost of materials consumed",
             "note_ref": "",
             "current": 11756.21,
             "prior": 11765.56,
@@ -1773,7 +1775,7 @@
           },
           {
             "type": "item",
-            "label": "work-in-progress and intermediates",
+            "label": "Changes in inventories of finished goods, Stock-in-Trade work-in-progress and intermediates",
             "note_ref": "",
             "current": 1041.85,
             "prior": 644.17,
@@ -1881,7 +1883,7 @@
           },
           {
             "type": "item",
-            "label": "benefit plans 27(vii)(a)",
+            "label": "Other Comprehensive Income (i) Items that will not be reclassified to profit or loss: - Remeasurements of the defined benefit plans 27(vii)(a)",
             "note_ref": "",
             "current": 80.83,
             "prior": -27.96,
@@ -1889,7 +1891,7 @@
           },
           {
             "type": "item",
-            "label": "comprehensive income",
+            "label": "- Equity instruments through other comprehensive income",
             "note_ref": "",
             "current": 335.1,
             "prior": 129.95,
@@ -1897,7 +1899,7 @@
           },
           {
             "type": "item",
-            "label": "in a cash flow hedge",
+            "label": "- Effective portion of gains/(losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": 10.29,
             "prior": -61.19,
@@ -1905,7 +1907,7 @@
           },
           {
             "type": "item",
-            "label": "reclassified to profit or loss",
+            "label": "(ii) Income tax relating to items that will not be reclassified to profit or loss",
             "note_ref": "26",
             "current": -31.61,
             "prior": 24.22,
@@ -1913,7 +1915,7 @@
           },
           {
             "type": "item",
-            "label": "in a cash flow hedge",
+            "label": "(i) Items that will be reclassified to profit or loss: - Effective portion of gains/(losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -18.69,
             "prior": 18.29,
@@ -1921,7 +1923,7 @@
           },
           {
             "type": "item",
-            "label": "reclassified to profit or loss",
+            "label": "(ii) Income tax relating to items that will be reclassified to profit or loss",
             "note_ref": "26",
             "current": 6.42,
             "prior": -6.31,
@@ -1945,7 +1947,7 @@
           },
           {
             "type": "item",
-            "label": "(1) Basic (in `)",
+            "label": "XII Earnings per equity share (Face Value ` 1.00 each): 27(ii) (1) Basic (in `)",
             "note_ref": "",
             "current": 9.22,
             "prior": 8.43,
@@ -1961,7 +1963,7 @@
           },
           {
             "type": "item",
-            "label": "Gross Sales Value (net of rebates and discounts) (A)",
+            "label": "* Consequent to the introduction of Goods and Services Tax (GST) with effect from 1st July, 2017, Central Excise [other than National Calamity Contingent Duty (NCCD) on cigarettes], Value Added Tax (VAT) etc. have been replaced by GST. In accordance with Indian Accounting Standard - 18 on Revenue and Schedule III of the Companies Act, 2013, GST, GST Compensation Cess, VAT, etc. are excluded and NCCD is not excluded from Gross Revenue from sale of products and services for applicable periods. In view of the aforesaid restructuring of indirect taxes, Gross Revenue from sale of products and services and Excise duty Gross Sales Value (net of rebates and discounts) (A)",
             "note_ref": "",
             "current": 67081.92,
             "prior": 64174.17,
@@ -2001,7 +2003,7 @@
           }
         ],
         "kpIs": {
-          "revenueCr": 44329.77,
+          "revenueCr": 40627.54,
           "totalIncomeCr": 46459.61,
           "pbtCr": 16851.7,
           "patCr": 11223.25,
@@ -2054,7 +2056,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(e) Financial Assets (i) Investments",
             "note_ref": "4",
             "current": 13493.77,
             "prior": 8485.51,
@@ -2098,7 +2100,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(b) Financial Assets (i) Investments",
             "note_ref": "9",
             "current": 9903.45,
             "prior": 10099.78,
@@ -2138,7 +2140,7 @@
           },
           {
             "type": "item",
-            "label": "(c) Other current assets",
+            "label": "(vi) Others 1147.95 16007.44 (c) Other current assets",
             "note_ref": "7",
             "current": 1258.41,
             "prior": 610.57,
@@ -2182,7 +2184,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 11.13,
             "prior": 17.99,
@@ -2275,7 +2277,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 62381.31,
-          "totalEquityLiabCr": 62381.31
+          "totalEquityLiabCr": 62381.31,
+          "equityCr": 51400.07
         }
       },
       "cashFlow": {
@@ -2675,7 +2678,7 @@
           "netChangeCr": -60.24,
           "closingCashCr": 96.02,
           "openingCashCr": 156.26,
-          "fcfCr": 10031.810000000001
+          "fcfCr": 10031.81
         }
       },
       "metadata": {
@@ -2694,7 +2697,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations* 21A, 21B",
+            "label": "Statement of Profit and Loss for the year ended 31st March, 2019 (` in Crores) Revenue From Operations* 21A, 21B",
             "note_ref": "I",
             "current": 45784.39,
             "prior": 44329.77,
@@ -2718,7 +2721,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "IV EXPENSES Cost of materials consumed",
             "note_ref": "",
             "current": 13184.97,
             "prior": 11756.21,
@@ -2734,7 +2737,7 @@
           },
           {
             "type": "item",
-            "label": "work-in-progress and intermediates",
+            "label": "Changes in inventories of finished goods, Stock-in-Trade work-in-progress and intermediates",
             "note_ref": "",
             "current": -180.14,
             "prior": 1041.85,
@@ -2834,7 +2837,7 @@
           },
           {
             "type": "item",
-            "label": "benefit plans 27(vi)(a)",
+            "label": "Other Comprehensive Income (i) Items that will not be reclassified to profit or loss: - Remeasurements of the defined benefit plans 27(vi)(a)",
             "note_ref": "",
             "current": 9.26,
             "prior": 80.83,
@@ -2842,7 +2845,7 @@
           },
           {
             "type": "item",
-            "label": "comprehensive income",
+            "label": "- Equity instruments through other comprehensive income",
             "note_ref": "",
             "current": 370.11,
             "prior": 335.1,
@@ -2850,7 +2853,7 @@
           },
           {
             "type": "item",
-            "label": "in a cash flow hedge",
+            "label": "- Effective portion of gains/(losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -21.05,
             "prior": 10.29,
@@ -2858,7 +2861,7 @@
           },
           {
             "type": "item",
-            "label": "reclassified to profit or loss",
+            "label": "(ii) Income tax relating to items that will not be reclassified to profit or loss",
             "note_ref": "26",
             "current": 3.69,
             "prior": -31.61,
@@ -2866,7 +2869,7 @@
           },
           {
             "type": "item",
-            "label": "in a cash flow hedge",
+            "label": "(i) Items that will be reclassified to profit or loss: - Effective portion of gains/(losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": 0.85,
             "prior": -18.69,
@@ -2874,7 +2877,7 @@
           },
           {
             "type": "item",
-            "label": "reclassified to profit or loss",
+            "label": "(ii) Income tax relating to items that will be reclassified to profit or loss",
             "note_ref": "26",
             "current": -0.3,
             "prior": 6.42,
@@ -2898,7 +2901,7 @@
           },
           {
             "type": "item",
-            "label": "(1) Basic (in `)",
+            "label": "XII Earnings per equity share (Face Value ` 1.00 each): 27(i) (1) Basic (in `)",
             "note_ref": "",
             "current": 10.19,
             "prior": 9.22,
@@ -2914,7 +2917,7 @@
           },
           {
             "type": "item",
-            "label": "Gross Sales Value (net of rebates and discounts) (A)",
+            "label": "* Consequent to the introduction of Goods and Services Tax (GST) with effect from 1st July, 2017, Central Excise [other than National Calamity Contingent Duty (NCCD) on cigarettes], Value Added Tax (VAT) etc. have been replaced by GST. In accordance with Indian Accounting Standards and Schedule III of the Companies Act, 2013, GST, GST Compensation Cess, VAT, etc. are excluded and NCCD is not excluded from Gross Revenue from sale of products and services for applicable periods. In view of the aforesaid restructuring of indirect taxes, Gross Revenue from sale of products and services and Excise duty for the year ended 31st March, 2019 are not comparable with the previous year. Following additional information is being provided to facilitate such comparison: Gross Sales Value (net of rebates and discounts) (A)",
             "note_ref": "",
             "current": 75309.36,
             "prior": 67081.92,
@@ -2954,7 +2957,7 @@
           }
         ],
         "kpIs": {
-          "revenueCr": 45784.39,
+          "revenueCr": 44995.65,
           "totalIncomeCr": 48268.93,
           "pbtCr": 18444.16,
           "patCr": 12464.32,
@@ -3007,7 +3010,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(e) Financial Assets (i) Investments",
             "note_ref": "4",
             "current": 14071.45,
             "prior": 13493.77,
@@ -3043,7 +3046,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(b) Financial Assets (i) Investments",
             "note_ref": "9",
             "current": 12506.55,
             "prior": 9903.45,
@@ -3083,7 +3086,7 @@
           },
           {
             "type": "item",
-            "label": "(c) Other current assets",
+            "label": "(vi) Others 1360.29 21286.81 (c) Other current assets",
             "note_ref": "7",
             "current": 694.91,
             "prior": 1258.41,
@@ -3127,7 +3130,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 7.89,
             "prior": 11.13,
@@ -3171,7 +3174,7 @@
           },
           {
             "type": "item",
-            "label": "enterprises and small enterprises",
+            "label": "(a) Financial Liabilities (i) Trade payables Total outstanding dues of micro enterprises and small enterprises",
             "note_ref": "",
             "current": 54.32,
             "prior": 29.43,
@@ -3179,7 +3182,7 @@
           },
           {
             "type": "item",
-            "label": "small enterprises",
+            "label": "Total outstanding dues of creditors other than micro enterprises and small enterprises",
             "note_ref": "",
             "current": 3313.96,
             "prior": 3352.85,
@@ -3228,7 +3231,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 69797.92,
-          "totalEquityLiabCr": 69797.92
+          "totalEquityLiabCr": 69797.92,
+          "equityCr": 57949.79
         }
       },
       "cashFlow": {
@@ -3647,7 +3651,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations 21A, 21B",
+            "label": "Statement of Profit and Loss for the year ended 31st March, 2020 (` in Crores) Revenue From Operations 21A, 21B",
             "note_ref": "I",
             "current": 46807.34,
             "prior": 45784.39,
@@ -3671,7 +3675,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "IV EXPENSES Cost of materials consumed",
             "note_ref": "",
             "current": 13121.76,
             "prior": 13184.97,
@@ -3687,7 +3691,7 @@
           },
           {
             "type": "item",
-            "label": "work-in-progress and intermediates",
+            "label": "Changes in inventories of finished goods, Stock-in-Trade work-in-progress and intermediates",
             "note_ref": "",
             "current": -176.34,
             "prior": -180.14,
@@ -3795,7 +3799,7 @@
           },
           {
             "type": "item",
-            "label": "- Remeasurements of the defined benefit plans 27(vi)(a)",
+            "label": "Other Comprehensive Income (i) Items that will not be reclassified to profit or loss: - Remeasurements of the defined benefit plans 27(vi)(a)",
             "note_ref": "",
             "current": -125.09,
             "prior": 9.26,
@@ -3803,7 +3807,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "- Equity instruments through other comprehensive income",
             "note_ref": "",
             "current": -1238.94,
             "prior": 370.11,
@@ -3811,7 +3815,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains/(losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -1.29,
             "prior": -21.05,
@@ -3819,7 +3823,7 @@
           },
           {
             "type": "item",
-            "label": "reclassified to profit or loss",
+            "label": "(ii) Income tax relating to items that will not be reclassified to profit or loss",
             "note_ref": "26",
             "current": 9.62,
             "prior": 3.69,
@@ -3827,7 +3831,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "(i) Items that will be reclassified to profit or loss: - Effective portion of gains/(losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -36.24,
             "prior": 0.85,
@@ -3835,7 +3839,7 @@
           },
           {
             "type": "item",
-            "label": "to profit or loss",
+            "label": "(ii) Income tax relating to items that will be reclassified to profit or loss",
             "note_ref": "26",
             "current": 10.13,
             "prior": -0.3,
@@ -3859,7 +3863,7 @@
           },
           {
             "type": "item",
-            "label": "(1) Basic (in `)",
+            "label": "XII Earnings per equity share (Face Value ` 1.00 each): 27(ii) (1) Basic (in `)",
             "note_ref": "",
             "current": 12.33,
             "prior": 10.19,
@@ -3875,7 +3879,7 @@
           }
         ],
         "kpIs": {
-          "revenueCr": 46807.34,
+          "revenueCr": 45619.7,
           "totalIncomeCr": 49821.0,
           "pbtCr": 19166.81,
           "patCr": 15136.05,
@@ -3944,7 +3948,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(g) Financial Assets (i) Investments",
             "note_ref": "4",
             "current": 13455.59,
             "prior": 14071.45,
@@ -3960,7 +3964,7 @@
           },
           {
             "type": "item",
-            "label": "(h) Other non-current assets",
+            "label": "(iii) Others 607.09 14065.99 (h) Other non-current assets",
             "note_ref": "7",
             "current": 1364.71,
             "prior": 1883.05,
@@ -3980,7 +3984,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(b) Financial Assets (i) Investments",
             "note_ref": "9",
             "current": 17175.02,
             "prior": 12506.55,
@@ -4020,7 +4024,7 @@
           },
           {
             "type": "item",
-            "label": "(c) Other current assets",
+            "label": "(vi) Others 1505.94 27621.10 (c) Other current assets",
             "note_ref": "7",
             "current": 847.74,
             "prior": 694.91,
@@ -4064,7 +4068,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 5.63,
             "prior": 7.89,
@@ -4108,7 +4112,7 @@
           },
           {
             "type": "item",
-            "label": "and small enterprises",
+            "label": "(a) Financial Liabilities (i) Trade payables Total outstanding dues of micro enterprises and small enterprises",
             "note_ref": "",
             "current": 34.67,
             "prior": 54.32,
@@ -4116,7 +4120,7 @@
           },
           {
             "type": "item",
-            "label": "micro enterprises and small enterprises",
+            "label": "Total outstanding dues of creditors other than micro enterprises and small enterprises",
             "note_ref": "",
             "current": 3412.07,
             "prior": 3313.96,
@@ -4132,7 +4136,7 @@
           },
           {
             "type": "item",
-            "label": "(b) Other current liabilities",
+            "label": "(iii) Other financial liabilities 1147.24 4658.85 (b) Other current liabilities",
             "note_ref": "19",
             "current": 4175.91,
             "prior": 4910.4,
@@ -4165,7 +4169,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 75235.36,
-          "totalEquityLiabCr": 75235.36
+          "totalEquityLiabCr": 75235.36,
+          "equityCr": 64029.16
         }
       },
       "cashFlow": {
@@ -4584,7 +4589,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations 21A, 21B",
+            "label": "Statement of Profit and Loss for the year ended 31st March, 2021 (` in Crores) Revenue From Operations 21A, 21B",
             "note_ref": "I",
             "current": 48524.54,
             "prior": 46807.34,
@@ -4608,7 +4613,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "IV EXPENSES Cost of materials consumed",
             "note_ref": "",
             "current": 13605.07,
             "prior": 13121.76,
@@ -4624,7 +4629,7 @@
           },
           {
             "type": "item",
-            "label": "work-in-progress and intermediates",
+            "label": "Changes in inventories of finished goods, Stock-in-Trade work-in-progress and intermediates",
             "note_ref": "",
             "current": -526.86,
             "prior": -176.34,
@@ -4724,7 +4729,7 @@
           },
           {
             "type": "item",
-            "label": "- Remeasurements of the defined benefit plans 27(v)",
+            "label": "Other Comprehensive Income A (i) Items that will not be reclassified to profit or loss: - Remeasurements of the defined benefit plans 27(v)",
             "note_ref": "",
             "current": -30.1,
             "prior": -125.09,
@@ -4732,7 +4737,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "- Equity instruments through other comprehensive income",
             "note_ref": "",
             "current": 252.0,
             "prior": -1238.94,
@@ -4740,7 +4745,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -6.64,
             "prior": -1.29,
@@ -4748,7 +4753,7 @@
           },
           {
             "type": "item",
-            "label": "to profit or loss",
+            "label": "(ii) Income tax relating to items that will not be reclassified to profit or loss",
             "note_ref": "26",
             "current": 0.49,
             "prior": 9.62,
@@ -4756,7 +4761,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "B (i) Items that will be reclassified to profit or loss: - Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": 40.76,
             "prior": -36.24,
@@ -4764,7 +4769,7 @@
           },
           {
             "type": "item",
-            "label": "to profit or loss",
+            "label": "(ii) Income tax relating to items that will be reclassified to profit or loss",
             "note_ref": "26",
             "current": -10.26,
             "prior": 10.13,
@@ -4788,7 +4793,7 @@
           },
           {
             "type": "item",
-            "label": "(1) Basic (in `)",
+            "label": "XII Earnings per equity share (Face Value ` 1.00 each): 27(i) (1) Basic (in `)",
             "note_ref": "",
             "current": 10.59,
             "prior": 12.33,
@@ -4804,7 +4809,7 @@
           }
         ],
         "kpIs": {
-          "revenueCr": 48524.54,
+          "revenueCr": 45485.11,
           "totalIncomeCr": 51775.53,
           "pbtCr": 17164.15,
           "patCr": 13031.64,
@@ -4881,7 +4886,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(h) Financial Assets (i) Investments",
             "note_ref": "4",
             "current": 12950.38,
             "prior": 13455.59,
@@ -4909,7 +4914,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(b) Financial Assets (i) Investments",
             "note_ref": "9",
             "current": 14046.71,
             "prior": 17175.02,
@@ -4949,7 +4954,7 @@
           },
           {
             "type": "item",
-            "label": "TOTAL ASSETS",
+            "label": "(vi) Others 1197.15 21338.48 (c) Other current assets 1006.07 31815.42 TOTAL ASSETS",
             "note_ref": "",
             "current": 71580.54,
             "prior": 75235.36,
@@ -4977,7 +4982,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 5.28,
             "prior": 5.63,
@@ -5021,7 +5026,7 @@
           },
           {
             "type": "item",
-            "label": "and small enterprises",
+            "label": "(a) Financial Liabilities (i) Trade payables Total outstanding dues of micro enterprises and small enterprises",
             "note_ref": "",
             "current": 59.34,
             "prior": 34.67,
@@ -5029,7 +5034,7 @@
           },
           {
             "type": "item",
-            "label": "micro enterprises and small enterprises",
+            "label": "Total outstanding dues of creditors other than micro enterprises and small enterprises",
             "note_ref": "",
             "current": 4060.19,
             "prior": 3412.07,
@@ -5078,7 +5083,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 71580.54,
-          "totalEquityLiabCr": 71580.54
+          "totalEquityLiabCr": 71580.54,
+          "equityCr": null
         }
       },
       "cashFlow": {
@@ -5513,7 +5519,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations 21A, 21B",
+            "label": "Statement of Profit and Loss for the year ended 31st March, 2022 (` in Crores) Revenue From Operations 21A, 21B",
             "note_ref": "I",
             "current": 59745.56,
             "prior": 48524.56,
@@ -5537,7 +5543,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "IV EXPENSES Cost of materials consumed",
             "note_ref": "",
             "current": 16064.5,
             "prior": 13605.07,
@@ -5553,7 +5559,7 @@
           },
           {
             "type": "item",
-            "label": "work-in-progress and intermediates",
+            "label": "Changes in inventories of finished goods, Stock-in-Trade work-in-progress and intermediates",
             "note_ref": "",
             "current": -566.46,
             "prior": -526.86,
@@ -5617,7 +5623,7 @@
           },
           {
             "type": "item",
-            "label": "VII Profit before tax (V + VI)",
+            "label": "VI Exceptional Items VII Profit before tax (V + VI)",
             "note_ref": "",
             "current": 19829.53,
             "prior": 17164.19,
@@ -5653,7 +5659,7 @@
           },
           {
             "type": "item",
-            "label": "- Remeasurements of the defined benefit plans 27(v)",
+            "label": "Other Comprehensive Income A (i) Items that will not be reclassified to profit or loss: - Remeasurements of the defined benefit plans 27(v)",
             "note_ref": "",
             "current": 31.62,
             "prior": -30.1,
@@ -5661,7 +5667,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "- Equity instruments through other comprehensive income",
             "note_ref": "",
             "current": 545.25,
             "prior": 252.0,
@@ -5669,7 +5675,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -11.9,
             "prior": -6.64,
@@ -5677,7 +5683,7 @@
           },
           {
             "type": "item",
-            "label": "to profit or loss",
+            "label": "(ii) Income tax relating to items that will not be reclassified to profit or loss",
             "note_ref": "26",
             "current": -4.96,
             "prior": 0.49,
@@ -5685,7 +5691,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "B (i) Items that will be reclassified to profit or loss: - Debt instruments through other comprehensive income",
             "note_ref": "",
             "current": 3.71,
             "prior": null,
@@ -5693,7 +5699,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": 14.78,
             "prior": 40.76,
@@ -5701,7 +5707,7 @@
           },
           {
             "type": "item",
-            "label": "to profit or loss",
+            "label": "(ii) Income tax relating to items that will be reclassified to profit or loss",
             "note_ref": "26",
             "current": -4.65,
             "prior": -10.26,
@@ -5725,7 +5731,7 @@
           },
           {
             "type": "item",
-            "label": "(1) Basic (in `)",
+            "label": "XII Earnings per equity share (Face Value ` 1.00 each): 27(i) (1) Basic (in `)",
             "note_ref": "",
             "current": 12.22,
             "prior": 10.59,
@@ -5741,9 +5747,9 @@
           }
         ],
         "kpIs": {
-          "revenueCr": 59745.56,
+          "revenueCr": 56341.27,
           "totalIncomeCr": 62335.53,
-          "pbtCr": 19829.53,
+          "pbtCr": null,
           "patCr": 15057.83,
           "ebitdaCr": null,
           "epsRs": null
@@ -5818,7 +5824,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(h) Financial Assets (i) Investments",
             "note_ref": "4",
             "current": 15657.32,
             "prior": 12937.42,
@@ -5862,7 +5868,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(b) Financial Assets (i) Investments",
             "note_ref": "9",
             "current": 11624.95,
             "prior": 14046.71,
@@ -5954,7 +5960,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 4.54,
             "prior": 5.28,
@@ -5998,7 +6004,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 0.74,
             "prior": 0.35,
@@ -6006,7 +6012,7 @@
           },
           {
             "type": "item",
-            "label": "and small enterprises",
+            "label": "(ii) Trade payables Total outstanding dues of micro enterprises and small enterprises",
             "note_ref": "",
             "current": 100.96,
             "prior": 59.34,
@@ -6014,7 +6020,7 @@
           },
           {
             "type": "item",
-            "label": "micro enterprises and small enterprises",
+            "label": "Total outstanding dues of creditors other than micro enterprises and small enterprises",
             "note_ref": "",
             "current": 4122.44,
             "prior": 4059.97,
@@ -6071,7 +6077,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 75092.5,
-          "totalEquityLiabCr": 75092.5
+          "totalEquityLiabCr": 75092.5,
+          "equityCr": 61399.57
         }
       },
       "cashFlow": {
@@ -6490,7 +6497,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations 21A, 21B",
+            "label": "Statement of Profit and Loss for the year ended 31st March, 2023 (` in Crores) Revenue From Operations 21A, 21B",
             "note_ref": "I",
             "current": 70251.28,
             "prior": 59745.56,
@@ -6514,7 +6521,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "IV EXPENSES Cost of materials consumed",
             "note_ref": "",
             "current": 19809.83,
             "prior": 16064.5,
@@ -6530,7 +6537,7 @@
           },
           {
             "type": "item",
-            "label": "work-in-progress and intermediates",
+            "label": "Changes in inventories of finished goods, Stock-in-Trade work-in-progress and intermediates",
             "note_ref": "",
             "current": -39.5,
             "prior": -566.46,
@@ -6638,7 +6645,7 @@
           },
           {
             "type": "item",
-            "label": "- Remeasurements of the defined benefit plans 27(vi)",
+            "label": "Other Comprehensive Income A (i) Items that will not be reclassified to profit or loss: - Remeasurements of the defined benefit plans 27(vi)",
             "note_ref": "",
             "current": -21.81,
             "prior": 31.62,
@@ -6646,7 +6653,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "- Equity instruments through other comprehensive income",
             "note_ref": "",
             "current": 91.9,
             "prior": 545.25,
@@ -6654,7 +6661,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": 21.22,
             "prior": -11.9,
@@ -6662,7 +6669,7 @@
           },
           {
             "type": "item",
-            "label": "to profit or loss",
+            "label": "(ii) Income tax relating to items that will not be reclassified to profit or loss",
             "note_ref": "26",
             "current": -0.34,
             "prior": -4.96,
@@ -6670,7 +6677,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "B (i) Items that will be reclassified to profit or loss: - Debt instruments through other comprehensive income",
             "note_ref": "",
             "current": -35.01,
             "prior": 3.71,
@@ -6678,7 +6685,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -47.45,
             "prior": 14.78,
@@ -6686,7 +6693,7 @@
           },
           {
             "type": "item",
-            "label": "profit or loss",
+            "label": "(ii) Income tax relating to items that will be reclassified to profit or loss",
             "note_ref": "26",
             "current": 20.75,
             "prior": -4.65,
@@ -6710,7 +6717,7 @@
           },
           {
             "type": "item",
-            "label": "(1) Basic (in `)",
+            "label": "XII Earnings per equity share (Face Value ` 1.00 each): 27(ii) (1) Basic (in `)",
             "note_ref": "",
             "current": 15.15,
             "prior": 12.22,
@@ -6726,7 +6733,7 @@
           }
         ],
         "kpIs": {
-          "revenueCr": 70251.28,
+          "revenueCr": 66043.27,
           "totalIncomeCr": 72688.89,
           "pbtCr": 24750.41,
           "patCr": 18753.31,
@@ -6803,7 +6810,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(h) Financial Assets (i) Investments",
             "note_ref": "4",
             "current": 16363.55,
             "prior": 15657.32,
@@ -6831,7 +6838,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(b) Financial Assets (i) Investments",
             "note_ref": "9",
             "current": 16357.07,
             "prior": 11624.95,
@@ -6871,7 +6878,7 @@
           },
           {
             "type": "item",
-            "label": "TOTAL ASSETS",
+            "label": "(vi) Others 705.84 23221.45 (c) Other current assets 1388.09 35203.44 TOTAL ASSETS",
             "note_ref": "",
             "current": 82261.74,
             "prior": 75092.5,
@@ -6899,7 +6906,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 3.28,
             "prior": 4.54,
@@ -6943,7 +6950,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 1.26,
             "prior": 0.74,
@@ -6951,7 +6958,7 @@
           },
           {
             "type": "item",
-            "label": "and small enterprises",
+            "label": "(ii) Trade payables Total outstanding dues of micro enterprises and small enterprises",
             "note_ref": "",
             "current": 137.5,
             "prior": 100.96,
@@ -6959,7 +6966,7 @@
           },
           {
             "type": "item",
-            "label": "micro enterprises and small enterprises",
+            "label": "Total outstanding dues of creditors other than micro enterprises and small enterprises",
             "note_ref": "",
             "current": 4213.76,
             "prior": 4122.44,
@@ -6999,7 +7006,7 @@
           },
           {
             "type": "item",
-            "label": "TOTAL EQUITY AND LIABILITIES",
+            "label": "(d) Current Tax Liabilities (Net) 776.13 12415.62 TOTAL EQUITY AND LIABILITIES",
             "note_ref": "",
             "current": 82261.74,
             "prior": 75092.5,
@@ -7008,7 +7015,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 82261.74,
-          "totalEquityLiabCr": 82261.74
+          "totalEquityLiabCr": 82261.74,
+          "equityCr": null
         }
       },
       "cashFlow": {
@@ -7440,7 +7448,7 @@
           "netChangeCr": 21.9,
           "closingCashCr": 206.88,
           "openingCashCr": 184.98,
-          "fcfCr": 16053.380000000001
+          "fcfCr": 16053.38
         }
       },
       "metadata": {
@@ -7459,7 +7467,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations 21A, 21B",
+            "label": "Standalone Statement of Profit and Loss for the year ended 31st March, 2024 (` in Crores) Revenue From Operations 21A, 21B",
             "note_ref": "I",
             "current": 70105.29,
             "prior": 70251.28,
@@ -7483,7 +7491,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "IV EXPENSES Cost of materials consumed",
             "note_ref": "",
             "current": 21309.84,
             "prior": 19809.83,
@@ -7499,7 +7507,7 @@
           },
           {
             "type": "item",
-            "label": "work-in-progress and intermediates",
+            "label": "Changes in inventories of finished goods, Stock-in-Trade work-in-progress and intermediates",
             "note_ref": "23",
             "current": -370.71,
             "prior": -39.5,
@@ -7607,7 +7615,7 @@
           },
           {
             "type": "item",
-            "label": "- Remeasurements of the defined benefit plans 28(vi)",
+            "label": "Other Comprehensive Income A (i) Items that will not be reclassified to profit or loss: - Remeasurements of the defined benefit plans 28(vi)",
             "note_ref": "",
             "current": -22.97,
             "prior": -21.81,
@@ -7615,7 +7623,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "- Equity instruments through other comprehensive income",
             "note_ref": "",
             "current": 2515.06,
             "prior": 91.9,
@@ -7623,7 +7631,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -10.46,
             "prior": 21.22,
@@ -7631,7 +7639,7 @@
           },
           {
             "type": "item",
-            "label": "to profit or loss",
+            "label": "(ii) Income tax relating to items that will not be reclassified to profit or loss",
             "note_ref": "27",
             "current": -228.72,
             "prior": -0.34,
@@ -7639,7 +7647,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "B (i) Items that will be reclassified to profit or loss: - Debt instruments through other comprehensive income",
             "note_ref": "",
             "current": 17.91,
             "prior": -35.01,
@@ -7647,7 +7655,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": 19.71,
             "prior": -47.45,
@@ -7655,7 +7663,7 @@
           },
           {
             "type": "item",
-            "label": "profit or loss",
+            "label": "(ii) Income tax relating to items that will be reclassified to profit or loss",
             "note_ref": "27",
             "current": -9.47,
             "prior": 20.75,
@@ -7679,7 +7687,7 @@
           },
           {
             "type": "item",
-            "label": "(1) Basic (in `)",
+            "label": "XII Earnings per equity share (Face Value ` 1.00 each): 28(ii) (1) Basic (in `)",
             "note_ref": "",
             "current": 16.39,
             "prior": 15.15,
@@ -7695,7 +7703,7 @@
           }
         ],
         "kpIs": {
-          "revenueCr": 70105.29,
+          "revenueCr": 65440.81,
           "totalIncomeCr": 73643.57,
           "pbtCr": 26315.77,
           "patCr": 20421.97,
@@ -7772,7 +7780,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(h) Financial Assets (i) Investments",
             "note_ref": "4",
             "current": 22821.94,
             "prior": 16363.55,
@@ -7816,7 +7824,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(b) Financial Assets (i) Investments",
             "note_ref": "9",
             "current": 11916.88,
             "prior": 16357.07,
@@ -7908,7 +7916,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 1.76,
             "prior": 3.28,
@@ -7952,7 +7960,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 1.52,
             "prior": 1.26,
@@ -7968,7 +7976,7 @@
           },
           {
             "type": "item",
-            "label": "and small enterprises",
+            "label": "(iii) Trade payables Total outstanding dues of micro enterprises and small enterprises",
             "note_ref": "",
             "current": 206.85,
             "prior": 137.5,
@@ -7976,7 +7984,7 @@
           },
           {
             "type": "item",
-            "label": "micro enterprises and small enterprises",
+            "label": "Total outstanding dues of creditors other than micro enterprises and small enterprises",
             "note_ref": "",
             "current": 4282.7,
             "prior": 4213.76,
@@ -8025,7 +8033,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 87327.6,
-          "totalEquityLiabCr": 87327.6
+          "totalEquityLiabCr": 87327.6,
+          "equityCr": 72233.3
         }
       },
       "cashFlow": {
@@ -8444,7 +8453,7 @@
         "items": [
           {
             "type": "item",
-            "label": "Revenue From Operations 22A, 22B",
+            "label": "Standalone Statement of Profit and Loss for the year ended 31st March, 2025 (` in Crores) Revenue From Operations 22A, 22B",
             "note_ref": "I",
             "current": 74236.07,
             "prior": 67292.6,
@@ -8468,7 +8477,7 @@
           },
           {
             "type": "item",
-            "label": "Cost of materials consumed",
+            "label": "IV EXPENSES Cost of materials consumed",
             "note_ref": "",
             "current": 23440.12,
             "prior": 21055.85,
@@ -8484,7 +8493,7 @@
           },
           {
             "type": "item",
-            "label": "work-in-progress and intermediates",
+            "label": "Changes in inventories of finished goods, Stock-in-Trade work-in-progress and intermediates",
             "note_ref": "24",
             "current": -640.5,
             "prior": -370.09,
@@ -8592,7 +8601,7 @@
           },
           {
             "type": "item",
-            "label": "operations",
+            "label": "Profit before exceptional items and tax from discontinued operations",
             "note_ref": "",
             "current": 572.52,
             "prior": 691.22,
@@ -8632,7 +8641,7 @@
           },
           {
             "type": "item",
-            "label": "- Remeasurements of the defined benefit plans 29(vii)",
+            "label": "Other Comprehensive Income A (i) Items that will not be reclassified to profit or loss: - Remeasurements of the defined benefit plans 29(vii)",
             "note_ref": "",
             "current": -27.41,
             "prior": -22.97,
@@ -8640,7 +8649,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "- Equity instruments through other comprehensive income",
             "note_ref": "",
             "current": -999.57,
             "prior": 2515.06,
@@ -8648,7 +8657,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": 0.23,
             "prior": -10.46,
@@ -8656,7 +8665,7 @@
           },
           {
             "type": "item",
-            "label": "to profit or loss",
+            "label": "(ii) Income tax relating to items that will not be reclassified to profit or loss",
             "note_ref": "28",
             "current": 85.34,
             "prior": -228.72,
@@ -8664,7 +8673,7 @@
           },
           {
             "type": "item",
-            "label": "operations 29(x)",
+            "label": "B (i) Items that will be reclassified to profit or loss: - Exchange differences on net investment in foreign operations 29(x)",
             "note_ref": "",
             "current": -40.55,
             "prior": null,
@@ -8672,7 +8681,7 @@
           },
           {
             "type": "item",
-            "label": "income",
+            "label": "- Debt instruments through other comprehensive income",
             "note_ref": "",
             "current": 72.07,
             "prior": 17.91,
@@ -8680,7 +8689,7 @@
           },
           {
             "type": "item",
-            "label": "portion of hedging instruments in a cash flow hedge",
+            "label": "- Effective portion of gains / (losses) on designated portion of hedging instruments in a cash flow hedge",
             "note_ref": "",
             "current": -8.22,
             "prior": 19.71,
@@ -8688,7 +8697,7 @@
           },
           {
             "type": "item",
-            "label": "to profit or loss",
+            "label": "(ii) Income tax relating to items that will be reclassified to profit or loss",
             "note_ref": "28",
             "current": -11.27,
             "prior": -9.47,
@@ -8712,7 +8721,7 @@
           },
           {
             "type": "item",
-            "label": "(a) Basic (in `)",
+            "label": "XVII Earnings per equity share (Face Value ` 1.00 each): 29(ii) For Continuing Operations (a) Basic (in `)",
             "note_ref": "",
             "current": 16.07,
             "prior": 15.98,
@@ -8728,7 +8737,7 @@
           },
           {
             "type": "item",
-            "label": "(a) Basic (in `)",
+            "label": "For Discontinued Operations (a) Basic (in `)",
             "note_ref": "",
             "current": 12.08,
             "prior": 0.41,
@@ -8744,7 +8753,7 @@
           },
           {
             "type": "item",
-            "label": "(a) Basic (in `)",
+            "label": "For Continuing and Discontinued Operations (a) Basic (in `)",
             "note_ref": "",
             "current": 28.15,
             "prior": 16.39,
@@ -8760,7 +8769,7 @@
           }
         ],
         "kpIs": {
-          "revenueCr": 74236.07,
+          "revenueCr": 69323.52,
           "totalIncomeCr": 77690.38,
           "pbtCr": 26528.82,
           "patCr": 20091.85,
@@ -8837,7 +8846,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(h) Financial Assets (i) Investments",
             "note_ref": "4",
             "current": 20701.17,
             "prior": 22821.94,
@@ -8865,7 +8874,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Investments",
+            "label": "(b) Financial Assets (i) Investments",
             "note_ref": "9",
             "current": 15285.91,
             "prior": 11916.88,
@@ -8905,7 +8914,7 @@
           },
           {
             "type": "item",
-            "label": "TOTAL ASSETS",
+            "label": "(vi) Others 1261.20 23651.22 (c) Other current assets 1043.71 39755.94 TOTAL ASSETS",
             "note_ref": "",
             "current": 84009.2,
             "prior": 87327.6,
@@ -8969,7 +8978,7 @@
           },
           {
             "type": "item",
-            "label": "(i) Borrowings",
+            "label": "(a) Financial Liabilities (i) Borrowings",
             "note_ref": "14",
             "current": 1.76,
             "prior": 1.52,
@@ -8985,7 +8994,7 @@
           },
           {
             "type": "item",
-            "label": "small enterprises; and",
+            "label": "(iii) Trade Payables (A) total outstanding dues of micro and small enterprises; and",
             "note_ref": "",
             "current": 178.24,
             "prior": 206.85,
@@ -8993,7 +9002,7 @@
           },
           {
             "type": "item",
-            "label": "than micro and small enterprises",
+            "label": "(B) total outstanding dues of creditors other than micro and small enterprises",
             "note_ref": "",
             "current": 4311.58,
             "prior": 4282.7,
@@ -9025,7 +9034,7 @@
           },
           {
             "type": "item",
-            "label": "TOTAL EQUITY AND LIABILITIES",
+            "label": "(d) Current Tax Liabilities (Net) 1027.78 13122.14 TOTAL EQUITY AND LIABILITIES",
             "note_ref": "",
             "current": 84009.2,
             "prior": 87327.6,
@@ -9034,7 +9043,8 @@
         ],
         "kpIs": {
           "totalAssetsCr": 84009.2,
-          "totalEquityLiabCr": 84009.2
+          "totalEquityLiabCr": 84009.2,
+          "equityCr": null
         }
       },
       "cashFlow": {
@@ -9474,7 +9484,7 @@
           "netChangeCr": 126.87,
           "closingCashCr": 222.06,
           "openingCashCr": 197.63,
-          "fcfCr": 14962.369999999999
+          "fcfCr": 14962.37
         }
       },
       "metadata": {
@@ -9490,7 +9500,7 @@
   },
   "metadata": {
     "schemaVersion": 2,
-    "generatedAt": "2026-05-12T11:23:29.168808+00:00",
+    "generatedAt": "2026-05-12T13:09:31.611475+00:00",
     "source": "Annual Reports",
     "yearsCovered": [
       "FY2016",
