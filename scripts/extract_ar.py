@@ -9,6 +9,7 @@ Usage: python scripts/extract_ar.py --ticker ITC
 """
 
 import fitz, re, json, os, sys, time, requests
+from datetime import datetime, timezone
 from collections import OrderedDict
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -20,6 +21,24 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 AR_URLS = {
     'ITC': lambda y: f"https://www.itcportal.com/content/dam/itc-corporate/pdfs/report-and-accounts/ITC-Report-and-Accounts-{y}.pdf",
 }
+
+SCHEMA_VERSION = 2
+REQUIRED_CF_KPIS = ['cfoCr', 'cfiCr', 'cffCr', 'capexCr', 'fcfCr', 'dividendCr', 'netChangeCr', 'openingCashCr', 'closingCashCr']
+REQUIRED_CF_SECTIONS = ['Operating Activities', 'Investing Activities', 'Financing Activities', 'Summary']
+CF_LABEL_ALIASES = [
+    (re.compile(r'^net cash from operating activities$', re.I), 'Net cash from operating activities'),
+    (re.compile(r'^net cash used in operating activities$', re.I), 'Net cash used in operating activities'),
+    (re.compile(r'^net cash from investing activities$', re.I), 'Net cash from investing activities'),
+    (re.compile(r'^net cash used in investing activities$', re.I), 'Net cash used in investing activities'),
+    (re.compile(r'^net cash from financing activities$', re.I), 'Net cash from financing activities'),
+    (re.compile(r'^net cash used in financing activities$', re.I), 'Net cash used in financing activities'),
+    (re.compile(r'^net increase \/ \(decrease\) in cash and cash equivalents$', re.I), 'Net increase / (decrease) in cash and cash equivalents'),
+    (re.compile(r'^opening cash and cash equivalents$', re.I), 'Opening cash and cash equivalents'),
+    (re.compile(r'^closing cash and cash equivalents$', re.I), 'Closing cash and cash equivalents'),
+    (re.compile(r'^cash and cash equivalents at the beginning$', re.I), 'Opening cash and cash equivalents'),
+    (re.compile(r'^cash and cash equivalents at the end$', re.I), 'Closing cash and cash equivalents'),
+    (re.compile(r'^dividend paid$', re.I), 'Dividend paid'),
+]
 
 # Known tickers that can be extracted once URLs are discovered
 NIFTY50_TICKERS = [
@@ -157,6 +176,13 @@ def clean_text(text):
     text = text.replace('\ufeff', '').replace('\b', '')
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
+
+def canonical_label(label):
+    cleaned = clean_text(label)
+    for pattern, replacement in CF_LABEL_ALIASES:
+        if pattern.match(cleaned):
+            return replacement
+    return cleaned
 
 def parse_number(text):
     text = clean_text(text).replace(',', '')
@@ -359,7 +385,7 @@ def extract_kpis(items, stmt_type):
     elif stmt_type == 'cf':
         all_cf = [i for i in items if i['type'] == 'item']  # items with values only, skip section markers
         def label_has(item, *parts):
-            label = clean_text(item['label']).lower()
+            label = canonical_label(item['label']).lower()
             return all(part in label for part in parts)
 
         cfo = next((i for i in all_cf if label_has(i, 'net cash', 'operating activities')), None)
@@ -390,9 +416,35 @@ def extract_kpis(items, stmt_type):
             kpis['fcfCr'] = None
     return kpis
 
+def collect_cash_flow_warnings(items, kpis):
+    warnings = []
+    sections = [item.get('label') for item in items if item.get('type') == 'section']
+    for section in REQUIRED_CF_SECTIONS:
+        if section not in sections:
+            warnings.append(f'missing section: {section}')
+    for key in REQUIRED_CF_KPIS:
+        if kpis.get(key) is None:
+            warnings.append(f'missing KPI: {key}')
+    if kpis.get('cfoCr') is not None and kpis.get('capexCr') is not None and kpis.get('fcfCr') is not None:
+        derived = kpis['cfoCr'] + kpis['capexCr']
+        if abs(derived - kpis['fcfCr']) >= 0.05:
+            warnings.append('fcf mismatch: cfoCr + capexCr != fcfCr')
+    return warnings
+
 def extract_all(ticker, years=range(2016, 2026)):
     """Extract all financial data for a ticker (focus on recent years first)."""
-    all_data = {'ticker': ticker, 'years': {}, 'metadata': {'source': 'Annual Reports', 'pdf_paths': {}}}
+    all_data = {
+        'ticker': ticker,
+        'years': {},
+        'metadata': {
+            'schemaVersion': SCHEMA_VERSION,
+            'generatedAt': datetime.now(timezone.utc).isoformat(),
+            'source': 'Annual Reports',
+            'yearsCovered': [],
+            'pdfPaths': {},
+            'warnings': [],
+        },
+    }
     
     for year in years:
         path = os.path.join(PDF_DIR, f"{ticker}_AR_{year}.pdf")
@@ -412,6 +464,12 @@ def extract_all(ticker, years=range(2016, 2026)):
         
         fy_cur, fy_pri = year, year - 1
         year_data = {}
+        year_meta = {
+            'pdfName': os.path.basename(path),
+            'pdfPath': os.path.relpath(path, ROOT).replace('\\', '/'),
+            'cashFlowPages': [],
+            'warnings': [],
+        }
         
         try:
             # P&L
@@ -438,14 +496,25 @@ def extract_all(ticker, years=range(2016, 2026)):
             cf_pages = find_cf_pages(doc)
             if cf_pages:
                 items = parse_statement([doc[i] for i in cf_pages], fy_cur, fy_pri, 'cf')
-                year_data['cashFlow'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': extract_kpis(items, 'cf')}
+                kpis = extract_kpis(items, 'cf')
+                year_data['cashFlow'] = {'fy': f"FY{fy_cur}", 'items': items, 'kpIs': kpis}
+                year_meta['cashFlowPages'] = [i + 1 for i in cf_pages]
+                year_meta['warnings'] = collect_cash_flow_warnings(items, kpis)
                 page_label = f"p{cf_pages[0]+1}" if len(cf_pages) == 1 else f"p{cf_pages[0]+1}-{cf_pages[-1]+1}"
                 print(f"CF({page_label},{len(items)}i)", end='', flush=True)
+            else:
+                year_meta['warnings'].append('cash flow pages not found')
         except Exception as e:
             print(f"EXTRACT ERROR: {e}", end='', flush=True)
+            year_meta['warnings'].append(str(e))
         finally:
             if year_data:
+                year_data['metadata'] = year_meta
                 all_data['years'][f"FY{year}"] = year_data
+                all_data['metadata']['yearsCovered'].append(f"FY{year}")
+                all_data['metadata']['pdfPaths'][f"FY{year}"] = year_meta['pdfPath']
+                if year_meta['warnings']:
+                    all_data['metadata']['warnings'].extend([f"FY{year}: {warning}" for warning in year_meta['warnings']])
             doc.close()
             print(f" ({time.time()-t0:.1f}s)", flush=True)
     

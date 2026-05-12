@@ -4,6 +4,7 @@ import {
   validateItcPriceHistory,
   validateItcFinancials,
   validateItcDividendHistory,
+  validateItcAnnualReportFile,
   ItcDataValidationError,
   type ItcLiveQuote,
   type ItcPriceHistory,
@@ -276,5 +277,75 @@ describe('validateItcDividendHistory', () => {
   it('rejects missing symbol', () => {
     const { symbol, ...noSymbol } = validDividendHistory;
     expect(() => validateItcDividendHistory(noSymbol)).toThrow(/symbol required/);
+  });
+});
+
+// â”€â”€â”€ ItcAnnualReportFile Validator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€”
+
+describe('validateItcAnnualReportFile', () => {
+  const makeAnnualReportYear = (fy: string, cfo = 100, cfi = -40, cff = -30, capex = -20, dividend = 5, netChange = 30, openingCash = 10, closingCash = 40) => ({
+    cashFlow: {
+      fy,
+      items: [
+        { type: 'section', label: 'Operating Activities' },
+        { type: 'item', label: 'Net cash from operating activities', current: cfo, prior: cfo - 10, section: 'Operating Activities' },
+        { type: 'section', label: 'Investing Activities' },
+        { type: 'item', label: 'Net cash used in investing activities', current: cfi, prior: cfi - 5, section: 'Investing Activities' },
+        { type: 'section', label: 'Financing Activities' },
+        { type: 'item', label: 'Net cash used in financing activities', current: cff, prior: cff - 5, section: 'Financing Activities' },
+        { type: 'section', label: 'Summary' },
+        { type: 'item', label: 'Net increase / (decrease) in cash and cash equivalents', current: netChange, prior: netChange - 1, section: 'Summary' },
+        { type: 'item', label: 'Opening cash and cash equivalents', current: openingCash, prior: openingCash - 5, section: 'Summary' },
+        { type: 'item', label: 'Closing cash and cash equivalents', current: closingCash, prior: closingCash - 5, section: 'Summary' },
+      ],
+      kpIs: {
+        cfoCr: cfo,
+        cfiCr: cfi,
+        cffCr: cff,
+        capexCr: capex,
+        fcfCr: cfo + capex,
+        dividendCr: dividend,
+        netChangeCr: netChange,
+        openingCashCr: openingCash,
+        closingCashCr: closingCash,
+      },
+    },
+  });
+
+  const annualReport = {
+    ticker: 'ITC',
+    metadata: {
+      schemaVersion: 2,
+      generatedAt: '2026-05-12T08:18:00.000Z',
+      source: 'Annual Reports',
+      yearsCovered: ['FY2016', 'FY2017', 'FY2018', 'FY2019', 'FY2020', 'FY2021', 'FY2022', 'FY2023', 'FY2024', 'FY2025'],
+      pdfPaths: { FY2025: 'public/data/annual_reports/ITC_AR_2025.pdf' },
+      warnings: [],
+    },
+    years: Object.fromEntries([
+      ['FY2016', makeAnnualReportYear('FY2016')],
+      ['FY2017', makeAnnualReportYear('FY2017', 120, -50, -20, -30, 10, 50, 40, 90)],
+      ['FY2018', makeAnnualReportYear('FY2018', 121, -51, -21, -31, 11, 51, 41, 91)],
+      ['FY2019', makeAnnualReportYear('FY2019', 122, -52, -22, -32, 12, 52, 42, 92)],
+      ['FY2020', makeAnnualReportYear('FY2020', 123, -53, -23, -33, 13, 53, 43, 93)],
+      ['FY2021', makeAnnualReportYear('FY2021', 124, -54, -24, -34, 14, 54, 44, 94)],
+      ['FY2022', makeAnnualReportYear('FY2022', 125, -55, -25, -35, 15, 55, 45, 95)],
+      ['FY2023', makeAnnualReportYear('FY2023', 126, -56, -26, -36, 16, 56, 46, 96)],
+      ['FY2024', makeAnnualReportYear('FY2024', 127, -57, -27, -37, 17, 57, 47, 97)],
+      ['FY2025', makeAnnualReportYear('FY2025', 128, -58, -28, -38, 18, 58, 48, 98)],
+    ]),
+  };
+
+  it('accepts a valid annual report file', () => {
+    const result = validateItcAnnualReportFile(annualReport);
+    expect(result.ticker).toBe('ITC');
+    expect(Object.keys(result.years)).toHaveLength(10);
+    expect(result.metadata?.schemaVersion).toBe(2);
+  });
+
+  it('rejects missing cash-flow sections', () => {
+    const bad = structuredClone(annualReport);
+    bad.years.FY2016.cashFlow.items = bad.years.FY2016.cashFlow.items.filter((item: any) => item.label !== 'Summary');
+    expect(() => validateItcAnnualReportFile(bad)).toThrow(/cashFlow sections/);
   });
 });

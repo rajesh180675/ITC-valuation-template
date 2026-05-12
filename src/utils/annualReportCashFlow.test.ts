@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import {
+  buildCashFlowTableModel,
+  canonicalizeCashFlowLabel,
+  formatCashFlowValue,
+} from './annualReportCashFlow';
 
 type Item = {
   type: 'item' | 'section';
@@ -16,6 +21,13 @@ type Statement = {
 
 type AnnualReportData = {
   years: Record<string, { cashFlow: Statement }>;
+  metadata?: {
+    schemaVersion?: number;
+    generatedAt?: string;
+    source?: string;
+    warnings?: string[];
+    pdfPaths?: Record<string, string>;
+  };
 };
 
 const data = JSON.parse(
@@ -35,7 +47,50 @@ const requiredKpis = [
   'closingCashCr',
 ];
 
+const sampleCashFlowItems = [
+  { type: 'section', label: 'Operating Activities' },
+  { type: 'item', label: 'Net cash from operating activities', current: 100, prior: 90, section: 'Operating Activities' },
+  { type: 'section', label: 'Investing Activities' },
+  { type: 'item', label: 'Net cash used in investing activities', current: -40, prior: -35, section: 'Investing Activities' },
+  { type: 'section', label: 'Financing Activities' },
+  { type: 'item', label: 'Net cash used in financing activities', current: -30, prior: -25, section: 'Financing Activities' },
+  { type: 'section', label: 'Summary' },
+  { type: 'item', label: 'Net increase / (decrease) in cash and cash equivalents', current: 30, prior: 30, section: 'Summary' },
+  { type: 'item', label: 'Opening cash and cash equivalents', current: 10, prior: 5, section: 'Summary' },
+  { type: 'item', label: 'Closing cash and cash equivalents', current: 40, prior: 35, section: 'Summary' },
+];
+
+const sampleCashFlowKpis = {
+  cfoCr: 100,
+  cfiCr: -40,
+  cffCr: -30,
+  capexCr: -20,
+  fcfCr: 80,
+  dividendCr: 5,
+  netChangeCr: 30,
+  openingCashCr: 10,
+  closingCashCr: 40,
+};
+
+function makeAnnualReportYear(fy: string) {
+  return {
+    cashFlow: {
+      fy,
+      items: sampleCashFlowItems.map(item => ({ ...item })),
+      kpIs: { ...sampleCashFlowKpis },
+    },
+  };
+}
+
 describe('ITC annual report cash flow data', () => {
+  it('includes extraction metadata with provenance', () => {
+    expect(data.metadata?.schemaVersion).toBeGreaterThanOrEqual(1);
+    expect(data.metadata?.generatedAt).toBeTruthy();
+    expect(data.metadata?.source).toBe('Annual Reports');
+    expect(data.metadata?.pdfPaths?.FY2025).toContain('ITC_AR_2025.pdf');
+    expect(data.years.FY2025.metadata?.cashFlowPages).toEqual([160, 161]);
+  });
+
   it('has complete core cash-flow KPIs for FY2016-FY2025', () => {
     expect(Object.keys(data.years).sort()).toEqual(years);
 
@@ -73,5 +128,22 @@ describe('ITC annual report cash flow data', () => {
         'Summary',
       ]);
     }
+  });
+
+  it('normalizes label variants into stable cash-flow keys', () => {
+    expect(canonicalizeCashFlowLabel('NET CASH FROM OPERATING ACTIVITIES')).toBe('Net cash from operating activities');
+    expect(canonicalizeCashFlowLabel('cash and cash equivalents at the end')).toBe('Closing cash and cash equivalents');
+    expect(formatCashFlowValue(-1234)).toBe('(1,234)');
+  });
+
+  it('builds a stable cash-flow table model from the extracted data', () => {
+    const model = buildCashFlowTableModel(data.years as Record<string, any>, years);
+    expect(model.groups.map(group => group.header)).toEqual([
+      'Operating Activities',
+      'Investing Activities',
+      'Financing Activities',
+      'Summary',
+    ]);
+    expect(model.groups[0].rows.some(row => row.label.toLowerCase().includes('net cash from operating activities'))).toBe(true);
   });
 });

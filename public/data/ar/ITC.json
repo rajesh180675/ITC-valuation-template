@@ -835,6 +835,15 @@
           "openingCashCr": 36.29,
           "fcfCr": 7067.370000000001
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2016.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2016.pdf",
+        "cashFlowPages": [
+          144,
+          145
+        ],
+        "warnings": []
       }
     },
     "FY2017": {
@@ -1707,6 +1716,15 @@
           "openingCashCr": 72.19,
           "fcfCr": 7057.530000000001
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2017.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2017.pdf",
+        "cashFlowPages": [
+          154,
+          155
+        ],
+        "warnings": []
       }
     },
     "FY2018": {
@@ -2659,6 +2677,15 @@
           "openingCashCr": 156.26,
           "fcfCr": 10031.810000000001
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2018.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2018.pdf",
+        "cashFlowPages": [
+          150,
+          151
+        ],
+        "warnings": []
       }
     },
     "FY2019": {
@@ -3603,6 +3630,15 @@
           "openingCashCr": 96.02,
           "fcfCr": 8980.41
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2019.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2019.pdf",
+        "cashFlowPages": [
+          152,
+          153
+        ],
+        "warnings": []
       }
     },
     "FY2020": {
@@ -4531,6 +4567,15 @@
           "openingCashCr": 162.75,
           "fcfCr": 11665.83
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2020.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2020.pdf",
+        "cashFlowPages": [
+          168,
+          169
+        ],
+        "warnings": []
       }
     },
     "FY2021": {
@@ -5451,6 +5496,15 @@
           "openingCashCr": 561.35,
           "fcfCr": 9911.86
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2021.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2021.pdf",
+        "cashFlowPages": [
+          182,
+          183
+        ],
+        "warnings": []
       }
     },
     "FY2022": {
@@ -6419,6 +6473,15 @@
           "openingCashCr": 231.28,
           "fcfCr": 12995.76
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2022.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2022.pdf",
+        "cashFlowPages": [
+          184,
+          185
+        ],
+        "warnings": []
       }
     },
     "FY2023": {
@@ -7379,6 +7442,15 @@
           "openingCashCr": 184.98,
           "fcfCr": 16053.380000000001
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2023.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2023.pdf",
+        "cashFlowPages": [
+          188,
+          189
+        ],
+        "warnings": []
       }
     },
     "FY2024": {
@@ -8355,6 +8427,15 @@
           "openingCashCr": 206.88,
           "fcfCr": 13471.0
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2024.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2024.pdf",
+        "cashFlowPages": [
+          202,
+          203
+        ],
+        "warnings": []
       }
     },
     "FY2025": {
@@ -9395,11 +9476,46 @@
           "openingCashCr": 197.63,
           "fcfCr": 14962.369999999999
         }
+      },
+      "metadata": {
+        "pdfName": "ITC_AR_2025.pdf",
+        "pdfPath": "public/data/annual_reports/ITC_AR_2025.pdf",
+        "cashFlowPages": [
+          160,
+          161
+        ],
+        "warnings": []
       }
     }
   },
   "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-05-12T11:23:29.168808+00:00",
     "source": "Annual Reports",
-    "pdf_paths": {}
+    "yearsCovered": [
+      "FY2016",
+      "FY2017",
+      "FY2018",
+      "FY2019",
+      "FY2020",
+      "FY2021",
+      "FY2022",
+      "FY2023",
+      "FY2024",
+      "FY2025"
+    ],
+    "pdfPaths": {
+      "FY2016": "public/data/annual_reports/ITC_AR_2016.pdf",
+      "FY2017": "public/data/annual_reports/ITC_AR_2017.pdf",
+      "FY2018": "public/data/annual_reports/ITC_AR_2018.pdf",
+      "FY2019": "public/data/annual_reports/ITC_AR_2019.pdf",
+      "FY2020": "public/data/annual_reports/ITC_AR_2020.pdf",
+      "FY2021": "public/data/annual_reports/ITC_AR_2021.pdf",
+      "FY2022": "public/data/annual_reports/ITC_AR_2022.pdf",
+      "FY2023": "public/data/annual_reports/ITC_AR_2023.pdf",
+      "FY2024": "public/data/annual_reports/ITC_AR_2024.pdf",
+      "FY2025": "public/data/annual_reports/ITC_AR_2025.pdf"
+    },
+    "warnings": []
   }
 }

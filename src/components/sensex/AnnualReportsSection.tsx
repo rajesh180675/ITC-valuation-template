@@ -8,12 +8,21 @@ import {
   ResponsiveContainer, ComposedChart, Legend, Pie, Cell
 } from 'recharts';
 import { fmt, fmtN } from '@/components/itc/shared';
+import {
+  type AnnualReportDataFile,
+  type AnnualReportFileMetadata,
+  type AnnualReportYearData,
+  type CashFlowPreset,
+  type CashFlowTableGroup,
+  type CashFlowYearSummary,
+  buildCashFlowTableModel,
+  buildCashFlowYearSummaries,
+  formatCashFlowValue,
+  getDisplayYears,
+  getYearPresetYears,
+} from '@/utils/annualReportCashFlow';
 
 type Tab = 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts';
-
-interface Item { type: string; label: string; note_ref: string; current: number | null; prior: number | null; section: string | null; }
-interface Statement { fy: string; items: Item[]; kpIs: Record<string, number | null>; }
-interface YearData { profitLoss?: Statement; balanceSheet?: Statement; cashFlow?: Statement; }
 
 const TABS: { id: Tab; label: string; icon: any }[] = [
   { id: 'pnl', label: 'P&L', icon: TrendingUp },
@@ -30,7 +39,7 @@ const COMPANY_MAP: Record<string, string> = {
   HDFCBANK: 'HDFC Bank', INFY: 'Infosys', ICICIBANK: 'ICICI Bank', SBIN: 'SBI', WIPRO: 'Wipro',
 };
 
-function findItem(items: Item[], key: string): number | null {
+function findItem(items: { label: string; current: number | null }[], key: string): number | null {
   const m = items.find(i => i.label.toLowerCase().includes(key.toLowerCase()) && i.current !== null);
   return m?.current ?? null;
 }
@@ -45,11 +54,6 @@ function safePct(num: number | null, den: number | null): number | null {
 function safeSub(a: number | null, b: number | null): number | null {
   if (a == null || b == null) return null;
   return a - b;
-}
-
-export function getDisplayYears(selectedYears: string[], years: string[], tab: Tab): string[] {
-  if (selectedYears.length > 0) return selectedYears;
-  return tab === 'cashFlow' ? years : years.slice(-5);
 }
 
 function KpiCard({ label, value, trend, suffix }: { label: string; value: number | null; trend?: number | null; suffix?: string; }) {
@@ -74,14 +78,15 @@ function KpiCard({ label, value, trend, suffix }: { label: string; value: number
 /* ── Main Component (stable hook tree, no key-remount) ──────────────────── */
 export function AnnualReportsSection() {
   const [tab, setTab] = useState<Tab>('charts');
-  const [yearsData, setYearsData] = useState<Record<string, YearData> | null>(null);
+  const [yearsData, setYearsData] = useState<Record<string, AnnualReportYearData> | null>(null);
   const [segData, setSegData] = useState<any>(null);
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
+  const [reportMeta, setReportMeta] = useState<AnnualReportFileMetadata | null>(null);
   const [commonSize, setCommonSize] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTicker, setActiveTicker] = useState('ITC');
 
-  const getStmtType = (t: Tab): keyof YearData =>
+  const getStmtType = (t: Tab): 'profitLoss' | 'balanceSheet' | 'cashFlow' =>
     t === 'pnl' ? 'profitLoss' : t === 'balanceSheet' ? 'balanceSheet' : 'cashFlow';
 
   // Fetch on ticker change or mount
@@ -90,12 +95,16 @@ export function AnnualReportsSection() {
     setError(null);
     setYearsData(null);
     Promise.all([
-      fetch(`/data/ar/${activeTicker}.json`).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status} - run python scripts/extract_ar.py --ticker ${activeTicker}`); return r.json(); }),
+      fetch(`/data/ar/${activeTicker}.json`).then(async r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status} - run python scripts/extract_ar.py --ticker ${activeTicker}`);
+        return r.json() as Promise<AnnualReportDataFile>;
+      }),
       fetch('/data/segment_data_itc.json').then(r => r.ok ? r.json() : { segment_time_series: {} }).catch(() => ({ segment_time_series: {} })),
     ]).then(([ar, seg]) => {
       if (cancelled) return;
       if (!ar.years) throw new Error('Missing .years in AR data');
       setYearsData(ar.years);
+      setReportMeta(ar.metadata ?? null);
       setSegData(seg);
       setSelectedYears([]);
     }).catch(err => {
@@ -106,6 +115,9 @@ export function AnnualReportsSection() {
 
   const years = useMemo(() => yearsData ? Object.keys(yearsData).sort() : [], [yearsData]);
   const displayYears = getDisplayYears(selectedYears, years, tab);
+  const cashFlowTable = useMemo(() => buildCashFlowTableModel(yearsData ?? {}, displayYears), [yearsData, displayYears]);
+  const cashFlowSummaries = useMemo(() => buildCashFlowYearSummaries(yearsData ?? {}, displayYears), [yearsData, displayYears]);
+  const latestCashFlow = cashFlowSummaries[cashFlowSummaries.length - 1];
 
   const kpiData = useMemo(() => displayYears.map(fy => {
     const y = yearsData?.[fy];
@@ -134,6 +146,13 @@ export function AnnualReportsSection() {
     v != null && p != null && p !== 0 ? ((v - p) / Math.abs(p)) * 100 : null;
   const cagr = (v: number | null, p: number | null, n: number): number | null =>
     v != null && p != null && p > 0 && n > 1 ? ((v / p) ** (1 / (n - 1)) - 1) * 100 : null;
+  const setCashFlowPreset = (preset: CashFlowPreset) => {
+    if (preset === 'reset') {
+      setSelectedYears([]);
+      return;
+    }
+    setSelectedYears(getYearPresetYears(preset, years));
+  };
 
   return (
     <div className="space-y-4 p-4 md:p-6 max-w-7xl mx-auto">
@@ -193,12 +212,12 @@ export function AnnualReportsSection() {
             <div className="flex gap-3 flex-wrap">
               {tab === 'cashFlow' ? (
                 <>
-                  <KpiCard label="CFO" value={latest.cfo} trend={kpiData.length > 1 ? yoy(latest.cfo, kpiData[kpiData.length - 2]?.cfo) : null} />
-                  <KpiCard label="CFI" value={latest.cfi} />
-                  <KpiCard label="FCF" value={latest.fcf} trend={kpiData.length > 1 ? yoy(latest.fcf, kpiData[kpiData.length - 2]?.fcf) : null} />
-                  <KpiCard label="Capex Outflow" value={latest.capex == null ? null : Math.abs(latest.capex)} />
-                  <KpiCard label="Cash Conv" value={safePct(latest.cfo, latest.pat)} suffix="%" />
-                  <KpiCard label="CFO CAGR" value={cagr(latest.cfo, first?.cfo, kpiData.length)} suffix="%" />
+                  <KpiCard label="CFO" value={latestCashFlow?.cfo ?? null} trend={cashFlowSummaries.length > 1 ? yoy(latestCashFlow?.cfo ?? null, cashFlowSummaries[cashFlowSummaries.length - 2]?.cfo ?? null) : null} />
+                  <KpiCard label="CFI" value={latestCashFlow?.cfi ?? null} />
+                  <KpiCard label="FCF" value={latestCashFlow?.fcf ?? null} trend={cashFlowSummaries.length > 1 ? yoy(latestCashFlow?.fcf ?? null, cashFlowSummaries[cashFlowSummaries.length - 2]?.fcf ?? null) : null} />
+                  <KpiCard label="Capex Outflow" value={latestCashFlow?.capex == null ? null : Math.abs(latestCashFlow.capex)} />
+                  <KpiCard label="Cash Conv" value={latestCashFlow?.cashConversion ?? null} suffix="%" />
+                  <KpiCard label="CFO CAGR" value={cagr(latestCashFlow?.cfo ?? null, cashFlowSummaries[0]?.cfo ?? null, cashFlowSummaries.length)} suffix="%" />
                 </>
               ) : (
                 <>
@@ -236,7 +255,16 @@ export function AnnualReportsSection() {
           {/* Tab content */}
           {tab === 'segments' ? <SegmentsView segData={segData} activeTicker={activeTicker} /> :
            tab === 'charts' ? <ChartsView kpiData={kpiData} /> :
-           tab === 'cashFlow' ? <CashFlowView data={yearsData} years={displayYears} /> :
+           tab === 'cashFlow' ? <CashFlowView
+             data={yearsData}
+             years={displayYears}
+             allYears={years}
+             reportMeta={reportMeta}
+             tableModel={cashFlowTable}
+             summaries={cashFlowSummaries}
+             selectedYears={selectedYears}
+             onPresetSelect={setCashFlowPreset}
+           /> :
            <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
         </>
       )}
@@ -245,103 +273,120 @@ export function AnnualReportsSection() {
 }
 
 /* ── Charts (safe null math) ─────────────────────────────────────────────── */
-function CashFlowView({ data, years }: { data: Record<string, YearData>; years: string[] }) {
-  const { groups, itemIndex } = useMemo(() => {
-    const order = ['Operating Activities', 'Investing Activities', 'Financing Activities', 'Summary'];
-    const groupMap = new Map<string, string[]>();
-    const seen = new Set<string>();
-    order.forEach(section => groupMap.set(section, []));
+function CashFlowView({
+  data,
+  years,
+  allYears,
+  reportMeta,
+  tableModel,
+  summaries,
+  selectedYears,
+  onPresetSelect,
+}: {
+  data: Record<string, AnnualReportYearData> | null;
+  years: string[];
+  allYears: string[];
+  reportMeta: AnnualReportFileMetadata | null;
+  tableModel: { groups: CashFlowTableGroup[]; warnings: string[] };
+  summaries: CashFlowYearSummary[];
+  selectedYears: string[];
+  onPresetSelect: (preset: CashFlowPreset) => void;
+}) {
+  if (!data) return <div className="glass-card p-5 text-gray-400">No cash flow data for selected years.</div>;
+  if (tableModel.groups.length === 0) return <div className="glass-card p-5 text-gray-400">No cash flow data for selected years.</div>;
 
-    for (const fy of years) {
-      const stmt = data[fy]?.cashFlow;
-      if (!stmt) continue;
-      let activeSection = 'Operating Activities';
-      for (const item of stmt.items) {
-        if (item.type === 'section') {
-          activeSection = item.label;
-          if (!groupMap.has(activeSection)) groupMap.set(activeSection, []);
-          continue;
-        }
-        if (seen.has(item.label)) continue;
-        seen.add(item.label);
-        if (!groupMap.has(activeSection)) groupMap.set(activeSection, []);
-        groupMap.get(activeSection)?.push(item.label);
-      }
-    }
-
-    const groups = [...groupMap.entries()]
-      .filter(([, rows]) => rows.length > 0)
-      .sort(([a], [b]) => {
-        const ai = order.indexOf(a);
-        const bi = order.indexOf(b);
-        return (ai === -1 ? order.length : ai) - (bi === -1 ? order.length : bi);
-      })
-      .map(([header, rows]) => ({ header, rows }));
-
-    const itemIndex: Record<string, (number | null)[]> = {};
-    for (const group of groups) {
-      for (const label of group.rows) {
-        itemIndex[label] = years.map(fy => {
-          const stmt = data[fy]?.cashFlow;
-          const match = stmt?.items.find(i => i.type === 'item' && i.label === label);
-          return match?.current ?? null;
-        });
-      }
-    }
-
-    return { groups, itemIndex };
-  }, [data, years]);
-
-  if (groups.length === 0) return <div className="glass-card p-5 text-gray-400">No cash flow data for selected years.</div>;
-
-  const formatVal = (v: number | null): string => {
-    if (v == null || v === 0) return '\u2014';
-    const abs = Math.abs(v);
-    const body = abs >= 100 ? fmtN(abs, 0) : fmtN(abs, 1);
-    return v < 0 ? `(${body})` : body;
-  };
+  const latest = summaries[summaries.length - 1];
+  const yearsCovered = allYears.length > 0 ? `${allYears[0]} to ${allYears[allYears.length - 1]}` : 'N/A';
+  const generatedAt = reportMeta?.generatedAt ? new Date(reportMeta.generatedAt).toLocaleString() : 'N/A';
+  const warningsCount = (reportMeta?.warnings?.length ?? 0) + tableModel.warnings.length;
 
   return (
-    <div className="glass-card p-5 overflow-x-auto">
-      <table className="w-full text-xs tabular-nums" style={{ minWidth: 700 }}>
-        <thead>
-          <tr>
-            <th className="text-left py-2 pr-4 text-gray-400 font-medium">Cash Flow Statement</th>
-            {years.map(fy => (
-              <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY '")}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {groups.map(group => (
-            <React.Fragment key={group.header}>
-              <tr>
-                <td className="text-[11px] font-bold text-emerald-300 pt-4 pb-1 border-b border-emerald-500/20" colSpan={years.length + 1}>
-                  {group.header}
-                </td>
-              </tr>
-              {group.rows.map(label => {
-                const vals = itemIndex[label];
-                if (!vals || vals.every(v => v == null)) return null;
-                const lower = label.toLowerCase();
-                const isTotal = lower.includes('net cash') || lower.includes('closing cash');
-                return (
-                  <tr key={`${group.header}-${label}`} className={`hover:bg-white/[0.03] ${isTotal ? 'border-t border-gray-800/80' : ''}`}>
-                    <td className={`py-1.5 pr-4 text-[11px] max-w-[280px] ${isTotal ? 'text-white font-semibold' : 'text-gray-300'}`}>{label}</td>
-                    {vals.map((v, idx) => (
+    <div className="space-y-4">
+      <div className="glass-card p-4 flex flex-wrap gap-2 items-center justify-between">
+        <div className="flex flex-wrap gap-2">
+          <button className={`px-3 py-1.5 text-[11px] rounded-md border ${selectedYears.length === 0 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-gray-800/60 text-gray-300 border-gray-700'}`} onClick={() => onPresetSelect('reset')}>Reset</button>
+          <button className={`px-3 py-1.5 text-[11px] rounded-md border ${selectedYears.length === allYears.length ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-gray-800/60 text-gray-300 border-gray-700'}`} onClick={() => onPresetSelect('all')}>All</button>
+          <button className="px-3 py-1.5 text-[11px] rounded-md border bg-gray-800/60 text-gray-300 border-gray-700" onClick={() => onPresetSelect('5y')}>5Y</button>
+          <button className="px-3 py-1.5 text-[11px] rounded-md border bg-gray-800/60 text-gray-300 border-gray-700" onClick={() => onPresetSelect('3y')}>3Y</button>
+        </div>
+        <div className="text-[11px] text-gray-400 flex flex-wrap gap-3">
+          <span>Years: <span className="text-gray-200">{yearsCovered}</span></span>
+          <span>Source: <span className="text-gray-200">Standalone annual reports</span></span>
+          <span>Generated: <span className="text-gray-200">{generatedAt}</span></span>
+          <span>Warnings: <span className="text-gray-200">{warningsCount}</span></span>
+        </div>
+      </div>
+
+      <div className="glass-card p-4 overflow-x-auto">
+        <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-6 mb-4">
+          <KpiCard label="CFO" value={latest?.cfo ?? null} />
+          <KpiCard label="FCF" value={latest?.fcf ?? null} />
+          <KpiCard label="Capex" value={latest?.capex == null ? null : Math.abs(latest.capex)} />
+          <KpiCard label="Cash Conv" value={latest?.cashConversion ?? null} suffix="%" />
+          <KpiCard label="Dividend / FCF" value={latest?.dividendPayout ?? null} suffix="%" />
+          <KpiCard label="Closing Cash" value={latest?.closingCash ?? null} />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+          <ChartPanel title="Cash Conversion Trend" icon={<LineChart size={14} className="text-emerald-400" />}>
+            <ComposedChart data={summaries}>
+              <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
+              <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
+              <YAxis tick={{ fontSize: 10, fill: '#9ca3af' }} />
+              <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
+              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <Line dataKey="cashConversion" name="Cash Conversion %" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+              <Line dataKey="dividendPayout" name="Dividend / FCF %" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+            </ComposedChart>
+          </ChartPanel>
+
+          <ChartPanel title="CFO vs FCF" icon={<DollarSign size={14} className="text-emerald-400" />}>
+            <ComposedChart data={summaries}>
+              <CartesianGrid stroke="#1f2937" strokeDasharray="3 3" />
+              <XAxis dataKey="fy" tick={{ fontSize: 10, fill: '#9ca3af' }} />
+              <YAxis tick={{ fontSize: 10, fill: '#9ca3af' }} />
+              <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
+              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <Bar dataKey="cfo" name="CFO" fill="#10b981" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="fcf" name="FCF" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+            </ComposedChart>
+          </ChartPanel>
+        </div>
+
+        <table className="w-full text-xs tabular-nums" style={{ minWidth: 700 }}>
+          <thead>
+            <tr>
+              <th className="text-left py-2 pr-4 text-gray-400 font-medium">Cash Flow Statement</th>
+              {years.map(fy => (
+                <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY '")}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {tableModel.groups.map(group => (
+              <React.Fragment key={group.header}>
+                <tr>
+                  <td className="text-[11px] font-bold text-emerald-300 pt-4 pb-1 border-b border-emerald-500/20" colSpan={years.length + 1}>
+                    {group.header}
+                  </td>
+                </tr>
+                {group.rows.map(row => (
+                  <tr key={`${group.header}-${row.key}`} className={`hover:bg-white/[0.03] ${row.isTotal ? 'border-t border-gray-800/80' : ''}`}>
+                    <td className={`py-1.5 pr-4 text-[11px] max-w-[280px] ${row.isTotal ? 'text-white font-semibold' : 'text-gray-300'}`}>{row.label}</td>
+                    {row.values.map((value, idx) => (
                       <td key={idx} className={`text-right py-1.5 px-2 text-[11px] ${
-                        v == null || v === 0 ? 'text-gray-600' : v < 0 ? 'text-rose-300' : 'text-white'
+                        value == null || value === 0 ? 'text-gray-600' : value < 0 ? 'text-rose-300' : 'text-white'
                       }`}>
-                        {formatVal(v)}
+                        {formatCashFlowValue(value)}
                       </td>
                     ))}
                   </tr>
-                );
-              })}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
+                ))}
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -443,7 +488,7 @@ function ChartPanel({ title, icon, children }: { title: string; icon: React.Reac
 
 /* ── Data-Driven Table ───────────────────────────────────────────────────── */
 function DataDrivenTable({ data, years, stmtType, commonSize }: {
-  data: Record<string, YearData>; years: string[]; stmtType: keyof YearData; commonSize: boolean;
+  data: Record<string, AnnualReportYearData>; years: string[]; stmtType: 'profitLoss' | 'balanceSheet' | 'cashFlow'; commonSize: boolean;
 }) {
   const { groups, itemIndex, baseValues } = useMemo(() => {
     const latestYear = years[years.length - 1];
@@ -492,7 +537,7 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
         index[label] = years.map(fy => {
           const stmt = data[fy]?.[stmtType];
           if (!stmt) return null;
-          const match = stmt.items.find((i: Item) => i.label === label);
+          const match = stmt.items.find(i => i.label === label);
           return match?.current ?? null;
         });
       }

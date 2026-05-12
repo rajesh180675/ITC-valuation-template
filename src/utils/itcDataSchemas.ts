@@ -321,3 +321,174 @@ export function validateItcDividendHistory(input: unknown): ItcDividendHistory {
 
   return { symbol, source, schemaVersion, generatedAt, dividends };
 }
+
+// â”€â”€â”€ ItcAnnualReportFile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+export interface ItcAnnualReportStatementItem {
+  type: 'item' | 'section';
+  label: string;
+  note_ref?: string;
+  current?: number | null;
+  prior?: number | null;
+  section?: string | null;
+}
+
+export interface ItcAnnualReportStatement {
+  fy: string;
+  items: ItcAnnualReportStatementItem[];
+  kpIs: Record<string, number | null>;
+}
+
+export interface ItcAnnualReportYearMetadata {
+  pdfName?: string;
+  pdfPath?: string;
+  cashFlowPages?: number[];
+  warnings?: string[];
+}
+
+export interface ItcAnnualReportYear {
+  profitLoss?: ItcAnnualReportStatement;
+  balanceSheet?: ItcAnnualReportStatement;
+  cashFlow?: ItcAnnualReportStatement;
+  metadata?: ItcAnnualReportYearMetadata;
+}
+
+export interface ItcAnnualReportFileMetadata {
+  schemaVersion?: number;
+  generatedAt?: string;
+  source?: string;
+  yearsCovered?: string[];
+  pdfPaths?: Record<string, string>;
+  warnings?: string[];
+}
+
+export interface ItcAnnualReportFile {
+  ticker: string;
+  years: Record<string, ItcAnnualReportYear>;
+  metadata?: ItcAnnualReportFileMetadata;
+}
+
+const REQUIRED_CF_KPIS = ['cfoCr', 'cfiCr', 'cffCr', 'capexCr', 'fcfCr', 'dividendCr', 'netChangeCr', 'openingCashCr', 'closingCashCr'];
+const REQUIRED_CF_SECTIONS = ['Operating Activities', 'Investing Activities', 'Financing Activities', 'Summary'];
+
+function validateAnnualReportStatement(statement: unknown, path: string): ItcAnnualReportStatement {
+  assert(statement && typeof statement === 'object', 'expected object', path);
+  const r = statement as Record<string, unknown>;
+  const fy = assertString(r.fy, 'fy required', `${path}.fy`);
+  assert(/^FY\d{4}$/.test(fy), 'fy must match FY2025 format', `${path}.fy`);
+  assert(Array.isArray(r.items), 'items must be an array', `${path}.items`);
+  const items = (r.items as unknown[]).map((item, index) => {
+    assert(item && typeof item === 'object', 'expected object', `${path}.items[${index}]`);
+    const row = item as Record<string, unknown>;
+    const type = row.type;
+    assert(type === 'item' || type === 'section', 'type must be item|section', `${path}.items[${index}].type`);
+    return {
+      type,
+      label: assertString(row.label, 'label required', `${path}.items[${index}].label`),
+      note_ref: typeof row.note_ref === 'string' ? row.note_ref : '',
+      current: row.current == null ? null : assertFiniteNumber(row.current, 'current must be finite', `${path}.items[${index}].current`),
+      prior: row.prior == null ? null : assertFiniteNumber(row.prior, 'prior must be finite', `${path}.items[${index}].prior`),
+      section: row.section == null ? null : (typeof row.section === 'string' ? row.section : null),
+    } satisfies ItcAnnualReportStatementItem;
+  });
+  assert(r.kpIs && typeof r.kpIs === 'object', 'kpIs must be an object', `${path}.kpIs`);
+  const kpIs = r.kpIs as Record<string, unknown>;
+  const parsedKpis: Record<string, number | null> = {};
+  for (const [key, value] of Object.entries(kpIs)) {
+    parsedKpis[key] = value == null ? null : assertFiniteNumber(value, `${key} must be finite`, `${path}.kpIs.${key}`);
+  }
+  return { fy, items, kpIs: parsedKpis };
+}
+
+export function validateItcAnnualReportFile(input: unknown): ItcAnnualReportFile {
+  assert(input && typeof input === 'object', 'must be an object', '$');
+  const d = input as Record<string, unknown>;
+
+  const ticker = assertString(d.ticker, 'ticker required', '$.ticker');
+  assert(ticker === 'ITC', 'ticker must be ITC', '$.ticker');
+  assert(d.years && typeof d.years === 'object', 'years must be an object', '$.years');
+
+  const metadata = d.metadata && typeof d.metadata === 'object' ? d.metadata as Record<string, unknown> : undefined;
+  if (metadata) {
+    if (metadata.schemaVersion != null) assertFiniteNumber(metadata.schemaVersion, 'schemaVersion must be finite', '$.metadata.schemaVersion');
+    if (metadata.generatedAt != null) assertIsoString(metadata.generatedAt, '$.metadata.generatedAt');
+    if (metadata.source != null) assertString(metadata.source, 'source required', '$.metadata.source');
+    if (metadata.yearsCovered != null) {
+      assert(Array.isArray(metadata.yearsCovered), 'yearsCovered must be an array', '$.metadata.yearsCovered');
+    }
+    if (metadata.pdfPaths != null) {
+      assert(metadata.pdfPaths && typeof metadata.pdfPaths === 'object', 'pdfPaths must be an object', '$.metadata.pdfPaths');
+    }
+    if (metadata.warnings != null) {
+      assert(Array.isArray(metadata.warnings), 'warnings must be an array', '$.metadata.warnings');
+    }
+  }
+
+  const years = d.years as Record<string, unknown>;
+  const fyKeys = Object.keys(years).sort();
+  const expectedYears = Array.from({ length: 10 }, (_, idx) => `FY${2016 + idx}`);
+  assert(fyKeys.length === expectedYears.length, 'years must cover FY2016-FY2025', '$.years');
+  assert(JSON.stringify(fyKeys) === JSON.stringify(expectedYears), 'years must cover FY2016-FY2025', '$.years');
+
+  const parsedYears: Record<string, ItcAnnualReportYear> = {};
+  for (const fy of fyKeys) {
+    const year = years[fy];
+    assert(year && typeof year === 'object', 'expected object', `$.years.${fy}`);
+    const r = year as Record<string, unknown>;
+    const parsedYear: ItcAnnualReportYear = {};
+
+    if (r.profitLoss) parsedYear.profitLoss = validateAnnualReportStatement(r.profitLoss, `$.years.${fy}.profitLoss`);
+    if (r.balanceSheet) parsedYear.balanceSheet = validateAnnualReportStatement(r.balanceSheet, `$.years.${fy}.balanceSheet`);
+    if (r.cashFlow) {
+      parsedYear.cashFlow = validateAnnualReportStatement(r.cashFlow, `$.years.${fy}.cashFlow`);
+      const cf = parsedYear.cashFlow;
+      const sections = cf.items.filter(item => item.type === 'section').map(item => item.label);
+      assert(JSON.stringify(sections) === JSON.stringify(REQUIRED_CF_SECTIONS), `cashFlow sections must be ${REQUIRED_CF_SECTIONS.join(', ')}`, `$.years.${fy}.cashFlow.items`);
+
+      for (const key of REQUIRED_CF_KPIS) {
+        const value = cf.kpIs[key];
+        assert(value != null, `${key} required`, `$.years.${fy}.cashFlow.kpIs.${key}`);
+        assertFiniteNumber(value, `${key} must be finite`, `$.years.${fy}.cashFlow.kpIs.${key}`);
+      }
+
+      if (cf.kpIs.cfoCr != null && cf.kpIs.capexCr != null && cf.kpIs.fcfCr != null) {
+        const derived = cf.kpIs.cfoCr + cf.kpIs.capexCr;
+        assert(Math.abs(derived - cf.kpIs.fcfCr) < 0.05, 'fcfCr must equal cfoCr + capexCr', `$.years.${fy}.cashFlow.kpIs.fcfCr`);
+      }
+
+    }
+
+    if (r.metadata) {
+      const yearMeta = r.metadata as Record<string, unknown>;
+      if (yearMeta.pdfName != null) assertString(yearMeta.pdfName, 'pdfName required', `$.years.${fy}.metadata.pdfName`);
+      if (yearMeta.pdfPath != null) assertString(yearMeta.pdfPath, 'pdfPath required', `$.years.${fy}.metadata.pdfPath`);
+      if (yearMeta.cashFlowPages != null) {
+        assert(Array.isArray(yearMeta.cashFlowPages), 'cashFlowPages must be an array', `$.years.${fy}.metadata.cashFlowPages`);
+      }
+      if (yearMeta.warnings != null) {
+        assert(Array.isArray(yearMeta.warnings), 'warnings must be an array', `$.years.${fy}.metadata.warnings`);
+      }
+      parsedYear.metadata = {
+        pdfName: typeof yearMeta.pdfName === 'string' ? yearMeta.pdfName : undefined,
+        pdfPath: typeof yearMeta.pdfPath === 'string' ? yearMeta.pdfPath : undefined,
+        cashFlowPages: Array.isArray(yearMeta.cashFlowPages) ? yearMeta.cashFlowPages as number[] : undefined,
+        warnings: Array.isArray(yearMeta.warnings) ? yearMeta.warnings as string[] : undefined,
+      };
+    }
+
+    parsedYears[fy] = parsedYear;
+  }
+
+  return {
+    ticker,
+    years: parsedYears,
+    metadata: metadata ? {
+      schemaVersion: metadata.schemaVersion == null ? undefined : assertFiniteNumber(metadata.schemaVersion, 'schemaVersion must be finite', '$.metadata.schemaVersion'),
+      generatedAt: typeof metadata.generatedAt === 'string' ? metadata.generatedAt : undefined,
+      source: typeof metadata.source === 'string' ? metadata.source : undefined,
+      yearsCovered: Array.isArray(metadata.yearsCovered) ? metadata.yearsCovered as string[] : undefined,
+      pdfPaths: metadata.pdfPaths && typeof metadata.pdfPaths === 'object' ? metadata.pdfPaths as Record<string, string> : undefined,
+      warnings: Array.isArray(metadata.warnings) ? metadata.warnings as string[] : undefined,
+    } : undefined,
+  };
+}
