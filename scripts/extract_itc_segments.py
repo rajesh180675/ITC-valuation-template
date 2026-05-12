@@ -1,383 +1,217 @@
 #!/usr/bin/env python3
 """
-Extract ITC standalone segment reporting from annual reports.
+ITC segment data extractor — position-based cell extraction.
 
-The ITC segment note is a text-heavy PDF table whose x positions vary across
-years. This parser anchors on section headings and known segment labels, then
-maps the following numeric sequence according to the active section.
+Uses PyMuPDF get_text('dict') for cell-level extraction with x,y positions.
+Detects column count per row by examining ALL cells (including "–" dashes).
+Each row's cells are grouped by y, then mapped to External/Inter/Total by
+comparing to the known table structure.
+
+Extracts: Segment Revenue, Results, Assets, Liabilities from standalone Note 30.
 """
 
-from __future__ import annotations
+import fitz, json, math, os, re, time
 
-import json
-import math
-import os
-import re
-import time
-from collections import defaultdict
-from typing import Any
+PDF_DIR = 'C:/Users/rajesh/WindsurfAPI/ITC-valuation-template/public/data/annual_reports'
+OUTPUT = 'C:/Users/rajesh/WindsurfAPI/ITC-valuation-template/public/data/segment_data_itc.json'
 
-import fitz
+SEC_LABELS = ['FMCG - Cigarettes', 'FMCG - Others', 'FMCG - Total', 'Agri Business',
+              'Paperboards, Paper and Packaging', 'Others', 'Hotels', 'Segment Total',
+              'Eliminations', 'Total', 'Unallocated Corporate Assets/Liabilities',
+              'Discontinued Operations']
 
+def parse_num(t):
+    t = t.replace(',','').replace('(','-').replace(')','').replace('\u20b9','').replace('`','')
+    try: return round(float(t), 2) if math.isfinite(float(t)) else None
+    except: return None
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, ".."))
-PDF_DIR = os.path.join(ROOT, "public", "data", "annual_reports")
-OUTPUT = os.path.join(ROOT, "public", "data", "segment_data_itc.json")
+def clean_label(ll):
+    ll = re.sub(r'\(refer note [^)]+\)', '', ll, flags=re.I).strip()
+    ll = re.sub(r'\[.*?\]', '', ll).strip()
+    ll = re.sub(r'^(?:\d+\.?\s*)+', '', ll).strip()
+    return ll.lower().strip(':,. ')
 
-YEARS = range(2016, 2026)
-SECTIONS = ("revenue", "results", "assets", "liabilities")
-
-LABEL_ALIASES = [
-    ("FMCG - Cigarettes", [r"^fmcg\s*[-–]\s*cigarettes$"]),
-    ("FMCG - Others", [r"^fmcg\s*[-–]\s*others$", r"^-others(?:\s*\[.*\])?$"]),
-    ("FMCG - Total", [r"^fmcg\s*[-–]\s*total$", r"^total\s+fmcg$"]),
-    ("Hotels", [r"^hotels(?:\s*\[.*\])?$"]),
-    ("Agri Business", [r"^agri\s+business$"]),
-    ("Paperboards, Paper and Packaging", [r"^paperboards,\s*paper\s+(?:and|&)\s+packaging$"]),
-    ("Others", [r"^others$"]),
-    ("Segment Total", [r"^segment\s+total$"]),
-    ("Eliminations", [r"^eliminations$"]),
-    ("Unallocated Corporate Assets/Liabilities", [r"^unallocated\s+corporate\s+assets/liabilities$"]),
-    ("Unallocated Corporate Assets/Liabilities", [r"^unallocated\s+corporate\s+assets$"]),
-    ("Unallocated Corporate Assets/Liabilities", [r"^unallocated\s+corporate\s+liabilities$"]),
-    ("Discontinued Operations", [r"^discontinued\s+operations(?:\s*\[.*\])?$"]),
-    ("Total", [r"^total$"]),
-]
-
-NOISE_LABEL_PREFIXES = (
-    "gross revenue",
-    "segment revenue - net",
-    "profit before tax",
-    "profit for the year",
-    "capital expenditure",
-    "depreciation",
-    "non cash",
-    "exceptional items",
-)
-
-
-def normalize_text(value: str) -> str:
-    value = value.replace("\u2013", "-").replace("\u2014", "-")
-    value = value.replace("\u00a0", " ")
-    value = re.sub(r"\s+", " ", value)
-    return value.strip()
-
-
-def normalize_label(value: str) -> str | None:
-    text = normalize_text(value)
-    text = re.sub(r"\s*\[.*?\]", "", text)
-    text = re.sub(r"\s*\((?:refer|note).*?\)", "", text, flags=re.I)
-    text = re.split(r"\s+\(?-?\d", text, maxsplit=1)[0]
-    text = re.sub(r"\s+\(?-?\d[\d,]*(?:\.\d+)?\)?(?:\s+\(?-?\d[\d,]*(?:\.\d+)?\)?)*\s*$", "", text)
-    text = re.sub(r"^[a-z]\)\s*", "", text, flags=re.I)
-    text = re.sub(r"\s+", " ", text).strip(" :")
-    lower = text.lower()
-
-    if any(lower.startswith(prefix) for prefix in NOISE_LABEL_PREFIXES):
-        return None
-
-    for label, patterns in LABEL_ALIASES:
-        if any(re.match(pattern, lower, flags=re.I) for pattern in patterns):
-            return label
+def match_label(raw):
+    ll = clean_label(raw)
+    # Order matters: more specific patterns first
+    if 'fmcg - cigarettes' in ll: return 'FMCG - Cigarettes'
+    if 'fmcg - others' in ll: return 'FMCG - Others'
+    if 'fmcg - total' in ll or 'total fmcg' in ll: return 'FMCG - Total'
+    if 'agri business' in ll: return 'Agri Business'
+    if 'paperboard' in ll: return 'Paperboards, Paper and Packaging'
+    if ll.startswith('segment total'): return 'Segment Total'
+    if ll == 'eliminations' or ll.startswith('elimination'): return 'Eliminations'
+    if ll == 'total' or ll.startswith('total '): return 'Total'
+    if 'discontinued' in ll: return 'Discontinued Operations'
+    if 'unallocated' in ll: return 'Unallocated Corporate Assets/Liabilities'
+    if ll == 'hotels' or ll.startswith('hotels '): return 'Hotels'
+    if ll == 'others' or ll.startswith('others '): return 'Others'
     return None
 
-
-def parse_number(value: str) -> float | None:
-    raw = normalize_text(value)
-    raw = raw.replace(",", "")
-    raw = raw.replace("(", "-").replace(")", "")
-    raw = raw.replace("`", "").replace("₹", "").replace("'", "")
-    if raw in {"", "-", "\u2013", "\u2014"}:
-        return None
-    if not re.fullmatch(r"-?\d+(?:\.\d+)?", raw):
-        return None
-    number = round(float(raw), 2)
-    return number if math.isfinite(number) else None
-
-
-def numbers_from_line(line: str) -> list[float]:
-    values: list[float] = []
-    for token in re.findall(r"\(?-?\d[\d,]*(?:\.\d+)?\)?", line):
-        value = parse_number(token)
-        if value is not None:
-            values.append(value)
-    return values
-
-
-def text_lines(page: fitz.Page) -> list[str]:
-    lines: list[str] = []
-    for raw in page.get_text().splitlines():
-        line = normalize_text(raw)
-        if line:
-            lines.append(line)
-    return lines
-
-
-def is_standalone_segment_page(text: str) -> bool:
-    lower = text.lower()
-    if "notes to the consolidated financial statements" in lower:
-        return False
-    has_revenue = "segment revenue - gross" in lower or "1. segment revenue" in lower
-    has_names = all(name in lower for name in ["fmcg", "agri business", "paperboards"])
-    has_results = re.search(r"segment\s+results", lower) is not None
-    return has_revenue and has_results and has_names
-
-
-def find_segment_note_page(doc: fitz.Document) -> int | None:
-    candidates: list[tuple[int, int]] = []
-    for index in range(len(doc)):
-        text = doc[index].get_text()
-        lower = text.lower()
-        if not is_standalone_segment_page(text):
-            continue
-        score = 0
-        if "notes to the standalone financial statements" in lower:
-            score += 5
-        if "notes to the financial statements" in lower:
-            score += 3
-        if "other information" in lower:
-            score += 2
-        if "segment assets" in lower and "segment liabilities" in lower:
-            score += 2
-        if "notes to the consolidated financial statements" in lower:
-            score -= 20
-        candidates.append((score, index))
-
-    if not candidates:
-        return None
-    candidates.sort(reverse=True)
-    return candidates[0][1]
-
-
-def collect_row_numbers(lines: list[str], start: int) -> tuple[list[float], int]:
-    label_line = re.sub(r"\s*\[.*?\]", "", lines[start])
-    label_line = re.sub(r"\s*\((?:refer|note).*?\)", "", label_line, flags=re.I)
-    values: list[float] = numbers_from_line(label_line)
-    index = start + 1
-    while index < len(lines):
-        line = lines[index]
-        lower = line.lower()
-        if detect_section(line) is not None:
-            break
-        if normalize_label(line) is not None:
-            break
-        nums = numbers_from_line(line)
-        if nums:
-            values.extend(nums)
-        elif line in {"-", "\u2013", "\u2014"}:
-            pass
-        elif values:
-            break
-        index += 1
-    return values, index
-
-
-def detect_section(line: str) -> str | None:
-    lower = line.lower()
-    if "segment revenue - gross" in lower or re.search(r"\b1\.\s*segment revenue\b", lower):
-        return "revenue"
-    if "segment revenue - net" in lower:
-        return "skip"
-    if re.search(r"segment\s+results", lower):
-        return "results"
-    if "other information" in lower:
-        return "other"
-    return None
-
-
-def map_revenue_values(values: list[float], fy_current: int, fy_prior: int) -> dict[str, float]:
-    if len(values) >= 6:
-        return {f"FY{fy_current}": values[2], f"FY{fy_prior}": values[5]}
-    if len(values) >= 4:
-        return {f"FY{fy_current}": values[1], f"FY{fy_prior}": values[3]}
-    if len(values) >= 2:
-        return {f"FY{fy_current}": values[0], f"FY{fy_prior}": values[1]}
-    return {}
-
-
-def map_two_year_values(values: list[float], fy_current: int, fy_prior: int) -> dict[str, float]:
-    if len(values) < 2:
-        return {}
-    return {f"FY{fy_current}": values[0], f"FY{fy_prior}": values[1]}
-
-
-def map_other_values(values: list[float], fy_current: int, fy_prior: int) -> tuple[dict[str, float], dict[str, float]]:
-    if len(values) < 4:
-        return {}, {}
-    assets = {f"FY{fy_current}": values[0], f"FY{fy_prior}": values[2]}
-    liabilities = {f"FY{fy_current}": values[1], f"FY{fy_prior}": values[3]}
-    return assets, liabilities
-
-
-def update_series(target: dict[str, dict[str, float]], section: str, label: str, values: dict[str, float]) -> None:
-    if not values:
-        return
-    key = f"{section}|{label}"
-    target.setdefault(key, {}).update(values)
-
-
-def parse_segment_page(page: fitz.Page, fy_current: int, fy_prior: int) -> tuple[dict[str, dict[str, float]], list[str]]:
-    lines = text_lines(page)
-    series: dict[str, dict[str, float]] = {}
-    warnings: list[str] = []
-    section: str | None = None
-    pending_numeric_labels: list[str] = []
-    last_label_by_section: dict[str, str] = {}
-
-    index = 0
-    while index < len(lines):
-        line = lines[index]
-        detected = detect_section(line)
-        if detected == "skip":
-            section = None
-            index += 1
-            continue
-        if detected:
-            section = detected
-            pending_numeric_labels = []
-            index += 1
-            continue
-
-        label = normalize_label(line)
-        if label is None and line.lower() in {"3.", "3"}:
-            section = "other"
-            index += 1
-            continue
-
-        if label is not None and section:
-            values, next_index = collect_row_numbers(lines, index)
-            if not values:
-                if label != "Total":
-                    warnings.append(f"FY{fy_current}: no values for {section} row {label}")
-                index = max(next_index, index + 1)
+def extract_segment_data(doc):
+    """Position-based extraction of segment data from standalone Note 30."""
+    for i in range(len(doc)-1, 0, -1):
+        text = doc[i].get_text().lower()
+        if 'notes to the consolidated' in text: continue
+        if 'segment reporting' not in text: continue
+        if 'segment revenue' not in text: continue
+        if not all(s in text for s in ['fmcg', 'agri', 'paperboard']): continue
+        
+        page = doc[i]
+        blocks = page.get_text('dict')['blocks']
+        cells = []
+        for block in blocks:
+            if 'lines' in block:
+                for line in block['lines']:
+                    spans = line['spans']
+                    t = ''.join(s['text'] for s in spans).strip()
+                    if t:
+                        cells.append((spans[0]['bbox'][0], line['bbox'][1], t))
+        
+        cells.sort(key=lambda c: (c[1], c[0]))
+        
+        # Group into rows
+        rows = []
+        cur_y, cur_row = None, []
+        for x, y, t in cells:
+            if cur_y is None or abs(y - cur_y) < 6:
+                cur_row.append((x, t))
+                cur_y = y
+            else:
+                if cur_row: rows.append((cur_y, sorted(cur_row, key=lambda c: c[0])))
+                cur_row = [(x, t)]
+                cur_y = y
+        if cur_row: rows.append((cur_y, sorted(cur_row, key=lambda c: c[0])))
+        
+        # Parse rows in order
+        results = {'revenue': [], 'results': [], 'assets': [], 'liabilities': []}
+        section = None
+        assets_liabilities_mode = False
+        
+        for y, row_cells in rows:
+            # Left (< 250) = label; Right (>= 250) = data cells
+            label_text = ' '.join(t for x, t in row_cells if x < 200).strip()
+            data_cells = [(x, t) for x, t in row_cells if x >= 200]
+            
+            l = label_text.lower().strip(':,. ')
+            
+            # Section detection
+            if 'segment revenue - gross' in l or re.match(r'^1\.?\s*segment revenue', l):
+                section = 'revenue'
+                assets_liabilities_mode = False
                 continue
+            elif re.match(r'^(2\.?\s*)?segment results', l):
+                section = 'results'
+                assets_liabilities_mode = False
+                continue
+            elif re.match(r'^(3\.?\s*)?other information', l) or l == '3.' or l == '3':
+                section = 'assets_liabilities'
+                assets_liabilities_mode = True
+                continue
+            elif 'segment assets' in l or 'segment liabilities' in l or 'gross revenue from' in l:
+                continue
+            
+            if not section or not label_text:
+                continue
+            
+            # Match label
+            matched = match_label(label_text)
+            if matched is None:
+                continue
+            
+            # Count all data cells (valid numbers + dashes) to determine column alignment
+            # Each row has: Ext_cur, [Inter_cur,] Total_cur, Ext_pri, [Inter_pri,] Total_pri
+            # or for assets/liabilities: Asset_cur, Liab_cur, Asset_pri, Liab_pri
+            
+            vals = [(x, parse_num(t), t) for x, t in data_cells]
+            nums = [v[1] for v in vals if v[1] is not None]
+            all_vals = [v[1] for v in vals]  # includes None for dashes
+            cell_count = len(vals)
+            
+            if not nums:
+                continue
+            
+            if section == 'revenue':
+                # Determine column count by counting actual cells
+                # If 6 cells: Ext_cur, Inter_cur, Total_cur, Ext_pri, Inter_pri, Total_pri
+                # If 4 cells (no inter): Ext_cur, Total_cur, Ext_pri, Total_pri
+                # If 2 cells: Ext_cur, Ext_pri
+                if cell_count >= 6:
+                    cur_val = nums[0]  # External current
+                    pri_val = nums[3] if len(nums) >= 4 else None  # External prior
+                elif cell_count >= 4:
+                    cur_val = nums[0]  # External current  
+                    pri_val = nums[2] if len(nums) >= 3 else None  # External prior
+                else:
+                    cur_val = nums[0]
+                    pri_val = nums[1] if len(nums) >= 2 else None
+                results['revenue'].append((matched, cur_val, pri_val))
+                
+            elif section == 'results':
+                # Results: cur_val, pri_val (single value per column)
+                cur_val = nums[0] if len(nums) >= 1 else None
+                pri_val = nums[1] if len(nums) >= 2 else None
+                results['results'].append((matched, cur_val, pri_val))
+                
+            elif section == 'assets_liabilities':
+                # 4 columns: Asset_cur, Liab_cur, Asset_pri, Liab_pri
+                if len(nums) >= 4:
+                    results['assets'].append((matched, nums[0], nums[2]))
+                    results['liabilities'].append((matched, nums[1], nums[3]))
+                elif len(nums) >= 2:
+                    results['assets'].append((matched, nums[0], None))
+                    results['liabilities'].append((matched, nums[1], None))
+        
+        return results, i + 1
+    
+    return None, None
 
-            if section == "revenue":
-                update_series(series, "revenue", label, map_revenue_values(values, fy_current, fy_prior))
-                if label == "Segment Total":
-                    pending_numeric_labels = ["Eliminations", "Total"]
-            elif section == "results":
-                update_series(series, "results", label, map_two_year_values(values, fy_current, fy_prior))
-                if label == "Segment Total":
-                    pending_numeric_labels = ["Eliminations", "Total"]
-            elif section == "other":
-                assets, liabilities = map_other_values(values, fy_current, fy_prior)
-                update_series(series, "assets", label, assets)
-                update_series(series, "liabilities", label, liabilities)
-
-            last_label_by_section[section] = label
-            index = max(next_index, index + 1)
-            continue
-
-        values = numbers_from_line(line)
-        if values and section in {"revenue", "results"} and pending_numeric_labels:
-            label = pending_numeric_labels.pop(0)
-            mapper = map_revenue_values if section == "revenue" else map_two_year_values
-            update_series(series, section, label, mapper(values, fy_current, fy_prior))
-        elif values and section == "other" and last_label_by_section.get("other") == "Segment Total":
-            if len(values) >= 4:
-                update_series(series, "assets", "Unallocated Corporate Assets/Liabilities", {f"FY{fy_current}": values[0], f"FY{fy_prior}": values[2]})
-                update_series(series, "liabilities", "Unallocated Corporate Assets/Liabilities", {f"FY{fy_current}": values[1], f"FY{fy_prior}": values[3]})
-                last_label_by_section["other"] = "Unallocated Corporate Assets/Liabilities"
-
-        index += 1
-
-    return series, warnings
-
-
-def merge_series(target: dict[str, dict[str, float]], extracted: dict[str, dict[str, float]]) -> None:
-    for key, values in extracted.items():
-        target.setdefault(key, {}).update(values)
-
-
-def coverage_by_section(series: dict[str, dict[str, float]]) -> dict[str, dict[str, Any]]:
-    coverage: dict[str, dict[str, Any]] = {}
-    for section in SECTIONS:
-        items = {k: v for k, v in series.items() if k.startswith(f"{section}|")}
-        years = sorted({fy for values in items.values() for fy in values})
-        coverage[section] = {"items": len(items), "years": years}
-    return coverage
-
-
-def validate_output(series: dict[str, dict[str, float]]) -> list[str]:
-    warnings: list[str] = []
-    for key, values in series.items():
-        if key.startswith(("assets|Gross Revenue", "liabilities|Gross Revenue", "revenue|Gross Revenue")):
-            warnings.append(f"Bad gross-revenue key: {key}")
-        for fy, value in values.items():
-            if not isinstance(value, (int, float)) or not math.isfinite(value):
-                warnings.append(f"Non-finite value at {key} {fy}: {value}")
-
-    required = [
-        "revenue|FMCG - Cigarettes",
-        "revenue|FMCG - Others",
-        "revenue|Agri Business",
-        "revenue|Paperboards, Paper and Packaging",
-        "results|FMCG - Cigarettes",
-        "assets|FMCG - Cigarettes",
-        "liabilities|FMCG - Cigarettes",
-    ]
-    for key in required:
-        if len(series.get(key, {})) < 8:
-            warnings.append(f"Low coverage for {key}: {len(series.get(key, {}))} years")
-    return warnings
-
-
-def main() -> None:
-    all_series: dict[str, dict[str, float]] = {}
-    source_pages_by_year: dict[str, int] = {}
-    warnings: list[str] = []
-
-    for year in YEARS:
-        path = os.path.join(PDF_DIR, f"ITC_AR_{year}.pdf")
+def main():
+    all_series = {}
+    source_pages = {}
+    warnings = []
+    
+    for year in range(2016, 2026):
+        path = os.path.join(PDF_DIR, f'ITC_AR_{year}.pdf')
         if not os.path.exists(path):
-            warnings.append(f"FY{year}: missing PDF {path}")
             continue
-
-        print(f"FY{year}...", end=" ", flush=True)
+        
+        print(f'FY{year}...', end=' ', flush=True)
         doc = fitz.open(path)
         try:
-            note_page = find_segment_note_page(doc)
-            if note_page is None:
-                print("no standalone segment note found", flush=True)
-                warnings.append(f"FY{year}: no standalone segment note found")
+            result, pg = extract_segment_data(doc)
+            if result is None:
+                print('no segment note', flush=True)
                 continue
-
-            extracted, year_warnings = parse_segment_page(doc[note_page], year, year - 1)
-            merge_series(all_series, extracted)
-            warnings.extend(year_warnings)
-            source_pages_by_year[f"FY{year}"] = note_page + 1
-            counts = {section: len([k for k in extracted if k.startswith(f"{section}|")]) for section in SECTIONS}
-            print(f"page {note_page + 1} {counts}", flush=True)
+            
+            source_pages[f'FY{year}'] = pg
+            counts = {s: len(result[s]) for s in result}
+            print(f'p{pg} {counts}', flush=True)
+            
+            for sec in ['revenue', 'results', 'assets', 'liabilities']:
+                for label, cur_val, pri_val in result[sec]:
+                    key = f'{sec}|{label}'
+                    all_series.setdefault(key, {})
+                    if cur_val is not None:
+                        all_series[key][f'FY{year}'] = cur_val
+                    if pri_val is not None:
+                        all_series[key][f'FY{year-1}'] = pri_val
         finally:
             doc.close()
-
-    warnings.extend(validate_output(all_series))
-    all_series = {key: dict(sorted(values.items(), key=lambda item: int(item[0][2:]))) for key, values in sorted(all_series.items())}
-
+    
+    all_series = {k: dict(sorted(v.items(), key=lambda x: int(x[0][2:])))
+                  for k, v in sorted(all_series.items())}
+    
     output = {
-        "symbol": "ITC",
-        "basis": "standalone",
-        "source": "ITC Annual Reports (itcportal.com), Segment Reporting notes",
-        "method": "PyMuPDF line-sequence extraction anchored on standalone segment labels",
-        "notes": "Values in Rs. Crores. FY2015 values are prior-year comparatives from FY2016 where provided.",
-        "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "sourcePagesByYear": source_pages_by_year,
-        "coverageBySection": coverage_by_section(all_series),
-        "warnings": warnings,
-        "segment_time_series": all_series,
+        'symbol': 'ITC', 'basis': 'standalone',
+        'source': 'ITC Annual Reports, Note 30 - Segment Reporting (Standalone)',
+        'sourcePagesByYear': source_pages, 'warnings': warnings,
+        'segment_time_series': all_series,
     }
+    
+    with open(OUTPUT, 'w') as f:
+        json.dump(output, f, indent=2)
+    print(f'\nSaved: {OUTPUT}')
 
-    with open(OUTPUT, "w", encoding="utf-8") as handle:
-        json.dump(output, handle, indent=2)
-
-    print(f"\nSaved to {OUTPUT}", flush=True)
-    if warnings:
-        print("\nWarnings:", flush=True)
-        for warning in warnings:
-            print(f"  - {warning}", flush=True)
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
