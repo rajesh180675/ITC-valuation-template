@@ -1,17 +1,8 @@
-import React, { useMemo } from 'react';
-import { TrendingUp, DollarSign, Percent, PieChart as PieChartIcon } from 'lucide-react';
-import { Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Legend, Pie, Cell } from 'recharts';
-import { fmt, fmtN } from '@/components/itc/shared';
+import { useMemo } from 'react';
+import { TrendingUp, DollarSign, Percent } from 'lucide-react';
+import { Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Legend, PieChart, Pie, Cell } from 'recharts';
+import { fmt } from '@/components/itc/shared';
 import type { AnnualReportYearData } from '@/utils/annualReportCashFlow';
-
-/* ─── Types ─────────────────────────────────────────────────────────────── */
-interface SparkKPI {
-  label: string;
-  value: number | null;
-  key: string; // data key for sparkline
-  suffix?: string;
-  color: string;
-}
 
 /* ─── Helpers ─────────────────────────────────────────────────────────── */
 function safePct(a: number | null, b: number | null): number | null {
@@ -27,6 +18,19 @@ function safeDiv(a: number | null, b: number | null): number | null {
 function cagr(first: number | null, last: number | null, n: number): number | null {
   if (first == null || last == null || first <= 0 || n <= 1) return null;
   return ((last / first) ** (1 / (n - 1)) - 1) * 100;
+}
+
+/** Format a number for display with optional suffix */
+function formatValue(n: number | null, suffix: string): string {
+  if (n == null) return '—';
+  if (suffix === '%') return `${n.toFixed(1)}%`;
+  return fmt(n);
+}
+
+/** Derive label text based on label name for unit decision */
+function deriveSuffix(label: string): string {
+  if (label.includes('CAGR') || label.includes('ROE') || label.includes('Margin') || label.includes('Conv') || label.includes('Turnover')) return '%';
+  return '';
 }
 
 /* ─── Sparkline (inline SVG, no deps) ──────────────────────────────────── */
@@ -47,18 +51,15 @@ function Sparkline({ data, color, height = 40, strokeWidth = 2 }: { data: (numbe
     return `${x},${y}`;
   }).join(' ');
 
-  const lastPoint = (() => {
-    const v = valid[valid.length - 1];
-    const i = valid.length - 1;
-    const x = pad + (i / (valid.length - 1)) * (w - pad * 2);
-    const y = h - pad - ((v - min) / range) * (h - pad * 2);
-    return { cx: x, cy: y };
-  })();
+  const lastV = valid[valid.length - 1];
+  const lastI = valid.length - 1;
+  const lastX = pad + (lastI / (valid.length - 1)) * (w - pad * 2);
+  const lastY = h - pad - ((lastV - min) / range) * (h - pad * 2);
 
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full" height={h} preserveAspectRatio="none">
       <polyline fill="none" stroke={color} strokeWidth={strokeWidth} points={points} />
-      <circle cx={lastPoint.cx} cy={lastPoint.cy} r={3} fill={color} />
+      <circle cx={lastX} cy={lastY} r={3} fill={color} />
     </svg>
   );
 }
@@ -74,7 +75,7 @@ function OverviewKpiCard({ label, value, trend, sparkData, color, icon: Icon, su
   return (
     <div className="glass-card p-3 flex flex-col gap-2 min-w-[160px] flex-1">
       <div className="flex items-center gap-2">
-        <Icon size={14} className={color.replace('bg-', 'text-').replace('500', '400')} style={{ color }} />
+        <Icon size={14} style={{ color }} />
         <span className="text-[10px] text-gray-400 uppercase tracking-wider">{label}</span>
       </div>
       <div className="flex items-end justify-between gap-2">
@@ -106,7 +107,6 @@ function RatioTable({ data, years }: { data: Record<string, AnnualReportYearData
       const pbt = pnl.pbtCr ?? null;
       const ta = bs.totalAssetsCr ?? null;
       const eq = bs.equityCr ?? null;
-      const tel = bs.totalEquityLiabCr ?? null;
       const cfo = cf.cfoCr ?? null;
       const fcf = cf.fcfCr ?? null;
 
@@ -171,6 +171,8 @@ function SegmentMiniDonut({ segData }: { segData: any }) {
   if (!series) return null;
 
   const allFys = [...new Set(Object.values(series as Record<string, Record<string, number>>).flatMap(v => Object.keys(v)))].sort();
+  if (allFys.length === 0) return null;
+
   const latestFy = allFys[allFys.length - 1];
 
   const data = Object.entries(series)
@@ -179,12 +181,14 @@ function SegmentMiniDonut({ segData }: { segData: any }) {
     .filter(d => d.value > 0 && !d.name.toLowerCase().includes('total'))
     .sort((a, b) => b.value - a.value);
 
+  if (data.length === 0) return null;
+
   const COLORS = ['#10b981', '#34d399', '#f59e0b', '#f97316', '#8b5cf6'];
 
   return (
     <div className="glass-card p-4">
       <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-        <PieChartIcon size={14} className="text-emerald-400" /> Revenue Mix ({latestFy.replace('FY', "FY '")})
+        <Percent size={14} className="text-emerald-400" /> Revenue Mix ({latestFy.replace('FY', "FY '")})
       </h3>
       <div className="h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -331,7 +335,7 @@ export function OverviewTab({
               ].map(({ label, val }) => (
                 <div key={label} className="flex flex-col gap-1">
                   <span className="text-[10px] text-gray-400 uppercase tracking-wider">{label}</span>
-                  <span className="text-lg font-bold text-white tabular-nums">{val != null ? `${val.toFixed(1)}${label.includes('CAGR') || label.includes('ROE') || label.includes('Margin') || label.includes('Conv') || label.includes('Turnover') ? '%' : ''}` : '—'}</span>
+                  <span className="text-lg font-bold text-white tabular-nums">{val != null ? formatValue(val, deriveSuffix(label)) : '—'}</span>
                 </div>
               ))}
             </div>

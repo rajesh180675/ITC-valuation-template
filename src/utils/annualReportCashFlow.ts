@@ -1,4 +1,4 @@
-export type AnnualReportTab = 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts';
+export type AnnualReportTab = 'overview' | 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts';
 
 export interface AnnualReportItem {
   type: 'item' | 'section';

@@ -8,7 +8,6 @@ import {
   ResponsiveContainer, ComposedChart, Legend, Pie, Cell
 } from 'recharts';
 import { fmt, fmtN } from '@/components/itc/shared';
-import { OverviewTab } from './OverviewTab';
 import {
   type AnnualReportDataFile,
   type AnnualReportFileMetadata,
@@ -23,10 +22,9 @@ import {
   getYearPresetYears,
 } from '@/utils/annualReportCashFlow';
 
-type Tab = 'overview' | 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts';
+type Tab = 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts';
 
 const TABS: { id: Tab; label: string; icon: any }[] = [
-  { id: 'overview', label: 'Overview', icon: BookOpen },
   { id: 'pnl', label: 'P&L', icon: TrendingUp },
   { id: 'balanceSheet', label: 'Balance Sheet', icon: PieChart },
   { id: 'cashFlow', label: 'Cash Flow', icon: DollarSign },
@@ -79,7 +77,7 @@ function KpiCard({ label, value, trend, suffix }: { label: string; value: number
 
 /* ── Main Component (stable hook tree, no key-remount) ──────────────────── */
 export function AnnualReportsSection() {
-  const [tab, setTab] = useState<Tab>('overview');
+  const [tab, setTab] = useState<Tab>('charts');
   const [yearsData, setYearsData] = useState<Record<string, AnnualReportYearData> | null>(null);
   const [segData, setSegData] = useState<any>(null);
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
@@ -88,12 +86,8 @@ export function AnnualReportsSection() {
   const [error, setError] = useState<string | null>(null);
   const [activeTicker, setActiveTicker] = useState('ITC');
 
-  const getStmtType = (t: Tab): 'profitLoss' | 'balanceSheet' | 'cashFlow' => {
-    if (t === 'pnl') return 'profitLoss';
-    if (t === 'balanceSheet') return 'balanceSheet';
-    if (t === 'cashFlow') return 'cashFlow';
-    return 'profitLoss'; // default for overview/charts/segments
-  };
+  const getStmtType = (t: Tab): 'profitLoss' | 'balanceSheet' | 'cashFlow' =>
+    t === 'pnl' ? 'profitLoss' : t === 'balanceSheet' ? 'balanceSheet' : 'cashFlow';
 
   // Fetch on ticker change or mount
   useEffect(() => {
@@ -213,8 +207,8 @@ export function AnnualReportsSection() {
       {/* Main content — only when data is loaded */}
       {!error && yearsData && (
         <>
-          {/* KPI cards — skip on overview (has its own) */}
-          {tab !== 'overview' && latest && (
+          {/* KPI cards */}
+          {latest && (
             <div className="flex gap-3 flex-wrap">
               {tab === 'cashFlow' ? (
                 <>
@@ -259,20 +253,19 @@ export function AnnualReportsSection() {
           </div>
 
           {/* Tab content */}
-          {tab === 'overview' && <OverviewTab yearsData={yearsData ?? {}} years={years} segData={segData} />}
-          {tab === 'segments' && <SegmentsView segData={segData} activeTicker={activeTicker} />}
-          {tab === 'charts' && <ChartsView kpiData={kpiData} />}
-          {tab === 'cashFlow' && <CashFlowView
-            data={yearsData}
-            years={displayYears}
-            allYears={years}
-            reportMeta={reportMeta}
-            tableModel={cashFlowTable}
-            summaries={cashFlowSummaries}
-            selectedYears={selectedYears}
-            onPresetSelect={setCashFlowPreset}
-          />}
-          {(tab === 'pnl' || tab === 'balanceSheet') && <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
+          {tab === 'segments' ? <SegmentsView segData={segData} activeTicker={activeTicker} /> :
+           tab === 'charts' ? <ChartsView kpiData={kpiData} /> :
+           tab === 'cashFlow' ? <CashFlowView
+             data={yearsData}
+             years={displayYears}
+             allYears={years}
+             reportMeta={reportMeta}
+             tableModel={cashFlowTable}
+             summaries={cashFlowSummaries}
+             selectedYears={selectedYears}
+             onPresetSelect={setCashFlowPreset}
+           /> :
+           <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
         </>
       )}
     </div>
@@ -664,10 +657,6 @@ function SegmentsView({ segData, activeTicker }: { segData: any; activeTicker: s
     return lower.includes('total') || lower.includes('elimination') || lower.includes('unallocated') || lower.includes('discontinued');
   };
 
-  if (displayFys.length === 0) {
-    return <div className="glass-card p-5 text-center text-gray-400">No segment years available.</div>;
-  }
-
   return (
     <div className="space-y-6">
       <div className="text-[11px] text-gray-500 flex flex-wrap gap-x-3 gap-y-1">
@@ -685,24 +674,20 @@ function SegmentsView({ segData, activeTicker }: { segData: any; activeTicker: s
         <div className="h-[250px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              {(() => {
+              <Pie data={(() => {
                 const latest = displayFys[displayFys.length - 1];
-                const pieData = Object.entries(series).filter(([k]) => k.startsWith('revenue|'))
+                return Object.entries(series).filter(([k]) => k.startsWith('revenue|'))
                   .map(([k, v]) => ({ name: k.split('|')[1], value: (v as any)[latest] || 0 }))
                   .filter(d => !isExcludedDonutLabel(d.name))
-                  .filter(d => d.value > 0 && d.value !== Infinity && !Number.isNaN(d.value));
-                if (pieData.length === 0) return <div className="text-center text-gray-400">No data</div>;
-                pieData.sort((a, b) => SEGMENT_DONUT_ORDER.indexOf(a.name) - SEGMENT_DONUT_ORDER.indexOf(b.name));
-                return (
-                  <Pie data={pieData} cx="50%" cy="50%" outerRadius={80} dataKey="value"
-                    label={({ name, value }: any) => `${name} (${fmtN(value, 0)})`} labelLine
-                  >
-                    {pieData.map((_, i) => (
-                      <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                    ))}
-                  </Pie>
-                );
-              })()}
+                  .filter(d => d.value > 0 && d.value !== Infinity && !Number.isNaN(d.value))
+                  .sort((a, b) => SEGMENT_DONUT_ORDER.indexOf(a.name) - SEGMENT_DONUT_ORDER.indexOf(b.name));
+              })()} cx="50%" cy="50%" outerRadius={80} dataKey="value"
+                label={({ name, value }: any) => `${name} (${fmtN(value, 0)})`} labelLine
+              >
+                {SEGMENT_DONUT_ORDER.map((_, i) => (
+                  <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                ))}
+              </Pie>
               <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} />
             </PieChart>
           </ResponsiveContainer>
