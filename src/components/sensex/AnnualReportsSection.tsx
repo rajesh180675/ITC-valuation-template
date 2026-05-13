@@ -276,7 +276,11 @@ export function AnnualReportsSection() {
             selectedYears={selectedYears}
             onPresetSelect={setCashFlowPreset}
           />}
-          {(tab === 'pnl' || tab === 'balanceSheet') && <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
+          {(tab === 'pnl' || tab === 'balanceSheet') && (tab === 'balanceSheet' ? (
+            <BalanceSheetSideBySide data={yearsData} years={displayYears} commonSize={commonSize} />
+          ) : (
+            <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />
+          ))}
         </>
       )}
     </div>
@@ -606,6 +610,214 @@ function ChartPanel({ title, icon, children }: { title: string; icon: React.Reac
   );
 }
 
+/* ── Balance Sheet Side-by-Side View ──────────────────────────────────────── */
+function BalanceSheetSideBySide({ data, years, commonSize }: { data: Record<string, AnnualReportYearData>; years: string[]; commonSize: boolean; }) {
+  // Extract BS items and split into left (Assets) and right (Equity + Liabilities)
+  const leftSections = ['ASSETS', 'Non-current assets', 'Current assets', 'Non-current investments', 'Current investments'];
+  const rightSections = ['EQUITY AND LIABILITIES', 'Share capital', 'Reserves and surplus', 'Non-current liabilities', 'Current liabilities'];
+
+  const getItemsForSide = (sideSections: string[]) => {
+    const items: { label: string; vals: (number | null)[]; isSection: boolean }[] = [];
+    const latestYear = years[years.length - 1];
+    const latestStmt = data[latestYear]?.balanceSheet;
+    const latestLabels = latestStmt?.items ?? [];
+
+    // Collect labels we care about
+    for (const item of latestLabels) {
+      const sectionMatch = sideSections.some(s => item.label.toLowerCase().includes(s.toLowerCase()));
+      if (!sectionMatch && item.type === 'section') continue;
+      if (!sectionMatch && item.type !== 'section') continue;
+      if (sectionMatch) {
+        items.push({ label: item.label, vals: [], isSection: item.type === 'section' });
+      }
+    }
+
+    // Build value map for each year
+    const itemMap: Record<string, { vals: (number | null)[]; isSection: boolean }> = {};
+    for (const item of latestLabels) {
+      const sectionMatch = sideSections.some(s => item.label.toLowerCase().includes(s.toLowerCase()));
+      if (sectionMatch) {
+        itemMap[item.label] = { vals: [], isSection: item.type === 'section' };
+      }
+    }
+
+    const result: { label: string; vals: (number | null)[]; isSection: boolean }[] = [];
+    for (const item of latestLabels) {
+      const sectionMatch = sideSections.some(s => item.label.toLowerCase().includes(s.toLowerCase()));
+      if (sectionMatch) {
+        const vals = years.map(fy => {
+          const stmt = data[fy]?.balanceSheet;
+          if (!stmt) return null;
+          const match = stmt.items.find(i => i.label === item.label);
+          return match?.current ?? null;
+        });
+        result.push({ label: item.label, vals, isSection: item.type === 'section' });
+      }
+    }
+    return result;
+  };
+
+  // Try to identify asset/liability sides based on the top-level "TOTAL" row or section names
+  const getSideItems = (side: 'assets' | 'equityLiabilities') => {
+    const allItems: { label: string; vals: (number | null)[]; isSection: boolean; section: string }[] = [];
+
+    for (const fy of years) {
+      const stmt = data[fy]?.balanceSheet;
+      if (!stmt) continue;
+      let currentSection = '';
+      for (const item of stmt.items) {
+        if (item.type === 'section') {
+          currentSection = item.label;
+          // Add section header
+          const existingIdx = allItems.findIndex(i => i.label === item.label);
+          if (existingIdx < 0) {
+            allItems.push({ label: item.label, vals: years.map(() => null), isSection: true, section: currentSection });
+          }
+        } else {
+          // Determine which side this item belongs to
+          const lower = currentSection.toLowerCase();
+          let isAssetSection = false;
+          let isEquityLiabSection = false;
+          if (lower.includes('asset')) {
+            isAssetSection = true;
+          } else if (lower.includes('equity') || lower.includes('liabilit')) {
+            isEquityLiabSection = true;
+          } else if (lower.includes('total')) {
+            // TOTAL rows could be either - we figure this out by position
+            // For simplicity, first TOTAL is total assets, second is total equity+liabilities
+            continue; // skip TOTAL rows for now
+          }
+
+          const targetSide = isAssetSection ? 'assets' : isEquityLiabSection ? 'equityLiabilities' : null;
+          if (targetSide !== side) continue;
+
+          const existingIdx = allItems.findIndex(i => i.label === item.label);
+          if (existingIdx >= 0) {
+            // Update the value for this year
+            const yearIdx = years.indexOf(fy);
+            allItems[existingIdx].vals[yearIdx] = item.current ?? null;
+          } else {
+            const vals = years.map(() => null);
+            vals[years.indexOf(fy)] = item.current ?? null;
+            allItems.push({ label: item.label, vals, isSection: false, section: currentSection });
+          }
+        }
+      }
+    }
+    return allItems;
+  };
+
+  // Alternative simpler approach: use a two-pass scan
+  const getItemsSimple = (side: 'assets' | 'equityLiabilities') => {
+    const result: { label: string; vals: (number | null)[]; isSection: boolean; indent: number }[] = [];
+    const seenLabels = new Set<string>();
+
+    for (const fy of years) {
+      const stmt = data[fy]?.balanceSheet;
+      if (!stmt) continue;
+      let indent = 0;
+      let currentSide: 'assets' | 'equityLiabilities' | null = null;
+      let afterTotal = false;
+
+      for (const item of stmt.items) {
+        const lower = item.label.toLowerCase();
+
+        // Detect which side we're on based on section headers
+        if (item.type === 'section') {
+          if (lower.includes('asset') && !lower.includes('liabilit')) {
+            currentSide = 'assets';
+            indent = 0;
+          } else if (lower.includes('equity') || (lower.includes('liabilit') && !lower.includes('asset'))) {
+            currentSide = 'equityLiabilities';
+            indent = 0;
+          } else if (lower.includes('total')) {
+            // Keep current side, just track that it's a total row
+            afterTotal = true;
+          }
+
+          if (currentSide === side) {
+            if (!seenLabels.has(item.label)) {
+              seenLabels.add(item.label);
+              result.push({ label: item.label, vals: years.map(() => null), isSection: true, indent });
+            }
+          }
+          continue;
+        }
+
+        if (currentSide !== side) continue;
+
+        const existingIdx = result.findIndex(i => i.label === item.label);
+        const yearIdx = years.indexOf(fy);
+        if (existingIdx >= 0) {
+          result[existingIdx].vals[yearIdx] = item.current ?? null;
+        } else {
+          const vals = years.map(() => null);
+          vals[yearIdx] = item.current ?? null;
+          result.push({ label: item.label, vals, isSection: false, indent: afterTotal ? 0 : 1 });
+        }
+        afterTotal = false;
+      }
+    }
+    return result;
+  };
+
+  const assetItems = getItemsSimple('assets');
+  const equityLiabItems = getItemsSimple('equityLiabilities');
+
+  if (assetItems.length === 0 && equityLiabItems.length === 0) {
+    return <div className="glass-card p-5 text-gray-400">No balance sheet data.</div>;
+  }
+
+  const formatVal = (v: number | null): string => {
+    if (v == null) return '\u2014';
+    if (commonSize) return (v * 100).toFixed(1) + '%';
+    return v >= 100 ? fmtN(v, 0) : fmtN(v, 1);
+  };
+
+  const renderSideTable = (items: typeof assetItems, title: string) => (
+    <div className="glass-card p-4 overflow-x-auto flex-1 min-w-[300px]">
+      <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+        {title === 'ASSETS' ? <BookOpen size={14} className="text-emerald-400" /> : <TrendingUp size={14} className="text-blue-400" />}
+        {title}
+      </h3>
+      <table className="w-full text-xs tabular-nums">
+        <thead>
+          <tr>
+            <th className="text-left py-2 pr-4 text-gray-400 font-medium">Item</th>
+            {items[0]?.vals.map((_, i) => {
+              if (i !== items[0].vals.length - 1) return null;
+              return <th key={i} className="text-right py-2 px-2 text-gray-400 font-medium">{years[i]?.replace('FY', "FY '")}</th>;
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((row, ri) => {
+            if (row.isSection) {
+              return <tr key={ri}><td className="text-[11px] font-bold text-emerald-300 pt-3 pb-1 border-b border-emerald-500/20" colSpan={2}>{row.label}</td></tr>;
+            }
+            const lastVal = row.vals[row.vals.length - 1];
+            // Skip rows with no data in latest year
+            if (lastVal == null) return null;
+            return (
+              <tr key={ri} className="hover:bg-white/[0.03]">
+                <td className="py-1 pr-4 text-gray-300 text-[11px] truncate max-w-[200px]" style={{ paddingLeft: (row.indent * 12) + 0 }}>{row.label}</td>
+                <td className="text-right py-1 px-2 text-[11px] text-white">{formatVal(lastVal)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col lg:flex-row gap-4">
+      {renderSideTable(assetItems, 'ASSETS')}
+      {renderSideTable(equityLiabItems, 'EQUITY & LIABILITIES')}
+    </div>
+  );
+}
+
 /* ── Data-Driven Table ───────────────────────────────────────────────────── */
 function DataDrivenTable({ data, years, stmtType, commonSize }: {
   data: Record<string, AnnualReportYearData>; years: string[]; stmtType: 'profitLoss' | 'balanceSheet' | 'cashFlow'; commonSize: boolean;
@@ -691,6 +903,22 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
     return v >= 100 ? fmtN(v, 0) : fmtN(v, 1);
   };
 
+  // Compute YoY growth for a value relative to its previous year
+  const yoyGrowth = (curr: number | null, prev: number | null): number | null => {
+    if (curr == null || prev == null || prev === 0) return null;
+    return ((curr - prev) / Math.abs(prev)) * 100;
+  };
+
+  // Style for YoY values
+  const yoyClass = (g: number | null): string => {
+    if (g == null) return 'text-gray-600';
+    if (g > 5) return 'text-emerald-400';
+    if (g < -5) return 'text-rose-400';
+    return 'text-gray-400';
+  };
+
+  const showYoy = stmtType === 'profitLoss' && years.length >= 2 && !commonSize;
+
   return (
     <div className="glass-card p-5 overflow-x-auto">
       {commonSize && (
@@ -705,14 +933,17 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
             {years.map(fy => (
               <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY '")}</th>
             ))}
-            <th className="text-right py-2 pl-2 text-gray-400 font-medium">CAGR</th>
+            {showYoy && years.slice(1).map(fy => (
+              <th key={`yoy-${fy}`} className="text-right py-2 px-2 text-gray-400 font-medium">YoY</th>
+            ))}
+            {years.length >= 2 && <th className="text-right py-2 pl-2 text-gray-400 font-medium">CAGR</th>}
           </tr>
         </thead>
         <tbody>
           {groups.map((group, gi) => (
             <React.Fragment key={`g${gi}`}>
               {group.header && group.header !== 'OTHER' && (
-                <tr><td className="text-[11px] font-bold text-emerald-300 pt-3 pb-1 border-b border-emerald-500/20" colSpan={years.length + 2}>{group.header}</td></tr>
+                <tr><td className="text-[11px] font-bold text-emerald-300 pt-3 pb-1 border-b border-emerald-500/20" colSpan={years.length + (showYoy ? years.length - 1 : 0) + 2}>{group.header}</td></tr>
               )}
               {group.rows.map((label, ri) => {
                 const vals = itemIndex[label];
@@ -739,6 +970,15 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
                       return (
                         <td key={i} className={`text-right py-1 px-2 text-[11px] ${v != null ? 'text-white' : 'text-gray-600'}`}>
                           {v != null && v !== 0 ? formatVal(displayVal, isBase) : '\u2014'}
+                        </td>
+                      );
+                    })}
+                    {showYoy && vals.slice(1).map((v, i) => {
+                      const prevVal = vals[i];
+                      const growth = yoyGrowth(v, prevVal);
+                      return (
+                        <td key={`yoy-${i}`} className={`text-right py-1 px-2 text-[11px] ${yoyClass(growth)}`}>
+                          {growth != null ? `${growth > 0 ? '\u25B2' : '\u25BC'} ${Math.abs(growth).toFixed(1)}%` : '\u2014'}
                         </td>
                       );
                     })}
