@@ -1,0 +1,2328 @@
+{
+  "ticker": "ELECON",
+  "years": {
+    "FY2015": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1329.0,
+          "totalExpensesCr": 1153.0,
+          "operatingProfitCr": 176.0,
+          "otherIncomeCr": 17.0,
+          "financeCostCr": 87.0,
+          "depreciationCr": 72.0,
+          "pbtCr": 34.0,
+          "patCr": 17.0,
+          "epsRs": 0.75,
+          "dividendCr": 73.0,
+          "borrowingsCr": 552.0,
+          "totalAssetsCr": 1964.0,
+          "fixedAssetsCr": 523.0,
+          "investmentsCr": 15.0,
+          "cfoCr": 177.0,
+          "cfiCr": 0.0,
+          "cffCr": -168.0,
+          "netChangeCr": 9.0,
+          "fcfCr": 177.0,
+          "equityCr": 536.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1329.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 1153.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 176.0
+          },
+          {
+            "label": "OPM %",
+            "current": 13.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 17.0
+          },
+          {
+            "label": "Interest",
+            "current": 87.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 72.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 34.0
+          },
+          {
+            "label": "Tax %",
+            "current": 49.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 17.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 0.75
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 73.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1329.0,
+          "totalExpensesCr": 1153.0,
+          "operatingProfitCr": 176.0,
+          "otherIncomeCr": 17.0,
+          "financeCostCr": 87.0,
+          "depreciationCr": 72.0,
+          "pbtCr": 34.0,
+          "patCr": 17.0,
+          "epsRs": 0.75,
+          "dividendCr": 73.0,
+          "borrowingsCr": 552.0,
+          "totalAssetsCr": 1964.0,
+          "fixedAssetsCr": 523.0,
+          "investmentsCr": 15.0,
+          "cfoCr": 177.0,
+          "cfiCr": 0.0,
+          "cffCr": -168.0,
+          "netChangeCr": 9.0,
+          "fcfCr": 177.0,
+          "equityCr": 536.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 514.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 552.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 877.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 1964.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 523.0
+          },
+          {
+            "label": "CWIP",
+            "current": 4.0
+          },
+          {
+            "label": "Investments",
+            "current": 15.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1422.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 1964.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1329.0,
+          "totalExpensesCr": 1153.0,
+          "operatingProfitCr": 176.0,
+          "otherIncomeCr": 17.0,
+          "financeCostCr": 87.0,
+          "depreciationCr": 72.0,
+          "pbtCr": 34.0,
+          "patCr": 17.0,
+          "epsRs": 0.75,
+          "dividendCr": 73.0,
+          "borrowingsCr": 552.0,
+          "totalAssetsCr": 1964.0,
+          "fixedAssetsCr": 523.0,
+          "investmentsCr": 15.0,
+          "cfoCr": 177.0,
+          "cfiCr": 0.0,
+          "cffCr": -168.0,
+          "netChangeCr": 9.0,
+          "fcfCr": 177.0,
+          "equityCr": 536.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 177.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": 0.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -168.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": 9.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 177.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 113.0
+          }
+        ]
+      }
+    },
+    "FY2016": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1280.0,
+          "totalExpensesCr": 1105.0,
+          "operatingProfitCr": 176.0,
+          "otherIncomeCr": 29.0,
+          "financeCostCr": 83.0,
+          "depreciationCr": 62.0,
+          "pbtCr": 60.0,
+          "patCr": 37.0,
+          "epsRs": 1.72,
+          "dividendCr": 32.0,
+          "borrowingsCr": 629.0,
+          "totalAssetsCr": 2203.0,
+          "fixedAssetsCr": 898.0,
+          "investmentsCr": 49.0,
+          "cfoCr": 12.0,
+          "cfiCr": 7.0,
+          "cffCr": -5.0,
+          "netChangeCr": 14.0,
+          "fcfCr": 16.0,
+          "equityCr": 704.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1280.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 1105.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 176.0
+          },
+          {
+            "label": "OPM %",
+            "current": 14.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 29.0
+          },
+          {
+            "label": "Interest",
+            "current": 83.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 62.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 60.0
+          },
+          {
+            "label": "Tax %",
+            "current": 37.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 37.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 1.72
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 32.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1280.0,
+          "totalExpensesCr": 1105.0,
+          "operatingProfitCr": 176.0,
+          "otherIncomeCr": 29.0,
+          "financeCostCr": 83.0,
+          "depreciationCr": 62.0,
+          "pbtCr": 60.0,
+          "patCr": 37.0,
+          "epsRs": 1.72,
+          "dividendCr": 32.0,
+          "borrowingsCr": 629.0,
+          "totalAssetsCr": 2203.0,
+          "fixedAssetsCr": 898.0,
+          "investmentsCr": 49.0,
+          "cfoCr": 12.0,
+          "cfiCr": 7.0,
+          "cffCr": -5.0,
+          "netChangeCr": 14.0,
+          "fcfCr": 16.0,
+          "equityCr": 704.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 682.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 629.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 870.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 2203.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 898.0
+          },
+          {
+            "label": "CWIP",
+            "current": 8.0
+          },
+          {
+            "label": "Investments",
+            "current": 49.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1248.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 2203.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1280.0,
+          "totalExpensesCr": 1105.0,
+          "operatingProfitCr": 176.0,
+          "otherIncomeCr": 29.0,
+          "financeCostCr": 83.0,
+          "depreciationCr": 62.0,
+          "pbtCr": 60.0,
+          "patCr": 37.0,
+          "epsRs": 1.72,
+          "dividendCr": 32.0,
+          "borrowingsCr": 629.0,
+          "totalAssetsCr": 2203.0,
+          "fixedAssetsCr": 898.0,
+          "investmentsCr": 49.0,
+          "cfoCr": 12.0,
+          "cfiCr": 7.0,
+          "cffCr": -5.0,
+          "netChangeCr": 14.0,
+          "fcfCr": 16.0,
+          "equityCr": 704.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 12.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": 7.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -5.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": 14.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 16.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 25.0
+          }
+        ]
+      }
+    },
+    "FY2017": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1202.0,
+          "totalExpensesCr": 1027.0,
+          "operatingProfitCr": 175.0,
+          "otherIncomeCr": 12.0,
+          "financeCostCr": 90.0,
+          "depreciationCr": 53.0,
+          "pbtCr": 44.0,
+          "patCr": 11.0,
+          "epsRs": 0.48,
+          "dividendCr": 52.0,
+          "borrowingsCr": 583.0,
+          "totalAssetsCr": 2087.0,
+          "fixedAssetsCr": 861.0,
+          "investmentsCr": 49.0,
+          "cfoCr": 188.0,
+          "cfiCr": -7.0,
+          "cffCr": -134.0,
+          "netChangeCr": 47.0,
+          "fcfCr": 180.0,
+          "equityCr": 709.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1202.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 1027.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 175.0
+          },
+          {
+            "label": "OPM %",
+            "current": 15.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 12.0
+          },
+          {
+            "label": "Interest",
+            "current": 90.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 53.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 44.0
+          },
+          {
+            "label": "Tax %",
+            "current": 75.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 11.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 0.48
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 52.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1202.0,
+          "totalExpensesCr": 1027.0,
+          "operatingProfitCr": 175.0,
+          "otherIncomeCr": 12.0,
+          "financeCostCr": 90.0,
+          "depreciationCr": 53.0,
+          "pbtCr": 44.0,
+          "patCr": 11.0,
+          "epsRs": 0.48,
+          "dividendCr": 52.0,
+          "borrowingsCr": 583.0,
+          "totalAssetsCr": 2087.0,
+          "fixedAssetsCr": 861.0,
+          "investmentsCr": 49.0,
+          "cfoCr": 188.0,
+          "cfiCr": -7.0,
+          "cffCr": -134.0,
+          "netChangeCr": 47.0,
+          "fcfCr": 180.0,
+          "equityCr": 709.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 687.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 583.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 794.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 2087.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 861.0
+          },
+          {
+            "label": "CWIP",
+            "current": 2.0
+          },
+          {
+            "label": "Investments",
+            "current": 49.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1175.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 2087.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1202.0,
+          "totalExpensesCr": 1027.0,
+          "operatingProfitCr": 175.0,
+          "otherIncomeCr": 12.0,
+          "financeCostCr": 90.0,
+          "depreciationCr": 53.0,
+          "pbtCr": 44.0,
+          "patCr": 11.0,
+          "epsRs": 0.48,
+          "dividendCr": 52.0,
+          "borrowingsCr": 583.0,
+          "totalAssetsCr": 2087.0,
+          "fixedAssetsCr": 861.0,
+          "investmentsCr": 49.0,
+          "cfoCr": 188.0,
+          "cfiCr": -7.0,
+          "cffCr": -134.0,
+          "netChangeCr": 47.0,
+          "fcfCr": 180.0,
+          "equityCr": 709.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 188.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": -7.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -134.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": 47.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 180.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 111.0
+          }
+        ]
+      }
+    },
+    "FY2018": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1180.0,
+          "totalExpensesCr": 1055.0,
+          "operatingProfitCr": 126.0,
+          "otherIncomeCr": 8.0,
+          "financeCostCr": 75.0,
+          "depreciationCr": 53.0,
+          "pbtCr": 6.0,
+          "patCr": 7.0,
+          "epsRs": 0.33,
+          "dividendCr": 30.0,
+          "borrowingsCr": 590.0,
+          "totalAssetsCr": 2156.0,
+          "fixedAssetsCr": 834.0,
+          "investmentsCr": 51.0,
+          "cfoCr": 70.0,
+          "cfiCr": -51.0,
+          "cffCr": -64.0,
+          "netChangeCr": -44.0,
+          "fcfCr": 52.0,
+          "equityCr": 708.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1180.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 1055.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 126.0
+          },
+          {
+            "label": "OPM %",
+            "current": 11.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 8.0
+          },
+          {
+            "label": "Interest",
+            "current": 75.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 53.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 6.0
+          },
+          {
+            "label": "Tax %",
+            "current": -33.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 7.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 0.33
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 30.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1180.0,
+          "totalExpensesCr": 1055.0,
+          "operatingProfitCr": 126.0,
+          "otherIncomeCr": 8.0,
+          "financeCostCr": 75.0,
+          "depreciationCr": 53.0,
+          "pbtCr": 6.0,
+          "patCr": 7.0,
+          "epsRs": 0.33,
+          "dividendCr": 30.0,
+          "borrowingsCr": 590.0,
+          "totalAssetsCr": 2156.0,
+          "fixedAssetsCr": 834.0,
+          "investmentsCr": 51.0,
+          "cfoCr": 70.0,
+          "cfiCr": -51.0,
+          "cffCr": -64.0,
+          "netChangeCr": -44.0,
+          "fcfCr": 52.0,
+          "equityCr": 708.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 686.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 590.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 857.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 2156.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 834.0
+          },
+          {
+            "label": "CWIP",
+            "current": 1.0
+          },
+          {
+            "label": "Investments",
+            "current": 51.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1270.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 2156.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1180.0,
+          "totalExpensesCr": 1055.0,
+          "operatingProfitCr": 126.0,
+          "otherIncomeCr": 8.0,
+          "financeCostCr": 75.0,
+          "depreciationCr": 53.0,
+          "pbtCr": 6.0,
+          "patCr": 7.0,
+          "epsRs": 0.33,
+          "dividendCr": 30.0,
+          "borrowingsCr": 590.0,
+          "totalAssetsCr": 2156.0,
+          "fixedAssetsCr": 834.0,
+          "investmentsCr": 51.0,
+          "cfoCr": 70.0,
+          "cfiCr": -51.0,
+          "cffCr": -64.0,
+          "netChangeCr": -44.0,
+          "fcfCr": 52.0,
+          "equityCr": 708.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 70.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": -51.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -64.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": -44.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 52.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 55.0
+          }
+        ]
+      }
+    },
+    "FY2019": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1225.0,
+          "totalExpensesCr": 1084.0,
+          "operatingProfitCr": 140.0,
+          "otherIncomeCr": 69.0,
+          "financeCostCr": 74.0,
+          "depreciationCr": 48.0,
+          "pbtCr": 88.0,
+          "patCr": 70.0,
+          "epsRs": 3.12,
+          "dividendCr": 3.0,
+          "borrowingsCr": 548.0,
+          "totalAssetsCr": 2165.0,
+          "fixedAssetsCr": 799.0,
+          "investmentsCr": 54.0,
+          "cfoCr": 87.0,
+          "cfiCr": 40.0,
+          "cffCr": -118.0,
+          "netChangeCr": 9.0,
+          "fcfCr": 103.0,
+          "equityCr": 768.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1225.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 1084.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 140.0
+          },
+          {
+            "label": "OPM %",
+            "current": 11.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 69.0
+          },
+          {
+            "label": "Interest",
+            "current": 74.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 48.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 88.0
+          },
+          {
+            "label": "Tax %",
+            "current": 21.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 70.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 3.12
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 3.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1225.0,
+          "totalExpensesCr": 1084.0,
+          "operatingProfitCr": 140.0,
+          "otherIncomeCr": 69.0,
+          "financeCostCr": 74.0,
+          "depreciationCr": 48.0,
+          "pbtCr": 88.0,
+          "patCr": 70.0,
+          "epsRs": 3.12,
+          "dividendCr": 3.0,
+          "borrowingsCr": 548.0,
+          "totalAssetsCr": 2165.0,
+          "fixedAssetsCr": 799.0,
+          "investmentsCr": 54.0,
+          "cfoCr": 87.0,
+          "cfiCr": 40.0,
+          "cffCr": -118.0,
+          "netChangeCr": 9.0,
+          "fcfCr": 103.0,
+          "equityCr": 768.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 746.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 548.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 849.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 2165.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 799.0
+          },
+          {
+            "label": "CWIP",
+            "current": 5.0
+          },
+          {
+            "label": "Investments",
+            "current": 54.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1307.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 2165.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1225.0,
+          "totalExpensesCr": 1084.0,
+          "operatingProfitCr": 140.0,
+          "otherIncomeCr": 69.0,
+          "financeCostCr": 74.0,
+          "depreciationCr": 48.0,
+          "pbtCr": 88.0,
+          "patCr": 70.0,
+          "epsRs": 3.12,
+          "dividendCr": 3.0,
+          "borrowingsCr": 548.0,
+          "totalAssetsCr": 2165.0,
+          "fixedAssetsCr": 799.0,
+          "investmentsCr": 54.0,
+          "cfoCr": 87.0,
+          "cfiCr": 40.0,
+          "cffCr": -118.0,
+          "netChangeCr": 9.0,
+          "fcfCr": 103.0,
+          "equityCr": 768.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 87.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": 40.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -118.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": 9.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 103.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 67.0
+          }
+        ]
+      }
+    },
+    "FY2020": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1088.0,
+          "totalExpensesCr": 947.0,
+          "operatingProfitCr": 142.0,
+          "otherIncomeCr": 9.0,
+          "financeCostCr": 78.0,
+          "depreciationCr": 53.0,
+          "pbtCr": 20.0,
+          "patCr": 90.0,
+          "epsRs": 4.0,
+          "dividendCr": -0.0,
+          "borrowingsCr": 483.0,
+          "totalAssetsCr": 2129.0,
+          "fixedAssetsCr": 799.0,
+          "investmentsCr": 53.0,
+          "cfoCr": 222.0,
+          "cfiCr": -25.0,
+          "cffCr": -176.0,
+          "netChangeCr": 21.0,
+          "fcfCr": 209.0,
+          "equityCr": 854.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1088.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 947.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 142.0
+          },
+          {
+            "label": "OPM %",
+            "current": 13.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 9.0
+          },
+          {
+            "label": "Interest",
+            "current": 78.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 53.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 20.0
+          },
+          {
+            "label": "Tax %",
+            "current": -360.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 90.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 4.0
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": -0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1088.0,
+          "totalExpensesCr": 947.0,
+          "operatingProfitCr": 142.0,
+          "otherIncomeCr": 9.0,
+          "financeCostCr": 78.0,
+          "depreciationCr": 53.0,
+          "pbtCr": 20.0,
+          "patCr": 90.0,
+          "epsRs": 4.0,
+          "dividendCr": -0.0,
+          "borrowingsCr": 483.0,
+          "totalAssetsCr": 2129.0,
+          "fixedAssetsCr": 799.0,
+          "investmentsCr": 53.0,
+          "cfoCr": 222.0,
+          "cfiCr": -25.0,
+          "cffCr": -176.0,
+          "netChangeCr": 21.0,
+          "fcfCr": 209.0,
+          "equityCr": 854.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 832.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 483.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 792.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 2129.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 799.0
+          },
+          {
+            "label": "CWIP",
+            "current": 0.0
+          },
+          {
+            "label": "Investments",
+            "current": 53.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1277.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 2129.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1088.0,
+          "totalExpensesCr": 947.0,
+          "operatingProfitCr": 142.0,
+          "otherIncomeCr": 9.0,
+          "financeCostCr": 78.0,
+          "depreciationCr": 53.0,
+          "pbtCr": 20.0,
+          "patCr": 90.0,
+          "epsRs": 4.0,
+          "dividendCr": -0.0,
+          "borrowingsCr": 483.0,
+          "totalAssetsCr": 2129.0,
+          "fixedAssetsCr": 799.0,
+          "investmentsCr": 53.0,
+          "cfoCr": 222.0,
+          "cfiCr": -25.0,
+          "cffCr": -176.0,
+          "netChangeCr": 21.0,
+          "fcfCr": 209.0,
+          "equityCr": 854.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 222.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": -25.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -176.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": 21.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 209.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 160.0
+          }
+        ]
+      }
+    },
+    "FY2021": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1044.0,
+          "totalExpensesCr": 858.0,
+          "operatingProfitCr": 186.0,
+          "otherIncomeCr": 8.0,
+          "financeCostCr": 60.0,
+          "depreciationCr": 52.0,
+          "pbtCr": 81.0,
+          "patCr": 58.0,
+          "epsRs": 2.57,
+          "dividendCr": 8.0,
+          "borrowingsCr": 335.0,
+          "totalAssetsCr": 1988.0,
+          "fixedAssetsCr": 758.0,
+          "investmentsCr": 53.0,
+          "cfoCr": 248.0,
+          "cfiCr": -19.0,
+          "cffCr": -210.0,
+          "netChangeCr": 19.0,
+          "fcfCr": 245.0,
+          "equityCr": 919.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1044.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 858.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 186.0
+          },
+          {
+            "label": "OPM %",
+            "current": 18.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 8.0
+          },
+          {
+            "label": "Interest",
+            "current": 60.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 52.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 81.0
+          },
+          {
+            "label": "Tax %",
+            "current": 29.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 58.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 2.57
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 8.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1044.0,
+          "totalExpensesCr": 858.0,
+          "operatingProfitCr": 186.0,
+          "otherIncomeCr": 8.0,
+          "financeCostCr": 60.0,
+          "depreciationCr": 52.0,
+          "pbtCr": 81.0,
+          "patCr": 58.0,
+          "epsRs": 2.57,
+          "dividendCr": 8.0,
+          "borrowingsCr": 335.0,
+          "totalAssetsCr": 1988.0,
+          "fixedAssetsCr": 758.0,
+          "investmentsCr": 53.0,
+          "cfoCr": 248.0,
+          "cfiCr": -19.0,
+          "cffCr": -210.0,
+          "netChangeCr": 19.0,
+          "fcfCr": 245.0,
+          "equityCr": 919.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 897.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 335.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 733.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 1988.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 758.0
+          },
+          {
+            "label": "CWIP",
+            "current": 0.0
+          },
+          {
+            "label": "Investments",
+            "current": 53.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1176.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 1988.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1044.0,
+          "totalExpensesCr": 858.0,
+          "operatingProfitCr": 186.0,
+          "otherIncomeCr": 8.0,
+          "financeCostCr": 60.0,
+          "depreciationCr": 52.0,
+          "pbtCr": 81.0,
+          "patCr": 58.0,
+          "epsRs": 2.57,
+          "dividendCr": 8.0,
+          "borrowingsCr": 335.0,
+          "totalAssetsCr": 1988.0,
+          "fixedAssetsCr": 758.0,
+          "investmentsCr": 53.0,
+          "cfoCr": 248.0,
+          "cfiCr": -19.0,
+          "cffCr": -210.0,
+          "netChangeCr": 19.0,
+          "fcfCr": 245.0,
+          "equityCr": 919.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 248.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": -19.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -210.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": 19.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 245.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 133.0
+          }
+        ]
+      }
+    },
+    "FY2022": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1212.0,
+          "totalExpensesCr": 960.0,
+          "operatingProfitCr": 252.0,
+          "otherIncomeCr": 5.0,
+          "financeCostCr": 38.0,
+          "depreciationCr": 49.0,
+          "pbtCr": 171.0,
+          "patCr": 140.0,
+          "epsRs": 6.26,
+          "dividendCr": 11.0,
+          "borrowingsCr": 151.0,
+          "totalAssetsCr": 1715.0,
+          "fixedAssetsCr": 739.0,
+          "investmentsCr": 54.0,
+          "cfoCr": 223.0,
+          "cfiCr": 15.0,
+          "cffCr": -250.0,
+          "netChangeCr": -12.0,
+          "fcfCr": 209.0,
+          "equityCr": 1050.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1212.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 960.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 252.0
+          },
+          {
+            "label": "OPM %",
+            "current": 21.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 5.0
+          },
+          {
+            "label": "Interest",
+            "current": 38.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 49.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 171.0
+          },
+          {
+            "label": "Tax %",
+            "current": 18.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 140.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 6.26
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 11.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1212.0,
+          "totalExpensesCr": 960.0,
+          "operatingProfitCr": 252.0,
+          "otherIncomeCr": 5.0,
+          "financeCostCr": 38.0,
+          "depreciationCr": 49.0,
+          "pbtCr": 171.0,
+          "patCr": 140.0,
+          "epsRs": 6.26,
+          "dividendCr": 11.0,
+          "borrowingsCr": 151.0,
+          "totalAssetsCr": 1715.0,
+          "fixedAssetsCr": 739.0,
+          "investmentsCr": 54.0,
+          "cfoCr": 223.0,
+          "cfiCr": 15.0,
+          "cffCr": -250.0,
+          "netChangeCr": -12.0,
+          "fcfCr": 209.0,
+          "equityCr": 1050.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 1028.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 151.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 513.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 1715.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 739.0
+          },
+          {
+            "label": "CWIP",
+            "current": 1.0
+          },
+          {
+            "label": "Investments",
+            "current": 54.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 921.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 1715.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1212.0,
+          "totalExpensesCr": 960.0,
+          "operatingProfitCr": 252.0,
+          "otherIncomeCr": 5.0,
+          "financeCostCr": 38.0,
+          "depreciationCr": 49.0,
+          "pbtCr": 171.0,
+          "patCr": 140.0,
+          "epsRs": 6.26,
+          "dividendCr": 11.0,
+          "borrowingsCr": 151.0,
+          "totalAssetsCr": 1715.0,
+          "fixedAssetsCr": 739.0,
+          "investmentsCr": 54.0,
+          "cfoCr": 223.0,
+          "cfiCr": 15.0,
+          "cffCr": -250.0,
+          "netChangeCr": -12.0,
+          "fcfCr": 209.0,
+          "equityCr": 1050.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 223.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": 15.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -250.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": -12.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 209.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 101.0
+          }
+        ]
+      }
+    },
+    "FY2023": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1530.0,
+          "totalExpensesCr": 1189.0,
+          "operatingProfitCr": 341.0,
+          "otherIncomeCr": 22.0,
+          "financeCostCr": 14.0,
+          "depreciationCr": 49.0,
+          "pbtCr": 300.0,
+          "patCr": 238.0,
+          "epsRs": 10.58,
+          "dividendCr": 9.0,
+          "borrowingsCr": 52.0,
+          "totalAssetsCr": 1730.0,
+          "fixedAssetsCr": 754.0,
+          "investmentsCr": 77.0,
+          "cfoCr": 309.0,
+          "cfiCr": -166.0,
+          "cffCr": -145.0,
+          "netChangeCr": -2.0,
+          "fcfCr": 263.0,
+          "equityCr": 1279.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1530.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 1189.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 341.0
+          },
+          {
+            "label": "OPM %",
+            "current": 22.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 22.0
+          },
+          {
+            "label": "Interest",
+            "current": 14.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 49.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 300.0
+          },
+          {
+            "label": "Tax %",
+            "current": 21.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 238.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 10.58
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 9.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1530.0,
+          "totalExpensesCr": 1189.0,
+          "operatingProfitCr": 341.0,
+          "otherIncomeCr": 22.0,
+          "financeCostCr": 14.0,
+          "depreciationCr": 49.0,
+          "pbtCr": 300.0,
+          "patCr": 238.0,
+          "epsRs": 10.58,
+          "dividendCr": 9.0,
+          "borrowingsCr": 52.0,
+          "totalAssetsCr": 1730.0,
+          "fixedAssetsCr": 754.0,
+          "investmentsCr": 77.0,
+          "cfoCr": 309.0,
+          "cfiCr": -166.0,
+          "cffCr": -145.0,
+          "netChangeCr": -2.0,
+          "fcfCr": 263.0,
+          "equityCr": 1279.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 1257.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 52.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 399.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 1730.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 754.0
+          },
+          {
+            "label": "CWIP",
+            "current": 0.0
+          },
+          {
+            "label": "Investments",
+            "current": 77.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 899.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 1730.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1530.0,
+          "totalExpensesCr": 1189.0,
+          "operatingProfitCr": 341.0,
+          "otherIncomeCr": 22.0,
+          "financeCostCr": 14.0,
+          "depreciationCr": 49.0,
+          "pbtCr": 300.0,
+          "patCr": 238.0,
+          "epsRs": 10.58,
+          "dividendCr": 9.0,
+          "borrowingsCr": 52.0,
+          "totalAssetsCr": 1730.0,
+          "fixedAssetsCr": 754.0,
+          "investmentsCr": 77.0,
+          "cfoCr": 309.0,
+          "cfiCr": -166.0,
+          "cffCr": -145.0,
+          "netChangeCr": -2.0,
+          "fcfCr": 263.0,
+          "equityCr": 1279.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 309.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": -166.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -145.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": -2.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 263.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 110.0
+          }
+        ]
+      }
+    },
+    "FY2024": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1937.0,
+          "totalExpensesCr": 1463.0,
+          "operatingProfitCr": 475.0,
+          "otherIncomeCr": 50.0,
+          "financeCostCr": 9.0,
+          "depreciationCr": 51.0,
+          "pbtCr": 465.0,
+          "patCr": 356.0,
+          "epsRs": 15.85,
+          "dividendCr": 9.0,
+          "borrowingsCr": 70.0,
+          "totalAssetsCr": 2123.0,
+          "fixedAssetsCr": 769.0,
+          "investmentsCr": 286.0,
+          "cfoCr": 365.0,
+          "cfiCr": -279.0,
+          "cffCr": -58.0,
+          "netChangeCr": 27.0,
+          "fcfCr": 339.0,
+          "equityCr": 1604.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1937.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 1463.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 475.0
+          },
+          {
+            "label": "OPM %",
+            "current": 24.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 50.0
+          },
+          {
+            "label": "Interest",
+            "current": 9.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 51.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 465.0
+          },
+          {
+            "label": "Tax %",
+            "current": 24.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 356.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 15.85
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 9.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1937.0,
+          "totalExpensesCr": 1463.0,
+          "operatingProfitCr": 475.0,
+          "otherIncomeCr": 50.0,
+          "financeCostCr": 9.0,
+          "depreciationCr": 51.0,
+          "pbtCr": 465.0,
+          "patCr": 356.0,
+          "epsRs": 15.85,
+          "dividendCr": 9.0,
+          "borrowingsCr": 70.0,
+          "totalAssetsCr": 2123.0,
+          "fixedAssetsCr": 769.0,
+          "investmentsCr": 286.0,
+          "cfoCr": 365.0,
+          "cfiCr": -279.0,
+          "cffCr": -58.0,
+          "netChangeCr": 27.0,
+          "fcfCr": 339.0,
+          "equityCr": 1604.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 1582.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 70.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 449.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 2123.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 769.0
+          },
+          {
+            "label": "CWIP",
+            "current": 1.0
+          },
+          {
+            "label": "Investments",
+            "current": 286.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1067.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 2123.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1937.0,
+          "totalExpensesCr": 1463.0,
+          "operatingProfitCr": 475.0,
+          "otherIncomeCr": 50.0,
+          "financeCostCr": 9.0,
+          "depreciationCr": 51.0,
+          "pbtCr": 465.0,
+          "patCr": 356.0,
+          "epsRs": 15.85,
+          "dividendCr": 9.0,
+          "borrowingsCr": 70.0,
+          "totalAssetsCr": 2123.0,
+          "fixedAssetsCr": 769.0,
+          "investmentsCr": 286.0,
+          "cfoCr": 365.0,
+          "cfiCr": -279.0,
+          "cffCr": -58.0,
+          "netChangeCr": 27.0,
+          "fcfCr": 339.0,
+          "equityCr": 1604.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 365.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": -279.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -58.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": 27.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 339.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 100.0
+          }
+        ]
+      }
+    },
+    "FY2025": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 2227.0,
+          "totalExpensesCr": 1684.0,
+          "operatingProfitCr": 543.0,
+          "otherIncomeCr": 68.0,
+          "financeCostCr": 13.0,
+          "depreciationCr": 61.0,
+          "pbtCr": 537.0,
+          "patCr": 415.0,
+          "epsRs": 18.5,
+          "dividendCr": 11.0,
+          "borrowingsCr": 181.0,
+          "totalAssetsCr": 2729.0,
+          "fixedAssetsCr": 914.0,
+          "investmentsCr": 496.0,
+          "cfoCr": 432.0,
+          "cfiCr": -316.0,
+          "cffCr": -67.0,
+          "netChangeCr": 49.0,
+          "fcfCr": 368.0,
+          "equityCr": 1998.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 2227.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 1684.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 543.0
+          },
+          {
+            "label": "OPM %",
+            "current": 24.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 68.0
+          },
+          {
+            "label": "Interest",
+            "current": 13.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 61.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 537.0
+          },
+          {
+            "label": "Tax %",
+            "current": 23.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 415.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 18.5
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 11.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 2227.0,
+          "totalExpensesCr": 1684.0,
+          "operatingProfitCr": 543.0,
+          "otherIncomeCr": 68.0,
+          "financeCostCr": 13.0,
+          "depreciationCr": 61.0,
+          "pbtCr": 537.0,
+          "patCr": 415.0,
+          "epsRs": 18.5,
+          "dividendCr": 11.0,
+          "borrowingsCr": 181.0,
+          "totalAssetsCr": 2729.0,
+          "fixedAssetsCr": 914.0,
+          "investmentsCr": 496.0,
+          "cfoCr": 432.0,
+          "cfiCr": -316.0,
+          "cffCr": -67.0,
+          "netChangeCr": 49.0,
+          "fcfCr": 368.0,
+          "equityCr": 1998.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 1976.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 181.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 550.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 2729.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 914.0
+          },
+          {
+            "label": "CWIP",
+            "current": 7.0
+          },
+          {
+            "label": "Investments",
+            "current": 496.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1313.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 2729.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 2227.0,
+          "totalExpensesCr": 1684.0,
+          "operatingProfitCr": 543.0,
+          "otherIncomeCr": 68.0,
+          "financeCostCr": 13.0,
+          "depreciationCr": 61.0,
+          "pbtCr": 537.0,
+          "patCr": 415.0,
+          "epsRs": 18.5,
+          "dividendCr": 11.0,
+          "borrowingsCr": 181.0,
+          "totalAssetsCr": 2729.0,
+          "fixedAssetsCr": 914.0,
+          "investmentsCr": 496.0,
+          "cfoCr": 432.0,
+          "cfiCr": -316.0,
+          "cffCr": -67.0,
+          "netChangeCr": 49.0,
+          "fcfCr": 368.0,
+          "equityCr": 1998.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 432.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": -316.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -67.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": 49.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 368.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 103.0
+          }
+        ]
+      }
+    },
+    "FY2026": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 2366.0,
+          "totalExpensesCr": 1843.0,
+          "operatingProfitCr": 523.0,
+          "otherIncomeCr": 60.0,
+          "financeCostCr": 25.0,
+          "depreciationCr": 104.0,
+          "pbtCr": 454.0,
+          "patCr": 341.0,
+          "epsRs": 15.2,
+          "dividendCr": 13.0,
+          "borrowingsCr": 273.0,
+          "totalAssetsCr": 3234.0,
+          "fixedAssetsCr": 930.0,
+          "investmentsCr": 743.0,
+          "cfoCr": 314.0,
+          "cfiCr": -220.0,
+          "cffCr": -122.0,
+          "netChangeCr": -27.0,
+          "fcfCr": 218.0,
+          "equityCr": 2305.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 2366.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 1843.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 523.0
+          },
+          {
+            "label": "OPM %",
+            "current": 22.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 60.0
+          },
+          {
+            "label": "Interest",
+            "current": 25.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 104.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 454.0
+          },
+          {
+            "label": "Tax %",
+            "current": 25.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 341.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 15.2
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 13.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 2366.0,
+          "totalExpensesCr": 1843.0,
+          "operatingProfitCr": 523.0,
+          "otherIncomeCr": 60.0,
+          "financeCostCr": 25.0,
+          "depreciationCr": 104.0,
+          "pbtCr": 454.0,
+          "patCr": 341.0,
+          "epsRs": 15.2,
+          "dividendCr": 13.0,
+          "borrowingsCr": 273.0,
+          "totalAssetsCr": 3234.0,
+          "fixedAssetsCr": 930.0,
+          "investmentsCr": 743.0,
+          "cfoCr": 314.0,
+          "cfiCr": -220.0,
+          "cffCr": -122.0,
+          "netChangeCr": -27.0,
+          "fcfCr": 218.0,
+          "equityCr": 2305.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 22.0
+          },
+          {
+            "label": "Reserves",
+            "current": 2283.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 273.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 655.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 3234.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 930.0
+          },
+          {
+            "label": "CWIP",
+            "current": 23.0
+          },
+          {
+            "label": "Investments",
+            "current": 743.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 1538.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 3234.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 2366.0,
+          "totalExpensesCr": 1843.0,
+          "operatingProfitCr": 523.0,
+          "otherIncomeCr": 60.0,
+          "financeCostCr": 25.0,
+          "depreciationCr": 104.0,
+          "pbtCr": 454.0,
+          "patCr": 341.0,
+          "epsRs": 15.2,
+          "dividendCr": 13.0,
+          "borrowingsCr": 273.0,
+          "totalAssetsCr": 3234.0,
+          "fixedAssetsCr": 930.0,
+          "investmentsCr": 743.0,
+          "cfoCr": 314.0,
+          "cfiCr": -220.0,
+          "cffCr": -122.0,
+          "netChangeCr": -27.0,
+          "fcfCr": 218.0,
+          "equityCr": 2305.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 314.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": -220.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": -122.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": -27.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 218.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 81.0
+          }
+        ]
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-05-13T14:23:39.884273+00:00",
+    "source": "screener.in/ELECON/consolidated",
+    "yearsCovered": [
+      "FY2015",
+      "FY2016",
+      "FY2017",
+      "FY2018",
+      "FY2019",
+      "FY2020",
+      "FY2021",
+      "FY2022",
+      "FY2023",
+      "FY2024",
+      "FY2025",
+      "FY2026"
+    ]
+  }
+}

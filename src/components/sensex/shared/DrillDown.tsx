@@ -5,7 +5,7 @@ import { computeDuPont, earningsVolatility } from '@/utils/sensexAnalytics';
 import type { SensexConstituent } from '@/data/sensexData';
 import { PeerComparison } from './PeerComparison';
 
-export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
+export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods, arAvailable }: {
   row: {
     company: SensexConstituent;
     first: { fy: string }; last: { fy: string; roePct: number; toplineCr: number; netProfitCr: number };
@@ -13,6 +13,7 @@ export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
     scores: { quality: number; value: number; growth: number; momentum: number; composite: number };
   };
   rangeStart: number; rangeEnd: number; rangePeriods: number;
+  arAvailable?: boolean;
 }) {
   const { company, first, last, profitCagr, coe, impliedG, gap, scores, valuationLabel } = row;
   const dp = computeDuPont(company);
@@ -23,6 +24,14 @@ export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
     Topline: h.toplineCr,
     'Net Profit': h.netProfitCr,
   }));
+
+  const goToAnnualReport = () => {
+    try {
+      localStorage.setItem('arTicker', company.ticker);
+      const navEvent = new CustomEvent('navigate-to', { detail: { section: 'annualReports' } });
+      window.dispatchEvent(navEvent);
+    } catch {}
+  };
 
   return (
     <div className="premium-card p-6 space-y-5">
@@ -41,11 +50,17 @@ export function DrillDown({ row, rangeStart, rangeEnd, rangePeriods }: {
             </p>
           </div>
         </div>
-        <div className="text-right">
-          <div className="kpi-eyebrow">Composite Score</div>
-          <div className="text-3xl font-bold text-[color:var(--color-gold-light)] mt-1 tabular-nums">{Math.round(scores.composite)}</div>
-          <div className="text-[11px] text-gray-400">of 100</div>
-        </div>
+          <div className="text-right">
+            <div className="kpi-eyebrow">Composite Score</div>
+            <div className="text-3xl font-bold text-[color:var(--color-gold-light)] mt-1 tabular-nums">{Math.round(scores.composite)}</div>
+            <div className="text-[11px] text-gray-400">of 100</div>
+            {arAvailable && (
+              <button onClick={goToAnnualReport}
+                className="mt-2 px-3 py-1.5 rounded-md text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all whitespace-nowrap flex items-center gap-1">
+                📊 Annual Report →
+              </button>
+            )}
+          </div>
       </div>
 
       <div className="hairline-divider" />

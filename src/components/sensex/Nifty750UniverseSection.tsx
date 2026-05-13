@@ -71,6 +71,7 @@ export function Nifty750UniverseSection() {
   const [rawData, setRawData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [dataQualityIssues, setDataQualityIssues] = useState<DataQualityIssue[]>([]);
+  const [arTickers, setArTickers] = useState<Set<string>>(new Set());
 
   /* ── Data fetch with error boundary ───────────────────────────────────── */
   useEffect(() => {
@@ -79,6 +80,15 @@ export function Nifty750UniverseSection() {
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (!cancelled) { setRawData(d); setLoading(false); } })
       .catch(() => { if (!cancelled) setLoading(false); });
+    // Also fetch AR index to know which companies have annual report data
+    fetch('/data/ar/company_index.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(idx => {
+        if (!cancelled && idx?.companies) {
+          setArTickers(new Set(idx.companies.filter((c: any) => c.hasAr).map((c: any) => c.ticker)));
+        }
+      })
+      .catch(() => {});
     return () => { cancelled = true; };
   }, []);
 
@@ -452,7 +462,15 @@ export function Nifty750UniverseSection() {
           rangeLabel={rangeLabel} endFy={endFy} sortCaret={sortCaret} toggleSort={toggleSort} showZScore={true} />
       )}
 
-      {selectedRow && <DrillDown row={selectedRow} rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} rangePeriods={safePeriods} />}
+      {selectedRow && (
+        <DrillDown
+          row={selectedRow}
+          rangeStart={safeRangeStart}
+          rangeEnd={safeRangeEnd}
+          rangePeriods={safePeriods}
+          arAvailable={arTickers.has(selectedRow.company.ticker)}
+        />
+      )}
     </div>
   );
 }

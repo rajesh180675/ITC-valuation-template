@@ -24,7 +24,12 @@
     "generate:nifty250": "node scripts/build_nifty250_feed.mjs",
     "data:refresh-nifty250": "npm run fetch:nifty250 && npm run generate:nifty250",
     "fetch:nifty750": "python scripts/data_collector/fetch_nifty750_data.py",
-    "data:refresh-nifty750": "npm run fetch:nifty750 && npm run generate:nifty750-real"
+    "data:refresh-nifty750": "npm run fetch:nifty750 && npm run generate:nifty750-real",
+    "scrape:ar": "python scripts/screener_scraper.py --batch nifty750 --workers 2 --resume",
+    "data:build-manifest": "python scripts/build_company_manifest.py",
+    "data:audit-ar": "python scripts/audit_ar_quality.py",
+    "data:refresh-ar": "npm run scrape:ar && npm run data:build-manifest && npm run data:audit-ar",
+    "data:refresh-all": "npm run data:refresh-ar && npm run data:refresh-nifty750"
   },
   "dependencies": {
     "clsx": "2.1.1",

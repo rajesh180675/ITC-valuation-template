@@ -39,31 +39,24 @@ const TABS: { id: Tab; label: string; icon: any }[] = [
 
 const COLORS = ['#10b981', '#34d399', '#6ee7b7', '#f59e0b', '#f97316', '#ef4444', '#8b5cf6', '#3b82f6', '#06b6d4', '#ec4899'];
 const SEGMENT_DONUT_ORDER = ['FMCG - Cigarettes', 'FMCG - Others', 'Agri Business', 'Paperboards, Paper and Packaging', 'Others'];
-const COMPANY_MAP: Record<string, string> = {
-  RELIANCE: 'Reliance Industries', TCS: 'Tata Consultancy Services',
-  HDFCBANK: 'HDFC Bank', INFY: 'Infosys', ICICIBANK: 'ICICI Bank',
-  SBIN: 'SBI', BHARTIARTL: 'Bharti Airtel', BAJFINANCE: 'Bajaj Finance',
-  KOTAKBANK: 'Kotak Mahindra Bank', LT: 'Larsen & Toubro',
-  HCLTECH: 'HCL Technologies', AXISBANK: 'Axis Bank', MARUTI: 'Maruti Suzuki',
-  ITC: 'ITC Limited', TITAN: 'Titan Company', ONGC: 'Oil & Natural Gas Corp',
-  NTPC: 'NTPC Ltd', POWERGRID: 'Power Grid Corp', ULTRACEMCO: 'UltraTech Cement',
-  ASIANPAINT: 'Asian Paints', 'M&M': 'Mahindra & Mahindra',
-  SUNPHARMA: 'Sun Pharmaceutical', BAJAJFINSV: 'Bajaj Finserv',
-  HINDUNILVR: 'Hindustan Unilever',
-  NESTLEIND: 'Nestle India', ADANIENT: 'Adani Enterprises',
-  ADANIPORTS: 'Adani Ports & SEZ', JSWSTEEL: 'JSW Steel',
-  MINDTREE: 'LTIMindtree',
-  COALINDIA: 'Coal India', GRASIM: 'Grasim Industries',
-  BRITANNIA: 'Britannia Industries', DIVISLAB: 'Divi\'s Laboratories',
-  DRREDDY: 'Dr. Reddy\'s Laboratories', APOLLOHOSP: 'Apollo Hospitals',
-  WIPRO: 'Wipro', TECHM: 'Tech Mahindra', 'BAJAJ-AUTO': 'Bajaj Auto',
-  EICHERMOT: 'Eicher Motors', INDUSINDBK: 'IndusInd Bank',
-  HEROMOTOCO: 'Hero MotoCorp', CIPLA: 'Cipla', BEL: 'Bharat Electronics',
-  IOC: 'Indian Oil Corp', HAL: 'Hindustan Aeronautics',
-  BPCL: 'Bharat Petroleum', TRENT: 'Trent Ltd',
-  SHRIRAMFIN: 'Shriram Finance', BAJAJHLDNG: 'Bajaj Holdings',
-  LTIM: 'LTIMindtree',
-};
+
+/* ── Company index types ──────────────────────────────────────────────────── */
+interface CompanyIndexEntry {
+  ticker: string;
+  name: string;
+  indexSlug: string;
+  sector: string;
+  reportingType: string;
+  hasAr: boolean;
+  years: number;
+  fyRange: string | null;
+}
+interface CompanyIndex {
+  companies: CompanyIndexEntry[];
+  byTicker: Record<string, CompanyIndexEntry>;
+  count: number;
+  scrapedCount: number;
+}
 
 function findItem(items: { label: string; current?: number | null }[], key: string): number | null {
   const m = items.find(i => i.label.toLowerCase().includes(key.toLowerCase()) && i.current !== null);
@@ -111,6 +104,10 @@ export function AnnualReportsSection() {
   const [commonSize, setCommonSize] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTicker, setActiveTicker] = useState('ITC');
+  const [companyIndex, setCompanyIndex] = useState<CompanyIndex | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [indexLoading, setIndexLoading] = useState(true);
 
   const getStmtType = (t: Tab): 'profitLoss' | 'balanceSheet' | 'cashFlow' => {
     if (t === 'pnl') return 'profitLoss';
@@ -119,7 +116,35 @@ export function AnnualReportsSection() {
     return 'profitLoss'; // default for overview/charts/segments/ratios
   };
 
-  // Fetch on ticker change or mount
+  // Fetch company index on mount
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/data/ar/company_index.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(idx => {
+        if (!cancelled && idx) {
+          setCompanyIndex(idx);
+          setIndexLoading(false);
+        }
+      })
+      .catch(() => { if (!cancelled) setIndexLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Check for a pending ticker from localStorage (set by universe drill-down)
+  useEffect(() => {
+    try {
+      const pending = localStorage.getItem('arTicker');
+      if (pending) {
+        localStorage.removeItem('arTicker');
+        if (companyIndex?.byTicker[pending]) {
+          setActiveTicker(pending);
+        }
+      }
+    } catch {}
+  }, [companyIndex]);
+
+  // Fetch AR data on ticker change or mount
   useEffect(() => {
     let cancelled = false;
     setError(null);
@@ -145,6 +170,28 @@ export function AnnualReportsSection() {
 
   const years = useMemo(() => yearsData ? Object.keys(yearsData).sort() : [], [yearsData]);
   const displayYears = getDisplayYears(selectedYears, years, tab);
+
+  // Search + filter for company selector
+  const activeCompanyName = useMemo(() => {
+    if (companyIndex?.byTicker[activeTicker]) return companyIndex.byTicker[activeTicker].name;
+    return activeTicker;
+  }, [companyIndex, activeTicker]);
+
+  const filteredCompanies = useMemo(() => {
+    if (!companyIndex) return [];
+    if (!searchQuery.trim()) return companyIndex.companies.slice(0, 100);
+    const q = searchQuery.toLowerCase();
+    return companyIndex.companies.filter(c =>
+      c.ticker.toLowerCase().includes(q) ||
+      c.name.toLowerCase().includes(q)
+    ).slice(0, 200);
+  }, [companyIndex, searchQuery]);
+
+  const handleSelectCompany = (ticker: string) => {
+    setActiveTicker(ticker);
+    setSearchQuery('');
+    setShowDropdown(false);
+  };
   const cashFlowTable = useMemo(() => buildCashFlowTableModel(yearsData ?? {}, displayYears), [yearsData, displayYears]);
   const cashFlowSummaries = useMemo(() => buildCashFlowYearSummaries(yearsData ?? {}, displayYears), [yearsData, displayYears]);
   const latestCashFlow = cashFlowSummaries[cashFlowSummaries.length - 1];
@@ -195,13 +242,53 @@ export function AnnualReportsSection() {
           <div>
             <h1 className="text-xl font-bold text-white">Annual Reports</h1>
             <p className="text-xs text-gray-400">
-              <select value={activeTicker} onChange={e => setActiveTicker(e.target.value)}
-                className="bg-gray-800 text-emerald-300 border border-gray-700 rounded px-1.5 py-0.5 text-[11px] font-mono cursor-pointer">
-                {Object.entries(COMPANY_MAP).map(([t, n]) => (
-                  <option key={t} value={t}>{n} ({t})</option>
-                ))}
-              </select>
-              {(years.length > 0 && !error) && <>{' \u00B7 '}{years.length} years{' \u00B7 '}{tab.toUpperCase()}</>}
+              <span className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => { setSearchQuery(e.target.value); setShowDropdown(true); }}
+                  onFocus={() => setShowDropdown(true)}
+                  placeholder={indexLoading ? 'Loading...' : `${activeCompanyName} (${activeTicker})`}
+                  className="bg-gray-800 text-emerald-300 border border-gray-700 rounded px-2 py-0.5 text-[11px] font-mono w-[240px] outline-none focus:border-emerald-500/50"
+                />
+                {showDropdown && companyIndex && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setShowDropdown(false)} />
+                    <div className="absolute top-full left-0 mt-1 z-20 bg-gray-900 border border-gray-700 rounded-lg shadow-xl max-h-[300px] overflow-y-auto min-w-[320px]">
+                      {filteredCompanies.length === 0 ? (
+                        <div className="px-3 py-2 text-gray-500 text-xs">No matches found</div>
+                      ) : filteredCompanies.map(c => (
+                        <button
+                          key={c.ticker}
+                          onClick={() => handleSelectCompany(c.ticker)}
+                          className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-gray-800 transition-colors ${
+                            c.ticker === activeTicker ? 'bg-emerald-500/10 text-emerald-300' : 'text-gray-300'
+                          }`}
+                        >
+                          <span>
+                            <span className="font-mono">{c.ticker}</span>
+                            <span className="text-gray-500 ml-2">{c.name}</span>
+                          </span>
+                          <span className={`text-[10px] ${c.hasAr ? 'text-emerald-500' : 'text-gray-600'}`}>
+                            {c.hasAr ? `${c.years}y` : 'no data'}
+                          </span>
+                        </button>
+                      ))}
+                      {searchQuery.trim() === '' && companyIndex.count > 100 && (
+                        <div className="px-3 py-1.5 text-gray-600 text-[10px] border-t border-gray-800">
+                          Showing first 100 of {companyIndex.count} companies — type to search
+                        </div>
+                      )}
+                      {searchQuery.trim() !== '' && filteredCompanies.length >= 200 && (
+                        <div className="px-3 py-1.5 text-gray-600 text-[10px] border-t border-gray-800">
+                          Showing top 200 matches — refine your search
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </span>
+              {(years.length > 0 && !error) && <>{' · '}{years.length} years{' · '}{tab.toUpperCase()}</>}
             </p>
           </div>
         </div>

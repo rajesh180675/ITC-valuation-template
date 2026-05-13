@@ -1,4 +1,4 @@
-import { useState, useCallback, lazy, Suspense } from 'react';
+import { useState, useCallback, useEffect, lazy, Suspense } from 'react';
 import {
   BarChart3, TrendingUp, PieChart as PieIcon, Shield, Calculator,
   Target, Globe, BookOpen, Activity,
@@ -75,6 +75,17 @@ export default function App() {
   const [section, setSection] = useState<Section>('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [assumptions, setAssumptions] = useState<ProjectionAssumptions>(defaultAssumptions);
+
+  // Listen for custom navigation events from child components
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      if (e.detail?.section && NAV.some(n => n.id === e.detail.section)) {
+        setSection(e.detail.section as Section);
+      }
+    };
+    window.addEventListener('navigate-to', handler as EventListener);
+    return () => window.removeEventListener('navigate-to', handler as EventListener);
+  }, []);
 
   const renderSection = useCallback(() => {
     switch (section) {
