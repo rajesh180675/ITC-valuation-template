@@ -40,8 +40,29 @@ const TABS: { id: Tab; label: string; icon: any }[] = [
 const COLORS = ['#10b981', '#34d399', '#6ee7b7', '#f59e0b', '#f97316', '#ef4444', '#8b5cf6', '#3b82f6', '#06b6d4', '#ec4899'];
 const SEGMENT_DONUT_ORDER = ['FMCG - Cigarettes', 'FMCG - Others', 'Agri Business', 'Paperboards, Paper and Packaging', 'Others'];
 const COMPANY_MAP: Record<string, string> = {
-  ITC: 'ITC Limited', RELIANCE: 'Reliance Industries', TCS: 'Tata Consultancy Services',
-  HDFCBANK: 'HDFC Bank', INFY: 'Infosys', ICICIBANK: 'ICICI Bank', SBIN: 'SBI', WIPRO: 'Wipro',
+  RELIANCE: 'Reliance Industries', TCS: 'Tata Consultancy Services',
+  HDFCBANK: 'HDFC Bank', INFY: 'Infosys', ICICIBANK: 'ICICI Bank',
+  SBIN: 'SBI', BHARTIARTL: 'Bharti Airtel', BAJFINANCE: 'Bajaj Finance',
+  KOTAKBANK: 'Kotak Mahindra Bank', LT: 'Larsen & Toubro',
+  HCLTECH: 'HCL Technologies', AXISBANK: 'Axis Bank', MARUTI: 'Maruti Suzuki',
+  ITC: 'ITC Limited', TITAN: 'Titan Company', ONGC: 'Oil & Natural Gas Corp',
+  NTPC: 'NTPC Ltd', POWERGRID: 'Power Grid Corp', ULTRACEMCO: 'UltraTech Cement',
+  ASIANPAINT: 'Asian Paints', 'M&M': 'Mahindra & Mahindra',
+  SUNPHARMA: 'Sun Pharmaceutical', BAJAJFINSV: 'Bajaj Finserv',
+  HINDUNILVR: 'Hindustan Unilever',
+  NESTLEIND: 'Nestle India', ADANIENT: 'Adani Enterprises',
+  ADANIPORTS: 'Adani Ports & SEZ', JSWSTEEL: 'JSW Steel',
+  MINDTREE: 'LTIMindtree',
+  COALINDIA: 'Coal India', GRASIM: 'Grasim Industries',
+  BRITANNIA: 'Britannia Industries', DIVISLAB: 'Divi\'s Laboratories',
+  DRREDDY: 'Dr. Reddy\'s Laboratories', APOLLOHOSP: 'Apollo Hospitals',
+  WIPRO: 'Wipro', TECHM: 'Tech Mahindra', 'BAJAJ-AUTO': 'Bajaj Auto',
+  EICHERMOT: 'Eicher Motors', INDUSINDBK: 'IndusInd Bank',
+  HEROMOTOCO: 'Hero MotoCorp', CIPLA: 'Cipla', BEL: 'Bharat Electronics',
+  IOC: 'Indian Oil Corp', HAL: 'Hindustan Aeronautics',
+  BPCL: 'Bharat Petroleum', TRENT: 'Trent Ltd',
+  SHRIRAMFIN: 'Shriram Finance', BAJAJHLDNG: 'Bajaj Holdings',
+  LTIM: 'LTIMindtree',
 };
 
 function findItem(items: { label: string; current?: number | null }[], key: string): number | null {
