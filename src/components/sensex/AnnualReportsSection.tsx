@@ -283,6 +283,107 @@ export function AnnualReportsSection() {
   );
 }
 
+/* ── Cash Flow Waterfall Bridge ──────────────────────────────────────────── */
+interface WaterfallItem {
+  label: string;
+  value: number;
+  color: string;
+  isNet?: boolean;
+}
+
+function buildWaterfallData(summary: CashFlowYearSummary | null): WaterfallItem[] {
+  if (!summary) return [];
+  const items: WaterfallItem[] = [];
+  if (summary.cfo != null) items.push({ label: 'CFO', value: summary.cfo, color: '#10b981' });
+  if (summary.capex != null) items.push({ label: 'Capex', value: summary.capex, color: '#ef4444' });
+  if (summary.cfi != null && summary.capex != null) {
+    // Net investing excluding capex
+    const nonCapexInvesting = summary.cfi - summary.capex;
+    if (Math.abs(nonCapexInvesting) > 0.1) {
+      items.push({ label: 'Other CFI', value: nonCapexInvesting, color: '#f97316' });
+    }
+  }
+  if (summary.dividend != null) items.push({ label: 'Dividend', value: -Math.abs(summary.dividend), color: '#8b5cf6' });
+  if (summary.cff != null) {
+    const otherCff = summary.cff;
+    if (Math.abs(otherCff) > 0.1) {
+      items.push({ label: 'Other CFF', value: otherCff, color: '#ec4899' });
+    }
+  }
+  if (summary.netChange != null) {
+    items.push({ label: 'Net Change', value: summary.netChange, color: '#3b82f6', isNet: true });
+  }
+  if (summary.closingCash != null) {
+    items.push({ label: 'Closing Cash', value: summary.closingCash, color: '#06b6d4', isNet: true });
+  }
+  return items;
+}
+
+function CashFlowWaterfall({ summary, summaries }: { summary: CashFlowYearSummary | null; summaries: CashFlowYearSummary[] }) {
+  if (!summary) return <div className="text-center text-gray-400 text-xs">No cash flow data</div>;
+
+  // Build waterfall from the summary for the latest year
+  const waterfallItems = buildWaterfallData(summary);
+  if (waterfallItems.length === 0) return <div className="text-center text-gray-400 text-xs">No waterfall data</div>;
+
+  // Compute running totals for proper waterfall rendering
+  let runningTotal = 0;
+  const chartData = waterfallItems.map((item, index) => {
+    const prevTotal = runningTotal;
+    if (item.isNet) {
+      // Net items start from 0 and grow to their value
+      runningTotal = item.value;
+      return {
+        label: item.label,
+        value: item.value,
+        base: 0,
+        color: item.color,
+        isNet: true,
+      };
+    }
+    // Regular items: show from current running total to running total + value
+    const newTotal = prevTotal + item.value;
+    const barBase = Math.min(prevTotal, newTotal);
+    const barValue = Math.abs(item.value);
+    runningTotal = newTotal;
+    return {
+      label: item.label,
+      value: barValue,
+      base: barBase,
+      color: item.color,
+      isNet: false,
+    };
+  });
+
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <ComposedChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+        <XAxis dataKey="label" tick={{ fill: '#9ca3af', fontSize: 11 }} axisLine={{ stroke: '#374151' }} />
+        <YAxis tick={{ fill: '#9ca3af', fontSize: 11 }} axisLine={{ stroke: '#374151' }} tickFormatter={(v: number) => fmtN(v, 0)} />
+        <Tooltip
+          contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }}
+          formatter={(v: any, n: any, props: any) => {
+            const item = chartData[props?.payload?.index ?? 0];
+            if (!item) return [fmtN(v, 0), n];
+            if (item.isNet) return [fmtN(item.value, 0), 'Value'];
+            const actualValue = props?.payload?.value;
+            return [fmtN(actualValue, 0), 'Value'];
+          }}
+        />
+        {/* Invisible base bars */}
+        <Bar dataKey="base" fill="transparent" stackId="waterfall" barSize={50} />
+        {/* Visible value bars */}
+        <Bar dataKey="value" stackId="waterfall" barSize={50} radius={[4, 4, 0, 0]}>
+          {chartData.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.color} />
+          ))}
+        </Bar>
+      </ComposedChart>
+    </ResponsiveContainer>
+  );
+}
+
 /* ── Charts (safe null math) ─────────────────────────────────────────────── */
 function CashFlowView({
   data,
@@ -362,6 +463,14 @@ function CashFlowView({
               <Bar dataKey="fcf" name="FCF" fill="#f59e0b" radius={[4, 4, 0, 0]} />
             </ComposedChart>
           </ChartPanel>
+        </div>
+
+        {/* Cash Flow Waterfall Chart — latest year bridge */}
+        <div className="glass-card p-4 mb-4">
+          <h3 className="text-sm font-semibold text-white mb-3">Cash Flow Bridge ({latest?.fy ?? ''} — Cr)</h3>
+          <div className="h-[280px]">
+            <CashFlowWaterfall summary={latest} summaries={summaries} />
+          </div>
         </div>
 
         <table className="w-full text-xs tabular-nums" style={{ minWidth: 700 }}>
