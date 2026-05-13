@@ -8,6 +8,7 @@ import {
   ResponsiveContainer, ComposedChart, Legend, Pie, Cell
 } from 'recharts';
 import { fmt, fmtN } from '@/components/itc/shared';
+import { OverviewTab } from './OverviewTab';
 import {
   type AnnualReportDataFile,
   type AnnualReportFileMetadata,
@@ -22,9 +23,10 @@ import {
   getYearPresetYears,
 } from '@/utils/annualReportCashFlow';
 
-type Tab = 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts';
+type Tab = 'overview' | 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts';
 
 const TABS: { id: Tab; label: string; icon: any }[] = [
+  { id: 'overview', label: 'Overview', icon: BookOpen },
   { id: 'pnl', label: 'P&L', icon: TrendingUp },
   { id: 'balanceSheet', label: 'Balance Sheet', icon: PieChart },
   { id: 'cashFlow', label: 'Cash Flow', icon: DollarSign },
@@ -77,7 +79,7 @@ function KpiCard({ label, value, trend, suffix }: { label: string; value: number
 
 /* ── Main Component (stable hook tree, no key-remount) ──────────────────── */
 export function AnnualReportsSection() {
-  const [tab, setTab] = useState<Tab>('charts');
+  const [tab, setTab] = useState<Tab>('overview');
   const [yearsData, setYearsData] = useState<Record<string, AnnualReportYearData> | null>(null);
   const [segData, setSegData] = useState<any>(null);
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
@@ -207,8 +209,8 @@ export function AnnualReportsSection() {
       {/* Main content — only when data is loaded */}
       {!error && yearsData && (
         <>
-          {/* KPI cards */}
-          {latest && (
+          {/* KPI cards — skip on overview (has its own) */}
+          {tab !== 'overview' && latest && (
             <div className="flex gap-3 flex-wrap">
               {tab === 'cashFlow' ? (
                 <>
@@ -253,19 +255,20 @@ export function AnnualReportsSection() {
           </div>
 
           {/* Tab content */}
-          {tab === 'segments' ? <SegmentsView segData={segData} activeTicker={activeTicker} /> :
-           tab === 'charts' ? <ChartsView kpiData={kpiData} /> :
-           tab === 'cashFlow' ? <CashFlowView
-             data={yearsData}
-             years={displayYears}
-             allYears={years}
-             reportMeta={reportMeta}
-             tableModel={cashFlowTable}
-             summaries={cashFlowSummaries}
-             selectedYears={selectedYears}
-             onPresetSelect={setCashFlowPreset}
-           /> :
-           <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
+          {tab === 'overview' && <OverviewTab yearsData={yearsData ?? {}} years={years} segData={segData} />}
+          {tab === 'segments' && <SegmentsView segData={segData} activeTicker={activeTicker} />}
+          {tab === 'charts' && <ChartsView kpiData={kpiData} />}
+          {tab === 'cashFlow' && <CashFlowView
+            data={yearsData}
+            years={displayYears}
+            allYears={years}
+            reportMeta={reportMeta}
+            tableModel={cashFlowTable}
+            summaries={cashFlowSummaries}
+            selectedYears={selectedYears}
+            onPresetSelect={setCashFlowPreset}
+          />}
+          {(tab === 'pnl' || tab === 'balanceSheet') && <DataDrivenTable data={yearsData} years={displayYears} stmtType={getStmtType(tab)} commonSize={commonSize} />}
         </>
       )}
     </div>
