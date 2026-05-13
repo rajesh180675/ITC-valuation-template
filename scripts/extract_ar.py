@@ -59,7 +59,7 @@ def discover_ar_url(ticker, year):
         'RELIANCE': 'Reliance+Industries', 'TCS': 'Tata+Consultancy+Services',
         'HDFCBANK': 'HDFC+Bank', 'INFY': 'Infosys', 'ICICIBANK': 'ICICI+Bank',
         'SBIN': 'SBI', 'MARUTI': 'Maruti+Suzuki', 'TITAN': 'Titan+Company',
-        'LT': 'Larsen+%26+Tourbo', 'SUNPHARMA': 'Sun+Pharmaceutical',
+        'LT': 'Larsen+%26+Toubro', 'SUNPHARMA': 'Sun+Pharmaceutical',
         'HINDUNILVR': 'Hindustan+Unilever', 'TATAMOTORS': 'Tata+Motors',
         'NESTLEIND': 'Nestle+India', 'BAJAJ-AUTO': 'Bajaj+Auto',
         'EICHERMOT': 'Eicher+Motors', 'HEROMOTOCO': 'Hero+MotoCorp',

@@ -431,7 +431,7 @@ function buildWaterfallData(summary: CashFlowYearSummary | null): WaterfallItem[
   return items;
 }
 
-function CashFlowWaterfall({ summary, summaries }: { summary: CashFlowYearSummary | null; summaries: CashFlowYearSummary[] }) {
+function CashFlowWaterfall({ summary, summaries: _summaries }: { summary: CashFlowYearSummary | null; summaries: CashFlowYearSummary[] }) {
   if (!summary) return <div className="text-center text-gray-400 text-xs">No cash flow data</div>;
 
   // Build waterfall from the summary for the latest year
@@ -440,7 +440,7 @@ function CashFlowWaterfall({ summary, summaries }: { summary: CashFlowYearSummar
 
   // Compute running totals for proper waterfall rendering
   let runningTotal = 0;
-  const chartData = waterfallItems.map((item, index) => {
+  const chartData = waterfallItems.map((item, _index) => {
     const prevTotal = runningTotal;
     if (item.isNet) {
       // Net items start from 0 and grow to their value
@@ -720,102 +720,7 @@ function ChartPanel({ title, icon, children }: { title: string; icon: React.Reac
 
 /* ── Balance Sheet Side-by-Side View ──────────────────────────────────────── */
 function BalanceSheetSideBySide({ data, years, commonSize }: { data: Record<string, AnnualReportYearData>; years: string[]; commonSize: boolean; }) {
-  // Extract BS items and split into left (Assets) and right (Equity + Liabilities)
-  const leftSections = ['ASSETS', 'Non-current assets', 'Current assets', 'Non-current investments', 'Current investments'];
-  const rightSections = ['EQUITY AND LIABILITIES', 'Share capital', 'Reserves and surplus', 'Non-current liabilities', 'Current liabilities'];
-
-  const getItemsForSide = (sideSections: string[]) => {
-    const items: { label: string; vals: (number | null)[]; isSection: boolean }[] = [];
-    const latestYear = years[years.length - 1];
-    const latestStmt = data[latestYear]?.balanceSheet;
-    const latestLabels = latestStmt?.items ?? [];
-
-    // Collect labels we care about
-    for (const item of latestLabels) {
-      const sectionMatch = sideSections.some(s => item.label.toLowerCase().includes(s.toLowerCase()));
-      if (!sectionMatch && item.type === 'section') continue;
-      if (!sectionMatch && item.type !== 'section') continue;
-      if (sectionMatch) {
-        items.push({ label: item.label, vals: [], isSection: item.type === 'section' });
-      }
-    }
-
-    // Build value map for each year
-    const itemMap: Record<string, { vals: (number | null)[]; isSection: boolean }> = {};
-    for (const item of latestLabels) {
-      const sectionMatch = sideSections.some(s => item.label.toLowerCase().includes(s.toLowerCase()));
-      if (sectionMatch) {
-        itemMap[item.label] = { vals: [], isSection: item.type === 'section' };
-      }
-    }
-
-    const result: { label: string; vals: (number | null)[]; isSection: boolean }[] = [];
-    for (const item of latestLabels) {
-      const sectionMatch = sideSections.some(s => item.label.toLowerCase().includes(s.toLowerCase()));
-      if (sectionMatch) {
-        const vals = years.map(fy => {
-          const stmt = data[fy]?.balanceSheet;
-          if (!stmt) return null;
-          const match = stmt.items.find(i => i.label === item.label);
-          return match?.current ?? null;
-        });
-        result.push({ label: item.label, vals, isSection: item.type === 'section' });
-      }
-    }
-    return result;
-  };
-
-  // Try to identify asset/liability sides based on the top-level "TOTAL" row or section names
-  const getSideItems = (side: 'assets' | 'equityLiabilities') => {
-    const allItems: { label: string; vals: (number | null)[]; isSection: boolean; section: string }[] = [];
-
-    for (const fy of years) {
-      const stmt = data[fy]?.balanceSheet;
-      if (!stmt) continue;
-      let currentSection = '';
-      for (const item of stmt.items) {
-        if (item.type === 'section') {
-          currentSection = item.label;
-          // Add section header
-          const existingIdx = allItems.findIndex(i => i.label === item.label);
-          if (existingIdx < 0) {
-            allItems.push({ label: item.label, vals: years.map(() => null), isSection: true, section: currentSection });
-          }
-        } else {
-          // Determine which side this item belongs to
-          const lower = currentSection.toLowerCase();
-          let isAssetSection = false;
-          let isEquityLiabSection = false;
-          if (lower.includes('asset')) {
-            isAssetSection = true;
-          } else if (lower.includes('equity') || lower.includes('liabilit')) {
-            isEquityLiabSection = true;
-          } else if (lower.includes('total')) {
-            // TOTAL rows could be either - we figure this out by position
-            // For simplicity, first TOTAL is total assets, second is total equity+liabilities
-            continue; // skip TOTAL rows for now
-          }
-
-          const targetSide = isAssetSection ? 'assets' : isEquityLiabSection ? 'equityLiabilities' : null;
-          if (targetSide !== side) continue;
-
-          const existingIdx = allItems.findIndex(i => i.label === item.label);
-          if (existingIdx >= 0) {
-            // Update the value for this year
-            const yearIdx = years.indexOf(fy);
-            allItems[existingIdx].vals[yearIdx] = item.current ?? null;
-          } else {
-            const vals = years.map(() => null);
-            vals[years.indexOf(fy)] = item.current ?? null;
-            allItems.push({ label: item.label, vals, isSection: false, section: currentSection });
-          }
-        }
-      }
-    }
-    return allItems;
-  };
-
-  // Alternative simpler approach: use a two-pass scan
+  // Alternative simpler approach: two-pass scan (used instead of getSideItems above)
   const getItemsSimple = (side: 'assets' | 'equityLiabilities') => {
     const result: { label: string; vals: (number | null)[]; isSection: boolean; indent: number }[] = [];
     const seenLabels = new Set<string>();
@@ -859,7 +764,7 @@ function BalanceSheetSideBySide({ data, years, commonSize }: { data: Record<stri
         if (existingIdx >= 0) {
           result[existingIdx].vals[yearIdx] = item.current ?? null;
         } else {
-          const vals = years.map(() => null);
+          const vals: (number | null)[] = years.map(() => null);
           vals[yearIdx] = item.current ?? null;
           result.push({ label: item.label, vals, isSection: false, indent: afterTotal ? 0 : 1 });
         }
@@ -1256,12 +1161,12 @@ function SegmentsView({ segData, activeTicker }: { segData: any; activeTicker: s
               <div className="flex items-center justify-center h-full text-gray-400 text-xs">No data</div>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+                <ComposedChart data={scatterData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
                   <XAxis dataKey="revenue" type="number" name="Revenue" tick={{ fill: '#9ca3af', fontSize: 11 }} axisLine={{ stroke: '#374151' }} tickFormatter={(v: number) => fmtN(v, 0)} />
                   <YAxis dataKey="results" type="number" name="Results" tick={{ fill: '#9ca3af', fontSize: 11 }} axisLine={{ stroke: '#374151' }} tickFormatter={(v: number) => fmtN(v, 0)} />
                   <Tooltip contentStyle={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 8, fontSize: 12 }} formatter={(v: any, n: any) => [fmtN(v, 0), n]} cursor={{ strokeDasharray: '3 3' }} />
-                  <Bar data={scatterData} dataKey="results" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={30} />
+                  <Bar dataKey="results" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={30} />
                 </ComposedChart>
               </ResponsiveContainer>
             )}

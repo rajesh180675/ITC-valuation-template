@@ -132,7 +132,7 @@ FIN = {'Private Sector Bank','Public Sector Bank','Other Bank',
     'Life Insurance','General Insurance','Reinsurance','Insurance'}
 
 for slug in ['smallcap250','microcap250']:
-    with open(f'scripts/nifty750/{slug}/constituents.json') as f:
+    with open(f'scripts/nifty750/{slug}/source-pack/constituents.json') as f:
         d = json.load(f)
     for c in d['constituents']:
         ind = nse_map.get(c['symbol'],'')
@@ -141,15 +141,15 @@ for slug in ['smallcap250','microcap250']:
         c['industry'] = ind
         c['reportingType'] = 'financial' if ind in FIN else 'nonFinancial'
     unk = sum(1 for c in d['constituents'] if c['sector']=='Unknown')
-    with open(f'scripts/nifty750/{slug}/constituents.json','w',encoding='utf-8') as f:
+    with open(f'scripts/nifty750/{slug}/source-pack/constituents.json','w',encoding='utf-8') as f:
         json.dump(d,f,indent=2)
     print(f'{slug}: {len(d["constituents"])} cos, {unk} Unknown, {len(d["constituents"])-unk} mapped')
     
-    with open(f'scripts/nifty750/{slug}/market_data.json') as f:
+    with open(f'scripts/nifty750/{slug}/source-pack/market_data.json') as f:
         m = json.load(f)
     for r in m['rows']:
         ind = nse_map.get(r['symbol'],'')
         r['reportingType'] = 'financial' if ind in FIN else 'nonFinancial'
-    with open(f'scripts/nifty750/{slug}/market_data.json','w',encoding='utf-8') as f:
+    with open(f'scripts/nifty750/{slug}/source-pack/market_data.json','w',encoding='utf-8') as f:
         json.dump(m,f,indent=2)
 print('Done')

@@ -2,37 +2,13 @@ import { useMemo } from 'react';
 import {
   Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, ComposedChart, Legend,
-  Bar, Area, AreaChart,
+  Bar,
 } from 'recharts';
 import { TrendingUp, TrendingDown, Activity, Scale } from 'lucide-react';
-import { fmtN } from '@/components/itc/shared';
 import { calculateRatios } from '@/utils/annualReportRatios';
 import type { AnnualReportYearData } from '@/utils/annualReportCashFlow';
 
-/* ── Helpers ─────────────────────────────────────────────────────────────── */
-function fmtRatio(v: number | null): string {
-  if (v == null) return '—';
-  return `${v.toFixed(1)}%`;
-}
-
-function RatioCard({ label, value, trend, color }: {
-  label: string; value: number | null; trend?: number | null; color?: string;
-}) {
-  return (
-    <div className="glass-card p-3 flex flex-col gap-0.5 min-w-[130px]">
-      <span className="text-[10px] text-gray-400 uppercase tracking-wider">{label}</span>
-      <span className={`text-lg font-bold tabular-nums ${value != null && value < 0 ? 'text-rose-400' : 'text-white'}`}>
-        {fmtRatio(value)}
-      </span>
-      {trend != null && trend !== 0 && (
-        <span className={`text-[10px] font-mono ${trend > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-          {trend > 0 ? '\u25B2' : '\u25BC'} {Math.abs(trend).toFixed(1)}pp
-        </span>
-      )}
-    </div>
-  );
-}
-
+/* ── Chart Panel ───────────────────────────────────────────────────────── */
 function ChartPanel({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className="glass-card p-4">

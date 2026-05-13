@@ -209,11 +209,15 @@ def main():
     # Nifty750 - all indices
     print('\n--- Nifty750 indices ---')
     for slug in ['largemidcap250', 'smallcap250', 'microcap250']:
-        base = os.path.join(ROOT_DIR, 'scripts', 'nifty750', slug)
+        base = os.path.join(ROOT_DIR, 'scripts', 'nifty750', slug, 'source-pack')
         const_path = os.path.join(base, 'constituents.json')
+        fin_path = os.path.join(base, 'financials.json')
+        bs_path = os.path.join(base, 'balance_sheets.json')
+        cf_path = os.path.join(base, 'cashflows.json')
+        ratio_path = os.path.join(base, 'company_ratios.json')
         mkt_path = os.path.join(base, 'market_data.json')
         if os.path.exists(const_path):
-            u = fix_dataset_flat(const_path, mkt_path)
+            u = fix_dataset(const_path, fin_path, bs_path, cf_path, ratio_path, mkt_path)
             total_unknown += u
     
     print(f'\nTotal remaining Unknown: {total_unknown}')
