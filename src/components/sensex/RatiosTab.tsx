@@ -89,8 +89,27 @@ export function RatiosTab({ yearsData, years }: RatiosTabProps) {
     { label: 'Debt/Equity', val: latest.debtToEquity, suffix: 'x' },
   ];
 
+  // Bank-specific cards
+  if (latest.isFinancial) {
+    kpiCards.push(
+      { label: 'Cost/Income', val: latest.costToIncome },
+      { label: 'Provisions/Rev', val: latest.provisionsRatio },
+    );
+  }
+
   return (
     <div className="space-y-4">
+      {/* Company Type Badge */}
+      <div className="flex items-center gap-2 mb-1">
+        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+          latest.isFinancial
+            ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20'
+            : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+        }`}>
+          {latest.isFinancial ? 'Financial' : 'Non-Financial'}
+        </span>
+      </div>
+
       {/* KPI Cards */}
       <div className="flex gap-3 flex-wrap">
         {kpiCards.map(({ label, val, suffix }) => (
