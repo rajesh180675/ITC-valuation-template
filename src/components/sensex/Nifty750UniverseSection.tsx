@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Layers } from 'lucide-react';
 import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
+import type { LedgerRow } from '@/utils/export';
 import {
   buildSensexIndexTimeSeries, buildSensexSectorSummary,
   getLatestSensexFinancial, getPrimaryValuationLabel,
@@ -17,6 +18,7 @@ import {
   SectorAnalyticsTable, TopWeightsChart, GrowthValuationScatter,
   ImpliedVsRealizedScatter, FactorScorecard, MagicFormulaCard,
   SectorMomentumHeatmap, DataProvenanceBanner, ConstituentLedger, DrillDown,
+  ROCEDistribution, CapitalEfficiencyQuadrant,
 } from './shared';
 
 type Filter = 'all' | 'financial' | 'nonFinancial';
@@ -72,6 +74,8 @@ export function Nifty750UniverseSection() {
   const [loading, setLoading] = useState(true);
   const [dataQualityIssues, setDataQualityIssues] = useState<DataQualityIssue[]>([]);
   const [arTickers, setArTickers] = useState<Set<string>>(new Set());
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sectorFilter, setSectorFilter] = useState<string[]>([]);
 
   /* ── Data fetch with error boundary ───────────────────────────────────── */
   useEffect(() => {
@@ -146,13 +150,32 @@ export function Nifty750UniverseSection() {
   const [rangeEnd, setRangeEnd] = useState(totalYears - 1);
   useEffect(() => { setRangeEnd(Math.max(0, totalYears - 1)); }, [totalYears]);
 
-  /* ── Filtered companies ────────────────────────────────────────────────── */
+  /* ── All sectors (for filter UI) ──────────────────────────────────────── */
+  const allSectors = useMemo(() => {
+    try {
+      return [...new Set(batchCompanies.map(c => c?.sector ?? 'Unknown'))].sort();
+    } catch { return []; }
+  }, [batchCompanies]);
+
+  /* ── Filtered companies (search + sector + type) ──────────────────────── */
   const filteredCompanies = useMemo(() => {
     try {
-      if (filterVal === 'all') return batchCompanies;
-      return batchCompanies.filter(c => c?.reportingType === filterVal);
+      let list: SensexConstituent[] = filterVal === 'all' ? batchCompanies : batchCompanies.filter(c => c?.reportingType === filterVal);
+      // Search by ticker or name
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        list = list.filter(c =>
+          (c?.ticker ?? '').toLowerCase().includes(q) ||
+          (c?.name ?? '').toLowerCase().includes(q)
+        );
+      }
+      // Filter by selected sectors
+      if (sectorFilter.length > 0) {
+        list = list.filter(c => sectorFilter.includes(c?.sector ?? ''));
+      }
+      return list;
     } catch { return []; }
-  }, [filterVal, batchCompanies]);
+  }, [filterVal, searchQuery, sectorFilter, batchCompanies]);
 
   /* ── Safe year bounds ──────────────────────────────────────────────────── */
   const safeRangeStart = Math.min(rangeStart, Math.max(0, totalYears - 1));
@@ -383,6 +406,50 @@ export function Nifty750UniverseSection() {
                 return <button key={n} onClick={() => setQuickRange(n)} className={isActive ? 'active' : ''}>{n}Y</button>;
               })}
             </div>
+            <input
+              type="search"
+              placeholder="Search ticker or name…"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="bg-surface-3 border border-border rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 w-48"
+            />
+            {allSectors.length > 0 && (
+              <div className="dropdown-wrapper">
+                <details className="group/details">
+                  <summary className="cursor-pointer text-[11px] font-semibold text-gray-200 bg-black/40 hover:bg-black/60 border border-border rounded-md px-3 py-1.5 transition select-none">
+                    Sector {sectorFilter.length > 0 ? `(${sectorFilter.length})` : ''}
+                  </summary>
+                  <div className="absolute right-0 mt-1 w-56 max-h-64 overflow-y-auto bg-surface-3 border border-border rounded-lg p-2 z-50 shadow-xl">
+                    <label className="flex items-center gap-2 text-xs text-gray-200 px-1 py-1 hover:bg-white/5 rounded cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={sectorFilter.length === 0}
+                        onChange={e => { if (e.target.checked) setSectorFilter([]); }}
+                        className="rounded border-border bg-transparent"
+                      />
+                      All sectors
+                    </label>
+                    <div className="hairline-divider my-1" />
+                    {allSectors.map(s => (
+                      <label key={s} className="flex items-center gap-2 text-xs text-gray-200 px-1 py-1 hover:bg-white/5 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={sectorFilter.includes(s)}
+                          onChange={() => {
+                            const next = sectorFilter.includes(s)
+                              ? sectorFilter.filter(x => x !== s)
+                              : [...sectorFilter, s];
+                            setSectorFilter(next);
+                          }}
+                          className="rounded border-border bg-transparent"
+                        />
+                        {s}
+                      </label>
+                    ))}
+                  </div>
+                </details>
+              </div>
+            )}
           </div>
         </div>
         <div className="hairline-divider my-5" />
@@ -444,6 +511,11 @@ export function Nifty750UniverseSection() {
       <SectorAnalyticsTable data={sectorAnalytics} />
       {sectorMomentum.length > 0 && <SectorMomentumHeatmap rows={sectorMomentum} />}
 
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <ROCEDistribution companies={filteredCompanies} />
+        <CapitalEfficiencyQuadrant companies={filteredCompanies} rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} />
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         <TopWeightsChart data={topWeightData} />
         <GrowthValuationScatter data={growthVsValuation} medianPatCagr={medianPatCagr} rangePeriods={safePeriods} />
@@ -452,6 +524,36 @@ export function Nifty750UniverseSection() {
       <ImpliedVsRealizedScatter data={impliedVsRealized} rangePeriods={safePeriods} />
 
       {magicFormula.length > 0 && <MagicFormulaCard rows={magicFormula} onSelect={setSelectedId} />}
+
+      {sortedRows.length > 0 && (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => {
+              import('@/utils/export').then(({ exportLedger }) => {
+                const ledgerRows: LedgerRow[] = sortedRows.map(r => ({
+                  ticker: r?.company?.ticker ?? '',
+                  name: r?.company?.name ?? '',
+                  sector: r?.company?.sector ?? '',
+                  weightPct: r?.company?.weightPct ?? 0,
+                  marketCapCr: r?.company?.marketCapCr ?? 0,
+                  pe: r?.company?.valuationMultiple ?? 0,
+                  roePct: r?.last?.roePct ?? 0,
+                  revenueCagr: r?.toplineCagr ?? 0,
+                  profitCagr: r?.profitCagr ?? 0,
+                  beta: r?.company?.beta ?? 0,
+                  compositeScore: r?.scores?.composite ?? 0,
+                }));
+                const slug = selectedBatch;
+                exportLedger(ledgerRows, `nifty750-ledger-${slug}-${endFy}.csv`);
+              });
+            }}
+            className="text-[11px] font-semibold text-gray-200 bg-black/40 hover:bg-black/60 border border-border rounded-md px-3 py-1.5 transition"
+          >
+            Export Ledger CSV
+          </button>
+        </div>
+      )}
 
       {sortedRows.length > 0 && (
         <FactorScorecard rows={sortedRows} selectedId={selectedCompany?.id ?? ''} onSelect={setSelectedId} />

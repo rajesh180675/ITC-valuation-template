@@ -16,4 +16,7 @@ export { ConstituentLedger } from './ConstituentLedger';
 export { DrillDown } from './DrillDown';
 export { ValuationBucketsTable } from './ValuationBucketsTable';
 export { PeerComparison } from './PeerComparison';
+export { ROCEChart } from './ROCEChart';
+export { ROCEDistribution } from './ROCEDistribution';
+export { CapitalEfficiencyQuadrant } from './CapitalEfficiencyQuadrant';
 export * from './utils';

@@ -50,6 +50,7 @@ import {
   ConstituentLedger,
   DrillDown,
 } from './Nifty250Ledger';
+import { ROCEDistribution, CapitalEfficiencyQuadrant } from './shared';
 
 /* ────────────────────────────────────────────────────────────────────────── */
 
@@ -426,6 +427,11 @@ export function Nifty250UniverseSection() {
           <ValuationBucketsTable buckets={valuationBuckets} />
 
           <SectorMomentumHeatmap rows={sectorMomentum} rangePeriods={rangePeriods} />
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <ROCEDistribution companies={filteredCompanies} />
+            <CapitalEfficiencyQuadrant companies={filteredCompanies} rangeStart={safeRangeStart} rangeEnd={safeRangeEnd} />
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
             <TopWeightsChart data={topWeightData} />

@@ -1,46 +1,84 @@
 /**
- * Shared CSV export utility for the Sensax / Nifty 250 ledger.
- * Extracted from the inline Blob/URL/a.click pattern duplicated across
- * ConstituentLedger, Nifty250Ledger, NiftyIndexDataSection, and CompanyUniverseSection.
+ * Export helpers for Nifty universe data.
+ * Builds CSV files from various analytics views.
  */
 
-/**
- * Trigger a CSV file download in the browser.
- * Creates a Blob, generates an object URL, and clicks a temporary <a> element.
- *
- * @param filename  Suggested download filename (e.g. 'nifty250-ledger-FY2024.csv')
- * @param headers   Column header strings
- * @param rows      Array of row data, each row being an array of cell strings
- */
-export function exportCsv(
-  filename: string,
-  headers: string[],
-  rows: string[][],
-): void {
-  const csvContent = [
-    headers.join(','),
-    ...rows.map(r => r.join(',')),
-  ].join('\n');
+/** Escape a value for CSV (wrap in quotes if it contains comma or quote). */
+export function csvEscape(v: string | number): string {
+  const s = String(v);
+  if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+    return `"${s.replace(/"/g, '""')}"`;
+  }
+  return s;
+}
 
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+/** Download a CSV file from headers + rows. */
+export function exportCsv(filename: string, headers: string[], rows: string[][]) {
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
 
 /**
- * Escape a cell value for CSV: if it contains commas, newlines, or quotes,
- * wrap in double-quotes and escape embedded quotes.
+ * Build sector analytics CSV rows.
  */
-export function csvEscape(val: string | number): string {
-  const s = String(val);
-  if (s.includes(',') || s.includes('\n') || s.includes('"')) {
-    return `"${s.replace(/"/g, '""')}"`;
-  }
-  return s;
+export interface SectorAnalyticsRow {
+  sector: string;
+  count: number;
+  weightPct: number;
+  marketCapCr: number;
+  weightedRoePct: number;
+  weightedPatCagrPct: number;
+  weightedBeta: number;
+  weightedCostOfEquityPct: number;
+  internalHHI: number;
+  topConstituent: string;
+}
+
+export function exportSectorAnalytics(rows: SectorAnalyticsRow[], filename: string) {
+  const headers = ['Sector', 'Companies', 'WeightPct', 'MarketCapCr', 'AvgROE_pct', 'PAT_CAGR_pct', 'AvgBeta', 'AvgCoE_pct', 'HHI', 'Leader'];
+  const csvRows = rows.map(s => [
+    csvEscape(s.sector), String(s.count), s.weightPct.toFixed(2),
+    String(s.marketCapCr), s.weightedRoePct.toFixed(2),
+    s.weightedPatCagrPct.toFixed(2), s.weightedBeta.toFixed(2),
+    s.weightedCostOfEquityPct.toFixed(2), String(s.internalHHI), csvEscape(s.topConstituent),
+  ]);
+  exportCsv(filename, headers, csvRows);
+}
+
+/**
+ * Build constituent ledger CSV rows.
+ */
+export interface LedgerRow {
+  ticker: string;
+  name: string;
+  sector: string;
+  weightPct: number;
+  marketCapCr: number;
+  pe: number;
+  roePct: number;
+  revenueCagr: number;
+  profitCagr: number;
+  beta: number;
+  compositeScore: number;
+}
+
+export function exportLedger(rows: LedgerRow[], filename: string) {
+  const headers = ['Ticker', 'Name', 'Sector', 'Weight%', 'MarketCap(Cr)', 'P/E', 'ROE%', 'RevenueCAGR%', 'ProfitCAGR%', 'Beta', 'CompositeScore'];
+  const csvRows = rows.map(r => [
+    csvEscape(r.ticker), csvEscape(r.name), csvEscape(r.sector),
+    r.weightPct.toFixed(2), String(Math.round(r.marketCapCr)),
+    r.pe.toFixed(1), r.roePct.toFixed(1),
+    r.revenueCagr.toFixed(1), r.profitCagr.toFixed(1),
+    r.beta.toFixed(2), r.compositeScore.toFixed(1),
+  ]);
+  exportCsv(filename, headers, csvRows);
 }
