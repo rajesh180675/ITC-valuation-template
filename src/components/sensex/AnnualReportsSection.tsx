@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import {
   BookOpen, TrendingUp, PieChart, Layers, DollarSign, LineChart,
-  BarChart3, Percent
+  BarChart3, Percent, Scale
 } from 'lucide-react';
 import {
   Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import { fmt, fmtN } from '@/components/itc/shared';
 import { OverviewTab } from './OverviewTab';
+import { RatiosTab } from './RatiosTab';
 import {
   type AnnualReportDataFile,
   type AnnualReportFileMetadata,
@@ -23,7 +24,7 @@ import {
   getYearPresetYears,
 } from '@/utils/annualReportCashFlow';
 
-type Tab = 'overview' | 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts';
+type Tab = 'overview' | 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts' | 'ratios';
 
 const TABS: { id: Tab; label: string; icon: any }[] = [
   { id: 'overview', label: 'Overview', icon: BookOpen },
@@ -32,6 +33,7 @@ const TABS: { id: Tab; label: string; icon: any }[] = [
   { id: 'cashFlow', label: 'Cash Flow', icon: DollarSign },
   { id: 'segments', label: 'Segments', icon: Layers },
   { id: 'charts', label: 'Charts', icon: LineChart },
+  { id: 'ratios', label: 'Ratios', icon: Scale },
 ];
 
 const COLORS = ['#10b981', '#34d399', '#6ee7b7', '#f59e0b', '#f97316', '#ef4444', '#8b5cf6', '#3b82f6', '#06b6d4', '#ec4899'];
@@ -92,7 +94,7 @@ export function AnnualReportsSection() {
     if (t === 'pnl') return 'profitLoss';
     if (t === 'balanceSheet') return 'balanceSheet';
     if (t === 'cashFlow') return 'cashFlow';
-    return 'profitLoss'; // default for overview/charts/segments
+    return 'profitLoss'; // default for overview/charts/segments/ratios
   };
 
   // Fetch on ticker change or mount
@@ -213,8 +215,8 @@ export function AnnualReportsSection() {
       {/* Main content — only when data is loaded */}
       {!error && yearsData && (
         <>
-          {/* KPI cards — skip on overview (has its own) */}
-          {tab !== 'overview' && latest && (
+          {/* KPI cards — skip on overview and ratios (have their own) */}
+          {tab !== 'overview' && tab !== 'ratios' && latest && (
             <div className="flex gap-3 flex-wrap">
               {tab === 'cashFlow' ? (
                 <>
@@ -248,7 +250,7 @@ export function AnnualReportsSection() {
                 <t.icon size={16} /> {t.label}
               </button>
             ))}
-            {tab !== 'segments' && tab !== 'charts' && (
+            {tab !== 'segments' && tab !== 'charts' && tab !== 'ratios' && (
               <button onClick={() => setCommonSize(!commonSize)}
                 className={`ml-auto flex items-center gap-1.5 px-3 py-2 text-[11px] rounded-t-md transition-all ${
                   commonSize ? 'text-purple-300 bg-purple-500/10 border-b-2 border-purple-500' : 'text-gray-500 hover:text-gray-300'
@@ -260,6 +262,7 @@ export function AnnualReportsSection() {
 
           {/* Tab content */}
           {tab === 'overview' && <OverviewTab yearsData={yearsData ?? {}} years={years} segData={segData} />}
+          {tab === 'ratios' && <RatiosTab yearsData={yearsData ?? {}} years={years} />}
           {tab === 'segments' && <SegmentsView segData={segData} activeTicker={activeTicker} />}
           {tab === 'charts' && <ChartsView kpiData={kpiData} />}
           {tab === 'cashFlow' && <CashFlowView
