@@ -1,0 +1,296 @@
+{
+  "ticker": "CANHLIFE",
+  "years": {
+    "FY2025": {
+      "profitLoss": {
+        "kpIs": {
+          "patCr": 116.98,
+          "epsRs": 0.0,
+          "taxCr": 11.17,
+          "pbtCr": 128.15,
+          "totalExpensesCr": 483.57,
+          "revenueCr": 10808.55
+        },
+        "items": [
+          {
+            "label": "patCr",
+            "current": 116.98
+          },
+          {
+            "label": "epsRs",
+            "current": 0.0
+          },
+          {
+            "label": "taxCr",
+            "current": 11.17
+          },
+          {
+            "label": "pbtCr",
+            "current": 128.15
+          },
+          {
+            "label": "totalExpensesCr",
+            "current": 483.57
+          },
+          {
+            "label": "revenueCr",
+            "current": 10808.55
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "sharesOutstanding": 94.75
+        },
+        "items": [
+          {
+            "label": "sharesOutstanding",
+            "current": 94.75
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "fcfCr": 1196.27,
+          "capexCr": -11.55,
+          "closingCashCr": 1871.54,
+          "openingCashCr": 1397.19,
+          "netChangeCr": 474.35,
+          "cfiCr": -714.47,
+          "fixedAssetsCr": -11.27
+        },
+        "items": [
+          {
+            "label": "fcfCr",
+            "current": 1196.27
+          },
+          {
+            "label": "capexCr",
+            "current": -11.55
+          },
+          {
+            "label": "closingCashCr",
+            "current": 1871.54
+          },
+          {
+            "label": "openingCashCr",
+            "current": 1397.19
+          },
+          {
+            "label": "netChangeCr",
+            "current": 474.35
+          },
+          {
+            "label": "cfiCr",
+            "current": -714.47
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": -11.27
+          }
+        ]
+      }
+    },
+    "FY2026": {
+      "profitLoss": {
+        "kpIs": {
+          "patCr": 126.61,
+          "sharesOutstanding": 95.2,
+          "epsRs": 0.0,
+          "taxCr": 14.17,
+          "pbtCr": 140.78,
+          "otherIncomeCr": 0.0,
+          "totalExpensesCr": 555.55,
+          "revenueCr": 11604.34,
+          "equityCr": 1605.47,
+          "borrowingsCr": 250.0
+        },
+        "items": [
+          {
+            "label": "patCr",
+            "current": 126.61
+          },
+          {
+            "label": "sharesOutstanding",
+            "current": 95.2
+          },
+          {
+            "label": "epsRs",
+            "current": 0.0
+          },
+          {
+            "label": "taxCr",
+            "current": 14.17
+          },
+          {
+            "label": "pbtCr",
+            "current": 140.78
+          },
+          {
+            "label": "otherIncomeCr",
+            "current": 0.0
+          },
+          {
+            "label": "totalExpensesCr",
+            "current": 555.55
+          },
+          {
+            "label": "revenueCr",
+            "current": 11604.34
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "sharesOutstanding": 94.75,
+          "totalDebtCr": 250.0,
+          "investedCapitalCr": 1855.47,
+          "equityCr": 1605.47,
+          "totalCapitalizationCr": 1855.47,
+          "retainedEarningsCr": 0.0,
+          "equityCapitalCr": 950.0,
+          "totalLiabilitiesCr": 46451.2,
+          "longTermDebtCr": 250.0,
+          "totalAssetsCr": 48056.67,
+          "fixedAssetsCr": 37.28,
+          "cashAndEquivalentsCr": 613.33
+        },
+        "items": [
+          {
+            "label": "sharesOutstanding",
+            "current": 94.75
+          },
+          {
+            "label": "totalDebtCr",
+            "current": 250.0
+          },
+          {
+            "label": "investedCapitalCr",
+            "current": 1855.47
+          },
+          {
+            "label": "equityCr",
+            "current": 1605.47
+          },
+          {
+            "label": "totalCapitalizationCr",
+            "current": 1855.47
+          },
+          {
+            "label": "retainedEarningsCr",
+            "current": 0.0
+          },
+          {
+            "label": "equityCapitalCr",
+            "current": 950.0
+          },
+          {
+            "label": "totalLiabilitiesCr",
+            "current": 46451.2
+          },
+          {
+            "label": "longTermDebtCr",
+            "current": 250.0
+          },
+          {
+            "label": "totalAssetsCr",
+            "current": 48056.67
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": 37.28
+          },
+          {
+            "label": "cashAndEquivalentsCr",
+            "current": 613.33
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "fcfCr": 3523.13,
+          "debtRepaymentCr": 0.0,
+          "debtIssuanceCr": 250.0,
+          "equityCapitalCr": 0.0,
+          "capexCr": -10.37,
+          "closingCashCr": 1951.13,
+          "openingCashCr": 1871.54,
+          "forexEffectCr": 0.0,
+          "netChangeCr": 79.59,
+          "cffCr": 212.0,
+          "dividendCr": -38.0,
+          "longTermDebtCr": 250.0,
+          "cfiCr": -3665.91,
+          "fixedAssetsCr": -10.03
+        },
+        "items": [
+          {
+            "label": "fcfCr",
+            "current": 3523.13
+          },
+          {
+            "label": "debtRepaymentCr",
+            "current": 0.0
+          },
+          {
+            "label": "debtIssuanceCr",
+            "current": 250.0
+          },
+          {
+            "label": "equityCapitalCr",
+            "current": 0.0
+          },
+          {
+            "label": "capexCr",
+            "current": -10.37
+          },
+          {
+            "label": "closingCashCr",
+            "current": 1951.13
+          },
+          {
+            "label": "openingCashCr",
+            "current": 1871.54
+          },
+          {
+            "label": "forexEffectCr",
+            "current": 0.0
+          },
+          {
+            "label": "netChangeCr",
+            "current": 79.59
+          },
+          {
+            "label": "cffCr",
+            "current": 212.0
+          },
+          {
+            "label": "dividendCr",
+            "current": -38.0
+          },
+          {
+            "label": "longTermDebtCr",
+            "current": 250.0
+          },
+          {
+            "label": "cfiCr",
+            "current": -3665.91
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": -10.03
+          }
+        ]
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-05-13T17:47:18.284961+00:00",
+    "source": "yfinance/CANHLIFE.NS",
+    "yearsCovered": [
+      "FY2025",
+      "FY2026"
+    ]
+  }
+}

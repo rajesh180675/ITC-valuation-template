@@ -29,7 +29,8 @@
     "data:build-manifest": "python scripts/build_company_manifest.py",
     "data:audit-ar": "python scripts/audit_ar_quality.py",
     "data:refresh-ar": "npm run scrape:ar && npm run data:build-manifest && npm run data:audit-ar",
-    "data:refresh-all": "npm run data:refresh-ar && npm run data:refresh-nifty750"
+    "data:refresh-yf": "python scripts/yfinance_collector.py --batch missing --resume && npm run data:build-manifest && npm run data:audit-ar",
+    "data:refresh-all": "npm run data:refresh-yf && npm run data:refresh-nifty750"
   },
   "dependencies": {
     "clsx": "2.1.1",

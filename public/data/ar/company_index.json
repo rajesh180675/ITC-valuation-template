@@ -1,8 +1,8 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-05-13T20:14:29.013486",
+  "generatedAt": "2026-05-13T23:18:56.228632",
   "count": 749,
-  "scrapedCount": 696,
+  "scrapedCount": 746,
   "companies": [
     {
       "ticker": "360ONE",
@@ -106,9 +106,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/ABBOTINDIA.NS"
     },
     {
       "ticker": "ABCAPITAL",
@@ -848,9 +850,11 @@
       "indexSlug": "smallcap250",
       "sector": "Automobiles",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/ATHERENERG.NS"
     },
     {
       "ticker": "ATLANTAELE",
@@ -942,9 +946,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/AVL.NS"
     },
     {
       "ticker": "AWFIS",
@@ -1048,9 +1054,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Unknown",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/BAJAJHFL.NS"
     },
     {
       "ticker": "BAJAJHLDNG",
@@ -1142,9 +1150,11 @@
       "indexSlug": "smallcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/BANDHANBNK.NS"
     },
     {
       "ticker": "BANKBARODA",
@@ -1212,9 +1222,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/BDL.NS"
     },
     {
       "ticker": "BECTORFOOD",
@@ -1306,9 +1318,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Telecom",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/BHARTIHEXA.NS"
     },
     {
       "ticker": "BHEL",
@@ -1556,9 +1570,11 @@
       "indexSlug": "smallcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CANFINHOME.NS"
     },
     {
       "ticker": "CANHLIFE",
@@ -1566,9 +1582,11 @@
       "indexSlug": "smallcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 2,
+      "fyRange": "FY2025-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CANHLIFE.NS"
     },
     {
       "ticker": "CAPILLARY",
@@ -1624,9 +1642,11 @@
       "indexSlug": "smallcap250",
       "sector": "Energy",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2021-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/CASTROLIND.NS"
     },
     {
       "ticker": "CCAVENUE",
@@ -2042,9 +2062,11 @@
       "indexSlug": "microcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 3,
+      "fyRange": "FY2024-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CRAMC.NS"
     },
     {
       "ticker": "CREDITACC",
@@ -2100,9 +2122,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CSBBANK.NS"
     },
     {
       "ticker": "CUB",
@@ -2110,9 +2134,11 @@
       "indexSlug": "smallcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CUB.NS"
     },
     {
       "ticker": "CUMMINSIND",
@@ -2192,9 +2218,11 @@
       "indexSlug": "smallcap250",
       "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/DATAPATTNS.NS"
     },
     {
       "ticker": "DBL",
@@ -2226,9 +2254,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/DCBBANK.NS"
     },
     {
       "ticker": "DCMSHRIRAM",
@@ -2594,9 +2624,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 2,
+      "fyRange": "FY2024-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/ENRIN.NS"
     },
     {
       "ticker": "ENTERO",
@@ -2628,9 +2660,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/EQUITASBNK.NS"
     },
     {
       "ticker": "ERIS",
@@ -2734,9 +2768,11 @@
       "indexSlug": "microcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/FEDFINA.NS"
     },
     {
       "ticker": "FIEMIND",
@@ -2936,9 +2972,11 @@
       "indexSlug": "smallcap250",
       "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2021-FY2024",
+      "arSchema": 2,
+      "arSource": "yfinance/GILLETTE.NS"
     },
     {
       "ticker": "GLAND",
@@ -3054,9 +3092,11 @@
       "indexSlug": "smallcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/GODIGIT.NS"
     },
     {
       "ticker": "GODREJAGRO",
@@ -3232,9 +3272,11 @@
       "indexSlug": "smallcap250",
       "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/GRSE.NS"
     },
     {
       "ticker": "GRWRHITECH",
@@ -3434,9 +3476,11 @@
       "indexSlug": "microcap250",
       "sector": "Industrials",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/HEMIPROP.NS"
     },
     {
       "ticker": "HERITGFOOD",
@@ -3564,9 +3608,11 @@
       "indexSlug": "smallcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/HOMEFIRST.NS"
     },
     {
       "ticker": "HONASA",
@@ -3586,9 +3632,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/HONAUT.NS"
     },
     {
       "ticker": "HSCL",
@@ -3656,9 +3704,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/ICICIGI.NS"
     },
     {
       "ticker": "ICICIPRULI",
@@ -4122,9 +4172,11 @@
       "indexSlug": "largemidcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/IRFC.NS"
     },
     {
       "ticker": "ITC",
@@ -4384,9 +4436,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/JSFB.NS"
     },
     {
       "ticker": "JSL",
@@ -4598,9 +4652,11 @@
       "indexSlug": "smallcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/KARURVYSYA.NS"
     },
     {
       "ticker": "KAYNES",
@@ -5146,9 +5202,11 @@
       "indexSlug": "microcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/MAHSCOOTER.NS"
     },
     {
       "ticker": "MAHSEAMLES",
@@ -5516,9 +5574,11 @@
       "indexSlug": "smallcap250",
       "sector": "Auto Components",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/MSUMI.NS"
     },
     {
       "ticker": "MTARTECH",
@@ -5694,9 +5754,11 @@
       "indexSlug": "smallcap250",
       "sector": "Information Technology",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/NETWEB.NS"
     },
     {
       "ticker": "NETWORK18",
@@ -5788,9 +5850,11 @@
       "indexSlug": "smallcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/NIVABUPA.NS"
     },
     {
       "ticker": "NLCINDIA",
@@ -5822,9 +5886,11 @@
       "indexSlug": "smallcap250",
       "sector": "Metals",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/NSLNISP.NS"
     },
     {
       "ticker": "NTPC",
@@ -5988,9 +6054,11 @@
       "indexSlug": "microcap250",
       "sector": "Cement",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/ORIENTCEM.NS"
     },
     {
       "ticker": "ORKLAINDIA",
@@ -6022,9 +6090,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/PAGEIND.NS"
     },
     {
       "ticker": "PARADEEP",
@@ -6380,9 +6450,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2021-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/POWERINDIA.NS"
     },
     {
       "ticker": "POWERMECH",
@@ -6762,9 +6834,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/RELAXO.NS"
     },
     {
       "ticker": "RELIANCE",
@@ -7084,9 +7158,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Unknown",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/SBICARD.NS"
     },
     {
       "ticker": "SBILIFE",
@@ -7094,9 +7170,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/SBILIFE.NS"
     },
     {
       "ticker": "SBIN",
@@ -7128,9 +7206,11 @@
       "indexSlug": "smallcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/SCHNEIDER.NS"
     },
     {
       "ticker": "SCI",
@@ -7376,9 +7456,11 @@
       "indexSlug": "microcap250",
       "sector": "Automobiles",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/SMLMAH.NS"
     },
     {
       "ticker": "SOBHA",
@@ -7506,9 +7588,11 @@
       "indexSlug": "smallcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/STARHEALTH.NS"
     },
     {
       "ticker": "STLTECH",
@@ -7660,9 +7744,11 @@
       "indexSlug": "microcap250",
       "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/SUPRIYA.NS"
     },
     {
       "ticker": "SURYAROSNI",
@@ -8006,9 +8092,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/THANGAMAYL.NS"
     },
     {
       "ticker": "THELEELA",
@@ -8112,9 +8200,11 @@
       "indexSlug": "microcap250",
       "sector": "Media",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/TIPSMUSIC.NS"
     },
     {
       "ticker": "TITAGARH",
@@ -8146,9 +8236,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/TMB.NS"
     },
     {
       "ticker": "TMCV",
@@ -8336,9 +8428,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/UJJIVANSFB.NS"
     },
     {
       "ticker": "ULTRACEMCO",
@@ -8574,9 +8668,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/VMART.NS"
     },
     {
       "ticker": "VMM",
@@ -8596,9 +8692,11 @@
       "indexSlug": "microcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/VOLTAMP.NS"
     },
     {
       "ticker": "VOLTAS",
@@ -8666,9 +8764,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 3,
+      "fyRange": "FY2023-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/WAKEFIT.NS"
     },
     {
       "ticker": "WEBELSOLAR",
@@ -8990,9 +9090,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/ABBOTINDIA.NS"
     },
     "ABCAPITAL": {
       "ticker": "ABCAPITAL",
@@ -9732,9 +9834,11 @@
       "indexSlug": "smallcap250",
       "sector": "Automobiles",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/ATHERENERG.NS"
     },
     "ATLANTAELE": {
       "ticker": "ATLANTAELE",
@@ -9826,9 +9930,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/AVL.NS"
     },
     "AWFIS": {
       "ticker": "AWFIS",
@@ -9932,9 +10038,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Unknown",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/BAJAJHFL.NS"
     },
     "BAJAJHLDNG": {
       "ticker": "BAJAJHLDNG",
@@ -10026,9 +10134,11 @@
       "indexSlug": "smallcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/BANDHANBNK.NS"
     },
     "BANKBARODA": {
       "ticker": "BANKBARODA",
@@ -10096,9 +10206,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/BDL.NS"
     },
     "BECTORFOOD": {
       "ticker": "BECTORFOOD",
@@ -10190,9 +10302,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Telecom",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/BHARTIHEXA.NS"
     },
     "BHEL": {
       "ticker": "BHEL",
@@ -10440,9 +10554,11 @@
       "indexSlug": "smallcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CANFINHOME.NS"
     },
     "CANHLIFE": {
       "ticker": "CANHLIFE",
@@ -10450,9 +10566,11 @@
       "indexSlug": "smallcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 2,
+      "fyRange": "FY2025-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CANHLIFE.NS"
     },
     "CAPILLARY": {
       "ticker": "CAPILLARY",
@@ -10508,9 +10626,11 @@
       "indexSlug": "smallcap250",
       "sector": "Energy",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2021-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/CASTROLIND.NS"
     },
     "CCAVENUE": {
       "ticker": "CCAVENUE",
@@ -10926,9 +11046,11 @@
       "indexSlug": "microcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 3,
+      "fyRange": "FY2024-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CRAMC.NS"
     },
     "CREDITACC": {
       "ticker": "CREDITACC",
@@ -10984,9 +11106,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CSBBANK.NS"
     },
     "CUB": {
       "ticker": "CUB",
@@ -10994,9 +11118,11 @@
       "indexSlug": "smallcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/CUB.NS"
     },
     "CUMMINSIND": {
       "ticker": "CUMMINSIND",
@@ -11076,9 +11202,11 @@
       "indexSlug": "smallcap250",
       "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/DATAPATTNS.NS"
     },
     "DBL": {
       "ticker": "DBL",
@@ -11110,9 +11238,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/DCBBANK.NS"
     },
     "DCMSHRIRAM": {
       "ticker": "DCMSHRIRAM",
@@ -11478,9 +11608,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 2,
+      "fyRange": "FY2024-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/ENRIN.NS"
     },
     "ENTERO": {
       "ticker": "ENTERO",
@@ -11512,9 +11644,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/EQUITASBNK.NS"
     },
     "ERIS": {
       "ticker": "ERIS",
@@ -11618,9 +11752,11 @@
       "indexSlug": "microcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/FEDFINA.NS"
     },
     "FIEMIND": {
       "ticker": "FIEMIND",
@@ -11820,9 +11956,11 @@
       "indexSlug": "smallcap250",
       "sector": "Consumer Staples",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2021-FY2024",
+      "arSchema": 2,
+      "arSource": "yfinance/GILLETTE.NS"
     },
     "GLAND": {
       "ticker": "GLAND",
@@ -11938,9 +12076,11 @@
       "indexSlug": "smallcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/GODIGIT.NS"
     },
     "GODREJAGRO": {
       "ticker": "GODREJAGRO",
@@ -12116,9 +12256,11 @@
       "indexSlug": "smallcap250",
       "sector": "Aerospace & Defense",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/GRSE.NS"
     },
     "GRWRHITECH": {
       "ticker": "GRWRHITECH",
@@ -12318,9 +12460,11 @@
       "indexSlug": "microcap250",
       "sector": "Industrials",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/HEMIPROP.NS"
     },
     "HERITGFOOD": {
       "ticker": "HERITGFOOD",
@@ -12448,9 +12592,11 @@
       "indexSlug": "smallcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/HOMEFIRST.NS"
     },
     "HONASA": {
       "ticker": "HONASA",
@@ -12470,9 +12616,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/HONAUT.NS"
     },
     "HSCL": {
       "ticker": "HSCL",
@@ -12540,9 +12688,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/ICICIGI.NS"
     },
     "ICICIPRULI": {
       "ticker": "ICICIPRULI",
@@ -13006,9 +13156,11 @@
       "indexSlug": "largemidcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/IRFC.NS"
     },
     "ITC": {
       "ticker": "ITC",
@@ -13268,9 +13420,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/JSFB.NS"
     },
     "JSL": {
       "ticker": "JSL",
@@ -13482,9 +13636,11 @@
       "indexSlug": "smallcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/KARURVYSYA.NS"
     },
     "KAYNES": {
       "ticker": "KAYNES",
@@ -14030,9 +14186,11 @@
       "indexSlug": "microcap250",
       "sector": "NBFC",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/MAHSCOOTER.NS"
     },
     "MAHSEAMLES": {
       "ticker": "MAHSEAMLES",
@@ -14400,9 +14558,11 @@
       "indexSlug": "smallcap250",
       "sector": "Auto Components",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/MSUMI.NS"
     },
     "MTARTECH": {
       "ticker": "MTARTECH",
@@ -14578,9 +14738,11 @@
       "indexSlug": "smallcap250",
       "sector": "Information Technology",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/NETWEB.NS"
     },
     "NETWORK18": {
       "ticker": "NETWORK18",
@@ -14672,9 +14834,11 @@
       "indexSlug": "smallcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/NIVABUPA.NS"
     },
     "NLCINDIA": {
       "ticker": "NLCINDIA",
@@ -14706,9 +14870,11 @@
       "indexSlug": "smallcap250",
       "sector": "Metals",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/NSLNISP.NS"
     },
     "NTPC": {
       "ticker": "NTPC",
@@ -14872,9 +15038,11 @@
       "indexSlug": "microcap250",
       "sector": "Cement",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/ORIENTCEM.NS"
     },
     "ORKLAINDIA": {
       "ticker": "ORKLAINDIA",
@@ -14906,9 +15074,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/PAGEIND.NS"
     },
     "PARADEEP": {
       "ticker": "PARADEEP",
@@ -15264,9 +15434,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2021-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/POWERINDIA.NS"
     },
     "POWERMECH": {
       "ticker": "POWERMECH",
@@ -15646,9 +15818,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/RELAXO.NS"
     },
     "RELIANCE": {
       "ticker": "RELIANCE",
@@ -15968,9 +16142,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Unknown",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/SBICARD.NS"
     },
     "SBILIFE": {
       "ticker": "SBILIFE",
@@ -15978,9 +16154,11 @@
       "indexSlug": "largemidcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/SBILIFE.NS"
     },
     "SBIN": {
       "ticker": "SBIN",
@@ -16012,9 +16190,11 @@
       "indexSlug": "smallcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/SCHNEIDER.NS"
     },
     "SCI": {
       "ticker": "SCI",
@@ -16260,9 +16440,11 @@
       "indexSlug": "microcap250",
       "sector": "Automobiles",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/SMLMAH.NS"
     },
     "SOBHA": {
       "ticker": "SOBHA",
@@ -16390,9 +16572,11 @@
       "indexSlug": "smallcap250",
       "sector": "Insurance",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/STARHEALTH.NS"
     },
     "STLTECH": {
       "ticker": "STLTECH",
@@ -16544,9 +16728,11 @@
       "indexSlug": "microcap250",
       "sector": "Pharmaceuticals",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/SUPRIYA.NS"
     },
     "SURYAROSNI": {
       "ticker": "SURYAROSNI",
@@ -16890,9 +17076,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 4,
+      "fyRange": "FY2022-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/THANGAMAYL.NS"
     },
     "THELEELA": {
       "ticker": "THELEELA",
@@ -16996,9 +17184,11 @@
       "indexSlug": "microcap250",
       "sector": "Media",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/TIPSMUSIC.NS"
     },
     "TITAGARH": {
       "ticker": "TITAGARH",
@@ -17030,9 +17220,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/TMB.NS"
     },
     "TMCV": {
       "ticker": "TMCV",
@@ -17220,9 +17412,11 @@
       "indexSlug": "microcap250",
       "sector": "Banks",
       "reportingType": "financial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/UJJIVANSFB.NS"
     },
     "ULTRACEMCO": {
       "ticker": "ULTRACEMCO",
@@ -17458,9 +17652,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Discretionary",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/VMART.NS"
     },
     "VMM": {
       "ticker": "VMM",
@@ -17480,9 +17676,11 @@
       "indexSlug": "microcap250",
       "sector": "Capital Goods",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 5,
+      "fyRange": "FY2022-FY2026",
+      "arSchema": 2,
+      "arSource": "yfinance/VOLTAMP.NS"
     },
     "VOLTAS": {
       "ticker": "VOLTAS",
@@ -17550,9 +17748,11 @@
       "indexSlug": "microcap250",
       "sector": "Consumer Durables",
       "reportingType": "nonFinancial",
-      "hasAr": false,
-      "years": 0,
-      "fyRange": null
+      "hasAr": true,
+      "years": 3,
+      "fyRange": "FY2023-FY2025",
+      "arSchema": 2,
+      "arSource": "yfinance/WAKEFIT.NS"
     },
     "WEBELSOLAR": {
       "ticker": "WEBELSOLAR",

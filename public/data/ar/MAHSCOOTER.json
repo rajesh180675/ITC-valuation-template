@@ -1,0 +1,956 @@
+{
+  "ticker": "MAHSCOOTER",
+  "years": {
+    "FY2022": {
+      "profitLoss": {
+        "kpIs": {
+          "interestIncomeCr": 0.25
+        },
+        "items": [
+          {
+            "label": "interestIncomeCr",
+            "current": 0.25
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "retainedEarningsCr": 254.62,
+          "accumDepreciationCr": -21.88
+        },
+        "items": [
+          {
+            "label": "retainedEarningsCr",
+            "current": 254.62
+          },
+          {
+            "label": "accumDepreciationCr",
+            "current": -21.88
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "capexCr": -0.2
+        },
+        "items": [
+          {
+            "label": "capexCr",
+            "current": -0.2
+          }
+        ]
+      }
+    },
+    "FY2023": {
+      "profitLoss": {
+        "kpIs": {
+          "ebitdaCr": 193.83,
+          "goodwillCr": -0.07,
+          "patCr": 195.29,
+          "depreciationCr": 2.02,
+          "ebitCr": 191.81,
+          "interestIncomeCr": 1.0,
+          "sharesOutstanding": 1.14,
+          "epsRs": 0.0,
+          "taxCr": -2.21,
+          "pbtCr": 193.08,
+          "operatingProfitCr": 191.81,
+          "totalExpensesCr": 3.11,
+          "grossProfitCr": 197.75,
+          "revenueCr": 216.06,
+          "equityCr": 19042.81
+        },
+        "items": [
+          {
+            "label": "ebitdaCr",
+            "current": 193.83
+          },
+          {
+            "label": "goodwillCr",
+            "current": -0.07
+          },
+          {
+            "label": "patCr",
+            "current": 195.29
+          },
+          {
+            "label": "depreciationCr",
+            "current": 2.02
+          },
+          {
+            "label": "ebitCr",
+            "current": 191.81
+          },
+          {
+            "label": "interestIncomeCr",
+            "current": 1.0
+          },
+          {
+            "label": "sharesOutstanding",
+            "current": 1.14
+          },
+          {
+            "label": "epsRs",
+            "current": 0.0
+          },
+          {
+            "label": "taxCr",
+            "current": -2.21
+          },
+          {
+            "label": "pbtCr",
+            "current": 193.08
+          },
+          {
+            "label": "operatingProfitCr",
+            "current": 191.81
+          },
+          {
+            "label": "totalExpensesCr",
+            "current": 3.11
+          },
+          {
+            "label": "grossProfitCr",
+            "current": 197.75
+          },
+          {
+            "label": "revenueCr",
+            "current": 216.06
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "sharesOutstanding": 1.14,
+          "investedCapitalCr": 19042.81,
+          "workingCapitalCr": 131.79,
+          "equityCr": 19042.81,
+          "totalCapitalizationCr": 19042.81,
+          "retainedEarningsCr": 244.29,
+          "equityCapitalCr": 11.43,
+          "totalLiabilitiesCr": 1355.48,
+          "nonCurrentLiabilitiesCr": 1348.81,
+          "totalAssetsCr": 20398.29,
+          "nonCurrentAssetsCr": 20259.83,
+          "fixedAssetsCr": 11.98,
+          "accumDepreciationCr": -23.86,
+          "cashAndEquivalentsCr": 0.36,
+          "shortTermInvestmentsCr": 122.29
+        },
+        "items": [
+          {
+            "label": "sharesOutstanding",
+            "current": 1.14
+          },
+          {
+            "label": "investedCapitalCr",
+            "current": 19042.81
+          },
+          {
+            "label": "workingCapitalCr",
+            "current": 131.79
+          },
+          {
+            "label": "equityCr",
+            "current": 19042.81
+          },
+          {
+            "label": "totalCapitalizationCr",
+            "current": 19042.81
+          },
+          {
+            "label": "retainedEarningsCr",
+            "current": 244.29
+          },
+          {
+            "label": "equityCapitalCr",
+            "current": 11.43
+          },
+          {
+            "label": "totalLiabilitiesCr",
+            "current": 1355.48
+          },
+          {
+            "label": "nonCurrentLiabilitiesCr",
+            "current": 1348.81
+          },
+          {
+            "label": "totalAssetsCr",
+            "current": 20398.29
+          },
+          {
+            "label": "nonCurrentAssetsCr",
+            "current": 20259.83
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": 11.98
+          },
+          {
+            "label": "accumDepreciationCr",
+            "current": -23.86
+          },
+          {
+            "label": "cashAndEquivalentsCr",
+            "current": 0.36
+          },
+          {
+            "label": "shortTermInvestmentsCr",
+            "current": 122.29
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "fcfCr": 207.19,
+          "capexCr": -1.58,
+          "closingCashCr": 0.36,
+          "openingCashCr": 0.22,
+          "netChangeCr": 0.14,
+          "cffCr": -205.15,
+          "dividendCr": -205.15,
+          "cfiCr": -3.48,
+          "fixedAssetsCr": -1.49,
+          "cfoCr": 208.77,
+          "changeInWorkingCapitalCr": 9.19,
+          "depreciationCr": 2.02,
+          "patCr": 193.08
+        },
+        "items": [
+          {
+            "label": "fcfCr",
+            "current": 207.19
+          },
+          {
+            "label": "capexCr",
+            "current": -1.58
+          },
+          {
+            "label": "closingCashCr",
+            "current": 0.36
+          },
+          {
+            "label": "openingCashCr",
+            "current": 0.22
+          },
+          {
+            "label": "netChangeCr",
+            "current": 0.14
+          },
+          {
+            "label": "cffCr",
+            "current": -205.15
+          },
+          {
+            "label": "dividendCr",
+            "current": -205.15
+          },
+          {
+            "label": "cfiCr",
+            "current": -3.48
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": -1.49
+          },
+          {
+            "label": "cfoCr",
+            "current": 208.77
+          },
+          {
+            "label": "changeInWorkingCapitalCr",
+            "current": 9.19
+          },
+          {
+            "label": "depreciationCr",
+            "current": 2.02
+          },
+          {
+            "label": "patCr",
+            "current": 193.08
+          }
+        ]
+      }
+    },
+    "FY2024": {
+      "profitLoss": {
+        "kpIs": {
+          "ebitdaCr": 203.78,
+          "goodwillCr": -0.36,
+          "patCr": 199.31,
+          "depreciationCr": 2.07,
+          "ebitCr": 201.71,
+          "interestIncomeCr": 0.01,
+          "sharesOutstanding": 1.14,
+          "epsRs": 0.0,
+          "taxCr": 2.85,
+          "pbtCr": 202.16,
+          "operatingProfitCr": 201.71,
+          "totalExpensesCr": 3.29,
+          "grossProfitCr": 208.16,
+          "revenueCr": 222.5,
+          "equityCr": 27016.73
+        },
+        "items": [
+          {
+            "label": "ebitdaCr",
+            "current": 203.78
+          },
+          {
+            "label": "goodwillCr",
+            "current": -0.36
+          },
+          {
+            "label": "patCr",
+            "current": 199.31
+          },
+          {
+            "label": "depreciationCr",
+            "current": 2.07
+          },
+          {
+            "label": "ebitCr",
+            "current": 201.71
+          },
+          {
+            "label": "interestIncomeCr",
+            "current": 0.01
+          },
+          {
+            "label": "sharesOutstanding",
+            "current": 1.14
+          },
+          {
+            "label": "epsRs",
+            "current": 0.0
+          },
+          {
+            "label": "taxCr",
+            "current": 2.85
+          },
+          {
+            "label": "pbtCr",
+            "current": 202.16
+          },
+          {
+            "label": "operatingProfitCr",
+            "current": 201.71
+          },
+          {
+            "label": "totalExpensesCr",
+            "current": 3.29
+          },
+          {
+            "label": "grossProfitCr",
+            "current": 208.16
+          },
+          {
+            "label": "revenueCr",
+            "current": 222.5
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "sharesOutstanding": 1.14,
+          "investedCapitalCr": 27016.73,
+          "workingCapitalCr": 147.97,
+          "equityCr": 27016.73,
+          "totalCapitalizationCr": 27016.73,
+          "retainedEarningsCr": 332.79,
+          "equityCapitalCr": 11.43,
+          "totalLiabilitiesCr": 2377.18,
+          "nonCurrentLiabilitiesCr": 2370.32,
+          "totalAssetsCr": 29393.91,
+          "nonCurrentAssetsCr": 29239.08,
+          "fixedAssetsCr": 10.06,
+          "accumDepreciationCr": -25.92,
+          "cashAndEquivalentsCr": 0.7,
+          "shortTermInvestmentsCr": 137.64
+        },
+        "items": [
+          {
+            "label": "sharesOutstanding",
+            "current": 1.14
+          },
+          {
+            "label": "investedCapitalCr",
+            "current": 27016.73
+          },
+          {
+            "label": "workingCapitalCr",
+            "current": 147.97
+          },
+          {
+            "label": "equityCr",
+            "current": 27016.73
+          },
+          {
+            "label": "totalCapitalizationCr",
+            "current": 27016.73
+          },
+          {
+            "label": "retainedEarningsCr",
+            "current": 332.79
+          },
+          {
+            "label": "equityCapitalCr",
+            "current": 11.43
+          },
+          {
+            "label": "totalLiabilitiesCr",
+            "current": 2377.18
+          },
+          {
+            "label": "nonCurrentLiabilitiesCr",
+            "current": 2370.32
+          },
+          {
+            "label": "totalAssetsCr",
+            "current": 29393.91
+          },
+          {
+            "label": "nonCurrentAssetsCr",
+            "current": 29239.08
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": 10.06
+          },
+          {
+            "label": "accumDepreciationCr",
+            "current": -25.92
+          },
+          {
+            "label": "cashAndEquivalentsCr",
+            "current": 0.7
+          },
+          {
+            "label": "shortTermInvestmentsCr",
+            "current": 137.64
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "fcfCr": 205.87,
+          "capexCr": -0.15,
+          "closingCashCr": 0.7,
+          "openingCashCr": 0.36,
+          "netChangeCr": 0.34,
+          "cffCr": -194.09,
+          "dividendCr": -194.09,
+          "cfiCr": -11.59,
+          "fixedAssetsCr": -0.15,
+          "cfoCr": 206.02,
+          "changeInWorkingCapitalCr": 6.14,
+          "depreciationCr": 2.07,
+          "patCr": 202.16
+        },
+        "items": [
+          {
+            "label": "fcfCr",
+            "current": 205.87
+          },
+          {
+            "label": "capexCr",
+            "current": -0.15
+          },
+          {
+            "label": "closingCashCr",
+            "current": 0.7
+          },
+          {
+            "label": "openingCashCr",
+            "current": 0.36
+          },
+          {
+            "label": "netChangeCr",
+            "current": 0.34
+          },
+          {
+            "label": "cffCr",
+            "current": -194.09
+          },
+          {
+            "label": "dividendCr",
+            "current": -194.09
+          },
+          {
+            "label": "cfiCr",
+            "current": -11.59
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": -0.15
+          },
+          {
+            "label": "cfoCr",
+            "current": 206.02
+          },
+          {
+            "label": "changeInWorkingCapitalCr",
+            "current": 6.14
+          },
+          {
+            "label": "depreciationCr",
+            "current": 2.07
+          },
+          {
+            "label": "patCr",
+            "current": 202.16
+          }
+        ]
+      }
+    },
+    "FY2025": {
+      "profitLoss": {
+        "kpIs": {
+          "ebitdaCr": 171.77,
+          "goodwillCr": 43.6,
+          "patCr": 214.35,
+          "depreciationCr": 1.96,
+          "ebitCr": 169.81,
+          "interestIncomeCr": 1.05,
+          "sharesOutstanding": 1.14,
+          "epsRs": 0.0,
+          "taxCr": 0.93,
+          "pbtCr": 215.28,
+          "operatingProfitCr": 169.81,
+          "totalExpensesCr": 5.43,
+          "grossProfitCr": 177.2,
+          "revenueCr": 183.33,
+          "equityCr": 30862.86
+        },
+        "items": [
+          {
+            "label": "ebitdaCr",
+            "current": 171.77
+          },
+          {
+            "label": "goodwillCr",
+            "current": 43.6
+          },
+          {
+            "label": "patCr",
+            "current": 214.35
+          },
+          {
+            "label": "depreciationCr",
+            "current": 1.96
+          },
+          {
+            "label": "ebitCr",
+            "current": 169.81
+          },
+          {
+            "label": "interestIncomeCr",
+            "current": 1.05
+          },
+          {
+            "label": "sharesOutstanding",
+            "current": 1.14
+          },
+          {
+            "label": "epsRs",
+            "current": 0.0
+          },
+          {
+            "label": "taxCr",
+            "current": 0.93
+          },
+          {
+            "label": "pbtCr",
+            "current": 215.28
+          },
+          {
+            "label": "operatingProfitCr",
+            "current": 169.81
+          },
+          {
+            "label": "totalExpensesCr",
+            "current": 5.43
+          },
+          {
+            "label": "grossProfitCr",
+            "current": 177.2
+          },
+          {
+            "label": "revenueCr",
+            "current": 183.33
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "sharesOutstanding": 1.14,
+          "investedCapitalCr": 30862.86,
+          "workingCapitalCr": 132.41,
+          "equityCr": 30862.86,
+          "totalCapitalizationCr": 30862.86,
+          "retainedEarningsCr": 352.66,
+          "equityCapitalCr": 11.43,
+          "totalLiabilitiesCr": 3724.64,
+          "nonCurrentLiabilitiesCr": 3703.4,
+          "totalAssetsCr": 34587.5,
+          "nonCurrentAssetsCr": 34433.85,
+          "fixedAssetsCr": 0.16,
+          "accumDepreciationCr": -0.49,
+          "cashAndEquivalentsCr": 1.97,
+          "shortTermInvestmentsCr": 145.65
+        },
+        "items": [
+          {
+            "label": "sharesOutstanding",
+            "current": 1.14
+          },
+          {
+            "label": "investedCapitalCr",
+            "current": 30862.86
+          },
+          {
+            "label": "workingCapitalCr",
+            "current": 132.41
+          },
+          {
+            "label": "equityCr",
+            "current": 30862.86
+          },
+          {
+            "label": "totalCapitalizationCr",
+            "current": 30862.86
+          },
+          {
+            "label": "retainedEarningsCr",
+            "current": 352.66
+          },
+          {
+            "label": "equityCapitalCr",
+            "current": 11.43
+          },
+          {
+            "label": "totalLiabilitiesCr",
+            "current": 3724.64
+          },
+          {
+            "label": "nonCurrentLiabilitiesCr",
+            "current": 3703.4
+          },
+          {
+            "label": "totalAssetsCr",
+            "current": 34587.5
+          },
+          {
+            "label": "nonCurrentAssetsCr",
+            "current": 34433.85
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": 0.16
+          },
+          {
+            "label": "accumDepreciationCr",
+            "current": -0.49
+          },
+          {
+            "label": "cashAndEquivalentsCr",
+            "current": 1.97
+          },
+          {
+            "label": "shortTermInvestmentsCr",
+            "current": 145.65
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "fcfCr": 158.76,
+          "closingCashCr": 1.97,
+          "openingCashCr": 0.7,
+          "netChangeCr": 1.27,
+          "cffCr": -193.28,
+          "dividendCr": -193.28,
+          "cfiCr": 35.79,
+          "fixedAssetsCr": 65.62,
+          "cfoCr": 158.76,
+          "changeInWorkingCapitalCr": 5.33,
+          "depreciationCr": 1.96,
+          "patCr": 215.28
+        },
+        "items": [
+          {
+            "label": "fcfCr",
+            "current": 158.76
+          },
+          {
+            "label": "closingCashCr",
+            "current": 1.97
+          },
+          {
+            "label": "openingCashCr",
+            "current": 0.7
+          },
+          {
+            "label": "netChangeCr",
+            "current": 1.27
+          },
+          {
+            "label": "cffCr",
+            "current": -193.28
+          },
+          {
+            "label": "dividendCr",
+            "current": -193.28
+          },
+          {
+            "label": "cfiCr",
+            "current": 35.79
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": 65.62
+          },
+          {
+            "label": "cfoCr",
+            "current": 158.76
+          },
+          {
+            "label": "changeInWorkingCapitalCr",
+            "current": 5.33
+          },
+          {
+            "label": "depreciationCr",
+            "current": 1.96
+          },
+          {
+            "label": "patCr",
+            "current": 215.28
+          }
+        ]
+      }
+    },
+    "FY2026": {
+      "profitLoss": {
+        "kpIs": {
+          "ebitdaCr": 308.53,
+          "goodwillCr": 0.0,
+          "patCr": 310.56,
+          "depreciationCr": 0.02,
+          "ebitCr": 308.51,
+          "sharesOutstanding": 1.14,
+          "epsRs": 0.0,
+          "taxCr": -1.57,
+          "pbtCr": 308.99,
+          "operatingProfitCr": 308.51,
+          "totalExpensesCr": 3.48,
+          "grossProfitCr": 312.01,
+          "revenueCr": 312.76,
+          "equityCr": 27634.79
+        },
+        "items": [
+          {
+            "label": "ebitdaCr",
+            "current": 308.53
+          },
+          {
+            "label": "goodwillCr",
+            "current": 0.0
+          },
+          {
+            "label": "patCr",
+            "current": 310.56
+          },
+          {
+            "label": "depreciationCr",
+            "current": 0.02
+          },
+          {
+            "label": "ebitCr",
+            "current": 308.51
+          },
+          {
+            "label": "sharesOutstanding",
+            "current": 1.14
+          },
+          {
+            "label": "epsRs",
+            "current": 0.0
+          },
+          {
+            "label": "taxCr",
+            "current": -1.57
+          },
+          {
+            "label": "pbtCr",
+            "current": 308.99
+          },
+          {
+            "label": "operatingProfitCr",
+            "current": 308.51
+          },
+          {
+            "label": "totalExpensesCr",
+            "current": 3.48
+          },
+          {
+            "label": "grossProfitCr",
+            "current": 312.01
+          },
+          {
+            "label": "revenueCr",
+            "current": 312.76
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "sharesOutstanding": 1.14,
+          "investedCapitalCr": 27634.79,
+          "workingCapitalCr": 12.62,
+          "equityCr": 27634.79,
+          "totalCapitalizationCr": 27634.79,
+          "equityCapitalCr": 11.43,
+          "totalLiabilitiesCr": 3156.21,
+          "nonCurrentLiabilitiesCr": 3150.79,
+          "totalAssetsCr": 30791.0,
+          "nonCurrentAssetsCr": 30772.96,
+          "fixedAssetsCr": 0.0,
+          "cashAndEquivalentsCr": 0.06,
+          "shortTermInvestmentsCr": 7.52
+        },
+        "items": [
+          {
+            "label": "sharesOutstanding",
+            "current": 1.14
+          },
+          {
+            "label": "investedCapitalCr",
+            "current": 27634.79
+          },
+          {
+            "label": "workingCapitalCr",
+            "current": 12.62
+          },
+          {
+            "label": "equityCr",
+            "current": 27634.79
+          },
+          {
+            "label": "totalCapitalizationCr",
+            "current": 27634.79
+          },
+          {
+            "label": "equityCapitalCr",
+            "current": 11.43
+          },
+          {
+            "label": "totalLiabilitiesCr",
+            "current": 3156.21
+          },
+          {
+            "label": "nonCurrentLiabilitiesCr",
+            "current": 3150.79
+          },
+          {
+            "label": "totalAssetsCr",
+            "current": 30791.0
+          },
+          {
+            "label": "nonCurrentAssetsCr",
+            "current": 30772.96
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": 0.0
+          },
+          {
+            "label": "cashAndEquivalentsCr",
+            "current": 0.06
+          },
+          {
+            "label": "shortTermInvestmentsCr",
+            "current": 7.52
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "fcfCr": 267.05,
+          "closingCashCr": 0.06,
+          "openingCashCr": 1.97,
+          "netChangeCr": -1.91,
+          "cffCr": -249.99,
+          "dividendCr": -249.99,
+          "cfiCr": -18.97,
+          "fixedAssetsCr": 0.14,
+          "cfoCr": 267.05,
+          "changeInWorkingCapitalCr": -14.25,
+          "depreciationCr": 0.02,
+          "patCr": 308.99
+        },
+        "items": [
+          {
+            "label": "fcfCr",
+            "current": 267.05
+          },
+          {
+            "label": "closingCashCr",
+            "current": 0.06
+          },
+          {
+            "label": "openingCashCr",
+            "current": 1.97
+          },
+          {
+            "label": "netChangeCr",
+            "current": -1.91
+          },
+          {
+            "label": "cffCr",
+            "current": -249.99
+          },
+          {
+            "label": "dividendCr",
+            "current": -249.99
+          },
+          {
+            "label": "cfiCr",
+            "current": -18.97
+          },
+          {
+            "label": "fixedAssetsCr",
+            "current": 0.14
+          },
+          {
+            "label": "cfoCr",
+            "current": 267.05
+          },
+          {
+            "label": "changeInWorkingCapitalCr",
+            "current": -14.25
+          },
+          {
+            "label": "depreciationCr",
+            "current": 0.02
+          },
+          {
+            "label": "patCr",
+            "current": 308.99
+          }
+        ]
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-05-13T17:48:06.114673+00:00",
+    "source": "yfinance/MAHSCOOTER.NS",
+    "yearsCovered": [
+      "FY2022",
+      "FY2023",
+      "FY2024",
+      "FY2025",
+      "FY2026"
+    ]
+  }
+}
