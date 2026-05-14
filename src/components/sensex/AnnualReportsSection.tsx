@@ -88,6 +88,7 @@ function safeSub(a: number | null, b: number | null): number | null {
 }
 
 import { KpiCard } from './KpiCard';
+import { ErrorBoundary } from './ErrorBoundary';
 
 /* ── Main Component (stable hook tree, no key-remount) ──────────────────── */
 export function AnnualReportsSection() {
@@ -464,20 +465,40 @@ export function AnnualReportsSection() {
           </div>
 
           {/* Tab content */}
-          {tab === 'overview' && <OverviewTab yearsData={yearsData ?? {}} years={years} segData={segData} />}
-          {tab === 'ratios' && <RatiosTab yearsData={yearsData ?? {}} years={years} />}
-          {tab === 'segments' && <SegmentsView segData={segData} activeTicker={activeTicker} />}
-          {tab === 'charts' && <ChartsView kpiData={kpiData} />}
-          {tab === 'cashFlow' && <CashFlowView
-            data={yearsData}
-            years={displayYears}
-            allYears={years}
-            reportMeta={reportMeta}
-            tableModel={cashFlowTable}
-            summaries={cashFlowSummaries}
-            selectedYears={selectedYears}
-            onPresetSelect={setCashFlowPreset}
-          />}
+          {tab === 'overview' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Chart rendering failed.</div>}>
+              <OverviewTab yearsData={yearsData ?? {}} years={years} segData={segData} />
+            </ErrorBoundary>
+          )}
+          {tab === 'ratios' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Chart rendering failed.</div>}>
+              <RatiosTab yearsData={yearsData ?? {}} years={years} />
+            </ErrorBoundary>
+          )}
+          {tab === 'segments' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Chart rendering failed.</div>}>
+              <SegmentsView segData={segData} activeTicker={activeTicker} />
+            </ErrorBoundary>
+          )}
+          {tab === 'charts' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Chart rendering failed.</div>}>
+              <ChartsView kpiData={kpiData} />
+            </ErrorBoundary>
+          )}
+          {tab === 'cashFlow' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Chart rendering failed.</div>}>
+              <CashFlowView
+                data={yearsData}
+                years={displayYears}
+                allYears={years}
+                reportMeta={reportMeta}
+                tableModel={cashFlowTable}
+                summaries={cashFlowSummaries}
+                selectedYears={selectedYears}
+                onPresetSelect={setCashFlowPreset}
+              />
+            </ErrorBoundary>
+          )}
           {(tab === 'pnl' || tab === 'balanceSheet') && (tab === 'balanceSheet' ? (
             <BalanceSheetSideBySide data={yearsData} years={displayYears} commonSize={commonSize} />
           ) : (
