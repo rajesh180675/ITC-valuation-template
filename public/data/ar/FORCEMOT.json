@@ -1151,6 +1151,11 @@
             "current": 163.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -8/42 = -19.0%"
+        ]
       }
     },
     "FY2021": {
@@ -2323,6 +2328,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Automobiles",
+    "name": "FORCEMOT",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

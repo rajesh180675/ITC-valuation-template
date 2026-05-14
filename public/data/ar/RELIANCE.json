@@ -1343,6 +1343,11 @@
             "current": 37.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1722/55461 = 3.1%"
+        ]
       }
     },
     "FY2022": {
@@ -2323,6 +2328,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Energy",
+    "name": "RELIANCE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

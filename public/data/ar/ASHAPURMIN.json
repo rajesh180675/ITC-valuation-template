@@ -1343,6 +1343,11 @@
             "current": -39.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/382 = -0.3%"
+        ]
       }
     },
     "FY2021": {
@@ -2303,6 +2308,11 @@
             "current": 61.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 15/304 = 4.9%"
+        ]
       }
     }
   },
@@ -2323,6 +2333,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Materials",
+    "name": "ASHAPURMIN",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

@@ -383,6 +383,11 @@
             "current": 83.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 14/19 = 73.7%"
+        ]
       }
     },
     "FY2021": {
@@ -574,6 +579,11 @@
             "label": "CFO/OP",
             "current": 98.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 133/68 = 195.6%"
         ]
       }
     },
@@ -1551,6 +1561,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "KFINTECH",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

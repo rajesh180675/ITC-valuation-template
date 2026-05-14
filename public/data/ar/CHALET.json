@@ -687,6 +687,11 @@
             "current": 184.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -48/79 = -60.8%"
+        ]
       }
     },
     "FY2018": {
@@ -1262,6 +1267,11 @@
             "label": "CFO/OP",
             "current": 83.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/101 = 1.0%"
         ]
       }
     },
@@ -2031,6 +2041,11 @@
             "current": 127.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -9/269 = -3.3%"
+        ]
       }
     },
     "FY2025": {
@@ -2223,6 +2238,11 @@
             "current": 141.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 292/434 = 67.3%"
+        ]
       }
     }
   },
@@ -2243,6 +2263,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "CHALET",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

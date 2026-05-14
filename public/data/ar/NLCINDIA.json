@@ -575,6 +575,11 @@
             "current": 73.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 637/705 = 90.4%"
+        ]
       }
     },
     "FY2017": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 34.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -168/2289 = -7.3%"
         ]
       }
     },
@@ -2323,6 +2333,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Utilities",
+    "name": "NLCINDIA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

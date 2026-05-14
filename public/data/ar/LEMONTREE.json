@@ -959,6 +959,11 @@
             "current": 119.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -11/45 = -24.4%"
+        ]
       }
     },
     "FY2020": {
@@ -2130,6 +2135,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "LEMONTREE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

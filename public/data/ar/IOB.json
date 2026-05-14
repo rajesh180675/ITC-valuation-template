@@ -139,6 +139,11 @@
           "equityCr": 1099.0
         },
         "items": []
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/231 = 0.0%"
+        ]
       }
     },
     "FY2021": {
@@ -326,6 +331,11 @@
             "current": 77.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 9/767 = 1.2%"
+        ]
       }
     },
     "FY2022": {
@@ -512,6 +522,11 @@
             "label": "CFO/OP",
             "current": 84.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 70/1779 = 3.9%"
         ]
       }
     },
@@ -1276,6 +1291,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "IOB",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

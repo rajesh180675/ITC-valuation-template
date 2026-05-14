@@ -42,7 +42,19 @@
           "cfiCr": 76.99,
           "cffCr": -250.75,
           "fcfCr": -111.06
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -107,7 +119,19 @@
           "cfiCr": -111.98,
           "cffCr": -121.74,
           "fcfCr": -91.17
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -172,7 +196,19 @@
           "cfiCr": -579.29,
           "cffCr": 223.19,
           "fcfCr": -91.9
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -237,7 +273,19 @@
           "cfiCr": 36.5,
           "cffCr": -111.49,
           "fcfCr": -52.65
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -267,6 +315,8 @@
     "fetchedAt": "1778741623.0571434",
     "sector": "Consumer Cyclical",
     "industry": "Auto Parts",
-    "marketCapCr": 5710.43
+    "marketCapCr": 5710.43,
+    "reportingType": "financial",
+    "dataVersion": 2
   }
 }

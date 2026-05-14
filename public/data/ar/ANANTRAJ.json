@@ -959,6 +959,11 @@
             "current": 1088.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/40 = 0.0%"
+        ]
       }
     },
     "FY2020": {
@@ -1342,6 +1347,11 @@
             "label": "CFO/OP",
             "current": -403.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/8 = -12.5%"
         ]
       }
     },
@@ -2323,6 +2333,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Real Estate",
+    "name": "ANANTRAJ",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

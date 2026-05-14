@@ -191,6 +191,11 @@
             "current": 97.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/82 = 1.2%"
+        ]
       }
     },
     "FY2015": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 127.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 4/125 = 3.2%"
         ]
       }
     },
@@ -766,6 +776,11 @@
             "label": "CFO/OP",
             "current": 76.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -25/179 = -14.0%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Staples",
+    "name": "JYOTHYLAB",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

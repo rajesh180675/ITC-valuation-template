@@ -463,6 +463,11 @@
             "current": -37.79
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/13 = 0.0%"
+        ]
       }
     },
     "FY2024": {
@@ -699,6 +704,11 @@
             "label": "fixedAssetsCr",
             "current": -32.83
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/82 = 0.0%"
         ]
       }
     },
@@ -937,6 +947,11 @@
             "current": -40.86
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/214 = 0.0%"
+        ]
       }
     }
   },
@@ -949,6 +964,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Insurance",
+    "name": "NIVABUPA",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

@@ -191,6 +191,11 @@
             "current": 33.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 46/63 = 73.0%"
+        ]
       }
     },
     "FY2016": {
@@ -574,6 +579,11 @@
             "label": "CFO/OP",
             "current": 125.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 14/327 = 4.3%"
         ]
       }
     },
@@ -1150,6 +1160,11 @@
             "label": "CFO/OP",
             "current": 189.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 36/39 = 92.3%"
         ]
       }
     },
@@ -1919,6 +1934,11 @@
             "current": 92.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -238/294 = -81.0%"
+        ]
       }
     },
     "FY2025": {
@@ -2130,6 +2150,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Auto Components",
+    "name": "VARROC",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

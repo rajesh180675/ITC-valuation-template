@@ -191,6 +191,11 @@
             "current": 54.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -12/312 = -3.8%"
+        ]
       }
     },
     "FY2016": {
@@ -383,6 +388,11 @@
             "current": 12.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/156 = 0.0%"
+        ]
       }
     },
     "FY2017": {
@@ -574,6 +584,11 @@
             "label": "CFO/OP",
             "current": 103.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/124 = 0.0%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Telecom",
+    "name": "HFCL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

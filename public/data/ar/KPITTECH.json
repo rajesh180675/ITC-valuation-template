@@ -187,6 +187,11 @@
             "current": 4.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Non-positive revenue: 0.0"
+        ]
       }
     },
     "FY2019": {
@@ -1740,6 +1745,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Information Technology",
+    "name": "KPITTECH",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

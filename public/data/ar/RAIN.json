@@ -191,6 +191,11 @@
             "current": 121.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -12/58 = -20.7%"
+        ]
       }
     },
     "FY2015": {
@@ -2303,6 +2308,11 @@
             "current": 54.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 299/435 = 68.7%"
+        ]
       }
     }
   },
@@ -2323,6 +2333,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Chemicals",
+    "name": "RAIN",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

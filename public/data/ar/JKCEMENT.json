@@ -383,6 +383,11 @@
             "current": 63.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/144 = 1.4%"
+        ]
       }
     },
     "FY2016": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Cement",
+    "name": "JKCEMENT",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

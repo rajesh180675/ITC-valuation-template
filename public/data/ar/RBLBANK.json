@@ -1682,6 +1682,11 @@
             "current": -14.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -21/696 = -3.0%"
+        ]
       }
     },
     "FY2026": {
@@ -1887,6 +1892,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "RBLBANK",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

@@ -271,6 +271,11 @@
             "current": 27.62
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/28 = 0.0%"
+        ]
       }
     },
     "FY2023": {
@@ -547,6 +552,12 @@
             "label": "patCr",
             "current": 123.63
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=-16.55 vs netChange=-13.61",
+          "Unusual tax rate: 0/124 = 0.0%"
         ]
       }
     },
@@ -1092,6 +1103,11 @@
             "current": 350.35
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=211.13 vs netChange=214.77"
+        ]
       }
     }
   },
@@ -1104,6 +1120,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "SCHNEIDER",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

@@ -959,6 +959,11 @@
             "current": -4256.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/163 = 0.0%"
+        ]
       }
     },
     "FY2020": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 92.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/976 = 0.0%"
         ]
       }
     },
@@ -1343,6 +1353,11 @@
             "current": 184.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/350 = 0.0%"
+        ]
       }
     },
     "FY2022": {
@@ -1534,6 +1549,11 @@
             "label": "CFO/OP",
             "current": 24.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/346 = 0.0%"
         ]
       }
     },
@@ -1727,6 +1747,11 @@
             "current": 84.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/613 = 0.0%"
+        ]
       }
     },
     "FY2024": {
@@ -1918,6 +1943,11 @@
             "label": "CFO/OP",
             "current": 78.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -86/42 = -204.8%"
         ]
       }
     },
@@ -2130,6 +2160,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Chemicals",
+    "name": "FACT",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

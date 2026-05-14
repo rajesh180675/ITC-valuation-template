@@ -191,6 +191,11 @@
             "current": 104.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -42/1120 = -3.8%"
+        ]
       }
     },
     "FY2015": {
@@ -958,6 +963,11 @@
             "label": "CFO/OP",
             "current": 80.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -11/1510 = -0.7%"
         ]
       }
     },
@@ -2303,6 +2313,11 @@
             "current": -56.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 20/2157 = 0.9%"
+        ]
       }
     }
   },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Cement",
+    "name": "ACC",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

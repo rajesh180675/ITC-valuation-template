@@ -191,6 +191,11 @@
             "current": 170.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/9 = -22.2%"
+        ]
       }
     },
     "FY2020": {
@@ -959,6 +964,11 @@
             "current": 74.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/67 = -1.5%"
+        ]
       }
     },
     "FY2024": {
@@ -1358,6 +1368,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Information Technology",
+    "name": "RATEGAIN",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

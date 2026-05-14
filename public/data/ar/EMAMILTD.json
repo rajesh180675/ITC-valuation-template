@@ -1727,6 +1727,11 @@
             "current": 84.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -149/688 = -21.7%"
+        ]
       }
     },
     "FY2023": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Staples",
+    "name": "EMAMILTD",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

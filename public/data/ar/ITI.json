@@ -191,6 +191,11 @@
             "current": 332.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/266 = 0.0%"
+        ]
       }
     },
     "FY2018": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": -138.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/231 = 0.0%"
         ]
       }
     },
@@ -575,6 +585,11 @@
             "current": -24.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/93 = 0.0%"
+        ]
       }
     },
     "FY2020": {
@@ -766,6 +781,11 @@
             "label": "CFO/OP",
             "current": -138.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/146 = 0.0%"
         ]
       }
     },
@@ -959,6 +979,11 @@
             "current": 190.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/9 = 0.0%"
+        ]
       }
     },
     "FY2022": {
@@ -1150,6 +1175,11 @@
             "label": "CFO/OP",
             "current": -407.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/119 = 0.0%"
         ]
       }
     },
@@ -1744,6 +1774,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Telecom",
+    "name": "ITI",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

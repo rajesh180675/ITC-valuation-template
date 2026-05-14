@@ -383,6 +383,11 @@
             "current": 273.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/36 = 2.8%"
+        ]
       }
     },
     "FY2016": {
@@ -574,6 +579,11 @@
             "label": "CFO/OP",
             "current": 231.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -8/53 = -15.1%"
         ]
       }
     },
@@ -1151,6 +1161,11 @@
             "current": 76.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/25 = -4.0%"
+        ]
       }
     },
     "FY2020": {
@@ -1342,6 +1357,11 @@
             "label": "CFO/OP",
             "current": 115.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/30 = 0.0%"
         ]
       }
     },
@@ -1535,6 +1555,11 @@
             "current": 114.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/27 = 3.7%"
+        ]
       }
     },
     "FY2022": {
@@ -1726,6 +1751,11 @@
             "label": "CFO/OP",
             "current": 64.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/117 = 0.0%"
         ]
       }
     },
@@ -2323,6 +2353,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Durables",
+    "name": "GOKEX",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

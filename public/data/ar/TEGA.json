@@ -151,6 +151,11 @@
           "equityCr": 439.0
         },
         "items": []
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 33/18 = 183.3%"
+        ]
       }
     },
     "FY2016": {
@@ -303,6 +308,11 @@
           "equityCr": 418.0
         },
         "items": []
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 15/5 = 300.0%"
+        ]
       }
     },
     "FY2017": {
@@ -1070,6 +1080,11 @@
             "label": "CFO/OP",
             "current": 136.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -7/59 = -11.9%"
         ]
       }
     },
@@ -2050,6 +2065,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "TEGA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

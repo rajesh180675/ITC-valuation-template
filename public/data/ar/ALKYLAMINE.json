@@ -575,6 +575,11 @@
             "current": 86.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/14 = 0.0%"
+        ]
       }
     },
     "FY2012": {
@@ -2323,6 +2328,11 @@
       "FY2018",
       "FY2019",
       "FY2020"
-    ]
+    ],
+    "sector": "Chemicals",
+    "name": "ALKYLAMINE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

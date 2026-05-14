@@ -383,6 +383,11 @@
             "current": -40.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 13/20 = 65.0%"
+        ]
       }
     },
     "FY2019": {
@@ -959,6 +964,11 @@
             "current": 129.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 43/70 = 61.4%"
+        ]
       }
     },
     "FY2022": {
@@ -1165,6 +1175,11 @@
       "FY2020",
       "FY2021",
       "FY2022"
-    ]
+    ],
+    "sector": "Consumer Durables",
+    "name": "CAMPUS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

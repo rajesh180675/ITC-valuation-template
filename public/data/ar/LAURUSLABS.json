@@ -191,6 +191,11 @@
             "current": -24.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/67 = -1.5%"
+        ]
       }
     },
     "FY2016": {
@@ -2283,6 +2288,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Pharmaceuticals",
+    "name": "LAURUSLABS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

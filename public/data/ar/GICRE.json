@@ -151,6 +151,11 @@
           "equityCr": 34186.0
         },
         "items": []
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -131/2302 = -5.7%"
+        ]
       }
     },
     "FY2015": {
@@ -342,6 +347,11 @@
             "label": "CFO/OP",
             "current": -145.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -62/2829 = -2.2%"
         ]
       }
     },
@@ -726,6 +736,11 @@
             "label": "CFO/OP",
             "current": -1046.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 98/3770 = 2.6%"
         ]
       }
     },
@@ -2283,6 +2298,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Insurance",
+    "name": "GICRE",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

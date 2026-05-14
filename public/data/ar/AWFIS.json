@@ -1301,6 +1301,11 @@
             "current": 90.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/69 = 1.4%"
+        ]
       }
     }
   },
@@ -1316,6 +1321,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Industrials",
+    "name": "AWFIS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

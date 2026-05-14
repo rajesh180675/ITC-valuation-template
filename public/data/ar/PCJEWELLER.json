@@ -1535,6 +1535,11 @@
             "current": 18.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -54/8 = -675.0%"
+        ]
       }
     },
     "FY2022": {
@@ -2303,6 +2308,11 @@
             "current": -168.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -125/453 = -27.6%"
+        ]
       }
     }
   },
@@ -2323,6 +2333,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Durables",
+    "name": "PCJEWELLER",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

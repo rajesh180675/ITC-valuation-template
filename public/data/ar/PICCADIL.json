@@ -767,6 +767,11 @@
             "current": 174.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -3/2 = -150.0%"
+        ]
       }
     },
     "FY2019": {
@@ -959,6 +964,11 @@
             "current": 216.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 5/7 = 71.4%"
+        ]
       }
     },
     "FY2020": {
@@ -1150,6 +1160,11 @@
             "label": "CFO/OP",
             "current": 8.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -8/11 = -72.7%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "PICCADIL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

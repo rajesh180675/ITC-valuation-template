@@ -191,6 +191,11 @@
             "current": 735.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -107/23 = -465.2%"
+        ]
       }
     },
     "FY2019": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 173.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -95/42 = -226.2%"
         ]
       }
     },
@@ -575,6 +585,11 @@
             "current": 218.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -43/35 = -122.9%"
+        ]
       }
     },
     "FY2021": {
@@ -766,6 +781,11 @@
             "label": "CFO/OP",
             "current": 221.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -60/14 = -428.6%"
         ]
       }
     },
@@ -959,6 +979,11 @@
             "current": 173.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -139/22 = -631.8%"
+        ]
       }
     },
     "FY2023": {
@@ -1150,6 +1175,11 @@
             "label": "CFO/OP",
             "current": 250.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -191/47 = -406.4%"
         ]
       }
     },
@@ -1343,6 +1373,11 @@
             "current": 69.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -288/245 = -117.6%"
+        ]
       }
     },
     "FY2025": {
@@ -1535,6 +1570,11 @@
             "current": 195.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -295/117 = -252.1%"
+        ]
       }
     }
   },
@@ -1551,6 +1591,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "TSFINV",
+    "reportingType": "financial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

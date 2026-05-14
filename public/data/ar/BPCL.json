@@ -1343,6 +1343,11 @@
             "current": 108.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -14/3652 = -0.4%"
+        ]
       }
     },
     "FY2021": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Energy",
+    "name": "BPCL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

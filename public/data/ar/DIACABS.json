@@ -2057,6 +2057,11 @@
             "current": 37.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/17 = 0.0%"
+        ]
       }
     },
     "FY2025": {
@@ -2249,6 +2254,11 @@
             "current": 116.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/34 = 0.0%"
+        ]
       }
     }
   },
@@ -2269,6 +2279,11 @@
       "FY2017",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "DIACABS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

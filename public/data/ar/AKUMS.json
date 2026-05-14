@@ -575,6 +575,11 @@
             "current": 44.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 70/114 = 61.4%"
+        ]
       }
     },
     "FY2021": {
@@ -1535,6 +1540,11 @@
             "current": 118.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/345 = 0.3%"
+        ]
       }
     }
   },
@@ -1551,6 +1561,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Pharmaceuticals",
+    "name": "AKUMS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

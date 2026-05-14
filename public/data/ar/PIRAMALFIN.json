@@ -2303,6 +2303,11 @@
             "current": -228.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -123/1383 = -8.9%"
+        ]
       }
     }
   },
@@ -2323,6 +2328,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "PIRAMALFIN",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

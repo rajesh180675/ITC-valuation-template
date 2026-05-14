@@ -383,6 +383,11 @@
             "current": 55.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/132 = 1.5%"
+        ]
       }
     },
     "FY2016": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Pharmaceuticals",
+    "name": "NATCOPHARM",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

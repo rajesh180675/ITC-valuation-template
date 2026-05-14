@@ -191,6 +191,11 @@
             "current": 214.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/29 = 3.4%"
+        ]
       }
     },
     "FY2010": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 299.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/18 = 0.0%"
         ]
       }
     },
@@ -575,6 +585,11 @@
             "current": 230.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/19 = 0.0%"
+        ]
       }
     },
     "FY2012": {
@@ -766,6 +781,11 @@
             "label": "CFO/OP",
             "current": 107.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/4 = 0.0%"
         ]
       }
     },
@@ -959,6 +979,11 @@
             "current": 78.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/2 = 0.0%"
+        ]
       }
     },
     "FY2020": {
@@ -1150,6 +1175,11 @@
             "label": "CFO/OP",
             "current": 244.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -19/13 = -146.2%"
         ]
       }
     },
@@ -1534,6 +1564,11 @@
             "label": "CFO/OP",
             "current": -54.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -9/88 = -10.2%"
         ]
       }
     },
@@ -2323,6 +2358,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Materials",
+    "name": "LLOYDSME",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

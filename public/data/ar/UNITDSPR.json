@@ -575,6 +575,11 @@
             "current": 142.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 223/366 = 60.9%"
+        ]
       }
     },
     "FY2017": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "UNITDSPR",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

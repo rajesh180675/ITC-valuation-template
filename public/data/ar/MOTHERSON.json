@@ -1535,6 +1535,11 @@
             "current": 128.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -69/1500 = -4.6%"
+        ]
       }
     },
     "FY2022": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Auto Components",
+    "name": "MOTHERSON",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

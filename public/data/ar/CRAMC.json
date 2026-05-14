@@ -8,7 +8,18 @@
       },
       "balanceSheet": {
         "kpIs": {},
-        "items": []
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpIs": {},
@@ -414,6 +425,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "CRAMC",
+    "reportingType": "financial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

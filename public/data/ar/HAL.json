@@ -1455,6 +1455,11 @@
             "current": 207.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 145/5225 = 2.8%"
+        ]
       }
     },
     "FY2023": {
@@ -2050,6 +2055,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Aerospace & Defense",
+    "name": "HAL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

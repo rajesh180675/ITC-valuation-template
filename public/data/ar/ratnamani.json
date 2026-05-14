@@ -16,7 +16,44 @@
           "borrowingsCr": 157.4,
           "cfoCr": 536.22,
           "fcfCr": -329.08
-        }
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 5146.21,
+            "type": "item"
+          },
+          {
+            "label": "Expenses+",
+            "current": 918.25,
+            "type": "item"
+          },
+          {
+            "label": "Operating Profit",
+            "current": 716.8,
+            "type": "item"
+          },
+          {
+            "label": "Interest",
+            "current": 37.43,
+            "type": "item"
+          },
+          {
+            "label": "Depreciation",
+            "current": 107.41,
+            "type": "item"
+          },
+          {
+            "label": "Profit before tax",
+            "current": 737.99,
+            "type": "item"
+          },
+          {
+            "label": "Net Profit+",
+            "current": 543.98,
+            "type": "item"
+          }
+        ]
       },
       "balanceSheet": {
         "kpIs": {
@@ -32,7 +69,24 @@
           "borrowingsCr": 157.4,
           "cfoCr": 536.22,
           "fcfCr": -329.08
-        }
+        },
+        "items": [
+          {
+            "label": "Borrowings+",
+            "current": 157.4,
+            "type": "item"
+          },
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": 4905.97,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpIs": {
@@ -48,7 +102,19 @@
           "borrowingsCr": 157.4,
           "cfoCr": 536.22,
           "fcfCr": -329.08
-        }
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 536.22,
+            "type": "item"
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": -329.08,
+            "type": "item"
+          }
+        ]
       }
     },
     "FY2024": {
@@ -66,7 +132,44 @@
           "borrowingsCr": 152.87,
           "cfoCr": 511.23,
           "fcfCr": -213.04
-        }
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 5027.51,
+            "type": "item"
+          },
+          {
+            "label": "Expenses+",
+            "current": 775.73,
+            "type": "item"
+          },
+          {
+            "label": "Operating Profit",
+            "current": 799.83,
+            "type": "item"
+          },
+          {
+            "label": "Interest",
+            "current": 45.13,
+            "type": "item"
+          },
+          {
+            "label": "Depreciation",
+            "current": 97.29,
+            "type": "item"
+          },
+          {
+            "label": "Profit before tax",
+            "current": 827.67,
+            "type": "item"
+          },
+          {
+            "label": "Net Profit+",
+            "current": 622.79,
+            "type": "item"
+          }
+        ]
       },
       "balanceSheet": {
         "kpIs": {
@@ -82,7 +185,24 @@
           "borrowingsCr": 152.87,
           "cfoCr": 511.23,
           "fcfCr": -213.04
-        }
+        },
+        "items": [
+          {
+            "label": "Borrowings+",
+            "current": 152.87,
+            "type": "item"
+          },
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": 4019.83,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpIs": {
@@ -98,7 +218,19 @@
           "borrowingsCr": 152.87,
           "cfoCr": 511.23,
           "fcfCr": -213.04
-        }
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 511.23,
+            "type": "item"
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": -213.04,
+            "type": "item"
+          }
+        ]
       }
     },
     "FY2023": {
@@ -116,7 +248,44 @@
           "borrowingsCr": 237.0,
           "cfoCr": 310.47,
           "fcfCr": -141.89
-        }
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 4461.16,
+            "type": "item"
+          },
+          {
+            "label": "Expenses+",
+            "current": 711.79,
+            "type": "item"
+          },
+          {
+            "label": "Operating Profit",
+            "current": 692.4,
+            "type": "item"
+          },
+          {
+            "label": "Interest",
+            "current": 21.33,
+            "type": "item"
+          },
+          {
+            "label": "Depreciation",
+            "current": 83.12,
+            "type": "item"
+          },
+          {
+            "label": "Profit before tax",
+            "current": 693.54,
+            "type": "item"
+          },
+          {
+            "label": "Net Profit+",
+            "current": 510.48,
+            "type": "item"
+          }
+        ]
       },
       "balanceSheet": {
         "kpIs": {
@@ -132,7 +301,24 @@
           "borrowingsCr": 237.0,
           "cfoCr": 310.47,
           "fcfCr": -141.89
-        }
+        },
+        "items": [
+          {
+            "label": "Borrowings+",
+            "current": 237.0,
+            "type": "item"
+          },
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": 3780.28,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpIs": {
@@ -148,7 +334,19 @@
           "borrowingsCr": 237.0,
           "cfoCr": 310.47,
           "fcfCr": -141.89
-        }
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 310.47,
+            "type": "item"
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": -141.89,
+            "type": "item"
+          }
+        ]
       }
     },
     "FY2022": {
@@ -166,7 +364,44 @@
           "borrowingsCr": 157.47,
           "cfoCr": -283.0,
           "fcfCr": -144.47
-        }
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 3121.91,
+            "type": "item"
+          },
+          {
+            "label": "Expenses+",
+            "current": 520.25,
+            "type": "item"
+          },
+          {
+            "label": "Operating Profit",
+            "current": 414.82,
+            "type": "item"
+          },
+          {
+            "label": "Interest",
+            "current": 17.28,
+            "type": "item"
+          },
+          {
+            "label": "Depreciation",
+            "current": 80.21,
+            "type": "item"
+          },
+          {
+            "label": "Profit before tax",
+            "current": 430.94,
+            "type": "item"
+          },
+          {
+            "label": "Net Profit+",
+            "current": 322.64,
+            "type": "item"
+          }
+        ]
       },
       "balanceSheet": {
         "kpIs": {
@@ -182,7 +417,24 @@
           "borrowingsCr": 157.47,
           "cfoCr": -283.0,
           "fcfCr": -144.47
-        }
+        },
+        "items": [
+          {
+            "label": "Borrowings+",
+            "current": 157.47,
+            "type": "item"
+          },
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": 2962.48,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpIs": {
@@ -198,7 +450,19 @@
           "borrowingsCr": 157.47,
           "cfoCr": -283.0,
           "fcfCr": -144.47
-        }
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": -283.0,
+            "type": "item"
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": -144.47,
+            "type": "item"
+          }
+        ]
       }
     }
   },
@@ -207,6 +471,10 @@
     "fetchedAt": "1778752180.107818",
     "sector": "Basic Materials",
     "industry": "Steel",
-    "marketCapCr": 20199.81
+    "marketCapCr": 20199.81,
+    "name": "RATNAMANI METALS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "yfinance-expanded",
+    "dataVersion": 2
   }
 }

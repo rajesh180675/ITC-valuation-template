@@ -191,6 +191,11 @@
             "current": 15.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -6/70 = -8.6%"
+        ]
       }
     },
     "FY2016": {
@@ -2323,6 +2328,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Automobiles",
+    "name": "ESCORTS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

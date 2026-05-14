@@ -369,6 +369,11 @@
             "current": -22.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/12 = -8.3%"
+        ]
       }
     },
     "FY2019": {
@@ -560,6 +565,11 @@
             "label": "CFO/OP",
             "current": 72.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -8/13 = -61.5%"
         ]
       }
     },
@@ -1713,6 +1723,11 @@
             "current": 93.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 191/224 = 85.3%"
+        ]
       }
     },
     "FY2026": {
@@ -1923,6 +1938,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "ARVINDFASN",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

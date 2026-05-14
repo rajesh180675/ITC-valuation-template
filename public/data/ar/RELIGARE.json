@@ -383,6 +383,11 @@
             "current": -173.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 221/282 = 78.4%"
+        ]
       }
     },
     "FY2017": {
@@ -1727,6 +1732,11 @@
             "current": 312.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 90/3259 = 2.8%"
+        ]
       }
     },
     "FY2024": {
@@ -2283,6 +2293,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "RELIGARE",
+    "reportingType": "financial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

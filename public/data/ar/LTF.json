@@ -548,6 +548,11 @@
             "current": -91.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 31/1079 = 2.9%"
+        ]
       }
     },
     "FY2018": {
@@ -2215,6 +2220,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "LTF",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

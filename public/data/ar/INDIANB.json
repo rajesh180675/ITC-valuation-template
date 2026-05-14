@@ -560,6 +560,11 @@
             "current": -109.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -395/1060 = -37.3%"
+        ]
       }
     },
     "FY2018": {
@@ -933,6 +938,11 @@
             "label": "CFO/OP",
             "current": 58.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -22/359 = -6.1%"
         ]
       }
     },
@@ -1308,6 +1318,11 @@
             "current": 81.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -36/3115 = -1.2%"
+        ]
       }
     },
     "FY2022": {
@@ -1494,6 +1509,11 @@
             "label": "CFO/OP",
             "current": 155.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -891/3253 = -27.4%"
         ]
       }
     },
@@ -2263,6 +2283,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "INDIANB",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

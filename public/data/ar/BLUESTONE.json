@@ -383,6 +383,11 @@
             "current": -52.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/13 = 0.0%"
+        ]
       }
     }
   },
@@ -393,6 +398,11 @@
     "yearsCovered": [
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Durables",
+    "name": "BLUESTONE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

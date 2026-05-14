@@ -753,6 +753,11 @@
             "current": 97.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 161/179 = 89.9%"
+        ]
       }
     },
     "FY2025": {
@@ -944,6 +949,11 @@
             "label": "CFO/OP",
             "current": 85.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 324/415 = 78.1%"
         ]
       }
     },
@@ -1151,6 +1161,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Pharmaceuticals",
+    "name": "PPLPHARMA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

@@ -383,6 +383,11 @@
             "current": 107.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -219/287 = -76.3%"
+        ]
       }
     },
     "FY2017": {
@@ -1535,6 +1540,11 @@
             "current": 96.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -247/2711 = -9.1%"
+        ]
       }
     },
     "FY2023": {
@@ -2323,6 +2333,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Energy",
+    "name": "MRPL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

@@ -383,6 +383,11 @@
             "current": 84.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 4/105 = 3.8%"
+        ]
       }
     },
     "FY2021": {
@@ -1551,6 +1556,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Pharmaceuticals",
+    "name": "EMCURE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

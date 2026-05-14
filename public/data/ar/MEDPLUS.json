@@ -767,6 +767,11 @@
             "current": 96.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -16/26 = -61.5%"
+        ]
       }
     },
     "FY2019": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 6.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 27/29 = 93.1%"
         ]
       }
     },
@@ -1727,6 +1737,11 @@
             "current": 39.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -3/47 = -6.4%"
+        ]
       }
     },
     "FY2024": {
@@ -2130,6 +2145,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Healthcare",
+    "name": "MEDPLUS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

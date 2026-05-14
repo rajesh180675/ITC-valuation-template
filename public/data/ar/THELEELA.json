@@ -369,6 +369,11 @@
             "current": 104.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 21/19 = 110.5%"
+        ]
       }
     },
     "FY2025": {
@@ -765,6 +770,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "THELEELA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

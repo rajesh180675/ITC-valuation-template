@@ -767,6 +767,11 @@
             "current": 158.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/27 = 3.7%"
+        ]
       }
     },
     "FY2021": {
@@ -1744,6 +1749,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Durables",
+    "name": "IFBIND",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

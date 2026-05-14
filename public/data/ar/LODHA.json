@@ -1303,6 +1303,11 @@
             "current": 176.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -15/33 = -45.5%"
+        ]
       }
     },
     "FY2022": {
@@ -1686,6 +1691,11 @@
             "label": "CFO/OP",
             "current": 143.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -38/452 = -8.4%"
         ]
       }
     },
@@ -2283,6 +2293,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Real Estate",
+    "name": "LODHA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

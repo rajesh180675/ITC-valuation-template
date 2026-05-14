@@ -303,6 +303,11 @@
           "equityCr": 1885.0
         },
         "items": []
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 26/21 = 123.8%"
+        ]
       }
     },
     "FY2020": {
@@ -686,6 +691,11 @@
             "label": "CFO/OP",
             "current": 110.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 45/39 = 115.4%"
         ]
       }
     },
@@ -1664,6 +1674,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Durables",
+    "name": "KALYANKJIL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

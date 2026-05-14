@@ -1343,6 +1343,11 @@
             "current": 88.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -25/61 = -41.0%"
+        ]
       }
     }
   },
@@ -1358,6 +1363,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "SAMHI",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

@@ -184,6 +184,11 @@
             "current": 500.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 5572/8199 = 68.0%"
+        ]
       }
     },
     "FY2020": {
@@ -369,6 +374,11 @@
             "current": -908.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 10834/13544 = 80.0%"
+        ]
       }
     },
     "FY2021": {
@@ -553,6 +563,11 @@
             "label": "CFO/OP",
             "current": -27549.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 9177/12151 = 75.5%"
         ]
       }
     },
@@ -745,6 +760,11 @@
             "label": "CFO/OP",
             "current": 108.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 8013/12138 = 66.0%"
         ]
       }
     },
@@ -1337,6 +1357,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Insurance",
+    "name": "LICI",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

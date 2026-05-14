@@ -1151,6 +1151,11 @@
             "current": 139.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 25/5030 = 0.5%"
+        ]
       }
     },
     "FY2021": {
@@ -2283,6 +2288,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Energy",
+    "name": "OIL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

@@ -1151,6 +1151,11 @@
             "current": 109.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -704/475 = -148.2%"
+        ]
       }
     },
     "FY2021": {
@@ -2323,6 +2328,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Utilities",
+    "name": "TORNTPOWER",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

@@ -42,7 +42,19 @@
           "cfiCr": 13.63,
           "cffCr": 10.72,
           "fcfCr": -4.34
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -107,7 +119,19 @@
           "cfiCr": 67.87,
           "cffCr": -46.48,
           "fcfCr": -0.8
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -137,6 +161,10 @@
     "fetchedAt": "1778748527.3091247",
     "sector": "Industrials",
     "industry": "Airlines",
-    "marketCapCr": 388.05
+    "marketCapCr": 388.05,
+    "name": "JET AIRWAYS",
+    "reportingType": "financial",
+    "indexSlug": "yfinance-expanded",
+    "dataVersion": 2
   }
 }

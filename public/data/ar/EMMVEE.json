@@ -191,6 +191,11 @@
             "current": 174.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -5/9 = -55.6%"
+        ]
       }
     },
     "FY2021": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 71.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -8/1 = -800.0%"
         ]
       }
     },
@@ -1358,6 +1368,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "EMMVEE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

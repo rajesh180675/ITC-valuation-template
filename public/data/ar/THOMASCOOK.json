@@ -383,6 +383,11 @@
             "current": 268.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 60/1 = 6000.0%"
+        ]
       }
     },
     "FY2017": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 1.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -40/6091 = -0.7%"
         ]
       }
     },
@@ -1727,6 +1737,11 @@
             "current": 391.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 17/27 = 63.0%"
+        ]
       }
     },
     "FY2024": {
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Industrials",
+    "name": "THOMASCOOK",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

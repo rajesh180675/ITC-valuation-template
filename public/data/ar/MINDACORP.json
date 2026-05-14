@@ -1919,6 +1919,11 @@
             "current": 91.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 14/298 = 4.7%"
+        ]
       }
     },
     "FY2024": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Auto Components",
+    "name": "MINDACORP",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

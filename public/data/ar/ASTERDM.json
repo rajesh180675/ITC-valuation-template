@@ -383,6 +383,11 @@
             "current": 53.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 30/38 = 78.9%"
+        ]
       }
     },
     "FY2017": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 88.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 15/330 = 4.5%"
         ]
       }
     },
@@ -2111,6 +2121,11 @@
             "current": 72.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 134/5542 = 2.4%"
+        ]
       }
     },
     "FY2026": {
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Healthcare",
+    "name": "ASTERDM",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

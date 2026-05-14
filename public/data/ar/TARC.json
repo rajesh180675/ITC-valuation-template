@@ -376,6 +376,11 @@
             "current": -63382.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -5/1 = -500.0%"
+        ]
       }
     },
     "FY2022": {
@@ -1158,6 +1163,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Real Estate",
+    "name": "TARC",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

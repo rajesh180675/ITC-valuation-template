@@ -276,6 +276,11 @@
             "current": 0.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Non-positive revenue: 0.0"
+        ]
       }
     },
     "FY2023": {
@@ -557,6 +562,11 @@
             "label": "patCr",
             "current": 0.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Non-positive revenue: 0.0"
         ]
       }
     },
@@ -1109,6 +1119,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Metals",
+    "name": "NSLNISP",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

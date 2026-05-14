@@ -191,6 +191,11 @@
             "current": 108.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1027/1484 = 69.2%"
+        ]
       }
     },
     "FY2016": {
@@ -2323,6 +2328,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Utilities",
+    "name": "TATAPOWER",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

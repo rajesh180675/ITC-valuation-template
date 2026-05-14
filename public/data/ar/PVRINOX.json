@@ -191,6 +191,11 @@
             "current": 79.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/12 = 0.0%"
+        ]
       }
     },
     "FY2016": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 76.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 63/90 = 70.0%"
         ]
       }
     },
@@ -2323,6 +2333,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Media",
+    "name": "PVRINOX",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

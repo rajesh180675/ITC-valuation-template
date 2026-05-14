@@ -1151,6 +1151,11 @@
             "current": 89.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -125/108 = -115.7%"
+        ]
       }
     },
     "FY2024": {
@@ -1744,6 +1749,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "SAPPHIRE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

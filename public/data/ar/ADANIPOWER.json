@@ -383,6 +383,11 @@
             "current": 60.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -176/375 = -46.9%"
+        ]
       }
     },
     "FY2017": {
@@ -1727,6 +1732,11 @@
             "current": 84.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -3052/7675 = -39.8%"
+        ]
       }
     },
     "FY2024": {
@@ -1918,6 +1928,11 @@
             "label": "CFO/OP",
             "current": 78.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -37/20792 = -0.2%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Utilities",
+    "name": "ADANIPOWER",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

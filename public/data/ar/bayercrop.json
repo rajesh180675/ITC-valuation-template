@@ -42,7 +42,19 @@
           "cfiCr": 85.6,
           "cffCr": -619.4,
           "fcfCr": -40.9
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -107,7 +119,19 @@
           "cfiCr": 0.4,
           "cffCr": -656.3,
           "fcfCr": -45.7
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -172,7 +196,19 @@
           "cfiCr": 83.3,
           "cffCr": -613.2,
           "fcfCr": -77.3
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -237,7 +273,19 @@
           "cfiCr": 64.2,
           "cffCr": -703.3,
           "fcfCr": -55.4
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -267,6 +315,8 @@
     "fetchedAt": "1778741610.844789",
     "sector": "Basic Materials",
     "industry": "Agricultural Inputs",
-    "marketCapCr": 19806.43
+    "marketCapCr": 19806.43,
+    "reportingType": "financial",
+    "dataVersion": 2
   }
 }

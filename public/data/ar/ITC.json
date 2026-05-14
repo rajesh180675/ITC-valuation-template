@@ -5670,7 +5670,10 @@
           182,
           183
         ],
-        "warnings": []
+        "warnings": [],
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=-330.1 vs netChange=-387.05"
+        ]
       }
     },
     "FY2022": {
@@ -9798,7 +9801,10 @@
           160,
           161
         ],
-        "warnings": []
+        "warnings": [],
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=24.430000000000007 vs netChange=126.87"
+        ]
       }
     }
   },
@@ -9830,6 +9836,11 @@
       "FY2024": "public/data/annual_reports/ITC_AR_2024.pdf",
       "FY2025": "public/data/annual_reports/ITC_AR_2025.pdf"
     },
-    "warnings": []
+    "warnings": [],
+    "sector": "Consumer Staples",
+    "name": "ITC",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

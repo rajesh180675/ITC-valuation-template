@@ -1263,6 +1263,11 @@
             "current": 1747.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -60/291 = -20.6%"
+        ]
       }
     },
     "FY2025": {
@@ -1664,6 +1669,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "ETERNAL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

@@ -575,6 +575,11 @@
             "current": 135.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/24 = -4.2%"
+        ]
       }
     },
     "FY2017": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 192.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 28/42 = 66.7%"
         ]
       }
     },
@@ -1342,6 +1352,11 @@
             "label": "CFO/OP",
             "current": 130.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 74/62 = 119.4%"
         ]
       }
     },
@@ -2303,6 +2318,11 @@
             "current": 155.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -40/5 = -800.0%"
+        ]
       }
     }
   },
@@ -2323,6 +2343,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Cement",
+    "name": "PRSMJOHNSN",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

@@ -959,6 +959,11 @@
             "current": -286.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/11 = -18.2%"
+        ]
       }
     },
     "FY2020": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 118.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/57 = -3.5%"
         ]
       }
     },
@@ -1534,6 +1544,11 @@
             "label": "CFO/OP",
             "current": -921.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/3 = 0.0%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Aerospace & Defense",
+    "name": "ZENTEC",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

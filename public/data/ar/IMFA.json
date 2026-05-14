@@ -383,6 +383,11 @@
             "current": 75.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 22/26 = 84.6%"
+        ]
       }
     },
     "FY2016": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 96.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 20/19 = 105.3%"
         ]
       }
     },
@@ -2323,6 +2333,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Metals",
+    "name": "IMFA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

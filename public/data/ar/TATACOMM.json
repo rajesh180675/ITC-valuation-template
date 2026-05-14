@@ -191,6 +191,11 @@
             "current": 105.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 370/373 = 99.2%"
+        ]
       }
     },
     "FY2016": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 114.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 233/243 = 95.9%"
         ]
       }
     },
@@ -767,6 +777,11 @@
             "current": 82.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 372/46 = 808.7%"
+        ]
       }
     },
     "FY2019": {
@@ -959,6 +974,11 @@
             "current": 88.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 423/343 = 123.3%"
+        ]
       }
     },
     "FY2020": {
@@ -1150,6 +1170,11 @@
             "label": "CFO/OP",
             "current": 85.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 225/140 = 160.7%"
         ]
       }
     },
@@ -2323,6 +2348,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Telecom",
+    "name": "TATACOMM",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

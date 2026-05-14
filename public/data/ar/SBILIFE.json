@@ -411,6 +411,11 @@
             "current": -62.62
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 38/1758 = 2.2%"
+        ]
       }
     },
     "FY2024": {
@@ -616,6 +621,11 @@
             "label": "fixedAssetsCr",
             "current": -114.2
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 48/1942 = 2.5%"
         ]
       }
     },
@@ -823,6 +833,11 @@
             "current": -105.73
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 81/2495 = 3.3%"
+        ]
       }
     },
     "FY2026": {
@@ -1029,6 +1044,11 @@
             "current": -184.57
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 67/2537 = 2.6%"
+        ]
       }
     }
   },
@@ -1042,6 +1062,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Insurance",
+    "name": "SBILIFE",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

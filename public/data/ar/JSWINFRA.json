@@ -575,6 +575,11 @@
             "current": 67.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 12/284 = 4.2%"
+        ]
       }
     },
     "FY2020": {
@@ -1937,6 +1942,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Logistics",
+    "name": "JSWINFRA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

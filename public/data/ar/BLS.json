@@ -191,6 +191,11 @@
             "current": 45.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/24 = 0.0%"
+        ]
       }
     },
     "FY2016": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 96.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/31 = 0.0%"
         ]
       }
     },
@@ -1343,6 +1353,11 @@
             "current": 111.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/48 = -4.2%"
+        ]
       }
     },
     "FY2022": {
@@ -1534,6 +1549,11 @@
             "label": "CFO/OP",
             "current": 178.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 3/114 = 2.6%"
         ]
       }
     },
@@ -2130,6 +2150,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Industrials",
+    "name": "BLS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

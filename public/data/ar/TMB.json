@@ -259,6 +259,11 @@
             "current": 1029.26
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/1029 = 0.0%"
+        ]
       }
     },
     "FY2024": {
@@ -903,6 +908,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "TMB",
+    "reportingType": "financial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

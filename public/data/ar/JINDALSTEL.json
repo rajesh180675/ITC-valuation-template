@@ -1919,6 +1919,11 @@
             "current": 66.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 298/6241 = 4.8%"
+        ]
       }
     },
     "FY2025": {
@@ -2323,6 +2328,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Metals",
+    "name": "JINDALSTEL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

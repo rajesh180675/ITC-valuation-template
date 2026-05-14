@@ -575,6 +575,11 @@
             "current": 96.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 43/17 = 252.9%"
+        ]
       }
     },
     "FY2020": {
@@ -958,6 +963,11 @@
             "label": "CFO/OP",
             "current": 120.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 62/36 = 172.2%"
         ]
       }
     },
@@ -1937,6 +1947,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Cement",
+    "name": "NUVOCO",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

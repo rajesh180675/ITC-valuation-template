@@ -373,6 +373,11 @@
             "current": 38.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 317/435 = 72.9%"
+        ]
       }
     },
     "FY2017": {
@@ -1121,6 +1126,11 @@
             "current": 11.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/399 = 0.0%"
+        ]
       }
     },
     "FY2021": {
@@ -1308,6 +1318,11 @@
             "current": 48.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/571 = 0.0%"
+        ]
       }
     },
     "FY2022": {
@@ -1494,6 +1509,11 @@
             "label": "CFO/OP",
             "current": 120.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/1153 = 0.0%"
         ]
       }
     },
@@ -1869,6 +1889,11 @@
             "current": 97.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/4072 = 0.0%"
+        ]
       }
     },
     "FY2025": {
@@ -2055,6 +2080,11 @@
             "label": "CFO/OP",
             "current": 49.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/5542 = 0.0%"
         ]
       }
     },
@@ -2263,6 +2293,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "MAHABANK",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

@@ -383,6 +383,11 @@
             "current": 198.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 4/2 = 200.0%"
+        ]
       }
     },
     "FY2022": {
@@ -1165,6 +1170,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Healthcare",
+    "name": "JLHL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

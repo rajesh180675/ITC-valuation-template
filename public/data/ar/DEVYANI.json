@@ -535,6 +535,11 @@
             "current": 99.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/30 = -3.3%"
+        ]
       }
     },
     "FY2019": {
@@ -1303,6 +1308,11 @@
             "current": 97.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -32/123 = -26.0%"
+        ]
       }
     },
     "FY2023": {
@@ -1494,6 +1504,11 @@
             "label": "CFO/OP",
             "current": 104.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -21/242 = -8.7%"
         ]
       }
     },
@@ -1687,6 +1702,11 @@
             "current": 140.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 14/4 = 350.0%"
+        ]
       }
     },
     "FY2025": {
@@ -1879,6 +1899,11 @@
             "current": 107.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 20/13 = 153.8%"
+        ]
       }
     }
   },
@@ -1897,6 +1922,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "DEVYANI",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

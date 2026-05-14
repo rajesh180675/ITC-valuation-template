@@ -739,6 +739,11 @@
             "current": 98.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -19/84 = -22.6%"
+        ]
       }
     },
     "FY2024": {
@@ -1130,6 +1135,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Healthcare",
+    "name": "AGARWALEYE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

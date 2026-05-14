@@ -880,6 +880,11 @@
             "current": 43.96
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/44 = -4.1%"
+        ]
       }
     },
     "FY2026": {
@@ -1155,6 +1160,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "VMART",
+    "reportingType": "financial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

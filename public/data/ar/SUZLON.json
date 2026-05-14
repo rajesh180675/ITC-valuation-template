@@ -575,6 +575,11 @@
             "current": 270.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/584 = 0.2%"
+        ]
       }
     },
     "FY2017": {
@@ -1535,6 +1540,11 @@
             "current": 96.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/105 = 1.0%"
+        ]
       }
     },
     "FY2022": {
@@ -1919,6 +1929,11 @@
             "current": 61.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 5/2892 = 0.2%"
+        ]
       }
     },
     "FY2024": {
@@ -2110,6 +2125,11 @@
             "label": "CFO/OP",
             "current": 10.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/659 = -0.2%"
         ]
       }
     },
@@ -2303,6 +2323,11 @@
             "current": 59.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -625/1447 = -43.2%"
+        ]
       }
     }
   },
@@ -2323,6 +2348,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "SUZLON",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

@@ -383,6 +383,11 @@
             "current": 154.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -23/18 = -127.8%"
+        ]
       }
     },
     "FY2021": {
@@ -1551,6 +1556,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "SKIPPER",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

@@ -383,6 +383,11 @@
             "current": 116.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 36/818 = 4.4%"
+        ]
       }
     },
     "FY2017": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 47.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -224/82 = -273.2%"
         ]
       }
     },
@@ -1343,6 +1353,11 @@
             "current": 118.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 17/713 = 2.4%"
+        ]
       }
     },
     "FY2022": {
@@ -1534,6 +1549,11 @@
             "label": "CFO/OP",
             "current": 111.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 44/909 = 4.8%"
         ]
       }
     },
@@ -1727,6 +1747,11 @@
             "current": 97.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -67/803 = -8.3%"
+        ]
       }
     },
     "FY2024": {
@@ -1918,6 +1943,11 @@
             "label": "CFO/OP",
             "current": 69.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -34/645 = -5.3%"
         ]
       }
     },
@@ -2111,6 +2141,11 @@
             "current": 48.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 8/852 = 0.9%"
+        ]
       }
     },
     "FY2026": {
@@ -2303,6 +2338,11 @@
             "current": 56.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 70/1423 = 4.9%"
+        ]
       }
     }
   },
@@ -2323,6 +2363,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Logistics",
+    "name": "SCI",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

@@ -959,6 +959,11 @@
             "current": 61.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 6/690 = 0.9%"
+        ]
       }
     },
     "FY2019": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 59.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -27/303 = -8.9%"
         ]
       }
     },
@@ -2303,6 +2313,11 @@
             "current": 77.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 77/3675 = 2.1%"
+        ]
       }
     }
   },
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Pharmaceuticals",
+    "name": "STAR",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

@@ -191,6 +191,11 @@
             "current": 65.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/41 = 4.9%"
+        ]
       }
     },
     "FY2015": {
@@ -1937,6 +1942,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Materials",
+    "name": "BORORENEW",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

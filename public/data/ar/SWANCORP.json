@@ -767,6 +767,11 @@
             "current": 209.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/3 = 66.7%"
+        ]
       }
     },
     "FY2018": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 71.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 35/29 = 120.7%"
         ]
       }
     },
@@ -2111,6 +2121,11 @@
             "current": 4.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 23/609 = 3.8%"
+        ]
       }
     },
     "FY2025": {
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Chemicals",
+    "name": "SWANCORP",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

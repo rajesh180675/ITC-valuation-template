@@ -575,6 +575,11 @@
             "current": 82.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/61 = -1.6%"
+        ]
       }
     },
     "FY2023": {
@@ -972,6 +977,11 @@
       "FY2022",
       "FY2023",
       "FY2025"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "ANUP",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

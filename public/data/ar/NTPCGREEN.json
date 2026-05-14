@@ -191,6 +191,11 @@
             "current": 11.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -118/53 = -222.6%"
+        ]
       }
     },
     "FY2024": {
@@ -586,6 +591,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Utilities",
+    "name": "NTPCGREEN",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

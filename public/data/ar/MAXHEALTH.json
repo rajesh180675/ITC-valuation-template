@@ -191,6 +191,11 @@
             "current": 135.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -11/5 = -220.0%"
+        ]
       }
     },
     "FY2018": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 89.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -46/13 = -353.8%"
         ]
       }
     },
@@ -1343,6 +1353,11 @@
             "current": 116.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -40/1064 = -3.8%"
+        ]
       }
     },
     "FY2024": {
@@ -1744,6 +1759,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Healthcare",
+    "name": "MAXHEALTH",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

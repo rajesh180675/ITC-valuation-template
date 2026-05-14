@@ -1535,6 +1535,11 @@
             "current": 109.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 100/2285 = 4.4%"
+        ]
       }
     },
     "FY2022": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Pharmaceuticals",
+    "name": "ZYDUSLIFE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

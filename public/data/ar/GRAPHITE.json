@@ -767,6 +767,11 @@
             "current": 765.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/72 = 2.8%"
+        ]
       }
     },
     "FY2018": {
@@ -1343,6 +1348,11 @@
             "current": -455.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -26/19 = -136.8%"
+        ]
       }
     },
     "FY2021": {
@@ -1534,6 +1544,11 @@
             "label": "CFO/OP",
             "current": -296.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 75/43 = 174.4%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Materials",
+    "name": "GRAPHITE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

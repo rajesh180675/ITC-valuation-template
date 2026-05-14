@@ -575,6 +575,11 @@
             "current": -15.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -17/280 = -6.1%"
+        ]
       }
     },
     "FY2017": {
@@ -1919,6 +1924,11 @@
             "current": 87.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 44/1266 = 3.5%"
+        ]
       }
     },
     "FY2024": {
@@ -2323,6 +2333,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Utilities",
+    "name": "NAVA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

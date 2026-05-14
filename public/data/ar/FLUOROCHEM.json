@@ -369,6 +369,11 @@
             "current": 101.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -601/645 = -93.2%"
+        ]
       }
     },
     "FY2020": {
@@ -752,6 +757,11 @@
             "label": "CFO/OP",
             "current": 80.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 704/482 = 146.1%"
         ]
       }
     },
@@ -1537,6 +1547,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Chemicals",
+    "name": "FLUOROCHEM",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

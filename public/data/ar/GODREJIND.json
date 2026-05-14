@@ -191,6 +191,11 @@
             "current": -49.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/467 = -0.4%"
+        ]
       }
     },
     "FY2015": {
@@ -383,6 +388,11 @@
             "current": -179.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -70/519 = -13.5%"
+        ]
       }
     },
     "FY2016": {
@@ -574,6 +584,11 @@
             "label": "CFO/OP",
             "current": 90.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -136/187 = -72.7%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Industrials",
+    "name": "GODREJIND",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

@@ -575,6 +575,11 @@
             "current": 111.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 33/44 = 75.0%"
+        ]
       }
     },
     "FY2018": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 55.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/6 = -16.7%"
         ]
       }
     },
@@ -1150,6 +1160,11 @@
             "label": "CFO/OP",
             "current": 160.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -70/20 = -350.0%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "ELECON",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

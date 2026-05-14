@@ -885,6 +885,11 @@
             "current": 805.41
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=-2.389999999999999 vs netChange=-152.69"
+        ]
       }
     },
     "FY2026": {
@@ -1155,6 +1160,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Auto Components",
+    "name": "MSUMI",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

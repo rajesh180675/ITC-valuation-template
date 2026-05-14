@@ -560,6 +560,11 @@
             "current": 93.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1042/945 = 110.3%"
+        ]
       }
     },
     "FY2018": {
@@ -2263,6 +2268,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "SBIN",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

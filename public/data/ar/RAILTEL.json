@@ -95,6 +95,11 @@
           "dividendCr": 12.0
         },
         "items": []
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -107/169 = -63.3%"
+        ]
       }
     },
     "FY2015": {
@@ -191,6 +196,11 @@
           "dividendCr": 14.0
         },
         "items": []
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -76/166 = -45.8%"
+        ]
       }
     },
     "FY2016": {
@@ -1585,6 +1595,11 @@
       "FY2021",
       "FY2022",
       "FY2023"
-    ]
+    ],
+    "sector": "Telecom",
+    "name": "RAILTEL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

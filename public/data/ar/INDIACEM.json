@@ -191,6 +191,11 @@
             "current": 90.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 5/4 = 125.0%"
+        ]
       }
     },
     "FY2016": {
@@ -1151,6 +1156,11 @@
             "current": 70.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -27/24 = -112.5%"
+        ]
       }
     },
     "FY2021": {
@@ -1534,6 +1544,11 @@
             "label": "CFO/OP",
             "current": 100.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/85 = -2.4%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Cement",
+    "name": "INDIACEM",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

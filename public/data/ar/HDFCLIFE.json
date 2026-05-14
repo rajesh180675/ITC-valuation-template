@@ -959,6 +959,11 @@
             "current": 813.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 13/1291 = 1.0%"
+        ]
       }
     },
     "FY2020": {
@@ -1919,6 +1924,11 @@
             "current": 1444.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -597/977 = -61.1%"
+        ]
       }
     },
     "FY2025": {
@@ -2110,6 +2120,11 @@
             "label": "CFO/OP",
             "current": 1543.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -521/1290 = -40.4%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Insurance",
+    "name": "HDFCLIFE",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

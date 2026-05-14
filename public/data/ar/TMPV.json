@@ -2111,6 +2111,11 @@
             "current": 125.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -4024/27783 = -14.5%"
+        ]
       }
     },
     "FY2025": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Automobiles",
+    "name": "TMPV",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

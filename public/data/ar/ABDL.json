@@ -383,6 +383,11 @@
             "current": 128.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 10/13 = 76.9%"
+        ]
       }
     },
     "FY2022": {
@@ -574,6 +579,11 @@
             "label": "CFO/OP",
             "current": 93.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 3/4 = 75.0%"
         ]
       }
     },
@@ -767,6 +777,11 @@
             "current": 126.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 4/6 = 66.7%"
+        ]
       }
     },
     "FY2024": {
@@ -958,6 +973,11 @@
             "label": "CFO/OP",
             "current": 80.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 11/13 = 84.6%"
         ]
       }
     },
@@ -1165,6 +1185,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "ABDL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

@@ -42,7 +42,19 @@
           "cfiCr": -1921.25,
           "cffCr": -473.73,
           "fcfCr": -751.73
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -107,7 +119,19 @@
           "cfiCr": -878.65,
           "cffCr": -514.11,
           "fcfCr": -837.14
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -172,7 +196,19 @@
           "cfiCr": -1039.05,
           "cffCr": -678.37,
           "fcfCr": -1086.73
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -237,7 +273,19 @@
           "cfiCr": -1293.53,
           "cffCr": -628.44,
           "fcfCr": -1366.3
-        }
+        },
+        "items": [
+          {
+            "label": "Total Liabilities",
+            "current": null,
+            "type": "total"
+          },
+          {
+            "label": "Total Assets",
+            "current": null,
+            "type": "total"
+          }
+        ]
       },
       "cashFlow": {
         "kpis": {
@@ -267,6 +315,10 @@
     "fetchedAt": "1778748523.1774902",
     "sector": "Utilities",
     "industry": "Utilities - Regulated Gas",
-    "marketCapCr": 24981.68
+    "marketCapCr": 24981.68,
+    "name": "GUJARAT GAS",
+    "reportingType": "financial",
+    "indexSlug": "yfinance-expanded",
+    "dataVersion": 2
   }
 }

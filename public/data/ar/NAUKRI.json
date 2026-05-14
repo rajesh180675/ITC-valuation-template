@@ -383,6 +383,11 @@
             "current": 615.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 74/60 = 123.3%"
+        ]
       }
     },
     "FY2016": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": -3492.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 48/5 = 960.0%"
         ]
       }
     },
@@ -1919,6 +1929,11 @@
             "current": 225.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 211/141 = 149.6%"
+        ]
       }
     },
     "FY2024": {
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "NAUKRI",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

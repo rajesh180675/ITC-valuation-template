@@ -191,6 +191,11 @@
             "current": -56.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/3 = 0.0%"
+        ]
       }
     },
     "FY2016": {
@@ -958,6 +963,11 @@
             "label": "CFO/OP",
             "current": 180.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -3/29 = -10.3%"
         ]
       }
     },
@@ -1937,6 +1947,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Chemicals",
+    "name": "REFEX",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

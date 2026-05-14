@@ -767,6 +767,11 @@
             "current": 71.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 61/2763 = 2.2%"
+        ]
       }
     },
     "FY2019": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 99.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 188/7416 = 2.5%"
         ]
       }
     },
@@ -2323,6 +2333,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Chemicals",
+    "name": "TATACHEM",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

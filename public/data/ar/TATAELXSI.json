@@ -575,6 +575,11 @@
             "current": 26.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/51 = 3.9%"
+        ]
       }
     },
     "FY2011": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 170.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/32 = -3.1%"
         ]
       }
     },
@@ -1551,6 +1561,11 @@
       "FY2013",
       "FY2014",
       "FY2015"
-    ]
+    ],
+    "sector": "Information Technology",
+    "name": "TATAELXSI",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

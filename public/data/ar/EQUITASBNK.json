@@ -433,6 +433,11 @@
             "current": 768.8
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF flow mismatch: cfo+cfi+cff=-1199 vs netChange=-888"
+        ]
       }
     },
     "FY2024": {
@@ -879,6 +884,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "EQUITASBNK",
+    "reportingType": "financial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

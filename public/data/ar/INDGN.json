@@ -383,6 +383,11 @@
             "current": 34.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 26/14 = 185.7%"
+        ]
       }
     },
     "FY2021": {
@@ -1551,6 +1556,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Healthcare",
+    "name": "INDGN",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

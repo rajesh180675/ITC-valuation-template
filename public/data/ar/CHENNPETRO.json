@@ -383,6 +383,11 @@
             "current": 172.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 16/778 = 2.1%"
+        ]
       }
     },
     "FY2017": {
@@ -1342,6 +1347,11 @@
             "label": "CFO/OP",
             "current": 23.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1039/1296 = 80.2%"
         ]
       }
     },
@@ -2323,6 +2333,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Energy",
+    "name": "CHENNPETRO",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

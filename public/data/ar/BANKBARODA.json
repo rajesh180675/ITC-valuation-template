@@ -1308,6 +1308,11 @@
             "current": 12.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 4753/6373 = 74.6%"
+        ]
       }
     },
     "FY2022": {
@@ -2263,6 +2268,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "BANKBARODA",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

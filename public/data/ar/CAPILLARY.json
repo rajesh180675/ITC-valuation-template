@@ -959,6 +959,11 @@
             "current": -65.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -3/10 = -30.0%"
+        ]
       }
     },
     "FY2026": {
@@ -1151,6 +1156,11 @@
             "current": 168.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/51 = -2.0%"
+        ]
       }
     }
   },
@@ -1165,6 +1175,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Information Technology",
+    "name": "CAPILLARY",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

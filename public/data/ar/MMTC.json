@@ -191,6 +191,11 @@
             "current": 97.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 85/67 = 126.9%"
+        ]
       }
     },
     "FY2015": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": -53291.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 147/105 = 140.0%"
         ]
       }
     },
@@ -1727,6 +1737,11 @@
             "current": 0.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 359/101 = 355.4%"
+        ]
       }
     },
     "FY2023": {
@@ -2111,6 +2126,11 @@
             "current": 221.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 8/200 = 4.0%"
+        ]
       }
     },
     "FY2025": {
@@ -2323,6 +2343,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Industrials",
+    "name": "MMTC",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

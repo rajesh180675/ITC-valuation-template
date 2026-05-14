@@ -186,6 +186,11 @@
             "current": 18.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -343/327 = -104.9%"
+        ]
       }
     },
     "FY2016": {
@@ -2263,6 +2268,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "CENTRALBK",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

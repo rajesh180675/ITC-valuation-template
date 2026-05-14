@@ -1535,6 +1535,11 @@
             "current": 133.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -123/8049 = -1.5%"
+        ]
       }
     },
     "FY2025": {
@@ -1727,6 +1732,11 @@
             "current": 136.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 335/7593 = 4.4%"
+        ]
       }
     }
   },
@@ -1744,6 +1754,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Industrials",
+    "name": "INDIGO",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

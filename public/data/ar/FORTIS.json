@@ -575,6 +575,11 @@
             "current": 354.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -8/34 = -23.5%"
+        ]
       }
     },
     "FY2017": {
@@ -1343,6 +1348,11 @@
             "current": 84.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 148/239 = 61.9%"
+        ]
       }
     },
     "FY2021": {
@@ -1534,6 +1544,11 @@
             "label": "CFO/OP",
             "current": 108.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 99/43 = 230.2%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Healthcare",
+    "name": "FORTIS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

@@ -186,6 +186,11 @@
             "current": 52.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -163/1852 = -8.8%"
+        ]
       }
     },
     "FY2016": {
@@ -2263,6 +2268,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Banks",
+    "name": "BANKINDIA",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

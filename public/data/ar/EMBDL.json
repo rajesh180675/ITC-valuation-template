@@ -1343,6 +1343,11 @@
             "current": -40.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 257/378 = 68.0%"
+        ]
       }
     },
     "FY2021": {
@@ -1534,6 +1539,11 @@
             "label": "CFO/OP",
             "current": 444.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 70/75 = 93.3%"
         ]
       }
     },
@@ -2303,6 +2313,11 @@
             "current": 512.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -167/27 = -618.5%"
+        ]
       }
     }
   },
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Real Estate",
+    "name": "EMBDL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

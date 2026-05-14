@@ -548,6 +548,11 @@
             "current": 230.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -243/295 = -82.4%"
+        ]
       }
     },
     "FY2018": {
@@ -2215,6 +2220,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "CHOLAHLDNG",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

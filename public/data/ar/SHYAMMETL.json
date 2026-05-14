@@ -191,6 +191,11 @@
             "current": 51.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -11/517 = -2.1%"
+        ]
       }
     },
     "FY2019": {
@@ -574,6 +579,11 @@
             "label": "CFO/OP",
             "current": -5.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -45/295 = -15.3%"
         ]
       }
     },
@@ -1343,6 +1353,11 @@
             "current": 126.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -89/940 = -9.5%"
+        ]
       }
     },
     "FY2025": {
@@ -1744,6 +1759,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Metals",
+    "name": "SHYAMMETL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

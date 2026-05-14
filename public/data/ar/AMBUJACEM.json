@@ -959,6 +959,11 @@
             "current": 71.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -54/2919 = -1.8%"
+        ]
       }
     },
     "FY2019": {
@@ -2303,6 +2308,11 @@
             "current": 78.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2338/3299 = -70.9%"
+        ]
       }
     }
   },
@@ -2323,6 +2333,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Cement",
+    "name": "AMBUJACEM",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

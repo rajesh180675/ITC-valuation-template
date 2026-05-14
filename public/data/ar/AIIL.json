@@ -182,6 +182,11 @@
             "current": 93.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 47/4351 = 1.1%"
+        ]
       }
     },
     "FY2024": {
@@ -364,6 +369,11 @@
             "label": "CFO/OP",
             "current": 79.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -59/4226 = -1.4%"
         ]
       }
     },
@@ -548,6 +558,11 @@
             "current": 12.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -174/4067 = -4.3%"
+        ]
       }
     }
   },
@@ -559,6 +574,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "AIIL",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

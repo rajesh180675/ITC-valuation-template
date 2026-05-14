@@ -191,6 +191,11 @@
             "current": 48.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 135/120 = 112.5%"
+        ]
       }
     },
     "FY2015": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 147.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 260/144 = 180.6%"
         ]
       }
     },
@@ -575,6 +585,11 @@
             "current": 186.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 79/52 = 151.9%"
+        ]
       }
     },
     "FY2017": {
@@ -767,6 +782,11 @@
             "current": 156.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -33/111 = -29.7%"
+        ]
       }
     },
     "FY2018": {
@@ -958,6 +978,11 @@
             "label": "CFO/OP",
             "current": 180.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -59/65 = -90.8%"
         ]
       }
     },
@@ -1342,6 +1367,11 @@
             "label": "CFO/OP",
             "current": 60.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -47/114 = -41.2%"
         ]
       }
     },
@@ -2323,6 +2353,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Metals",
+    "name": "ELECTCAST",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

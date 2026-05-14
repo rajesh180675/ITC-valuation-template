@@ -271,6 +271,11 @@
             "current": 339.13
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=59.31 vs netChange=55.7"
+        ]
       }
     },
     "FY2023": {
@@ -542,6 +547,11 @@
             "label": "patCr",
             "current": 438.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=190.2 vs netChange=178.5"
         ]
       }
     },
@@ -815,6 +825,11 @@
             "current": 501.4
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=2341.5 vs netChange=2338.8"
+        ]
       }
     },
     "FY2025": {
@@ -1087,6 +1102,11 @@
             "current": 523.6
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=308.0 vs netChange=301.9"
+        ]
       }
     }
   },
@@ -1099,6 +1119,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "HONAUT",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

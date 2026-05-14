@@ -959,6 +959,11 @@
             "current": 177.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 162/224 = 72.3%"
+        ]
       }
     },
     "FY2025": {
@@ -1165,6 +1170,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Cement",
+    "name": "JSWCEMENT",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

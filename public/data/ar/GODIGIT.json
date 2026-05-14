@@ -275,6 +275,11 @@
             "current": -20.4
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/36 = 0.0%"
+        ]
       }
     },
     "FY2024": {
@@ -491,6 +496,11 @@
             "label": "fixedAssetsCr",
             "current": -16.39
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/182 = 0.0%"
         ]
       }
     },
@@ -719,6 +729,11 @@
             "current": -17.38
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/425 = 0.0%"
+        ]
       }
     },
     "FY2026": {
@@ -909,6 +924,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Insurance",
+    "name": "GODIGIT",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

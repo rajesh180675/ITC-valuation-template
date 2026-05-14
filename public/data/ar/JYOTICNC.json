@@ -959,6 +959,11 @@
             "current": 64.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 12/7 = 171.4%"
+        ]
       }
     },
     "FY2024": {
@@ -1358,6 +1363,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "JYOTICNC",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

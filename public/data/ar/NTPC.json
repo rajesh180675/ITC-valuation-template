@@ -383,6 +383,11 @@
             "current": 97.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 464/10456 = 4.4%"
+        ]
       }
     },
     "FY2016": {
@@ -574,6 +579,11 @@
             "label": "CFO/OP",
             "current": 137.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -163/10618 = -1.5%"
         ]
       }
     },
@@ -1150,6 +1160,11 @@
             "label": "CFO/OP",
             "current": 98.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2779/11255 = -24.7%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Utilities",
+    "name": "NTPC",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

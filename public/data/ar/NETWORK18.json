@@ -383,6 +383,11 @@
             "current": 382.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -70/26 = -269.2%"
+        ]
       }
     },
     "FY2017": {
@@ -1151,6 +1156,11 @@
             "current": 18.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 87/143 = 60.8%"
+        ]
       }
     },
     "FY2021": {
@@ -1342,6 +1352,11 @@
             "label": "CFO/OP",
             "current": 161.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -35/512 = -6.8%"
         ]
       }
     },
@@ -2303,6 +2318,11 @@
             "current": -64.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/155 = 0.0%"
+        ]
       }
     }
   },
@@ -2323,6 +2343,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Media",
+    "name": "NETWORK18",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

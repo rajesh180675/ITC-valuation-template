@@ -767,6 +767,11 @@
             "current": 151.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 253/338 = 74.9%"
+        ]
       }
     },
     "FY2019": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 76.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -537/544 = -98.7%"
         ]
       }
     },
@@ -2303,6 +2313,11 @@
             "current": 101.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -776/1986 = -39.1%"
+        ]
       }
     }
   },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Utilities",
+    "name": "JSWENERGY",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

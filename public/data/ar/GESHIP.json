@@ -959,6 +959,11 @@
             "current": 90.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 289/79 = 365.8%"
+        ]
       }
     },
     "FY2019": {
@@ -1150,6 +1155,11 @@
             "label": "CFO/OP",
             "current": 110.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 63/42 = 150.0%"
         ]
       }
     },
@@ -1535,6 +1545,11 @@
             "current": 93.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 24/943 = 2.5%"
+        ]
       }
     },
     "FY2022": {
@@ -1726,6 +1741,11 @@
             "label": "CFO/OP",
             "current": 85.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -10/620 = -1.6%"
         ]
       }
     },
@@ -1919,6 +1939,11 @@
             "current": 95.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -21/2554 = -0.8%"
+        ]
       }
     },
     "FY2024": {
@@ -2110,6 +2135,11 @@
             "label": "CFO/OP",
             "current": 94.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 80/2694 = 3.0%"
         ]
       }
     },
@@ -2303,6 +2333,11 @@
             "current": 102.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 118/2462 = 4.8%"
+        ]
       }
     }
   },
@@ -2323,6 +2358,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Logistics",
+    "name": "GESHIP",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

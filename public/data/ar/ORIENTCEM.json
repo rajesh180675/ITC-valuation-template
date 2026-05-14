@@ -1197,6 +1197,11 @@
             "current": 318.31
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -19/318 = -6.1%"
+        ]
       }
     }
   },
@@ -1210,6 +1215,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Cement",
+    "name": "ORIENTCEM",
+    "reportingType": "financial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

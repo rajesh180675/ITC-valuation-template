@@ -767,6 +767,11 @@
             "current": 85.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -82/257 = -31.9%"
+        ]
       }
     },
     "FY2024": {
@@ -1165,6 +1170,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Staples",
+    "name": "ORKLAINDIA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

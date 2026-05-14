@@ -1151,6 +1151,11 @@
             "current": 42.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -9/3 = -300.0%"
+        ]
       }
     },
     "FY2022": {
@@ -1534,6 +1539,11 @@
             "label": "CFO/OP",
             "current": -67.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -6/20 = -30.0%"
         ]
       }
     },
@@ -2130,6 +2140,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Industrials",
+    "name": "TEXRAIL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

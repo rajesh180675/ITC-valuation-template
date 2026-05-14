@@ -383,6 +383,11 @@
             "current": -295.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -6/21 = -28.6%"
+        ]
       }
     },
     "FY2017": {
@@ -1727,6 +1732,11 @@
             "current": 452.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 3/4 = 75.0%"
+        ]
       }
     },
     "FY2024": {
@@ -2323,6 +2333,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Real Estate",
+    "name": "SUNTECK",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

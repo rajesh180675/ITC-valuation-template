@@ -708,6 +708,11 @@
             "current": -1059.7
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=423.4 vs netChange=137.5"
+        ]
       }
     },
     "FY2025": {
@@ -880,6 +885,11 @@
             "label": "patCr",
             "current": -812.28
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=-117.87 vs netChange=-395.97"
         ]
       }
     },
@@ -1158,6 +1168,11 @@
             "current": -517.17
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "CF netChange mismatch: closing-opening=42.14 vs netChange=1.91"
+        ]
       }
     }
   },
@@ -1171,6 +1186,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Automobiles",
+    "name": "ATHERENERG",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

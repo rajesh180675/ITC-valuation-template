@@ -1343,6 +1343,11 @@
             "current": -371.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/271 = 0.4%"
+        ]
       }
     },
     "FY2021": {
@@ -1727,6 +1732,11 @@
             "current": 54.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -4/41 = -9.8%"
+        ]
       }
     },
     "FY2023": {
@@ -1918,6 +1928,11 @@
             "label": "CFO/OP",
             "current": 53.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/150 = 0.0%"
         ]
       }
     },
@@ -2111,6 +2126,11 @@
             "current": 66.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/138 = 0.0%"
+        ]
       }
     },
     "FY2025": {
@@ -2303,6 +2323,11 @@
             "current": 70.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/230 = 0.0%"
+        ]
       }
     }
   },
@@ -2323,6 +2348,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "TI",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

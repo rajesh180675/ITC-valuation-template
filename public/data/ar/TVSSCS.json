@@ -191,6 +191,11 @@
             "current": 73.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 41/8 = 512.5%"
+        ]
       }
     },
     "FY2020": {
@@ -767,6 +772,11 @@
             "current": 102.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 59/13 = 453.8%"
+        ]
       }
     },
     "FY2023": {
@@ -958,6 +968,11 @@
             "label": "CFO/OP",
             "current": 120.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/40 = -5.0%"
         ]
       }
     },
@@ -1343,6 +1358,11 @@
             "current": 110.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 39/29 = 134.5%"
+        ]
       }
     }
   },
@@ -1358,6 +1378,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Logistics",
+    "name": "TVSSCS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

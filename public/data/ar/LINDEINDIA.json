@@ -191,6 +191,11 @@
             "current": 104.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -3/16 = -18.8%"
+        ]
       }
     },
     "FY2017": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 79.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -3/13 = -23.1%"
         ]
       }
     },
@@ -1744,6 +1754,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Chemicals",
+    "name": "LINDEINDIA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

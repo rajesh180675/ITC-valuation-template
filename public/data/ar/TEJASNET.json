@@ -383,6 +383,11 @@
             "current": 115.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/29 = 0.0%"
+        ]
       }
     },
     "FY2017": {
@@ -574,6 +579,11 @@
             "label": "CFO/OP",
             "current": 95.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -39/54 = -72.2%"
         ]
       }
     },
@@ -767,6 +777,11 @@
             "current": 178.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/106 = -0.9%"
+        ]
       }
     },
     "FY2019": {
@@ -958,6 +973,11 @@
             "label": "CFO/OP",
             "current": -29.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 3/150 = 2.0%"
         ]
       }
     },
@@ -1342,6 +1362,11 @@
             "label": "CFO/OP",
             "current": 304.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -15/23 = -65.2%"
         ]
       }
     },
@@ -2323,6 +2348,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Telecom",
+    "name": "TEJASNET",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

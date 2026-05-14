@@ -2111,6 +2111,11 @@
             "current": 49.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 78/72 = 108.3%"
+        ]
       }
     },
     "FY2026": {
@@ -2303,6 +2308,11 @@
             "current": 47.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 80/115 = 69.6%"
+        ]
       }
     }
   },
@@ -2323,6 +2333,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "GREAVESCOT",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

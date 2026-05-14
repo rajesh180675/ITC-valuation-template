@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import {
-  BookOpen, TrendingUp, PieChart, Layers, DollarSign, LineChart,
-  BarChart3, Percent, Scale
+ BookOpen, TrendingUp, PieChart, Layers, DollarSign, LineChart,
+ BarChart3, Percent, Scale, Shield, AlertTriangle, Building2, Tag, Filter
 } from 'lucide-react';
 import {
   Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -42,20 +42,32 @@ const SEGMENT_DONUT_ORDER = ['FMCG - Cigarettes', 'FMCG - Others', 'Agri Busines
 
 /* ── Company index types ──────────────────────────────────────────────────── */
 interface CompanyIndexEntry {
-  ticker: string;
-  name: string;
-  indexSlug: string;
-  sector: string;
-  reportingType: string;
-  hasAr: boolean;
-  years: number;
-  fyRange: string | null;
+ ticker: string;
+ name: string;
+ indexSlug: string;
+ sector: string;
+ reportingType: string;
+ hasAr: boolean;
+ fyCount: number;
+ firstFy: string | null;
+ lastFy: string | null;
+ source: string;
+ qualityFlags: number;
+ marketCapCr: number;
+ /** Legacy compat — some index files still use 'years' */
+ years?: number;
+ fyRange?: string | null;
 }
 interface CompanyIndex {
-  companies: CompanyIndexEntry[];
-  byTicker: Record<string, CompanyIndexEntry>;
-  count: number;
-  scrapedCount: number;
+ companies: CompanyIndexEntry[];
+ byTicker: Record<string, CompanyIndexEntry>;
+ count: number;
+ scrapedCount: number;
+ verificationSummary?: {
+ totalFlags: number;
+ flaggedCompanies: number;
+ itemsGenerated: number;
+ };
 }
 
 function findItem(items: { label: string; current?: number | null }[], key: string): number | null {
@@ -103,11 +115,12 @@ export function AnnualReportsSection() {
   const [reportMeta, setReportMeta] = useState<AnnualReportFileMetadata | null>(null);
   const [commonSize, setCommonSize] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTicker, setActiveTicker] = useState('ITC');
-  const [companyIndex, setCompanyIndex] = useState<CompanyIndex | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [indexLoading, setIndexLoading] = useState(true);
+ const [activeTicker, setActiveTicker] = useState('ITC');
+ const [companyIndex, setCompanyIndex] = useState<CompanyIndex | null>(null);
+ const [searchQuery, setSearchQuery] = useState('');
+ const [showDropdown, setShowDropdown] = useState(false);
+ const [indexLoading, setIndexLoading] = useState(true);
+ const [sectorFilter, setSectorFilter] = useState<string>('all');
 
   const getStmtType = (t: Tab): 'profitLoss' | 'balanceSheet' | 'cashFlow' => {
     if (t === 'pnl') return 'profitLoss';
@@ -171,21 +184,48 @@ export function AnnualReportsSection() {
   const years = useMemo(() => yearsData ? Object.keys(yearsData).sort() : [], [yearsData]);
   const displayYears = getDisplayYears(selectedYears, years, tab);
 
-  // Search + filter for company selector
-  const activeCompanyName = useMemo(() => {
-    if (companyIndex?.byTicker[activeTicker]) return companyIndex.byTicker[activeTicker].name;
-    return activeTicker;
-  }, [companyIndex, activeTicker]);
+ // Search + filter for company selector
+ const activeCompanyName = useMemo(() => {
+ if (companyIndex?.byTicker[activeTicker]) return companyIndex.byTicker[activeTicker].name;
+ return activeTicker;
+ }, [companyIndex, activeTicker]);
 
-  const filteredCompanies = useMemo(() => {
-    if (!companyIndex) return [];
-    if (!searchQuery.trim()) return companyIndex.companies.slice(0, 100);
-    const q = searchQuery.toLowerCase();
-    return companyIndex.companies.filter(c =>
-      c.ticker.toLowerCase().includes(q) ||
-      c.name.toLowerCase().includes(q)
-    ).slice(0, 200);
-  }, [companyIndex, searchQuery]);
+ // Active company's entry from index
+ const activeCompanyEntry = useMemo(() => companyIndex?.byTicker[activeTicker] ?? null, [companyIndex, activeTicker]);
+
+ // Sector list for filter
+ const sectorList = useMemo(() => {
+ if (!companyIndex) return [];
+ const s = new Map<string, number>();
+ for (const c of companyIndex.companies) {
+ if (c.sector && c.sector !== 'Unknown') {
+ s.set(c.sector, (s.get(c.sector) || 0) + 1);
+ }
+ }
+ return Array.from(s.entries())
+ .sort((a, b) => b[1] - a[1])
+ .map(([name, count]) => ({ name, count }));
+ }, [companyIndex]);
+
+ const filteredCompanies = useMemo(() => {
+ if (!companyIndex) return [];
+ let list = companyIndex.companies;
+ // Sector filter
+ if (sectorFilter !== 'all') {
+ list = list.filter(c => c.sector === sectorFilter);
+ }
+ // Text search
+ if (searchQuery.trim()) {
+ const q = searchQuery.toLowerCase();
+ list = list.filter(c =>
+ c.ticker.toLowerCase().includes(q) ||
+ c.name.toLowerCase().includes(q) ||
+ c.sector.toLowerCase().includes(q)
+ );
+ }
+ // Default: show first 100; with filter/search: up to 200
+ return list.slice(0, searchQuery.trim() || sectorFilter !== 'all' ? 200 : 100);
+ }, [companyIndex, searchQuery, sectorFilter]);
 
   const handleSelectCompany = (ticker: string) => {
     setActiveTicker(ticker);
@@ -239,58 +279,116 @@ export function AnnualReportsSection() {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-700/20 border border-emerald-500/20 flex items-center justify-center">
             <BookOpen size={20} className="text-emerald-400" />
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-white">Annual Reports</h1>
-            <p className="text-xs text-gray-400">
-              <span className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={e => { setSearchQuery(e.target.value); setShowDropdown(true); }}
-                  onFocus={() => setShowDropdown(true)}
-                  placeholder={indexLoading ? 'Loading...' : `${activeCompanyName} (${activeTicker})`}
-                  className="bg-gray-800 text-emerald-300 border border-gray-700 rounded px-2 py-0.5 text-[11px] font-mono w-[240px] outline-none focus:border-emerald-500/50"
-                />
-                {showDropdown && companyIndex && (
-                  <>
-                    <div className="fixed inset-0 z-10" onClick={() => setShowDropdown(false)} />
-                    <div className="absolute top-full left-0 mt-1 z-20 bg-gray-900 border border-gray-700 rounded-lg shadow-xl max-h-[300px] overflow-y-auto min-w-[320px]">
-                      {filteredCompanies.length === 0 ? (
-                        <div className="px-3 py-2 text-gray-500 text-xs">No matches found</div>
-                      ) : filteredCompanies.map(c => (
-                        <button
-                          key={c.ticker}
-                          onClick={() => handleSelectCompany(c.ticker)}
-                          className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-gray-800 transition-colors ${
-                            c.ticker === activeTicker ? 'bg-emerald-500/10 text-emerald-300' : 'text-gray-300'
-                          }`}
-                        >
-                          <span>
-                            <span className="font-mono">{c.ticker}</span>
-                            <span className="text-gray-500 ml-2">{c.name}</span>
-                          </span>
-                          <span className={`text-[10px] ${c.hasAr ? 'text-emerald-500' : 'text-gray-600'}`}>
-                            {c.hasAr ? `${c.years}y` : 'no data'}
-                          </span>
-                        </button>
-                      ))}
-                      {searchQuery.trim() === '' && companyIndex.count > 100 && (
-                        <div className="px-3 py-1.5 text-gray-600 text-[10px] border-t border-gray-800">
-                          Showing first 100 of {companyIndex.count} companies — type to search
-                        </div>
-                      )}
-                      {searchQuery.trim() !== '' && filteredCompanies.length >= 200 && (
-                        <div className="px-3 py-1.5 text-gray-600 text-[10px] border-t border-gray-800">
-                          Showing top 200 matches — refine your search
-                        </div>
-                      )}
-                    </div>
-                  </>
-                )}
-              </span>
-              {(years.length > 0 && !error) && <>{' · '}{years.length} years{' · '}{tab.toUpperCase()}</>}
-            </p>
-          </div>
+ <div>
+ <h1 className="text-xl font-bold text-white">Annual Reports</h1>
+ <p className="text-xs text-gray-400">
+ <span className="relative">
+ <input
+ type="text"
+ value={searchQuery}
+ onChange={e => { setSearchQuery(e.target.value); setShowDropdown(true); }}
+ onFocus={() => setShowDropdown(true)}
+ placeholder={indexLoading ? 'Loading...' : `${activeCompanyName} (${activeTicker})`}
+ className="bg-gray-800 text-emerald-300 border border-gray-700 rounded px-2 py-0.5 text-[11px] font-mono w-[240px] outline-none focus:border-emerald-500/50"
+ />
+ {showDropdown && companyIndex && (
+ <>
+ <div className="fixed inset-0 z-10" onClick={() => setShowDropdown(false)} />
+ <div className="absolute top-full left-0 mt-1 z-20 bg-gray-900 border border-gray-700 rounded-lg shadow-xl max-h-[400px] overflow-y-auto min-w-[380px]">
+ {/* Sector filter bar */}
+ <div className="sticky top-0 bg-gray-900 border-b border-gray-800 px-3 py-2 flex items-center gap-1.5 flex-wrap">
+ <Filter size={11} className="text-gray-500" />
+ <button
+ onClick={() => setSectorFilter('all')}
+ className={`px-2 py-0.5 text-[10px] rounded-full transition-colors ${sectorFilter === 'all' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-gray-800 text-gray-400 border border-transparent hover:text-gray-200'}`}
+ >All ({companyIndex.count})</button>
+ {sectorList.slice(0, 10).map(s => (
+ <button
+ key={s.name}
+ onClick={() => setSectorFilter(sectorFilter === s.name ? 'all' : s.name)}
+ className={`px-2 py-0.5 text-[10px] rounded-full transition-colors truncate max-w-[120px] ${sectorFilter === s.name ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-gray-800 text-gray-400 border border-transparent hover:text-gray-200'}`}
+ >{s.name} ({s.count})</button>
+ ))}
+ </div>
+ {filteredCompanies.length === 0 ? (
+ <div className="px-3 py-2 text-gray-500 text-xs">No matches found</div>
+ ) : filteredCompanies.map(c => (
+ <button
+ key={c.ticker}
+ onClick={() => handleSelectCompany(c.ticker)}
+ className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-gray-800 transition-colors ${
+ c.ticker === activeTicker ? 'bg-emerald-500/10 text-emerald-300' : 'text-gray-300'
+ }`}
+ >
+ <span className="flex items-center gap-2">
+ <span className="font-mono">{c.ticker}</span>
+ <span className="text-gray-500 truncate max-w-[140px]">{c.name}</span>
+ {c.sector && c.sector !== 'Unknown' && (
+ <span className="text-[9px] px-1.5 py-0 rounded bg-gray-800 text-gray-500">{c.sector}</span>
+ )}
+ </span>
+ <span className="flex items-center gap-1.5">
+ {c.qualityFlags > 0 && (
+ <span className="text-[9px] text-amber-500" title={`${c.qualityFlags} quality flags`}>⚠</span>
+ )}
+ <span className={`text-[10px] ${c.hasAr ? 'text-emerald-500' : 'text-gray-600'}`}>
+ {c.hasAr ? `${c.fyCount || c.years || '?'}y` : 'no data'}
+ </span>
+ </span>
+ </button>
+ ))}
+ {searchQuery.trim() === '' && sectorFilter === 'all' && companyIndex.count > 100 && (
+ <div className="px-3 py-1.5 text-gray-600 text-[10px] border-t border-gray-800">
+ Showing first 100 of {companyIndex.count} companies — type to search
+ </div>
+ )}
+ {(searchQuery.trim() !== '' || sectorFilter !== 'all') && filteredCompanies.length >= 200 && (
+ <div className="px-3 py-1.5 text-gray-600 text-[10px] border-t border-gray-800">
+ Showing top 200 matches — refine your search
+ </div>
+ )}
+ </div>
+ </>
+ )}
+ </span>
+ {(years.length > 0 && !error) && <>{' · '}{years.length} years{' · '}{tab.toUpperCase()}</>}
+ </p>
+ {/* Company metadata badges */}
+ {activeCompanyEntry && !error && (
+ <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+ {activeCompanyEntry.sector && activeCompanyEntry.sector !== 'Unknown' && (
+ <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20">
+ <Building2 size={10} /> {activeCompanyEntry.sector}
+ </span>
+ )}
+ {activeCompanyEntry.reportingType === 'financial' && (
+ <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">
+ <Tag size={10} /> Financial
+ </span>
+ )}
+ {activeCompanyEntry.source && (
+ <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-gray-700/50 text-gray-400 border border-gray-600/30">
+ <Shield size={10} /> {activeCompanyEntry.source}
+ </span>
+ )}
+ {activeCompanyEntry.qualityFlags > 0 && (
+ <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20" title={`${activeCompanyEntry.qualityFlags} data quality flags — see cross-checks`}>
+ <AlertTriangle size={10} /> {activeCompanyEntry.qualityFlags} flags
+ </span>
+ )}
+ {activeCompanyEntry.qualityFlags === 0 && (
+ <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+ <Shield size={10} /> Verified
+ </span>
+ )}
+ {activeCompanyEntry.marketCapCr > 0 && (
+ <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">
+ MCap ₹{(activeCompanyEntry.marketCapCr / 1000).toFixed(0)}K Cr
+ </span>
+ )}
+ </div>
+ )}
+ </div>
         </div>
         <div className="flex gap-1.5 flex-wrap">
           {years.map(fy => (
@@ -336,18 +434,31 @@ export function AnnualReportsSection() {
                   <KpiCard label="Cash Conv" value={latestCashFlow?.cashConversion ?? null} suffix="%" />
                   <KpiCard label="CFO CAGR" value={cagr(latestCashFlow?.cfo ?? null, cashFlowSummaries[0]?.cfo ?? null, cashFlowSummaries.length)} suffix="%" />
                 </>
-              ) : (
-                <>
-                  <KpiCard label="Revenue" value={latest.rev} trend={kpiData.length > 1 ? yoy(latest.rev, kpiData[kpiData.length - 2]?.rev) : null} />
-                  <KpiCard label="PAT" value={latest.pat} trend={kpiData.length > 1 ? yoy(latest.pat, kpiData[kpiData.length - 2]?.pat) : null} />
-                  <KpiCard label="Total Assets" value={latest.ta} />
-                  <KpiCard label="CFO" value={latest.cfo} />
-                  <KpiCard label="PBT Margin" value={safePct(latest.pbt, latest.rev)} suffix="%" />
-                  <KpiCard label="CAGR Rev" value={cagr(latest.rev, first?.rev, kpiData.length)} suffix="%" />
-                </>
-              )}
-            </div>
-          )}
+ ) : (
+ <>
+ {activeCompanyEntry?.reportingType === 'financial' ? (
+ <>
+ <KpiCard label="Total Income" value={latest.rev} trend={kpiData.length > 1 ? yoy(latest.rev, kpiData[kpiData.length - 2]?.rev) : null} />
+ <KpiCard label="PAT" value={latest.pat} trend={kpiData.length > 1 ? yoy(latest.pat, kpiData[kpiData.length - 2]?.pat) : null} />
+ <KpiCard label="Total Assets" value={latest.ta} />
+ <KpiCard label="CFO" value={latest.cfo} />
+ <KpiCard label="NIM" value={safePct(latest.pbt, latest.ta)} suffix="%" />
+ <KpiCard label="CAGR Income" value={cagr(latest.rev, first?.rev, kpiData.length)} suffix="%" />
+ </>
+ ) : (
+ <>
+ <KpiCard label="Revenue" value={latest.rev} trend={kpiData.length > 1 ? yoy(latest.rev, kpiData[kpiData.length - 2]?.rev) : null} />
+ <KpiCard label="PAT" value={latest.pat} trend={kpiData.length > 1 ? yoy(latest.pat, kpiData[kpiData.length - 2]?.pat) : null} />
+ <KpiCard label="Total Assets" value={latest.ta} />
+ <KpiCard label="CFO" value={latest.cfo} />
+ <KpiCard label="PBT Margin" value={safePct(latest.pbt, latest.rev)} suffix="%" />
+ <KpiCard label="CAGR Rev" value={cagr(latest.rev, first?.rev, kpiData.length)} suffix="%" />
+ </>
+ )}
+ </>
+ )}
+ </div>
+ )}
 
           {/* Tab bar */}
           <div className="flex gap-1 border-b border-gray-800">
@@ -942,10 +1053,17 @@ function DataDrivenTable({ data, years, stmtType, commonSize }: {
       <table className="w-full text-xs tabular-nums" style={{ minWidth: 600 }}>
         <thead>
           <tr>
-            <th className="text-left py-2 pr-4 text-gray-400 font-medium">{colLabel}</th>
-            {years.map(fy => (
-              <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">{fy.replace('FY', "FY '")}</th>
-            ))}
+ <th className="text-left py-2 pr-4 text-gray-400 font-medium">{colLabel}</th>
+ {years.map(fy => {
+ const yd = data[fy];
+ const qFlags = (yd as any)?.metadata?.qualityFlags;
+ return (
+ <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium">
+ {fy.replace('FY', "FY '")}
+ {qFlags?.length > 0 && <span className="text-amber-500 ml-0.5" title={qFlags.join('; ')}>⚠</span>}
+ </th>
+ );
+ })}
             {showYoy && years.slice(1).map(fy => (
               <th key={`yoy-${fy}`} className="text-right py-2 px-2 text-gray-400 font-medium">YoY</th>
             ))}

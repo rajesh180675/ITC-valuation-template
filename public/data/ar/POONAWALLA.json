@@ -548,6 +548,11 @@
             "current": 249.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 34/47 = 72.3%"
+        ]
       }
     },
     "FY2018": {
@@ -1096,6 +1101,11 @@
             "label": "CFO/OP",
             "current": 71.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 55/82 = 67.1%"
         ]
       }
     },
@@ -2215,6 +2225,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "POONAWALLA",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

@@ -191,6 +191,11 @@
             "current": 129.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/155 = 1.3%"
+        ]
       }
     },
     "FY2015": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 100.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/66 = 1.5%"
         ]
       }
     },
@@ -2323,6 +2333,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Durables",
+    "name": "VAIBHAVGBL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

@@ -1535,6 +1535,11 @@
             "current": 54.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/97 = 2.1%"
+        ]
       }
     },
     "FY2022": {
@@ -1726,6 +1731,11 @@
             "label": "CFO/OP",
             "current": -147.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 6/5 = 120.0%"
         ]
       }
     },
@@ -2323,6 +2333,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Telecom",
+    "name": "OPTIEMUS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

@@ -1055,6 +1055,11 @@
           "dividendCr": -0.0
         },
         "items": []
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/2 = 0.0%"
+        ]
       }
     },
     "FY2021": {
@@ -1246,6 +1251,11 @@
             "label": "CFO/OP",
             "current": 18.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 8/12 = 66.7%"
         ]
       }
     },
@@ -2034,6 +2044,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Industrials",
+    "name": "PTCIL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

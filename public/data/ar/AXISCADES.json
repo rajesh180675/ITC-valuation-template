@@ -1919,6 +1919,11 @@
             "current": 57.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 26/21 = 123.8%"
+        ]
       }
     },
     "FY2024": {
@@ -2323,6 +2328,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Aerospace & Defense",
+    "name": "AXISCADES",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

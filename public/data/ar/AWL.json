@@ -575,6 +575,11 @@
             "current": 77.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 26/755 = 3.4%"
+        ]
       }
     },
     "FY2022": {
@@ -1551,6 +1556,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Staples",
+    "name": "AWL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

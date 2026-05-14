@@ -952,6 +952,11 @@
             "current": 185.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 39/1591 = 2.5%"
+        ]
       }
     }
   },
@@ -965,6 +970,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Utilities",
+    "name": "GMRP&UI",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

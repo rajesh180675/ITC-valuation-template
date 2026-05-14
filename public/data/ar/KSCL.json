@@ -191,6 +191,11 @@
             "current": 87.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 5/214 = 2.3%"
+        ]
       }
     },
     "FY2015": {
@@ -383,6 +388,11 @@
             "current": 47.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 9/310 = 2.9%"
+        ]
       }
     },
     "FY2016": {
@@ -574,6 +584,11 @@
             "label": "CFO/OP",
             "current": 131.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 6/173 = 3.5%"
         ]
       }
     },
@@ -959,6 +974,11 @@
             "current": 67.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 9/220 = 4.1%"
+        ]
       }
     },
     "FY2019": {
@@ -1343,6 +1363,11 @@
             "current": 81.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 13/273 = 4.8%"
+        ]
       }
     },
     "FY2021": {
@@ -1534,6 +1559,11 @@
             "label": "CFO/OP",
             "current": 88.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 10/321 = 3.1%"
         ]
       }
     },
@@ -1727,6 +1757,11 @@
             "current": 59.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 10/223 = 4.5%"
+        ]
       }
     },
     "FY2023": {
@@ -1918,6 +1953,11 @@
             "label": "CFO/OP",
             "current": 129.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 13/286 = 4.5%"
         ]
       }
     },
@@ -2323,6 +2363,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Agriculture",
+    "name": "KSCL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

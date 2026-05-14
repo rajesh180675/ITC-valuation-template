@@ -575,6 +575,11 @@
             "current": 127.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/39 = -5.1%"
+        ]
       }
     },
     "FY2018": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 49.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -6/13 = -46.2%"
         ]
       }
     },
@@ -2323,6 +2333,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Information Technology",
+    "name": "TANLA",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

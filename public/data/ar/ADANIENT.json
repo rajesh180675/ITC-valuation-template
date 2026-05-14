@@ -767,6 +767,11 @@
             "current": 157.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -107/487 = -22.0%"
+        ]
       }
     },
     "FY2019": {
@@ -958,6 +963,11 @@
             "label": "CFO/OP",
             "current": 175.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -47/459 = -10.2%"
         ]
       }
     },
@@ -1342,6 +1352,11 @@
             "label": "CFO/OP",
             "current": 166.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 40/1086 = 3.7%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Materials",
+    "name": "ADANIENT",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

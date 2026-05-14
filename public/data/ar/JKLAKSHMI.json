@@ -383,6 +383,11 @@
             "current": 101.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 4/109 = 3.7%"
+        ]
       }
     },
     "FY2016": {
@@ -767,6 +772,11 @@
             "current": 108.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -8/79 = -10.1%"
+        ]
       }
     },
     "FY2018": {
@@ -958,6 +968,11 @@
             "label": "CFO/OP",
             "current": 123.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -11/32 = -34.4%"
         ]
       }
     },
@@ -2323,6 +2338,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Cement",
+    "name": "JKLAKSHMI",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

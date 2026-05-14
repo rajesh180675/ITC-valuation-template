@@ -1151,6 +1151,11 @@
             "current": 115.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/171 = 0.0%"
+        ]
       }
     },
     "FY2020": {
@@ -1342,6 +1347,11 @@
             "label": "CFO/OP",
             "current": 81.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -21/121 = -17.4%"
         ]
       }
     },
@@ -1535,6 +1545,11 @@
             "current": 83.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -7/112 = -6.2%"
+        ]
       }
     },
     "FY2022": {
@@ -1726,6 +1741,11 @@
             "label": "CFO/OP",
             "current": 70.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -3/306 = -1.0%"
         ]
       }
     },
@@ -1919,6 +1939,11 @@
             "current": 28.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -19/291 = -6.5%"
+        ]
       }
     },
     "FY2024": {
@@ -2110,6 +2135,11 @@
             "label": "CFO/OP",
             "current": 81.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -7/260 = -2.7%"
         ]
       }
     },
@@ -2303,6 +2333,11 @@
             "current": 99.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 12/359 = 3.3%"
+        ]
       }
     }
   },
@@ -2323,6 +2358,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Consumer Staples",
+    "name": "ZYDUSWELL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

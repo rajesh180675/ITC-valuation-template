@@ -291,6 +291,11 @@
             "current": 6090.15
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/6090 = 0.0%"
+        ]
       }
     },
     "FY2023": {
@@ -582,6 +587,11 @@
             "label": "patCr",
             "current": 6167.16
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/6167 = 0.0%"
         ]
       }
     },
@@ -875,6 +885,11 @@
             "current": 6412.11
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/6412 = 0.0%"
+        ]
       }
     },
     "FY2025": {
@@ -1162,6 +1177,11 @@
             "current": 6502.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/6502 = 0.0%"
+        ]
       }
     }
   },
@@ -1174,6 +1194,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "IRFC",
+    "reportingType": "financial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

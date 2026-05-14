@@ -731,6 +731,11 @@
             "current": -35.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 21/439 = 4.8%"
+        ]
       }
     },
     "FY2019": {
@@ -1646,6 +1651,11 @@
             "current": -39.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 146/26 = 561.5%"
+        ]
       }
     },
     "FY2024": {
@@ -1828,6 +1838,11 @@
             "label": "CFO/OP",
             "current": 6.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 510/751 = 67.9%"
         ]
       }
     },
@@ -2215,6 +2230,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "IFCI",
+    "reportingType": "financial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

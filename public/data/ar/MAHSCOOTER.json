@@ -270,6 +270,11 @@
             "current": 193.08
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/193 = -1.1%"
+        ]
       }
     },
     "FY2024": {
@@ -501,6 +506,11 @@
             "current": 202.16
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 3/202 = 1.4%"
+        ]
       }
     },
     "FY2025": {
@@ -727,6 +737,11 @@
             "current": 215.28
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1/215 = 0.4%"
+        ]
       }
     },
     "FY2026": {
@@ -938,6 +953,11 @@
             "current": 308.99
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2/309 = -0.5%"
+        ]
       }
     }
   },
@@ -951,6 +971,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "NBFC",
+    "name": "MAHSCOOTER",
+    "reportingType": "financial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

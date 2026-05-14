@@ -383,6 +383,11 @@
             "current": -202.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 3/1 = 300.0%"
+        ]
       }
     },
     "FY2020": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 34.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 5/3 = 166.7%"
         ]
       }
     },
@@ -1744,6 +1754,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Capital Goods",
+    "name": "WAAREERTL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

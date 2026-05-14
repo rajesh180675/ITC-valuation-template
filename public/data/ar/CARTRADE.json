@@ -919,6 +919,11 @@
             "current": 114.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -56/47 = -119.1%"
+        ]
       }
     },
     "FY2022": {
@@ -1897,6 +1902,11 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "sector": "Consumer Discretionary",
+    "name": "CARTRADE",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

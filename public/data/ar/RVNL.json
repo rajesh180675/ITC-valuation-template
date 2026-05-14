@@ -191,6 +191,11 @@
             "current": 112.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -89/248 = -35.9%"
+        ]
       }
     },
     "FY2016": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 543.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -59/370 = -15.9%"
         ]
       }
     },
@@ -2130,6 +2140,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Industrials",
+    "name": "RVNL",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

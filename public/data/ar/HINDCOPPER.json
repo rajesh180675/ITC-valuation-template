@@ -575,6 +575,11 @@
             "current": 202.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -23/87 = -26.4%"
+        ]
       }
     },
     "FY2022": {
@@ -766,6 +771,11 @@
             "label": "CFO/OP",
             "current": 225.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 8/382 = 2.1%"
         ]
       }
     },
@@ -1358,6 +1368,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Metals",
+    "name": "HINDCOPPER",
+    "reportingType": "nonFinancial",
+    "indexSlug": "smallcap250",
+    "dataVersion": 2
   }
 }

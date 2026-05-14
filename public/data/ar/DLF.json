@@ -191,6 +191,11 @@
             "current": 76.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -90/500 = -18.0%"
+        ]
       }
     },
     "FY2015": {
@@ -574,6 +579,11 @@
             "label": "CFO/OP",
             "current": 91.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 721/1026 = 70.3%"
         ]
       }
     },
@@ -1151,6 +1161,11 @@
             "current": 106.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -668/646 = -103.4%"
+        ]
       }
     },
     "FY2020": {
@@ -1342,6 +1357,11 @@
             "label": "CFO/OP",
             "current": 35.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 1243/653 = 190.4%"
         ]
       }
     },
@@ -1535,6 +1555,11 @@
             "current": 72.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -243/840 = -28.9%"
+        ]
       }
     },
     "FY2022": {
@@ -1726,6 +1751,11 @@
             "label": "CFO/OP",
             "current": 150.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -335/1165 = -28.8%"
         ]
       }
     },
@@ -1919,6 +1949,11 @@
             "current": 143.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -532/1502 = -35.4%"
+        ]
       }
     },
     "FY2024": {
@@ -2110,6 +2145,11 @@
             "label": "CFO/OP",
             "current": 132.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -573/2151 = -26.6%"
         ]
       }
     },
@@ -2303,6 +2343,11 @@
             "current": 254.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -2106/2261 = -93.1%"
+        ]
       }
     }
   },
@@ -2323,6 +2368,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Real Estate",
+    "name": "DLF",
+    "reportingType": "nonFinancial",
+    "indexSlug": "largemidcap250",
+    "dataVersion": 2
   }
 }

@@ -191,6 +191,11 @@
             "current": 111.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -1/13 = -7.7%"
+        ]
       }
     },
     "FY2020": {
@@ -382,6 +387,11 @@
             "label": "CFO/OP",
             "current": 122.0
           }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/74 = 2.7%"
         ]
       }
     },
@@ -1358,6 +1368,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Information Technology",
+    "name": "HAPPSTMNDS",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }

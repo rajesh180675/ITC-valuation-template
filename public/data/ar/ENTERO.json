@@ -191,6 +191,11 @@
             "current": -134.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 3/4 = 75.0%"
+        ]
       }
     },
     "FY2021": {
@@ -959,6 +964,11 @@
             "current": -21.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: -4/36 = -11.1%"
+        ]
       }
     },
     "FY2025": {
@@ -1165,6 +1175,11 @@
       "FY2023",
       "FY2024",
       "FY2025"
-    ]
+    ],
+    "sector": "Healthcare",
+    "name": "ENTERO",
+    "reportingType": "nonFinancial",
+    "indexSlug": "microcap250",
+    "dataVersion": 2
   }
 }
