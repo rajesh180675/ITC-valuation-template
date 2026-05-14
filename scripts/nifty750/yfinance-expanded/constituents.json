@@ -1,0 +1,30 @@
+{
+  "generatedAt": "2026-05-14T18:00:00Z",
+  "asOfDate": "2026-05-14",
+  "source": "real",
+  "sourcePolicy": "yfinance",
+  "schemaVersion": 3,
+  "fiscalYears": ["FY2022", "FY2023", "FY2024", "FY2025", "FY2026"],
+  "sourceName": "yfinance (Nifty Expansion)",
+  "downloadedAt": "2026-05-14T18:00:00Z",
+  "constituents": [
+    {
+      "symbol": "GUJGASLTD",
+      "name": "GUJARAT GAS",
+      "sector": "Utilities",
+      "industry": "Gas Distribution",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "yfinance"
+    },
+    {
+      "symbol": "JETAIRWAYS",
+      "name": "JET AIRWAYS",
+      "sector": "Industrials",
+      "industry": "Airlines",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "yfinance"
+    }
+  ]
+}

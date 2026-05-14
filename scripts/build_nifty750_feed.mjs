@@ -18,11 +18,12 @@ const ROOT = path.resolve(__dirname, '..');
 const SOURCE_BASE = path.join(__dirname, 'nifty750');
 const OUT_PATH = path.join(ROOT, 'public', 'data', 'nifty750_real.json');
 
-const INDICES = ['largemidcap250', 'smallcap250', 'microcap250'];
+const INDICES = ['largemidcap250', 'smallcap250', 'microcap250', 'yfinance-expanded'];
 const INDEX_LABELS = {
   largemidcap250: 'Nifty LargeMidcap 250',
   smallcap250: 'Nifty Smallcap 250',
   microcap250: 'Nifty Microcap 250',
+  'yfinance-expanded': 'YFinance Expansion',
 };
 
 const SECTOR_COLORS = {

@@ -27,12 +27,13 @@ type SortKey =
   | 'roe' | 'valuation' | 'beta' | 'coe' | 'impliedG' | 'composite';
 
 const DATA_URL = '/data/nifty750_real.json';
-const BATCH_SLUGS = ['largemidcap250', 'smallcap250', 'microcap250'] as const;
+const BATCH_SLUGS = ['largemidcap250', 'smallcap250', 'microcap250', 'yfinance-expanded'] as const;
 type BatchSlug = typeof BATCH_SLUGS[number];
 const BATCH_LABELS: Record<BatchSlug, string> = {
   largemidcap250: 'Nifty LargeMidcap 250',
   smallcap250: 'Nifty Smallcap 250',
   microcap250: 'Nifty Microcap 250',
+  'yfinance-expanded': 'YFinance Expansion',
 };
 
 /* ── Safe helpers ─────────────────────────────────────────────────────────── */

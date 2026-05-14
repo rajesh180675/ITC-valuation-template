@@ -15,6 +15,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const SOURCE_DIR = path.join(__dirname, 'nifty250', 'source-pack');
+const YF_DIR = path.join(__dirname, 'nifty250', 'yfinance-expanded');
 const OUT_PATH = path.join(ROOT, 'public', 'data', 'nifty250_real.json');
 
 // ── Colors for each sector ──────────────────────────────────────────────────
@@ -233,6 +234,76 @@ function main() {
       history,
       qualityFlags: [],
       dataSource: 'screener-in',
+    });
+  }
+
+  // ── Append yfinance-expanded companies (if any) ───────────────────────────
+  let yfConstituents = { constituents: [] };
+  let yfFinancials = { rows: [] };
+  let yfMarket = { rows: [] };
+  try { yfConstituents = readJson(path.join(YF_DIR, 'constituents.json')); } catch {}
+  try { yfFinancials = readJson(path.join(YF_DIR, 'financials.json')); } catch {}
+  try { yfMarket = readJson(path.join(YF_DIR, 'market_data.json')); } catch {}
+
+  const yfFinBySymbol = {};
+  for (const row of yfFinancials.rows) {
+    if (!yfFinBySymbol[row.symbol]) yfFinBySymbol[row.symbol] = [];
+    yfFinBySymbol[row.symbol].push(row);
+  }
+  const yfMktBySymbol = {};
+  for (const row of yfMarket.rows) {
+    yfMktBySymbol[row.symbol] = row;
+  }
+
+  for (const company of yfConstituents.constituents) {
+    const sym = company.symbol;
+    const finRows = yfFinBySymbol[sym] || [];
+    const mkt = yfMktBySymbol[sym];
+    const history = [];
+
+    for (const fy of fiscalYears) {
+      const finRow = finRows.find(r => r.fiscalYear === fy);
+      if (finRow && finRow.revenueCr != null) {
+        history.push({
+          fy,
+          toplineCr: finRow.revenueCr,
+          expensesCr: finRow.expensesCr ?? null,
+          operatingProfitCr: finRow.operatingProfitCr ?? null,
+          opmPct: finRow.opmPct ?? null,
+          otherIncomeCr: finRow.otherIncomeCr ?? null,
+          interestCr: finRow.interestCr ?? null,
+          depreciationCr: finRow.depreciationCr ?? null,
+          profitBeforeTaxCr: finRow.profitBeforeTaxCr ?? null,
+          taxPct: finRow.taxPct ?? null,
+          netProfitCr: finRow.netProfitCr ?? null,
+          epsRs: finRow.epsRs ?? null,
+          dividendPayoutPct: finRow.dividendPayoutPct ?? null,
+          rocePct: 0,
+        });
+      }
+    }
+
+    if (history.length === 0) continue;
+
+    outConstituents.push({
+      id: sym.toLowerCase(),
+      name: company.name,
+      ticker: sym,
+      sector: company.sector,
+      reportingType: company.reportingType,
+      weightPct: 0,
+      marketCapCr: mkt?.marketCapCr ?? 0,
+      cmp: mkt?.currentPrice ?? mkt?.price ?? 0,
+      valuationMetric: company.reportingType === 'financial' ? 'pb' : 'pe',
+      valuationMultiple: company.reportingType === 'financial'
+        ? computePb(mkt)
+        : (mkt?.stockPe ?? 0),
+      dividendYieldPct: mkt?.dividendYieldPct ?? 0,
+      color: colorFor(company.sector),
+      beta: mkt?.beta ?? 0,
+      history,
+      qualityFlags: [],
+      dataSource: 'yfinance',
     });
   }
 
