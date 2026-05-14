@@ -129,7 +129,7 @@ function main() {
   for (const row of financials.rows) {
     const fy = row.fiscalYear;
     const yearNum = parseInt(fy.replace('FY', ''), 10);
-    if (!isNaN(yearNum) && yearNum >= 2014) {
+    if (!isNaN(yearNum) && yearNum >= 2010) {
       allFys.add(fy);
     }
   }

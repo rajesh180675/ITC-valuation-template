@@ -98,7 +98,7 @@ function main() {
 
       for (const fy of [...constituents.fiscalYears ?? []].sort()) {
         const yearNum = parseInt(String(fy).replace('FY', ''), 10);
-        if (isNaN(yearNum) || yearNum < 2014) continue;
+        if (isNaN(yearNum) || yearNum < 2010) continue;
         const finRow = finRows.find(r => r.fiscalYear === fy);
         if (finRow && finRow.revenueCr != null) {
           lastIdx = history.length;
