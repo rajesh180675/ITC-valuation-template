@@ -8,7 +8,7 @@ import {
   ResponsiveContainer, ComposedChart, Legend, Pie, Cell,
   AreaChart, Area
 } from 'recharts';
-import { fmt, fmtN } from '@/components/itc/shared';
+import { fmtN } from '@/components/itc/shared';
 import { OverviewTab } from './OverviewTab';
 import { RatiosTab } from './RatiosTab';
 import {
@@ -87,24 +87,7 @@ function safeSub(a: number | null, b: number | null): number | null {
   return a - b;
 }
 
-function KpiCard({ label, value, trend, suffix }: { label: string; value: number | null; trend?: number | null; suffix?: string; }) {
-  const valStr = value != null ? fmt(value) : '\u2014';
-  let trendEl = null;
-  if (trend != null && trend !== 0) {
-    trendEl = (
-      <span className={`text-[10px] font-mono ${trend > 5 ? 'text-emerald-400' : trend < -5 ? 'text-rose-400' : 'text-gray-500'}`}>
-        {trend > 0 ? '\u25B2' : '\u25BC'} {Math.abs(trend).toFixed(1)}%
-      </span>
-    );
-  }
-  return (
-    <div className="glass-card p-3 flex flex-col gap-0.5 min-w-[130px]">
-      <span className="text-[10px] text-gray-400 uppercase tracking-wider">{label}</span>
-      <span className="text-lg font-bold text-white tabular-nums">{valStr}{suffix || ''}</span>
-      {trendEl}
-    </div>
-  );
-}
+import { KpiCard } from './KpiCard';
 
 /* ── Main Component (stable hook tree, no key-remount) ──────────────────── */
 export function AnnualReportsSection() {
