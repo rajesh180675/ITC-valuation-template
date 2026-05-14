@@ -1,0 +1,111 @@
+{
+  "ticker": "HEADSUP",
+  "years": {
+    "FY2025": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 1.42,
+          "totalExpensesCr": 0.65,
+          "operatingProfitCr": 0.77,
+          "otherIncomeCr": 0.84,
+          "financeCostCr": 0.0,
+          "depreciationCr": 0.01,
+          "pbtCr": 1.6,
+          "patCr": 1.39,
+          "epsRs": 0.63,
+          "dividendCr": 0.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 1.42
+          },
+          {
+            "label": "Expenses+",
+            "current": 0.65
+          },
+          {
+            "label": "Operating Profit",
+            "current": 0.77
+          },
+          {
+            "label": "OPM %",
+            "current": 54.23
+          },
+          {
+            "label": "Other Income+",
+            "current": 0.84
+          },
+          {
+            "label": "Interest",
+            "current": 0.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 0.01
+          },
+          {
+            "label": "Profit before tax",
+            "current": 1.6
+          },
+          {
+            "label": "Tax %",
+            "current": 12.5
+          },
+          {
+            "label": "Net Profit+",
+            "current": 1.39
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 0.63
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 1.42,
+          "totalExpensesCr": 0.65,
+          "operatingProfitCr": 0.77,
+          "otherIncomeCr": 0.84,
+          "financeCostCr": 0.0,
+          "depreciationCr": 0.01,
+          "pbtCr": 1.6,
+          "patCr": 1.39,
+          "epsRs": 0.63,
+          "dividendCr": 0.0
+        },
+        "items": []
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 1.42,
+          "totalExpensesCr": 0.65,
+          "operatingProfitCr": 0.77,
+          "otherIncomeCr": 0.84,
+          "financeCostCr": 0.0,
+          "depreciationCr": 0.01,
+          "pbtCr": 1.6,
+          "patCr": 1.39,
+          "epsRs": 0.63,
+          "dividendCr": 0.0
+        },
+        "items": []
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-05-14T16:06:04.084110+00:00",
+    "source": "screener.in/HEADSUP/consolidated",
+    "yearsCovered": [
+      "FY2025"
+    ],
+    "reportingType": "nonFinancial",
+    "dataVersion": 2
+  }
+}
