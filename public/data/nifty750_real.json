@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T09:31:23.999Z",
+  "generatedAt": "2026-05-14T10:19:52.310Z",
   "asOfDate": "2026-05-14",
   "source": "real",
   "sourcePolicy": "screener-in-public-data",
@@ -19,6 +19,73 @@
     "FY2025",
     "FY2026"
   ],
+  "fyCoverage": {
+    "FY2014": {
+      "companyCount": 263,
+      "coveragePct": 36,
+      "isPartial": true
+    },
+    "FY2015": {
+      "companyCount": 483,
+      "coveragePct": 66,
+      "isPartial": true
+    },
+    "FY2016": {
+      "companyCount": 507,
+      "coveragePct": 69,
+      "isPartial": true
+    },
+    "FY2017": {
+      "companyCount": 525,
+      "coveragePct": 71,
+      "isPartial": true
+    },
+    "FY2018": {
+      "companyCount": 552,
+      "coveragePct": 75,
+      "isPartial": true
+    },
+    "FY2019": {
+      "companyCount": 603,
+      "coveragePct": 82,
+      "isPartial": false
+    },
+    "FY2020": {
+      "companyCount": 655,
+      "coveragePct": 89,
+      "isPartial": false
+    },
+    "FY2021": {
+      "companyCount": 683,
+      "coveragePct": 93,
+      "isPartial": false
+    },
+    "FY2022": {
+      "companyCount": 696,
+      "coveragePct": 95,
+      "isPartial": false
+    },
+    "FY2023": {
+      "companyCount": 716,
+      "coveragePct": 97,
+      "isPartial": false
+    },
+    "FY2024": {
+      "companyCount": 726,
+      "coveragePct": 99,
+      "isPartial": false
+    },
+    "FY2025": {
+      "companyCount": 735,
+      "coveragePct": 100,
+      "isPartial": false
+    },
+    "FY2026": {
+      "companyCount": 293,
+      "coveragePct": 40,
+      "isPartial": true
+    }
+  },
   "provenance": {
     "universe": {
       "sourceName": "NSE Indices (via screener.in)",
@@ -292207,7 +292274,7 @@
     {
       "indexSlug": "yfinance-expanded",
       "indexName": "YFinance Expansion",
-      "constituentCount": 2,
+      "constituentCount": 3,
       "companies": [
         {
           "id": "gujgasltd",
@@ -292429,6 +292496,174 @@
               "workingCapitalDays": null,
               "rocePct": 0,
               "roePct": 0
+            }
+          ],
+          "qualityFlags": [],
+          "dataSource": "screener-in"
+        },
+        {
+          "id": "ratnamani",
+          "name": "RATNAMANI METALS",
+          "ticker": "RATNAMANI",
+          "sector": "Basic Materials",
+          "reportingType": "nonFinancial",
+          "weightPct": 0,
+          "marketCapCr": 20200,
+          "cmp": 0,
+          "valuationMetric": "pe",
+          "valuationMultiple": 24,
+          "dividendYieldPct": 0.8,
+          "color": "#60a5fa",
+          "beta": 0,
+          "history": [
+            {
+              "fy": "FY2022",
+              "toplineCr": 3121.91,
+              "expensesCr": 520.25,
+              "operatingProfitCr": 414.82,
+              "opmPct": null,
+              "otherIncomeCr": null,
+              "interestCr": 17.28,
+              "depreciationCr": 80.21,
+              "profitBeforeTaxCr": 430.94,
+              "taxPct": null,
+              "netProfitCr": 322.64,
+              "epsRs": null,
+              "dividendPayoutPct": null,
+              "equityCapitalCr": null,
+              "reservesCr": null,
+              "borrowingsCr": null,
+              "otherLiabilitiesCr": null,
+              "totalLiabilitiesCr": null,
+              "fixedAssetsCr": null,
+              "cwipCr": null,
+              "investmentsCr": null,
+              "otherAssetsCr": null,
+              "totalAssetsCr": null,
+              "operatingCFCr": null,
+              "investingCFCr": null,
+              "financingCFCr": null,
+              "netCashFlowCr": null,
+              "freeCashFlowCr": null,
+              "cfoToOpPct": null,
+              "debtorDays": null,
+              "inventoryDays": null,
+              "daysPayable": null,
+              "cashConversionCycle": null,
+              "workingCapitalDays": null,
+              "rocePct": 0
+            },
+            {
+              "fy": "FY2023",
+              "toplineCr": 4461.16,
+              "expensesCr": 711.79,
+              "operatingProfitCr": 692.4,
+              "opmPct": null,
+              "otherIncomeCr": null,
+              "interestCr": 21.33,
+              "depreciationCr": 83.12,
+              "profitBeforeTaxCr": 693.54,
+              "taxPct": null,
+              "netProfitCr": 510.48,
+              "epsRs": null,
+              "dividendPayoutPct": null,
+              "equityCapitalCr": null,
+              "reservesCr": null,
+              "borrowingsCr": null,
+              "otherLiabilitiesCr": null,
+              "totalLiabilitiesCr": null,
+              "fixedAssetsCr": null,
+              "cwipCr": null,
+              "investmentsCr": null,
+              "otherAssetsCr": null,
+              "totalAssetsCr": null,
+              "operatingCFCr": null,
+              "investingCFCr": null,
+              "financingCFCr": null,
+              "netCashFlowCr": null,
+              "freeCashFlowCr": null,
+              "cfoToOpPct": null,
+              "debtorDays": null,
+              "inventoryDays": null,
+              "daysPayable": null,
+              "cashConversionCycle": null,
+              "workingCapitalDays": null,
+              "rocePct": 0
+            },
+            {
+              "fy": "FY2024",
+              "toplineCr": 5027.51,
+              "expensesCr": 775.73,
+              "operatingProfitCr": 799.83,
+              "opmPct": null,
+              "otherIncomeCr": null,
+              "interestCr": 45.13,
+              "depreciationCr": 97.29,
+              "profitBeforeTaxCr": 827.67,
+              "taxPct": null,
+              "netProfitCr": 622.79,
+              "epsRs": null,
+              "dividendPayoutPct": null,
+              "equityCapitalCr": null,
+              "reservesCr": null,
+              "borrowingsCr": null,
+              "otherLiabilitiesCr": null,
+              "totalLiabilitiesCr": null,
+              "fixedAssetsCr": null,
+              "cwipCr": null,
+              "investmentsCr": null,
+              "otherAssetsCr": null,
+              "totalAssetsCr": null,
+              "operatingCFCr": null,
+              "investingCFCr": null,
+              "financingCFCr": null,
+              "netCashFlowCr": null,
+              "freeCashFlowCr": null,
+              "cfoToOpPct": null,
+              "debtorDays": null,
+              "inventoryDays": null,
+              "daysPayable": null,
+              "cashConversionCycle": null,
+              "workingCapitalDays": null,
+              "rocePct": 0
+            },
+            {
+              "fy": "FY2025",
+              "toplineCr": 5146.21,
+              "expensesCr": 918.25,
+              "operatingProfitCr": 716.8,
+              "opmPct": null,
+              "otherIncomeCr": null,
+              "interestCr": 37.43,
+              "depreciationCr": 107.41,
+              "profitBeforeTaxCr": 737.99,
+              "taxPct": null,
+              "netProfitCr": 543.98,
+              "epsRs": null,
+              "dividendPayoutPct": null,
+              "equityCapitalCr": null,
+              "reservesCr": null,
+              "borrowingsCr": null,
+              "otherLiabilitiesCr": null,
+              "totalLiabilitiesCr": null,
+              "fixedAssetsCr": null,
+              "cwipCr": null,
+              "investmentsCr": null,
+              "otherAssetsCr": null,
+              "totalAssetsCr": null,
+              "operatingCFCr": null,
+              "investingCFCr": null,
+              "financingCFCr": null,
+              "netCashFlowCr": null,
+              "freeCashFlowCr": null,
+              "cfoToOpPct": null,
+              "debtorDays": null,
+              "inventoryDays": null,
+              "daysPayable": null,
+              "cashConversionCycle": null,
+              "workingCapitalDays": null,
+              "rocePct": 18,
+              "roePct": 20
             }
           ],
           "qualityFlags": [],

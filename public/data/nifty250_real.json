@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T09:30:01.365Z",
+  "generatedAt": "2026-05-14T10:19:51.988Z",
   "asOfDate": "2026-05-14",
   "source": "real",
   "sourcePolicy": "screener-in-public-data",
@@ -23,6 +23,93 @@
     "FY2025",
     "FY2026"
   ],
+  "fyCoverage": {
+    "FY2010": {
+      "companyCount": 5,
+      "coveragePct": 2,
+      "isPartial": true
+    },
+    "FY2011": {
+      "companyCount": 4,
+      "coveragePct": 2,
+      "isPartial": true
+    },
+    "FY2012": {
+      "companyCount": 4,
+      "coveragePct": 2,
+      "isPartial": true
+    },
+    "FY2013": {
+      "companyCount": 7,
+      "coveragePct": 3,
+      "isPartial": true
+    },
+    "FY2014": {
+      "companyCount": 89,
+      "coveragePct": 37,
+      "isPartial": true
+    },
+    "FY2015": {
+      "companyCount": 191,
+      "coveragePct": 79,
+      "isPartial": true
+    },
+    "FY2016": {
+      "companyCount": 197,
+      "coveragePct": 81,
+      "isPartial": false
+    },
+    "FY2017": {
+      "companyCount": 202,
+      "coveragePct": 83,
+      "isPartial": false
+    },
+    "FY2018": {
+      "companyCount": 213,
+      "coveragePct": 88,
+      "isPartial": false
+    },
+    "FY2019": {
+      "companyCount": 218,
+      "coveragePct": 90,
+      "isPartial": false
+    },
+    "FY2020": {
+      "companyCount": 225,
+      "coveragePct": 93,
+      "isPartial": false
+    },
+    "FY2021": {
+      "companyCount": 229,
+      "coveragePct": 94,
+      "isPartial": false
+    },
+    "FY2022": {
+      "companyCount": 227,
+      "coveragePct": 93,
+      "isPartial": false
+    },
+    "FY2023": {
+      "companyCount": 237,
+      "coveragePct": 98,
+      "isPartial": false
+    },
+    "FY2024": {
+      "companyCount": 242,
+      "coveragePct": 100,
+      "isPartial": false
+    },
+    "FY2025": {
+      "companyCount": 243,
+      "coveragePct": 100,
+      "isPartial": false
+    },
+    "FY2026": {
+      "companyCount": 123,
+      "coveragePct": 51,
+      "isPartial": true
+    }
+  },
   "provenance": {
     "universe": {
       "sourceName": "NSE Indices (via screener.in)",

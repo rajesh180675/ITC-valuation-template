@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Layers } from 'lucide-react';
+import { Layers, AlertTriangle } from 'lucide-react';
 import type { SensexConstituent, SensexYearFinancial } from '@/data/sensexData';
 import type { LedgerRow } from '@/utils/export';
 import {
@@ -124,8 +124,21 @@ export function Nifty750UniverseSection() {
     return [...batchCompaniesRaw].sort((a, b) => b.weightPct - a.weightPct);
   }, [batchCompaniesRaw]);
 
-  /* ── Dynamic fiscal years ─────────────────────────────────────────────── */
-  const [years, setYears] = useState<string[]>([]);
+ /* ── Dynamic fiscal years ─────────────────────────────────────────────── */
+ const partialFys = useMemo(() => {
+   try {
+     if (!rawData?.fyCoverage) return new Set<string>();
+     return new Set(Object.entries(rawData.fyCoverage).filter(([, v]: [string, any]) => v.isPartial).map(([fy]: [string, any]) => fy));
+   } catch { return new Set<string>(); }
+ }, [rawData]);
+ const lastCompleteFy = useMemo(() => {
+   try {
+     if (!rawData?.fyCoverage) return null;
+     const complete = Object.entries(rawData.fyCoverage).filter(([, v]: [string, any]) => !v.isPartial).map(([fy]: [string, any]) => fy).sort();
+     return complete.length > 0 ? complete[complete.length - 1] : null;
+   } catch { return null; }
+ }, [rawData]);
+ const [years, setYears] = useState<string[]>([]);
   useEffect(() => {
     try {
       if (batchCompanies.length > 0) {
@@ -147,9 +160,13 @@ export function Nifty750UniverseSection() {
 
   const [filterVal, setFilterVal] = useState<Filter>('all');
   const totalYears = years.length;
-  const [rangeStart, setRangeStart] = useState(0);
-  const [rangeEnd, setRangeEnd] = useState(totalYears - 1);
-  useEffect(() => { setRangeEnd(Math.max(0, totalYears - 1)); }, [totalYears]);
+ const [rangeStart, setRangeStart] = useState(0);
+ const [rangeEnd, setRangeEnd] = useState(totalYears - 1);
+ useEffect(() => {
+   // Default rangeEnd to last COMPLETE FY (skip partial)
+   const lastCompleteIdx = lastCompleteFy ? years.indexOf(lastCompleteFy) : -1;
+   setRangeEnd(lastCompleteIdx >= 0 ? lastCompleteIdx : Math.max(0, totalYears - 1));
+ }, [totalYears, lastCompleteFy, years]);
 
   /* ── All sectors (for filter UI) ──────────────────────────────────────── */
   const allSectors = useMemo(() => {
@@ -380,9 +397,15 @@ export function Nifty750UniverseSection() {
             <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
               Nifty 750 <span className="text-[color:var(--color-gold-light)]">Universe</span>
             </h2>
-            <p className="text-sm text-gray-400 mt-2 max-w-2xl leading-relaxed">
-              Cross-sectional view of three NSE indices &mdash; {years.length} fiscal years of screener.in data.
-            </p>
+ <p className="text-sm text-gray-400 mt-2 max-w-2xl leading-relaxed">
+ Cross-sectional view of three NSE indices &mdash; {years.length} fiscal years of screener.in data.
+ {partialFys.size > 0 && (
+   <span className="ml-2 text-amber-400/80 text-xs inline-flex items-center gap-1">
+     <AlertTriangle size={11} />
+     {[...partialFys].join(', ')} {partialFys.size === 1 ? 'has' : 'have'} incomplete reporting
+   </span>
+ )}
+ </p>
           </div>
           <div className="flex flex-col items-end gap-3">
             <select
@@ -503,9 +526,10 @@ export function Nifty750UniverseSection() {
       )}
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-        <UniverseEarningsPower indexSeries={indexSeries} startFy={startFy} endFy={endFy}
-          filteredCount={filteredCompanies.length}
-          universeToplineCagr={universeToplineCagr} universeProfitCagr={universeProfitCagr} averageRoe={averageRoe} />
+ <UniverseEarningsPower indexSeries={indexSeries} startFy={startFy} endFy={endFy}
+ filteredCount={filteredCompanies.length}
+ universeToplineCagr={universeToplineCagr} universeProfitCagr={universeProfitCagr} averageRoe={averageRoe}
+ partialFys={partialFys} />
         <SectorComposition sectorSummary={sectorSummary} filteredCompanies={filteredCompanies} />
       </div>
 

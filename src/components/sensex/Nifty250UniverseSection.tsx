@@ -68,9 +68,10 @@ export function Nifty250UniverseSection() {
   const [sectorFilter, setSectorFilter] = useState<string[]>([]);
 
   // ── Real data loading ──────────────────────────────────────────────────
-  const [realData, setRealData] = useState<SensexConstituent[] | null>(null);
-  const [realFiscalYears, setRealFiscalYears] = useState<string[] | null>(null);
-  const [dataSource, setDataSource] = useState<'loading' | 'screener-in' | 'reference'>('loading');
+ const [realData, setRealData] = useState<SensexConstituent[] | null>(null);
+ const [realFiscalYears, setRealFiscalYears] = useState<string[] | null>(null);
+ const [realFyCoverage, setRealFyCoverage] = useState<Record<string, { companyCount: number; coveragePct: number; isPartial: boolean }> | null>(null);
+ const [dataSource, setDataSource] = useState<'loading' | 'screener-in' | 'reference'>('loading');
   // P1.1: adapter warnings surfaced from live feed validation
   const [adapterWarnings, setAdapterWarnings] = useState<string[]>([]);
 
@@ -80,10 +81,11 @@ export function Nifty250UniverseSection() {
       .then(async (res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
-        if (json?.constituents?.length > 0) {
-          if (Array.isArray(json?.fiscalYears) && json.fiscalYears.length > 0) {
-            setRealFiscalYears(json.fiscalYears.map((fy: unknown) => String(fy)).sort());
-          }
+ if (json?.constituents?.length > 0) {
+ if (Array.isArray(json?.fiscalYears) && json.fiscalYears.length > 0) {
+ setRealFiscalYears(json.fiscalYears.map((fy: unknown) => String(fy)).sort());
+ }
+ if (json?.fyCoverage) setRealFyCoverage(json.fyCoverage);
           // P1.1: validate each raw entry and collect warnings
           const warnings: string[] = [];
           const adapted = json.constituents
@@ -124,17 +126,31 @@ export function Nifty250UniverseSection() {
     return [...NIFTY250_FISCAL_YEARS];
   }, [realData, realFiscalYears]);
 
-  const totalYears = years.length;
-  const [rangeStart, setRangeStart] = useState(0);
-  const [rangeEnd, setRangeEnd] = useState(totalYears - 1);
+ const totalYears = years.length;
+ const [rangeStart, setRangeStart] = useState(0);
+ const [rangeEnd, setRangeEnd] = useState(totalYears - 1);
 
-  // Reset range when years change (e.g. real data loads)
-  useEffect(() => {
-    if (years.length > 0) {
-      setRangeStart((prev) => Math.min(prev, Math.max(0, years.length - 2)));
-      setRangeEnd((prev) => Math.min(Math.max(prev, 1), years.length - 1));
-    }
-  }, [years.length]);
+ // Partial FY detection from fyCoverage
+ const partialFys = useMemo(() => {
+   if (!realFyCoverage) return new Set<string>();
+   return new Set(Object.entries(realFyCoverage).filter(([, v]) => v.isPartial).map(([fy]) => fy));
+ }, [realFyCoverage]);
+ const lastCompleteFy = useMemo(() => {
+   if (!realFyCoverage) return null;
+   const complete = Object.entries(realFyCoverage).filter(([, v]) => !v.isPartial).map(([fy]) => fy).sort();
+   return complete.length > 0 ? complete[complete.length - 1] : null;
+ }, [realFyCoverage]);
+
+ // Reset range when years change (e.g. real data loads)
+ useEffect(() => {
+ if (years.length > 0) {
+ setRangeStart((prev) => Math.min(prev, Math.max(0, years.length - 2)));
+ // Default rangeEnd to last COMPLETE FY
+ const lastCompleteIdx = lastCompleteFy ? years.indexOf(lastCompleteFy) : -1;
+ const targetEnd = lastCompleteIdx >= 0 ? lastCompleteIdx : years.length - 1;
+ setRangeEnd((prev) => Math.min(Math.max(prev, 1), targetEnd));
+ }
+ }, [years.length, lastCompleteFy, years]);
 
   // Update selectedId when real data loads
   useEffect(() => {
@@ -398,10 +414,17 @@ export function Nifty250UniverseSection() {
         weightedBeta={weightedBeta}
         weightedCoe={weightedCoe}
         concentration={concentration}
-        dataSource={dataSource}
-      />
+ dataSource={dataSource}
+ />
 
-      {dataSource === 'loading' ? null : (
+ {partialFys.size > 0 && (
+ <div className="flex items-center gap-1.5 text-[11px] text-amber-400/80 mb-2">
+ <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+ <span>{[...partialFys].join(', ')} {partialFys.size === 1 ? 'has' : 'have'} incomplete reporting — CAGR uses last complete FY</span>
+ </div>
+ )}
+
+ {dataSource === 'loading' ? null : (
         <>
           <DataProvenanceBanner rows={sortedRows} dataSource={dataSource} />
 
@@ -412,14 +435,15 @@ export function Nifty250UniverseSection() {
           />
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-            <UniverseEarningsPower
-              indexSeries={indexSeries}
-              startFy={startFy} endFy={endFy}
-              filteredCount={filteredCompanies.length}
-              universeToplineCagr={universeToplineCagr}
-              universeProfitCagr={universeProfitCagr}
-              averageRoe={averageRoe}
-            />
+ <UniverseEarningsPower
+ indexSeries={indexSeries}
+ startFy={startFy} endFy={endFy}
+ filteredCount={filteredCompanies.length}
+ universeToplineCagr={universeToplineCagr}
+ universeProfitCagr={universeProfitCagr}
+ averageRoe={averageRoe}
+ partialFys={partialFys}
+ />
             <SectorComposition sectorSummary={sectorSummary} filteredCompanies={filteredCompanies} />
           </div>
 

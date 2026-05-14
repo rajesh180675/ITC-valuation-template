@@ -4,7 +4,13 @@
   "source": "real",
   "sourcePolicy": "yfinance",
   "schemaVersion": 3,
-  "fiscalYears": ["FY2022", "FY2023", "FY2024", "FY2025", "FY2026"],
+  "fiscalYears": [
+    "FY2022",
+    "FY2023",
+    "FY2024",
+    "FY2025",
+    "FY2026"
+  ],
   "sourceName": "yfinance (Nifty Expansion)",
   "downloadedAt": "2026-05-14T18:00:00Z",
   "constituents": [
@@ -22,6 +28,15 @@
       "name": "JET AIRWAYS",
       "sector": "Industrials",
       "industry": "Airlines",
+      "reportingType": "nonFinancial",
+      "listingExchange": "NSE",
+      "source": "yfinance"
+    },
+    {
+      "symbol": "RATNAMANI",
+      "name": "RATNAMANI METALS",
+      "sector": "Basic Materials",
+      "industry": "Steel Pipes",
       "reportingType": "nonFinancial",
       "listingExchange": "NSE",
       "source": "yfinance"

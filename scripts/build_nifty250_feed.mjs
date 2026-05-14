@@ -314,26 +314,44 @@ function main() {
     c.weightPct = totalMarketCap > 0 ? round4(((c.marketCapCr ?? 0) / totalMarketCap) * 100) : 0;
   }
 
-  console.log(`  Constituents: ${outConstituents.length}`);
+ console.log(` Constituents: ${outConstituents.length}`);
 
-  // Stats on enriched fields
-  let withBs = 0, withCf = 0, withRatios = 0;
-  for (const c of outConstituents) {
-    const last = c.history[c.history.length - 1];
-    if (last?.totalAssetsCr) withBs++;
-    if (last?.freeCashFlowCr != null) withCf++;
-    if (last?.inventoryDays != null) withRatios++;
-  }
-  console.log(`  With balance sheet: ${withBs}, cash flow: ${withCf}, ratios: ${withRatios}`);
+ // Stats on enriched fields
+ let withBs = 0, withCf = 0, withRatios = 0;
+ const fyCompanyCount = {};
+ for (const c of outConstituents) {
+ const last = c.history[c.history.length - 1];
+ if (last?.totalAssetsCr) withBs++;
+ if (last?.freeCashFlowCr != null) withCf++;
+ if (last?.inventoryDays != null) withRatios++;
+ for (const h of c.history) {
+   fyCompanyCount[h.fy] = (fyCompanyCount[h.fy] || 0) + 1;
+ }
+ }
+ console.log(` With balance sheet: ${withBs}, cash flow: ${withCf}, ratios: ${withRatios}`);
 
-  const now = new Date().toISOString();
-  const dataset = {
-    generatedAt: now,
-    asOfDate: now.slice(0, 10),
-    source: 'real',
-    sourcePolicy: 'screener-in-public-data',
-    schemaVersion: 3,
-    fiscalYears,
+ // Build fyCoverage
+ const peakCount = Math.max(...Object.values(fyCompanyCount));
+ const fyCoverage = {};
+ for (const fy of fiscalYears) {
+ const count = fyCompanyCount[fy] || 0;
+ const pct = peakCount > 0 ? Math.round((count / peakCount) * 100) : 0;
+ fyCoverage[fy] = { companyCount: count, coveragePct: pct, isPartial: pct < 80 };
+ }
+ const partialFys = fiscalYears.filter(fy => fyCoverage[fy].isPartial);
+ if (partialFys.length > 0) {
+ console.log(` Partial FYs: ${partialFys.join(', ')} (${partialFys.map(fy => fyCoverage[fy].coveragePct + '%').join(', ')} coverage)`);
+ }
+
+ const now = new Date().toISOString();
+ const dataset = {
+ generatedAt: now,
+ asOfDate: now.slice(0, 10),
+ source: 'real',
+ sourcePolicy: 'screener-in-public-data',
+ schemaVersion: 3,
+ fiscalYears,
+ fyCoverage,
     provenance: {
       universe: {
         sourceName: 'NSE Indices (via screener.in)',

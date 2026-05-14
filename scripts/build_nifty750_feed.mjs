@@ -192,30 +192,49 @@ function main() {
     console.log(`  ${slug}: ${outCompanies.length} companies`);
   }
 
-  const fiscalYears = Array.from(allFys).sort();
-  console.log(`  Fiscal years: ${fiscalYears[0]} to ${fiscalYears[fiscalYears.length - 1]} (${fiscalYears.length})`);
+ const fiscalYears = Array.from(allFys).sort();
+ console.log(` Fiscal years: ${fiscalYears[0]} to ${fiscalYears[fiscalYears.length - 1]} (${fiscalYears.length})`);
 
-  // Stats
-  let totalCos = 0, withBs = 0, withCf = 0, withRatios = 0;
-  for (const b of batches) {
-    for (const c of b.companies) {
-      totalCos++;
-      const last = c.history[c.history.length - 1];
-      if (last?.totalAssetsCr) withBs++;
-      if (last?.freeCashFlowCr != null) withCf++;
-      if (last?.inventoryDays != null) withRatios++;
-    }
-  }
-  console.log(`  With balance sheet: ${withBs}, cash flow: ${withCf}, ratios: ${withRatios}`);
+ // Stats
+ let totalCos = 0, withBs = 0, withCf = 0, withRatios = 0;
+ const fyCompanyCount = {};   // FY -> number of companies with data
+ for (const b of batches) {
+ for (const c of b.companies) {
+ totalCos++;
+ const last = c.history[c.history.length - 1];
+ if (last?.totalAssetsCr) withBs++;
+ if (last?.freeCashFlowCr != null) withCf++;
+ if (last?.inventoryDays != null) withRatios++;
+ // Count how many companies report each FY
+ for (const h of c.history) {
+   fyCompanyCount[h.fy] = (fyCompanyCount[h.fy] || 0) + 1;
+ }
+ }
+ }
+ console.log(` With balance sheet: ${withBs}, cash flow: ${withCf}, ratios: ${withRatios}`);
+
+ // Build fyCoverage: mark FYs with < 80% of peak company count as partial
+ const peakCount = Math.max(...Object.values(fyCompanyCount));
+ const fyCoverage = {};
+ for (const fy of fiscalYears) {
+ const count = fyCompanyCount[fy] || 0;
+ const pct = peakCount > 0 ? Math.round((count / peakCount) * 100) : 0;
+ fyCoverage[fy] = { companyCount: count, coveragePct: pct, isPartial: pct < 80 };
+ }
+ const partialFys = fiscalYears.filter(fy => fyCoverage[fy].isPartial);
+ if (partialFys.length > 0) {
+ console.log(` Partial FYs: ${partialFys.join(', ')} (${partialFys.map(fy => fyCoverage[fy].coveragePct + '%').join(', ')} coverage)`);
+ }
 
   const now = new Date().toISOString();
-  const dataset = {
-    generatedAt: now,
-    asOfDate: now.slice(0, 10),
-    source: 'real',
-    sourcePolicy: 'screener-in-public-data',
-    schemaVersion: 4,
-    fiscalYears,
+ const dataset = {
+ generatedAt: now,
+ asOfDate: now.slice(0, 10),
+ source: 'real',
+ sourcePolicy: 'screener-in-public-data',
+ schemaVersion: 4,
+ fiscalYears,
+ fyCoverage,
     provenance: {
       universe: {
         sourceName: 'NSE Indices (via screener.in)',
