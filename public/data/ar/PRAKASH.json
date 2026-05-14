@@ -1,0 +1,215 @@
+{
+  "ticker": "PRAKASH",
+  "years": {
+    "FY2018": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 2935.0,
+          "totalExpensesCr": 2351.0,
+          "operatingProfitCr": 584.0,
+          "otherIncomeCr": 15.0,
+          "financeCostCr": 89.0,
+          "depreciationCr": 121.0,
+          "pbtCr": 388.0,
+          "patCr": 386.0,
+          "epsRs": 24.62,
+          "dividendCr": 0.0,
+          "borrowingsCr": 818.0,
+          "totalLiabilitiesCr": 3893.0,
+          "fixedAssetsCr": 2377.0,
+          "investmentsCr": 0.0,
+          "totalAssetsCr": 3893.0,
+          "cfoCr": 476.0,
+          "cfiCr": -480.0,
+          "cffCr": 10.0,
+          "netChangeCr": 7.0,
+          "fcfCr": 2.0,
+          "equityCr": 2736.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 2935.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 2351.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 584.0
+          },
+          {
+            "label": "OPM %",
+            "current": 20.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 15.0
+          },
+          {
+            "label": "Interest",
+            "current": 89.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 121.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": 388.0
+          },
+          {
+            "label": "Tax %",
+            "current": 1.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": 386.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 24.62
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 2935.0,
+          "totalExpensesCr": 2351.0,
+          "operatingProfitCr": 584.0,
+          "otherIncomeCr": 15.0,
+          "financeCostCr": 89.0,
+          "depreciationCr": 121.0,
+          "pbtCr": 388.0,
+          "patCr": 386.0,
+          "epsRs": 24.62,
+          "dividendCr": 0.0,
+          "borrowingsCr": 818.0,
+          "totalLiabilitiesCr": 3893.0,
+          "fixedAssetsCr": 2377.0,
+          "investmentsCr": 0.0,
+          "totalAssetsCr": 3893.0,
+          "cfoCr": 476.0,
+          "cfiCr": -480.0,
+          "cffCr": 10.0,
+          "netChangeCr": 7.0,
+          "fcfCr": 2.0,
+          "equityCr": 2736.0
+        },
+        "items": [
+          {
+            "label": "Equity Capital",
+            "current": 157.0
+          },
+          {
+            "label": "Reserves",
+            "current": 2579.0
+          },
+          {
+            "label": "Borrowings+",
+            "current": 818.0
+          },
+          {
+            "label": "Other Liabilities+",
+            "current": 339.0
+          },
+          {
+            "label": "Total Liabilities",
+            "current": 3893.0
+          },
+          {
+            "label": "Fixed Assets+",
+            "current": 2377.0
+          },
+          {
+            "label": "CWIP",
+            "current": 690.0
+          },
+          {
+            "label": "Investments",
+            "current": 0.0
+          },
+          {
+            "label": "Other Assets+",
+            "current": 825.0
+          },
+          {
+            "label": "Total Assets",
+            "current": 3893.0
+          }
+        ]
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 2935.0,
+          "totalExpensesCr": 2351.0,
+          "operatingProfitCr": 584.0,
+          "otherIncomeCr": 15.0,
+          "financeCostCr": 89.0,
+          "depreciationCr": 121.0,
+          "pbtCr": 388.0,
+          "patCr": 386.0,
+          "epsRs": 24.62,
+          "dividendCr": 0.0,
+          "borrowingsCr": 818.0,
+          "totalLiabilitiesCr": 3893.0,
+          "fixedAssetsCr": 2377.0,
+          "investmentsCr": 0.0,
+          "totalAssetsCr": 3893.0,
+          "cfoCr": 476.0,
+          "cfiCr": -480.0,
+          "cffCr": 10.0,
+          "netChangeCr": 7.0,
+          "fcfCr": 2.0,
+          "equityCr": 2736.0
+        },
+        "items": [
+          {
+            "label": "Cash from Operating Activity+",
+            "current": 476.0
+          },
+          {
+            "label": "Cash from Investing Activity+",
+            "current": -480.0
+          },
+          {
+            "label": "Cash from Financing Activity+",
+            "current": 10.0
+          },
+          {
+            "label": "Net Cash Flow",
+            "current": 7.0
+          },
+          {
+            "label": "Free Cash Flow",
+            "current": 2.0
+          },
+          {
+            "label": "CFO/OP",
+            "current": 90.0
+          }
+        ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 2/388 = 0.5%"
+        ]
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-05-14T17:59:56.327453+00:00",
+    "source": "screener.in/PRAKASH/consolidated",
+    "yearsCovered": [
+      "FY2018"
+    ],
+    "reportingType": "nonFinancial",
+    "dataVersion": 2
+  }
+}
