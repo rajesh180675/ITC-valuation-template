@@ -1,0 +1,111 @@
+{
+  "ticker": "AVROIND",
+  "years": {
+    "FY2025": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 67.48,
+          "totalExpensesCr": 64.77,
+          "operatingProfitCr": 2.71,
+          "otherIncomeCr": 6.45,
+          "financeCostCr": 1.23,
+          "depreciationCr": 3.27,
+          "pbtCr": 4.66,
+          "patCr": 3.62,
+          "epsRs": 0.27,
+          "dividendCr": 0.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 67.48
+          },
+          {
+            "label": "Expenses+",
+            "current": 64.77
+          },
+          {
+            "label": "Operating Profit",
+            "current": 2.71
+          },
+          {
+            "label": "OPM %",
+            "current": 4.02
+          },
+          {
+            "label": "Other Income+",
+            "current": 6.45
+          },
+          {
+            "label": "Interest",
+            "current": 1.23
+          },
+          {
+            "label": "Depreciation",
+            "current": 3.27
+          },
+          {
+            "label": "Profit before tax",
+            "current": 4.66
+          },
+          {
+            "label": "Tax %",
+            "current": 22.32
+          },
+          {
+            "label": "Net Profit+",
+            "current": 3.62
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 0.27
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 67.48,
+          "totalExpensesCr": 64.77,
+          "operatingProfitCr": 2.71,
+          "otherIncomeCr": 6.45,
+          "financeCostCr": 1.23,
+          "depreciationCr": 3.27,
+          "pbtCr": 4.66,
+          "patCr": 3.62,
+          "epsRs": 0.27,
+          "dividendCr": 0.0
+        },
+        "items": []
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 67.48,
+          "totalExpensesCr": 64.77,
+          "operatingProfitCr": 2.71,
+          "otherIncomeCr": 6.45,
+          "financeCostCr": 1.23,
+          "depreciationCr": 3.27,
+          "pbtCr": 4.66,
+          "patCr": 3.62,
+          "epsRs": 0.27,
+          "dividendCr": 0.0
+        },
+        "items": []
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-05-14T13:28:09.638900+00:00",
+    "source": "screener.in/AVROIND/consolidated",
+    "yearsCovered": [
+      "FY2025"
+    ],
+    "reportingType": "nonFinancial",
+    "dataVersion": 2
+  }
+}

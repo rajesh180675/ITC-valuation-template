@@ -1,74 +1,322 @@
 {
-  "timestamp": "2026-05-13T14:45:25.384916+00:00",
+  "timestamp": "2026-05-14T13:38:42.577669+00:00",
   "args": {
-    "batch": "nifty750",
+    "batch": "file",
     "workers": 2,
     "resume": true
   },
-  "total": 748,
-  "success": 464,
-  "fail": 53,
-  "skipped": 231,
-  "elapsed_seconds": 1290.5657167434692,
+  "total": 300,
+  "success": 205,
+  "fail": 95,
+  "skipped": 0,
+  "elapsed_seconds": 825.3598084449768,
   "failures": [
     {
-      "ticker": "ATHERENERG",
+      "ticker": "AAATECH",
       "error": "No financial tables found"
     },
     {
-      "ticker": "ABBOTINDIA",
+      "ticker": "AARNAV",
       "error": "No financial tables found"
     },
     {
-      "ticker": "BAJAJHFL",
+      "ticker": "AARON",
       "error": "No financial tables found"
     },
     {
-      "ticker": "AVL",
+      "ticker": "ABINFRA",
       "error": "No financial tables found"
     },
     {
-      "ticker": "BANDHANBNK",
+      "ticker": "ACL",
       "error": "No financial tables found"
     },
     {
-      "ticker": "BDL",
+      "ticker": "AHCL",
       "error": "No financial tables found"
     },
     {
-      "ticker": "CANFINHOME",
+      "ticker": "AHLADA",
       "error": "No financial tables found"
     },
     {
-      "ticker": "BHARTIHEXA",
+      "ticker": "AJAXENGG",
       "error": "No financial tables found"
     },
     {
-      "ticker": "CANHLIFE",
+      "ticker": "AJOONI",
       "error": "No financial tables found"
     },
     {
-      "ticker": "CASTROLIND",
+      "ticker": "AKSHAR",
       "error": "No financial tables found"
     },
     {
-      "ticker": "CRAMC",
+      "ticker": "ALBERTDAVD",
       "error": "No financial tables found"
     },
     {
-      "ticker": "CSBBANK",
+      "ticker": "ALKALI",
       "error": "No financial tables found"
     },
     {
-      "ticker": "CUB",
+      "ticker": "AMANTA",
       "error": "No financial tables found"
     },
     {
-      "ticker": "DATAPATTNS",
+      "ticker": "AMBIKCO",
       "error": "No financial tables found"
     },
     {
-      "ticker": "DCBBANK",
+      "ticker": "ANDHRAPAP",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ANMOL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ANTELOPUS",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ANTGRAPHIC",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ANUHPHR",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "APEX",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "AROGRANITE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ARVEE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ASAL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ASTRAZEN",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ATAM",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "AURIGROW",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "AUTOAXLES",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "AYE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BAIDFIN",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BAJAJHCARE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BANARBEADS",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BANARISUG",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BBL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BELLACASA",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BHARATCOAL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BHARATGEAR",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BHARATSE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BIOFILCHEM",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BLAL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BLUECHIP",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BMWVENTLTD",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BORANA",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BOSCH-HCIL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BSHSL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BSL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "BUTTERFLY",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CANTABIL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CAPITALSFB",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CELEBRITY",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CENTEXT",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CHEMCON",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CLSEL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CMPDI",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "COCKERILL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CORALFINAC",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CORDSCABLE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "COUNCODOS",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CREATIVEYE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CROWN",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CSLFINANCE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "CUBEXTUB",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DAMODARIND",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DAVANGERE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DBEIL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DDEVPLSTIK",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DENORA",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DHANBANK",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DIGJAMLMTD",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DIVGIITTS",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DNAMEDIA",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DPWIRES",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DRAGARWQ",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DREDGECORP",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DWARKESH",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "DYCL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "EIFFL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ELANTAS",
       "error": "No financial tables found"
     },
     {
@@ -76,151 +324,71 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "ENRIN",
+      "ticker": "EMAMIPAP",
       "error": "No financial tables found"
     },
     {
-      "ticker": "EQUITASBNK",
+      "ticker": "ESAFSFB",
       "error": "No financial tables found"
     },
     {
-      "ticker": "FEDFINA",
+      "ticker": "EUROTEXIND",
       "error": "No financial tables found"
     },
     {
-      "ticker": "GILLETTE",
+      "ticker": "FAIRCHEMOR",
       "error": "No financial tables found"
     },
     {
-      "ticker": "GODIGIT",
+      "ticker": "FINOPB",
       "error": "No financial tables found"
     },
     {
-      "ticker": "GRSE",
+      "ticker": "FRONTSP",
       "error": "No financial tables found"
     },
     {
-      "ticker": "HEMIPROP",
+      "ticker": "FUSION",
       "error": "No financial tables found"
     },
     {
-      "ticker": "HOMEFIRST",
+      "ticker": "GANDHITUBE",
       "error": "No financial tables found"
     },
     {
-      "ticker": "HONAUT",
+      "ticker": "GANESHCP",
       "error": "No financial tables found"
     },
     {
-      "ticker": "ICICIGI",
+      "ticker": "GANGAFORGE",
       "error": "No financial tables found"
     },
     {
-      "ticker": "IRFC",
+      "ticker": "GEEKAYWIRE",
       "error": "No financial tables found"
     },
     {
-      "ticker": "JSFB",
+      "ticker": "GHCLTEXTIL",
       "error": "No financial tables found"
     },
     {
-      "ticker": "KARURVYSYA",
+      "ticker": "GINNIFILA",
       "error": "No financial tables found"
     },
     {
-      "ticker": "LGEINDIA",
+      "ticker": "GLOBALVECT",
       "error": "No financial tables found"
     },
     {
-      "ticker": "MAHSCOOTER",
+      "ticker": "GLOTTIS",
       "error": "No financial tables found"
     },
     {
-      "ticker": "MSUMI",
+      "ticker": "GOODYEAR",
       "error": "No financial tables found"
     },
     {
-      "ticker": "NETWEB",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "NIVABUPA",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "NSLNISP",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "ORIENTCEM",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "PAGEIND",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "POWERINDIA",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "RELAXO",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "SBICARD",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "SBILIFE",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "SCHNEIDER",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "SKFINDUS",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "SMLMAH",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "STARHEALTH",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "SUPRIYA",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "THANGAMAYL",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TIPSMUSIC",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TMB",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "UJJIVANSFB",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VMART",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VOLTAMP",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "WAKEFIT",
+      "ticker": "GOPAL",
       "error": "No financial tables found"
     }
   ]

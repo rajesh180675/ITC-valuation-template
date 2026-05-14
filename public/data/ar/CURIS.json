@@ -1,0 +1,208 @@
+{
+  "ticker": "CURIS",
+  "years": {
+    "FY2023": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 35.42,
+          "totalExpensesCr": 32.16,
+          "operatingProfitCr": 3.26,
+          "otherIncomeCr": 0.34,
+          "financeCostCr": 1.33,
+          "depreciationCr": 0.73,
+          "pbtCr": 1.54,
+          "patCr": 1.23,
+          "epsRs": 24.6,
+          "dividendCr": 0.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 35.42
+          },
+          {
+            "label": "Expenses+",
+            "current": 32.16
+          },
+          {
+            "label": "Operating Profit",
+            "current": 3.26
+          },
+          {
+            "label": "OPM %",
+            "current": 9.2
+          },
+          {
+            "label": "Other Income+",
+            "current": 0.34
+          },
+          {
+            "label": "Interest",
+            "current": 1.33
+          },
+          {
+            "label": "Depreciation",
+            "current": 0.73
+          },
+          {
+            "label": "Profit before tax",
+            "current": 1.54
+          },
+          {
+            "label": "Tax %",
+            "current": 20.13
+          },
+          {
+            "label": "Net Profit+",
+            "current": 1.23
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 24.6
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 35.42,
+          "totalExpensesCr": 32.16,
+          "operatingProfitCr": 3.26,
+          "otherIncomeCr": 0.34,
+          "financeCostCr": 1.33,
+          "depreciationCr": 0.73,
+          "pbtCr": 1.54,
+          "patCr": 1.23,
+          "epsRs": 24.6,
+          "dividendCr": 0.0
+        },
+        "items": []
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 35.42,
+          "totalExpensesCr": 32.16,
+          "operatingProfitCr": 3.26,
+          "otherIncomeCr": 0.34,
+          "financeCostCr": 1.33,
+          "depreciationCr": 0.73,
+          "pbtCr": 1.54,
+          "patCr": 1.23,
+          "epsRs": 24.6,
+          "dividendCr": 0.0
+        },
+        "items": []
+      }
+    },
+    "FY2024": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 35.58,
+          "totalExpensesCr": 27.14,
+          "operatingProfitCr": 8.44,
+          "otherIncomeCr": 0.31,
+          "financeCostCr": 0.85,
+          "depreciationCr": 0.68,
+          "pbtCr": 7.22,
+          "patCr": 5.36,
+          "epsRs": 107.2,
+          "dividendCr": 0.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 35.58
+          },
+          {
+            "label": "Expenses+",
+            "current": 27.14
+          },
+          {
+            "label": "Operating Profit",
+            "current": 8.44
+          },
+          {
+            "label": "OPM %",
+            "current": 23.72
+          },
+          {
+            "label": "Other Income+",
+            "current": 0.31
+          },
+          {
+            "label": "Interest",
+            "current": 0.85
+          },
+          {
+            "label": "Depreciation",
+            "current": 0.68
+          },
+          {
+            "label": "Profit before tax",
+            "current": 7.22
+          },
+          {
+            "label": "Tax %",
+            "current": 25.9
+          },
+          {
+            "label": "Net Profit+",
+            "current": 5.36
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 107.2
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 35.58,
+          "totalExpensesCr": 27.14,
+          "operatingProfitCr": 8.44,
+          "otherIncomeCr": 0.31,
+          "financeCostCr": 0.85,
+          "depreciationCr": 0.68,
+          "pbtCr": 7.22,
+          "patCr": 5.36,
+          "epsRs": 107.2,
+          "dividendCr": 0.0
+        },
+        "items": []
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 35.58,
+          "totalExpensesCr": 27.14,
+          "operatingProfitCr": 8.44,
+          "otherIncomeCr": 0.31,
+          "financeCostCr": 0.85,
+          "depreciationCr": 0.68,
+          "pbtCr": 7.22,
+          "patCr": 5.36,
+          "epsRs": 107.2,
+          "dividendCr": 0.0
+        },
+        "items": []
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-05-14T13:19:06.895806+00:00",
+    "source": "screener.in/CURIS/consolidated",
+    "yearsCovered": [
+      "FY2023",
+      "FY2024"
+    ],
+    "reportingType": "nonFinancial",
+    "dataVersion": 2
+  }
+}

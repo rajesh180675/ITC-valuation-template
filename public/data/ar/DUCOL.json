@@ -1,0 +1,111 @@
+{
+  "ticker": "DUCOL",
+  "years": {
+    "FY2025": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 77.35,
+          "totalExpensesCr": 70.06,
+          "operatingProfitCr": 7.29,
+          "otherIncomeCr": 3.48,
+          "financeCostCr": 1.95,
+          "depreciationCr": 2.62,
+          "pbtCr": 6.2,
+          "patCr": 4.62,
+          "epsRs": 2.84,
+          "dividendCr": 0.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 77.35
+          },
+          {
+            "label": "Expenses+",
+            "current": 70.06
+          },
+          {
+            "label": "Operating Profit",
+            "current": 7.29
+          },
+          {
+            "label": "OPM %",
+            "current": 9.42
+          },
+          {
+            "label": "Other Income+",
+            "current": 3.48
+          },
+          {
+            "label": "Interest",
+            "current": 1.95
+          },
+          {
+            "label": "Depreciation",
+            "current": 2.62
+          },
+          {
+            "label": "Profit before tax",
+            "current": 6.2
+          },
+          {
+            "label": "Tax %",
+            "current": 25.32
+          },
+          {
+            "label": "Net Profit+",
+            "current": 4.62
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 2.84
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 77.35,
+          "totalExpensesCr": 70.06,
+          "operatingProfitCr": 7.29,
+          "otherIncomeCr": 3.48,
+          "financeCostCr": 1.95,
+          "depreciationCr": 2.62,
+          "pbtCr": 6.2,
+          "patCr": 4.62,
+          "epsRs": 2.84,
+          "dividendCr": 0.0
+        },
+        "items": []
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 77.35,
+          "totalExpensesCr": 70.06,
+          "operatingProfitCr": 7.29,
+          "otherIncomeCr": 3.48,
+          "financeCostCr": 1.95,
+          "depreciationCr": 2.62,
+          "pbtCr": 6.2,
+          "patCr": 4.62,
+          "epsRs": 2.84,
+          "dividendCr": 0.0
+        },
+        "items": []
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-05-14T13:22:08.073330+00:00",
+    "source": "screener.in/DUCOL/consolidated",
+    "yearsCovered": [
+      "FY2025"
+    ],
+    "reportingType": "nonFinancial",
+    "dataVersion": 2
+  }
+}

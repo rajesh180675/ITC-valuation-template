@@ -164,7 +164,7 @@ def extract_kpis(tables):
         'equity capital': None, 'reserves': None,
         'total shareholders funds': 'equityCr', 'total equity': 'equityCr',
         'shareholders funds': 'equityCr',
-        'total liabilities': 'totalAssetsCr', 'total assets': 'totalAssetsCr',
+        'total liabilities': 'totalLiabilitiesCr', 'total assets': 'totalAssetsCr',
         'borrowings+': 'borrowingsCr', 'fixed assets+': 'fixedAssetsCr',
         'investments': 'investmentsCr',
         'cash from operating activity+': 'cfoCr',
@@ -374,7 +374,10 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--ticker')
-    parser.add_argument('--batch', choices=['test', 'nifty50', 'nifty750'])
+    parser.add_argument('--batch',
+        choices=['test', 'nifty50', 'nifty750', 'file'])
+    parser.add_argument('--batch-file',
+        help='JSON file with tickers list (for --batch file)')
     parser.add_argument('--workers', type=int, default=1)
     parser.add_argument('--resume', action='store_true', help='Skip already-scraped tickers')
     args = parser.parse_args()
@@ -388,6 +391,13 @@ if __name__ == '__main__':
         if not tickers:
             sys.exit(1)
         log(f'Loaded {len(tickers)} tickers from nifty750_real.json')
+    elif args.batch == 'file':
+        if not args.batch_file:
+            log('ERROR: --batch-file required for --batch file')
+            sys.exit(1)
+        bf = json.load(open(args.batch_file, 'r', encoding='utf-8'))
+        tickers = bf.get('tickers', [])
+        log(f'Loaded {len(tickers)} tickers from {args.batch_file}')
     elif args.ticker:
         tickers = [args.ticker]
     else:
@@ -403,7 +413,7 @@ if __name__ == '__main__':
         log(f'FAILED tickers:')
         for r in results['details']:
             if not r.get('ok'):
-                log(f'  {r["ticker"]}: {r.get("error","?")}')
+                log(f' {r["ticker"]}: {r.get("error","?")}')
 
     # Save report
     report = {
@@ -415,7 +425,7 @@ if __name__ == '__main__':
         'skipped': results.get('skipped', 0),
         'elapsed_seconds': results.get('elapsed', 0),
         'failures': [{'ticker': r['ticker'], 'error': r.get('error','?')}
-                     for r in results.get('details', []) if not r.get('ok')],
+            for r in results.get('details', []) if not r.get('ok')],
     }
     report_path = os.path.join(ROOT, 'scripts', 'screener_scrape_report.json')
     json.dump(report, open(report_path, 'w'), indent=2)
