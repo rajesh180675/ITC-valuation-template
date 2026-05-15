@@ -128,7 +128,7 @@ export function AnnualReportsSection() {
         if (!r.ok) throw new Error(`HTTP ${r.status} - run python scripts/extract_ar.py --ticker ${activeTicker}`);
         return r.json() as Promise<AnnualReportDataFile>;
       }),
-      activeTicker === 'ITC' ? fetch('/data/segment_data_itc.json').then(r => r.ok ? r.json() : { segment_time_series: {} }).catch(() => ({ segment_time_series: {} })) : Promise.resolve(null),
+      fetch(`/data/segment_data_${activeTicker.toLowerCase()}.json`).then(r => r.ok ? r.json() : { segment_time_series: {} }).catch(() => ({ segment_time_series: {} })),
     ]).then(([ar, seg]) => {
       if (cancelled) return;
       if (!ar.years) throw new Error('Missing .years in AR data');
