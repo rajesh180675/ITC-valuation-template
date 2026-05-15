@@ -452,7 +452,7 @@ export function AnnualReportsSection() {
           )}
           {tab === 'segments' && (
             <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Chart rendering failed.</div>}>
-              <SegmentsView segData={segData} activeTicker={activeTicker} />
+              <SegmentsView segData={segData} />
             </ErrorBoundary>
           )}
           {tab === 'charts' && (
