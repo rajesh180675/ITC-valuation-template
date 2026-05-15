@@ -1,266 +1,127 @@
 {
   "symbol": "TCS",
   "basis": "consolidated",
-  "source": "ProQuest Annual Reports (2005-2025)",
-  "warnings": [],
+  "source": "TCS Annual Reports - Performance Trend Tables (2005-2025)",
   "segment_time_series": {
-    "assets|BFSI": {
-      "FY2005": 3119.48
-    },
-    "assets|Manufacturing": {
-      "FY2005": 1463.23,
-      "FY2009": 2803.21,
-      "FY2010": 273.36,
-      "FY2011": 320.46,
-      "FY2012": 1194.7,
-      "FY2013": 1194.7,
-      "FY2014": 1518.29,
-      "FY2016": 1938.46,
-      "FY2018": 3223.0
-    },
-    "assets|Retail and Distribution": {
-      "FY2005": 512.73,
-      "FY2009": 2478.46
-    },
-    "assets|Telecom": {
-      "FY2005": 1281.49,
-      "FY2009": 4532.5
-    },
     "revenue|Americas": {
-      "FY2009": 50.35
+      "FY2005": 5708.42,
+      "FY2006": 7568.8,
+      "FY2007": 9796.25,
+      "FY2008": 11388.49,
+      "FY2009": 15600.0,
+      "FY2010": 17273.0,
+      "FY2011": 21457.0,
+      "FY2012": 27570.0,
+      "FY2013": 35247.0,
+      "FY2014": 45259.0,
+      "FY2015": 51053.0,
+      "FY2016": 60011.0,
+      "FY2017": 66091.0,
+      "FY2018": 66145.0,
+      "FY2019": 77562.0,
+      "FY2020": 82000.0,
+      "FY2021": 84278.0,
+      "FY2022": 100072.0,
+      "FY2023": 124336.0,
+      "FY2024": 127939.0,
+      "FY2025": 127870.0
     },
     "revenue|Europe": {
-      "FY2009": 9.28
+      "FY2005": 662.02,
+      "FY2006": 916.42,
+      "FY2007": 2106.0,
+      "FY2008": 2930.0,
+      "FY2009": 8212.0,
+      "FY2010": 8010.0,
+      "FY2011": 9251.0,
+      "FY2012": 12382.0,
+      "FY2013": 16813.0,
+      "FY2014": 23433.0,
+      "FY2015": 26730.0,
+      "FY2016": 29092.0,
+      "FY2017": 30038.0,
+      "FY2018": 34155.0,
+      "FY2019": 43456.0,
+      "FY2020": 48037.0,
+      "FY2021": 52346.0,
+      "FY2022": 61142.0,
+      "FY2023": 67436.0,
+      "FY2024": 75624.0,
+      "FY2025": 79487.0
     },
     "revenue|India": {
-      "FY2009": 9.04
+      "FY2005": 1187.57,
+      "FY2006": 1656.91,
+      "FY2007": 2046.0,
+      "FY2008": 2182.0,
+      "FY2009": 2182.0,
+      "FY2010": 2598.0,
+      "FY2011": 3435.0,
+      "FY2012": 4202.0,
+      "FY2013": 4890.0,
+      "FY2014": 5488.0,
+      "FY2015": 6108.0,
+      "FY2016": 6729.0,
+      "FY2017": 7415.0,
+      "FY2018": 7921.0,
+      "FY2019": 8393.0,
+      "FY2020": 8964.0,
+      "FY2021": 8449.0,
+      "FY2022": 9805.0,
+      "FY2023": 11271.0,
+      "FY2024": 13562.0,
+      "FY2025": 22060.0
     },
-    "revenue|AsiaPacific": {
-      "FY2009": 5.27
+    "revenue|Others": {
+      "FY2005": 602.31,
+      "FY2006": 1062.94,
+      "FY2007": 1886.49,
+      "FY2008": 2582.39,
+      "FY2009": 1819.0,
+      "FY2010": 2148.0,
+      "FY2011": 3182.0,
+      "FY2012": 4740.0,
+      "FY2013": 6039.0,
+      "FY2014": 7629.0,
+      "FY2015": 10757.0,
+      "FY2016": 12814.0,
+      "FY2017": 14422.0,
+      "FY2018": 14883.0,
+      "FY2019": 17052.0,
+      "FY2020": 17948.0,
+      "FY2021": 19104.0,
+      "FY2022": 20735.0,
+      "FY2023": 22415.0,
+      "FY2024": 23768.0,
+      "FY2025": 25907.0
     },
-    "revenue|IberoAmericas": {
-      "FY2009": 4.45
+    "revenue|Rest of the world": {
+      "FY2007": 2582.0,
+      "FY2008": 3128.0,
+      "FY2009": 3566.0,
+      "FY2010": 4531.0,
+      "FY2011": 6246.0,
+      "FY2012": 7431.0,
+      "FY2013": 9503.0,
+      "FY2014": 9502.99,
+      "FY2015": 12725.29,
+      "FY2016": 14933.7,
+      "FY2017": 16867.0
     },
-    "revenue|Middle East and Africa": {
-      "FY2009": 1.7
-    },
-    "assets|expenses (allocable)": {
-      "FY2009": 32.53
-    },
-    "assets|Banking, Financial Services and Insurance": {
-      "FY2009": 12047.18,
-      "FY2018": 10341.0
-    },
-    "liabilities|expenses (allocable)": {
-      "FY2009": 16.62
-    },
-    "results|Banking,": {
-      "FY2010": 4190.08
-    },
-    "results|Manufacturing": {
-      "FY2010": 811.99,
-      "FY2011": 704.3,
-      "FY2016": 2914.59,
-      "FY2018": 3574.0,
-      "FY2019": 6644.0,
-      "FY2020": 6644.0,
-      "FY2022": 5253.0,
-      "FY2023": 9636.0,
-      "FY2024": 9636.0,
-      "FY2025": 7268.0
-    },
-    "results|Retail and": {
-      "FY2010": 949.02
-    },
-    "assets|Banking,": {
-      "FY2010": 1314.03
-    },
-    "assets|Retail and": {
-      "FY2010": 462.67
-    },
-    "liabilities|Banking,": {
-      "FY2010": 355.89
-    },
-    "liabilities|Manufacturing": {
-      "FY2010": 26.15,
-      "FY2011": 39.34,
-      "FY2012": 96.86,
-      "FY2013": 96.86,
-      "FY2014": 135.37,
-      "FY2016": 126.7,
-      "FY2018": 123.0
-    },
-    "liabilities|Retail and": {
-      "FY2010": 64.9
-    },
-    "results|Banking, Financial": {
-      "FY2011": 5170.84,
-      "FY2016": 12809.2
-    },
-    "results|Retail and Consumer": {
-      "FY2011": 1071.68,
-      "FY2016": 4111.78
-    },
-    "assets|Banking, Financial": {
-      "FY2011": 1797.98,
-      "FY2012": 4634.59,
-      "FY2013": 4634.59,
-      "FY2014": 5534.01,
-      "FY2016": 7130.9
-    },
-    "assets|Retail and Consumer": {
-      "FY2011": 474.36,
-      "FY2012": 1640.52,
-      "FY2013": 1640.52,
-      "FY2014": 2366.27,
-      "FY2016": 2797.72
-    },
-    "liabilities|Banking, Financial": {
-      "FY2011": 436.4,
-      "FY2012": 750.2,
-      "FY2013": 750.2,
-      "FY2014": 774.45,
-      "FY2016": 1123.13
-    },
-    "liabilities|Retail and Consumer": {
-      "FY2011": 87.35,
-      "FY2012": 83.75,
-      "FY2013": 83.75,
-      "FY2014": 114.71,
-      "FY2016": 137.92
-    },
-    "assets|Telecom, Media and": {
-      "FY2012": 2196.44,
-      "FY2013": 2196.44,
-      "FY2014": 2729.88,
-      "FY2016": 3051.07
-    },
-    "liabilities|Telecom, Media and": {
-      "FY2012": 169.23,
-      "FY2013": 169.23,
-      "FY2014": 145.11,
-      "FY2016": 280.21
-    },
-    "results|life sciences and healthcare Energy, resources and utilities revenue Segment result energy, resources and utilities": {
-      "FY2012": 602.64,
-      "FY2013": 602.64
-    },
-    "results|Hi-tech The hi-tech industry saw a structural shift in personal 19.26 computing industry due to consumers\u2019 growing preference for tablets and smart phones. New interfaces, touch and 55.24 gesture based user experiences, coupled with speech and contextual awareness, have enabled rich interaction with devices. Global economic uncertainty is forcing the hi-tech industry companies to reduce their operations cost with": {
-      "FY2012": 27.04,
-      "FY2013": 27.04
-    },
-    "results|enterprise mobility, information & communication technology (ICT) services and multipoint to multipoint (M2M) communication among small & medium businesses": {
-      "FY2014": 2580.64
-    },
-    "results|business processes and IT landscape, preventing risks of security breach and investing in building ef\ufb01cient systems. This segment continues to invest in consumer analytics,": {
-      "FY2014": 42.36
-    },
-    "results|Telecom, Media and": {
-      "FY2016": 3403.98
-    },
-    "results|Banking, Financial Services and Insurance": {
-      "FY2018": 13098.0,
-      "FY2021": 80108221.0,
-      "FY2022": 8010.0,
-      "FY2023": 5842.0,
-      "FY2024": 5842.0,
-      "FY2025": 23574.0
-    },
-    "results|Retail and Consumer Business": {
-      "FY2018": 5740.0,
-      "FY2019": 39469.0,
-      "FY2020": 39469.0,
-      "FY2022": 2968.0
-    },
-    "results|Communication, Media and Technology": {
-      "FY2018": 5552.0,
-      "FY2022": 46546.0,
-      "FY2023": 6894.0,
-      "FY2024": 6894.0,
-      "FY2025": 10918.0
-    },
-    "assets|Retail and Consumer Business": {
-      "FY2018": 5232.0
-    },
-    "assets|Communication, Media and Technology": {
-      "FY2018": 5104.0
-    },
-    "liabilities|Banking, Financial Services and Insurance": {
-      "FY2018": 1706.0
-    },
-    "liabilities|Retail and Consumer Business": {
-      "FY2018": 382.0
-    },
-    "liabilities|Communication, Media and Technology": {
-      "FY2018": 433.0
-    },
-    "results|\u0002 *'%*#\u010c\u01ab Financial Services and Insurance": {
-      "FY2019": 6871.0,
-      "FY2020": 6871.0
-    },
-    "results|Year ended March 31,": {
-      "FY2019": 5554.0,
-      "FY2020": 5554.0,
-      "FY2022": 15830.0
-    },
-    "results|(` crore) Year ended March 31, 2019 77,562": {
-      "FY2019": 8964.0,
-      "FY2020": 8964.0
-    },
-    "revenue|Banking, Financial Services and Insurance": {
-      "FY2021": 61095.0,
-      "FY2022": 18610.0,
-      "FY2023": 21236.0,
-      "FY2024": 21236.0,
-      "FY2025": 90928.0
-    },
-    "revenue|Manufacturing Retail and": {
-      "FY2021": 16468.0
-    },
-    "revenue|Communication, Consumer Media and Business Technology": {
-      "FY2021": 26280.0
-    },
-    "results|each reportable segment. Expenses which are not directly identifiable to each reporting segment have been allocated on the basis of associated revenue of the segment or manpower efforts. All other expenses which are not attributable or allocable to segments have been disclosed as unallocable": {
-      "FY2021": 7151.0
-    },
-    "results|Manufacturing Retail and": {
-      "FY2021": 46546.0
-    },
-    "revenue|Manufacturing": {
-      "FY2022": 30715.0,
-      "FY2023": 37506.0,
-      "FY2024": 37506.0,
-      "FY2025": 23491.0
-    },
-    "revenue|Retail and Consumer Business": {
-      "FY2022": 31874.0
-    },
-    "revenue|Communication, Media and Technology": {
-      "FY2022": 20462.0,
-      "FY2023": 24605.0,
-      "FY2024": 24605.0,
-      "FY2025": 39391.0
-    },
-    "revenue|Life Sciences and Healthcare": {
-      "FY2022": 14967.0,
-      "FY2023": 18331225458.0,
-      "FY2024": 18331225458.0,
-      "FY2025": 26745.0
-    },
-    "revenue|Consumer Business": {
-      "FY2023": 37653.0,
-      "FY2024": 37653.0,
-      "FY2025": 39357.0
-    },
-    "results|Consumer Business": {
-      "FY2023": 10667.0,
-      "FY2024": 10667.0,
-      "FY2025": 10252.0
-    },
-    "results|Life Sciences and Healthcare": {
-      "FY2023": 3875.0,
-      "FY2024": 3875.0,
-      "FY2025": 7611.0
+    "revenue|UK": {
+      "FY2005": 1588.15,
+      "FY2006": 2058.92,
+      "FY2007": 4498.0,
+      "FY2008": 5282.0,
+      "FY2009": 4860.0,
+      "FY2010": 5771.0,
+      "FY2011": 7453.0,
+      "FY2012": 7453.28,
+      "FY2013": 10760.53,
+      "FY2014": 14251.38,
+      "FY2015": 15783.29,
+      "FY2016": 17171.43,
+      "FY2017": 16404.0
     }
   }
 }
