@@ -27,7 +27,7 @@ export function SegmentsView({ segData }: { segData: any }) {
   }
 
   const allFys = useMemo(() => [...new Set(Object.values(series as Record<string, Record<string, number>>).flatMap(v => Object.keys(v)))].sort(), [series]);
-  const displayFys = allFys.filter(fy => fy >= 'FY2010');
+  const displayFys = allFys.filter(fy => fy >= 'FY2005');
   const latestFy = displayFys.length > 0 ? displayFys[displayFys.length - 1] : allFys[allFys.length - 1];
   const basis = segData?.basis ? String(segData.basis) : 'standalone';
   const coverage = segData?.coverageBySection as Record<string, { items?: number }> | undefined;

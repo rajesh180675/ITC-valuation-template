@@ -571,6 +571,8 @@ def _clean_segment_label(raw):
     ll = re.sub(r'^[a-e]\)\s*', '', ll).strip()
     ll = ll.strip(':,. ')
     ll = re.sub(r'\s+', ' ', ll).strip()
+    # Strip trailing numbers/percentages that leaked in (e.g. "Americas 51.38")
+    ll = re.sub(r'\s+\d+[\.\d]*%?\s*$', '', ll).strip()
     return ll if len(ll) > 2 and len(ll) < 60 else None
 
 def _is_excluded_segment(name):
