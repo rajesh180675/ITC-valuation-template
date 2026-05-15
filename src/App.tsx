@@ -125,7 +125,7 @@ export default function App() {
           </div>
           {sidebarOpen && (
             <div className="animate-fadeIn">
-              <h1 className="text-sm font-bold text-white leading-tight">ITC Limited</h1>
+              <h1 className="text-sm font-bold text-white leading-tight">Valuation Tool</h1>
               <p className="text-[10px] text-gray-400">Data & Valuation Tool</p>
             </div>
           )}
