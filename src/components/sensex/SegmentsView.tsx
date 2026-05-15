@@ -17,17 +17,41 @@ function isCoreSegment(name: string) {
   return !lower.includes('total') && !lower.includes('elimination') && !lower.includes('unallocated') && !lower.includes('discontinued');
 }
 
+function normalizeFy(raw: string) {
+  const s = String(raw || '').trim().replace('*', '');
+  const range = s.match(/^(?:FY)?(\d{4})-(\d{2})$/);
+  if (range) return `FY${Number(range[1]) + 1}`;
+  const fiscal = s.match(/^Fiscal\s*(\d{4})$/i);
+  if (fiscal) return `FY${fiscal[1]}`;
+  const year = s.match(/^(?:FY)?(\d{4})$/);
+  if (year) return `FY${year[1]}`;
+  return s;
+}
+
+function normalizeSeries(series: Record<string, Record<string, number>>) {
+  const out: Record<string, Record<string, number>> = {};
+  Object.entries(series).forEach(([key, values]) => {
+    out[key] = out[key] || {};
+    Object.entries(values || {}).forEach(([fy, value]) => {
+      const nfy = normalizeFy(fy);
+      if (typeof value === 'number' && !Number.isNaN(value)) out[key][nfy] = value;
+    });
+  });
+  return out;
+}
+
 /* ── Segments View (company-agnostic) ──────────────────────────────────────── *
  * Expects segData.segment_time_series = Record<prefix|segment, Record<fy, value>>
  */
 export function SegmentsView({ segData }: { segData: any }) {
-  const series = segData?.segment_time_series;
+  const rawSeries = segData?.segment_time_series;
+  const series = useMemo(() => rawSeries ? normalizeSeries(rawSeries as Record<string, Record<string, number>>) : null, [rawSeries]);
   if (!series || Object.keys(series).length === 0) {
     return <div className="glass-card p-5 text-center text-gray-400">No segment data for this company.</div>;
   }
 
-  const allFys = useMemo(() => [...new Set(Object.values(series as Record<string, Record<string, number>>).flatMap(v => Object.keys(v)))].sort(), [series]);
-  const displayFys = allFys.filter(fy => fy >= 'FY2005');
+  const allFys = useMemo(() => [...new Set(Object.values(series).flatMap(v => Object.keys(v)))].filter(fy => /^FY\d{4}$/.test(fy)).sort(), [series]);
+  const displayFys = allFys;
   const latestFy = displayFys.length > 0 ? displayFys[displayFys.length - 1] : allFys[allFys.length - 1];
   const basis = segData?.basis ? String(segData.basis) : 'standalone';
   const coverage = segData?.coverageBySection as Record<string, { items?: number }> | undefined;
