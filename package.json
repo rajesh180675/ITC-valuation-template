@@ -30,7 +30,9 @@
     "data:audit-ar": "python scripts/audit_ar_quality.py",
     "data:refresh-ar": "npm run scrape:ar && npm run data:build-manifest && npm run data:audit-ar",
     "data:refresh-yf": "python scripts/yfinance_collector.py --batch missing --resume && npm run data:build-manifest && npm run data:audit-ar",
-    "data:refresh-all": "npm run data:refresh-yf && npm run data:refresh-nifty750"
+    "data:refresh-all": "npm run data:refresh-yf && npm run data:refresh-nifty750",
+    "data:extract-segments": "python scripts/build_segment_data.py --ticker ITC --pdf-dir public/data/annual_reports",
+    "data:extract-segments:batch": "python scripts/build_segment_data.py --list scripts/data_collector/nifty50.txt --pdf-dir public/data/annual_reports"
   },
   "dependencies": {
     "clsx": "2.1.1",
