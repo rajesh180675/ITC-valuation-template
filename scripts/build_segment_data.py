@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """
-Generic Segment Data Pipeline — NSE Annual Report PDF Extraction
-=================================================================
-Downloads annual/integrated reports from NSE corporate filings and extracts
-segment revenue/results/assets/liabilities tables for any NSE-listed company.
-
-Outputs per-ticker JSON in the format expected by SegmentsView frontend:
-  public/data/segment_data_<ticker>.json
+Segment Data Pipeline — NSE Discovery + PDF Extraction
+=======================================================
+Automatically discovers annual reports from NSE filings and extracts
+segment data. Supports three input methods:
+  1. --ticker: Discover ARs via NSE announcements API
+  2. --pdf-dir: Process local PDFs matching pattern <TICKER>_AR_<YYYY>.pdf
+  3. --urls: Provide URLs directly (JSON file with {ticker: [urls]})
 
 Usage:
-  python scripts/build_segment_data.py --ticker ITC --years 10
+  python scripts/build_segment_data.py --ticker ITC
   python scripts/build_segment_data.py --ticker RELIANCE --years 5
-  python scripts/build_segment_data.py --list scripts/data_collector/nifty50.txt --years 10
+  python scripts/build_segment_data.py --pdf-dir public/data/annual_reports --ticker ITC
+  python scripts/build_segment_data.py --urls scripts/ar_urls.json
 """
 
 import sys, os, re, json, time, math, hashlib
@@ -33,6 +34,13 @@ HEADERS = {
     "Referer": "https://www.nseindia.com/",
 }
 
+# ── Known company IR pages for manual URL fallback ───────────────────────────
+# These are common patterns where companies host their annual reports.
+# If NSE API doesn't find ARs, the user can provide URLs directly.
+COMPANY_IR_PATTERNS = {
+    # 'TICKER': 'https://example.com/ar/{year}.pdf'
+}
+
 # ── NSE Session ──────────────────────────────────────────────────────────────
 _NSE = None
 def nse_session():
@@ -44,76 +52,86 @@ def nse_session():
         _NSE = s
     return _NSE
 
-# ── Find Annual Report PDFs ──────────────────────────────────────────────────
-def find_annual_reports(symbol, max_years=10):
-    """Search NSE for annual/integrated report PDFs. Returns list of (fy, url)."""
+# ── Discover AR PDFs via NSE ─────────────────────────────────────────────────
+def discover_ar_from_nse(ticker, max_years=10):
+    """
+    Search NSE corporate announcements for annual report PDFs.
+    Returns list of (fy, url) tuples.
+    """
     try:
         s = nse_session()
         r = s.get(
-            f"https://www.nseindia.com/api/corporate-announcements?index=equities&symbol={symbol}",
+            f"https://www.nseindia.com/api/corporate-announcements?index=equities&symbol={ticker}",
             timeout=20
         )
         if r.status_code != 200:
+            print(f"  NSE API error: {r.status_code}")
             return []
 
         items = r.json()
-        items = items if isinstance(items, list) else items.get('items', items.get('data', []))
+        if not isinstance(items, list):
+            print(f"  NSE API returned unexpected format")
+            return []
+
+        # AR filename patterns
+        ar_patterns = [
+            r'annualreport', r'integratedannual', r'reportandaccounts',
+            r'noticeiar', r'_iar[_.]', r'annual_report', r'annual-report',
+            r'integrated_report', r'integrated-report', r'_ar[_.]',
+            r'integrated_results'
+        ]
 
         reports = []
         seen_years = set()
 
-        for item in items[:300]:
-            desc = str(item.get('desc', '')).lower() + str(item.get('attchmntText', '')).lower()
+        for item in items:
             pdf = item.get('attchmntFile', '')
-            if not pdf:
+            if not pdf or '.pdf' not in pdf:
                 continue
 
-            # Skip non-financial filings
-            skip = ['voting', 'newspaper', 'scrutinizer', 'notice', 'dividend', 'result', 'quarterly']
-            if any(sk in desc for sk in skip):
-                continue
+            pdf_lower = pdf.lower()
 
-            score = 0
-            if 'integrated' in desc and 'report' in desc:
-                score = 3
-            elif 'annual' in desc and 'report' in desc:
-                score = 2
+            # Check if filename matches AR pattern
+            is_ar = any(re.search(p, pdf_lower) for p in ar_patterns)
 
-            if score == 0:
-                continue
+            # Check description/text for AR mentions
+            desc = str(item.get('desc', '')).lower()
+            text = str(item.get('attchmntText', '')).lower()
+            combined = desc + ' ' + text
 
-            # Extract year from description or date
-            year_match = re.search(r'(20\d{2})', desc)
-            if not year_match:
+            # Exclude noise
+            is_noise = any(kw in pdf_lower for kw in [
+                'compliance', 'brsr', 'secretarial', 'newspaper', 'voting',
+                'scrutinizer', 'demat', 'remat', 'monthly', 'limited review',
+                'agm', 'proceeding', 'chairman'
+            ])
+
+            if is_ar and not is_noise:
+                # Extract year from date
                 date_str = item.get('an_dt', '')
                 year_match = re.search(r'(20\d{2})', date_str)
-            if not year_match:
-                continue
+                if not year_match:
+                    # Try to extract from filename
+                    year_match = re.search(r'(20\d{2})', pdf)
+                if not year_match:
+                    continue
 
-            year = int(year_match.group(1))
-            fy = f"FY{year}"
-            if fy in seen_years:
-                continue
-            seen_years.add(fy)
+                year = int(year_match.group(1))
+                fy = f"FY{year}"
 
-            reports.append((fy, pdf, score))
+                if fy in seen_years:
+                    continue
+                seen_years.add(fy)
 
-        # Sort by score (best first) then by year
-        reports.sort(key=lambda x: (-x[2], x[0]))
+                reports.append((fy, pdf, date_str))
 
-        # Keep only unique best per year, limited to max_years
-        seen = set()
-        result = []
-        for fy, url, _ in reports:
-            if fy not in seen:
-                seen.add(fy)
-                result.append((fy, url))
-                if len(result) >= max_years:
-                    break
+        # Sort by date (most recent first) and limit to max_years
+        reports.sort(key=lambda x: x[2], reverse=True)
+        reports = reports[:max_years]
 
-        return result
+        return [(fy, url) for fy, url, _ in reports]
     except Exception as e:
-        print(f"  NSE search error: {e}")
+        print(f"  NSE discovery error: {e}")
         return []
 
 # ── Download PDF ─────────────────────────────────────────────────────────────
@@ -343,13 +361,11 @@ def _is_skip_heading(l):
 
 def _clean_segment_label(raw):
     """Clean a segment label to extract the segment name."""
-    # Remove references, note numbers, etc.
     ll = re.sub(r'\(refer note [^)]+\)', '', raw, flags=re.I).strip()
     ll = re.sub(r'\[.*?\]', '', ll).strip()
     ll = re.sub(r'^(?:\d+\.?\s*)+', '', ll).strip()
     ll = re.sub(r'^[a-e]\)\s*', '', ll).strip()
     ll = ll.strip(':,. ')
-    # Normalize whitespace
     ll = re.sub(r'\s+', ' ', ll).strip()
     return ll if len(ll) > 2 and len(ll) < 60 else None
 
@@ -380,27 +396,23 @@ def build_time_series(all_data, target_fys):
     time_series = defaultdict(dict)
 
     for fy, section_data, _ in all_data:
-        fy_key = fy  # e.g. "FY2024"
+        fy_key = fy
 
         for section, segments in section_data.items():
-            metric_prefix = section  # revenue, results, assets, liabilities
+            metric_prefix = section
 
             for seg_name, values in segments.items():
                 key = f"{metric_prefix}|{seg_name}"
 
-                # Current year value for this FY
                 if values.get('cur') is not None:
                     time_series[key][fy_key] = values['cur']
 
-                # Prior year value -> maps to FY(year-1)
                 if values.get('pri') is not None:
                     pri_year = _fy_to_prior(fy_key)
                     if pri_year:
-                        # Only set if not already populated (prefer current-year extraction)
                         if pri_year not in time_series[key]:
                             time_series[key][pri_year] = values['pri']
 
-    # Convert defaultdict to regular dict and sort keys
     return {k: dict(sorted(v.items())) for k, v in time_series.items()}
 
 def _fy_to_prior(fy_key):
@@ -411,48 +423,76 @@ def _fy_to_prior(fy_key):
         return f"FY{year - 1}"
     return None
 
-# ── Process One Company ──────────────────────────────────────────────────────
+# ── Process One Company (NSE Discovery) ──────────────────────────────────────
 def process_ticker(ticker, max_years=10):
-    """Full pipeline for one company. Returns output dict or None."""
+    """Full pipeline: discover ARs via NSE, download, extract."""
     print(f"\n{'='*60}")
-    print(f"  {ticker}: Finding annual reports (max {max_years} years)...")
+    print(f"  {ticker}: Discovering annual reports from NSE (max {max_years} years)...")
 
-    reports = find_annual_reports(ticker, max_years=max_years)
+    reports = discover_ar_from_nse(ticker, max_years=max_years)
     if not reports:
         print(f"  {ticker}: No annual reports found on NSE")
+        print(f"  {ticker}: Try providing PDFs via --pdf-dir or --urls")
         return None
 
     print(f"  {ticker}: Found {len(reports)} report(s): {', '.join(fy for fy, _ in reports)}")
 
+    return _process_reports(ticker, reports, max_years)
+
+# ── Process One Company (Local PDFs) ─────────────────────────────────────────
+def find_local_pdfs(ticker, pdf_dir):
+    """Find local PDF files matching <TICKER>_AR_<YYYY>.pdf pattern."""
+    if not os.path.isdir(pdf_dir):
+        return []
+    pdfs = []
+    for f in sorted(os.listdir(pdf_dir)):
+        if f.startswith(f"{ticker}_AR_") and f.endswith('.pdf'):
+            m = re.search(r'(\d{4})\.pdf$', f)
+            if m:
+                year = int(m.group(1))
+                fy = f"FY{year}"
+                pdfs.append((fy, os.path.join(pdf_dir, f)))
+    return pdfs
+
+def process_local_pdfs(ticker, pdfs, max_years=10):
+    """Process local PDFs instead of downloading from NSE."""
+    print(f"\n{'='*60}")
+    print(f"  {ticker}: Found {len(pdfs)} local PDFs: {', '.join(fy for fy, _ in pdfs)}")
+
+    reports = [(fy, path) for fy, path in pdfs[:max_years]]
+    return _process_reports(ticker, reports, max_years, is_local=True)
+
+# ── Process Reports (shared logic) ───────────────────────────────────────────
+def _process_reports(ticker, reports, max_years=10, is_local=False):
+    """Common pipeline: download (if needed) -> extract -> build time series."""
     all_data = []
     warnings = []
     source_pages_by_year = {}
 
-    for fy, pdf_url in reports:
-        print(f"  {ticker} {fy}: Downloading...", end='', flush=True)
-        pdf_path = download_pdf(pdf_url, ticker, fy)
-        if not pdf_path:
-            print(" download failed")
-            warnings.append(f"{fy}: Download failed")
-            continue
-
-        print(f" done ({os.path.getsize(pdf_path)//1024} KB)", flush=True)
-        print(f"  {ticker} {fy}: Extracting segment data...", end='', flush=True)
+    for fy, source in reports[:max_years]:
+        if is_local:
+            pdf_path = source
+            print(f"  {ticker} {fy}: Extracting from local PDF...", end='', flush=True)
+        else:
+            pdf_url = source
+            print(f"  {ticker} {fy}: Downloading...", end='', flush=True)
+            pdf_path = download_pdf(pdf_url, ticker, fy)
+            if not pdf_path:
+                print(" download failed")
+                warnings.append(f"{fy}: Download failed")
+                continue
+            print(f" done ({os.path.getsize(pdf_path)//1024} KB)", flush=True)
+            print(f"  {ticker} {fy}: Extracting...", end='', flush=True)
 
         result = extract_segment_data_from_pdf(pdf_path, fy)
         if not result:
-            print(" extraction failed")
-            warnings.append(f"{fy}: Extraction failed")
-            continue
-
-        section_data, source_pages = result
-        if not section_data:
             print(" no segment data found")
             warnings.append(f"{fy}: No segment data in PDF")
             continue
 
+        section_data, source_pages = result
         num_segments = len(section_data.get('revenue', {}))
-        print(f" {num_segments} segments found (revenue)")
+        print(f" {num_segments} segments")
         all_data.append((fy, section_data, source_pages))
         source_pages_by_year[fy] = source_pages
 
@@ -460,11 +500,8 @@ def process_ticker(ticker, max_years=10):
         print(f"  {ticker}: No segment data extracted from any PDF")
         return None
 
-    # Build time series
     time_series = build_time_series(all_data, [fy for fy, _ in reports])
-
-    # Determine basis (standalone vs consolidated)
-    basis = _determine_basis(reports, all_data)
+    basis = _determine_basis(reports, is_local)
 
     output = {
         "symbol": ticker,
@@ -477,26 +514,61 @@ def process_ticker(ticker, max_years=10):
 
     return output
 
-def _determine_basis(reports, all_data):
+def _determine_basis(reports, is_local=False):
     """Try to determine if data is standalone or consolidated."""
-    # Check URLs for 'standalone' or 'consolidated'
-    for fy, url in reports:
-        if 'standalone' in url.lower():
+    for fy, source in reports:
+        if is_local:
+            name = os.path.basename(source).lower()
+        else:
+            name = source.lower()
+        if 'standalone' in name:
             return 'standalone'
-        if 'consolidated' in url.lower():
+        if 'consolidated' in name or 'consol' in name:
             return 'consolidated'
-    # Default: prefer standalone if available
+    # Default: prefer standalone if we found standalone pages
     return 'standalone'
+
+# ── Process from URL list ────────────────────────────────────────────────────
+def process_from_urls(url_file):
+    """Process tickers from a JSON file with {ticker: [url1, url2, ...]}."""
+    with open(url_file) as f:
+        data = json.load(f)
+
+    results = {}
+    for ticker, urls in data.items():
+        reports = []
+        for url in urls:
+            # Try to extract year from URL
+            year_match = re.search(r'(20\d{2})', url)
+            fy = f"FY{year_match.group(1)}" if year_match else "FYUnknown"
+            reports.append((fy, url))
+
+        result = _process_reports(ticker, reports)
+        if result:
+            output_path = os.path.join(OUTPUT_DIR, f"segment_data_{ticker.lower()}.json")
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(result, f, indent=2, ensure_ascii=False)
+            print(f"  {ticker}: Saved to {output_path}")
+            results[ticker] = result
+        time.sleep(2)
+
+    return results
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Extract segment data from NSE annual reports")
+    parser = argparse.ArgumentParser(description="Extract segment data from annual report PDFs")
     parser.add_argument('--ticker', help='Single ticker (e.g., ITC)')
     parser.add_argument('--list', help='File with tickers (one per line)')
     parser.add_argument('--pdf-dir', help='Directory with local PDFs (pattern: <TICKER>_AR_<YYYY>.pdf)')
+    parser.add_argument('--urls', help='JSON file with {ticker: [url1, url2, ...]}')
     parser.add_argument('--years', type=int, default=10, help='Max years to extract (default: 10)')
     args = parser.parse_args()
+
+    if args.urls:
+        # Process from URL file
+        process_from_urls(args.urls)
+        return
 
     tickers = []
     if args.ticker:
@@ -512,7 +584,7 @@ def main():
 
     success = 0
     for ticker in tickers:
-        # First check for local PDFs
+        # Priority: local PDFs > NSE discovery
         local_pdfs = find_local_pdfs(ticker, args.pdf_dir or PDF_DIR)
         if local_pdfs:
             result = process_local_pdfs(ticker, local_pdfs, max_years=args.years)
@@ -534,72 +606,6 @@ def main():
         time.sleep(2)
 
     print(f"\nDone. {success}/{len(tickers)} tickers processed successfully.")
-
-def find_local_pdfs(ticker, pdf_dir):
-    """Find local PDF files matching <TICKER>_AR_<YYYY>.pdf pattern."""
-    if not os.path.isdir(pdf_dir):
-        return []
-    pdfs = []
-    for f in sorted(os.listdir(pdf_dir)):
-        if f.startswith(f"{ticker}_AR_") and f.endswith('.pdf'):
-            m = re.search(r'(\d{4})\.pdf$', f)
-            if m:
-                year = int(m.group(1))
-                fy = f"FY{year}"
-                pdfs.append((fy, os.path.join(pdf_dir, f)))
-    return pdfs
-
-def process_local_pdfs(ticker, pdfs, max_years=10):
-    """Process local PDFs instead of downloading from NSE."""
-    print(f"\n{'='*60}")
-    print(f"  {ticker}: Found {len(pdfs)} local PDFs: {', '.join(fy for fy, _ in pdfs)}")
-
-    all_data = []
-    warnings = []
-    source_pages_by_year = {}
-
-    for fy, pdf_path in pdfs[:max_years]:
-        print(f"  {ticker} {fy}: Extracting...", end='', flush=True)
-        result = extract_segment_data_from_pdf(pdf_path, fy)
-        if not result:
-            print(" FAILED")
-            warnings.append(f"{fy}: Extraction failed")
-            continue
-
-        section_data, source_pages = result
-        if not section_data:
-            print(" no segment data")
-            warnings.append(f"{fy}: No segment data")
-            continue
-
-        num_segments = len(section_data.get('revenue', {}))
-        print(f" {num_segments} segments")
-        all_data.append((fy, section_data, source_pages))
-        source_pages_by_year[fy] = source_pages
-
-    if not all_data:
-        print(f"  {ticker}: No segment data extracted")
-        return None
-
-    time_series = build_time_series(all_data, [fy for fy, _ in pdfs])
-    basis = _determine_basis_local(pdf_path)
-
-    output = {
-        "symbol": ticker,
-        "basis": basis,
-        "source": f"NSE Annual Reports - Segment Reporting ({basis.title()})",
-        "sourcePagesByYear": source_pages_by_year,
-        "warnings": warnings,
-        "segment_time_series": time_series,
-    }
-    return output
-
-def _determine_basis_local(pdf_path):
-    """Try to determine basis from PDF filename."""
-    name = os.path.basename(pdf_path).lower()
-    if 'consol' in name:
-        return 'consolidated'
-    return 'standalone'
 
 if __name__ == '__main__':
     main()
