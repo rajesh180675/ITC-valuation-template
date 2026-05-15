@@ -3,68 +3,42 @@
   "basis": "standalone",
   "source": "NSE Annual Reports - Segment Reporting (Standalone)",
   "sourcePagesByYear": {
-    "FY2019": {
-      "assets": 170,
-      "revenue": 71
+    "FY2025": {
+      "revenue": 230,
+      "results": 230
     }
   },
   "warnings": [],
   "segment_time_series": {
-    "assets|Americas (1)": {
-      "FY2018": 66145.0,
-      "FY2019": 77562.0
+    "revenue|Banking, Financial Services and Insurance": {
+      "FY2025": 90928.0
     },
-    "assets|Europe (2)": {
-      "FY2018": 34155.0,
-      "FY2019": 43456.0
+    "revenue|Manufacturing": {
+      "FY2025": 23491.0
     },
-    "assets|India": {
-      "FY2018": 7921.0,
-      "FY2019": 8393.0
+    "revenue|Consumer Business": {
+      "FY2025": 39357.0
     },
-    "assets|Others": {
-      "FY2018": 14883.0,
-      "FY2019": 17052.0
+    "revenue|Communication, Media and Technology": {
+      "FY2025": 39391.0
     },
-    "revenue|FY 2019 Growth": {
-      "FY2019": 2019.0
+    "revenue|Life Sciences and Healthcare": {
+      "FY2025": 26745.0
     },
-    "revenue|(FY 2018)": {
-      "FY2018": -2018.0
+    "results|Banking, Financial Services and Insurance": {
+      "FY2025": 23574.0
     },
-    "revenue|Banking, 57,938": {
-      "FY2018": 27.8,
-      "FY2019": 19.7
+    "results|Manufacturing": {
+      "FY2025": 7268.0
     },
-    "revenue|Financial (48,418)": {
-      "FY2018": -26.9
+    "results|Consumer Business": {
+      "FY2025": 10252.0
     },
-    "revenue|Communication, 23,925": {
-      "FY2018": 27.8,
-      "FY2019": 13.2
+    "results|Communication, Media and Technology": {
+      "FY2025": 10918.0
     },
-    "revenue|Media and (21,131)": {
-      "FY2018": -27.4
-    },
-    "revenue|Retail and 25,164": {
-      "FY2018": 27.3,
-      "FY2019": 19.5
-    },
-    "revenue|Consumer (21,055)": {
-      "FY2018": -26.5
-    },
-    "revenue|Manufacturing 15,682": {
-      "FY2018": 27.5
-    },
-    "revenue|(13,361)": {
-      "FY2018": -27.7
-    },
-    "revenue|Others 23,754": {
-      "FY2018": 23.4,
-      "FY2019": 24.1
-    },
-    "revenue|(19,139)": {
-      "FY2018": -22.7
+    "results|Life Sciences and Healthcare": {
+      "FY2025": 7611.0
     }
   }
 }

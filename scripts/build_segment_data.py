@@ -174,7 +174,7 @@ def extract_segment_data_from_pdf(pdf_path, target_fy):
     Extract segment revenue/results/assets/liabilities from a single annual report PDF.
     Returns dict: { section: { segment_name: { 'cur': val, 'pri': val } } }
 
-    Strategy: scan all pages, find segment reporting sections, prefer standalone.
+    Strategy: scan all pages, try column-based (TCS) then row-based (ITC) extraction.
     """
     try:
         doc = fitz.open(pdf_path)
@@ -214,21 +214,225 @@ def extract_segment_data_from_pdf(pdf_path, target_fy):
     # Sort by score (standalone first), then by page number
     candidates.sort(key=lambda x: (-x[1], x[0]))
 
-    # Extract from the best candidate page
+    # Try column-based extraction first (TCS style - segment names as column headers)
     results = {}
     source_pages = {}
 
     for page_idx, score in candidates:
         page = doc[page_idx]
-        extracted = _extract_from_page(page, page_idx)
-        if extracted:
+        extracted = _extract_from_page_columns(page, page_idx)
+        if extracted and extracted[0]:
             results.update(extracted[0])
             source_pages.update(extracted[1])
-            # If we got data from a standalone page, stop
             if score >= 2:
                 break
 
+    # If column-based failed, try row-based extraction (ITC style)
+    if not results:
+        for page_idx, score in candidates:
+            page = doc[page_idx]
+            extracted = _extract_from_page(page, page_idx)
+            if extracted:
+                results.update(extracted[0])
+                source_pages.update(extracted[1])
+                if score >= 2:
+                    break
+
     doc.close()
+    return (results, source_pages) if results else None
+
+
+def _extract_from_page_columns(page, page_idx):
+    """
+    Column-based extraction for TCS-style segment tables.
+    Segment names are in the header row, metrics are in data rows.
+    Returns (section_data, source_pages) or None.
+    """
+    blocks = page.get_text('dict')['blocks']
+    cells = []
+    for block in blocks:
+        if 'lines' in block:
+            for line in block['lines']:
+                spans = line['spans']
+                t = ''.join(s['text'] for s in spans).strip()
+                if t:
+                    cells.append((spans[0]['bbox'][0], line['bbox'][1], t))
+
+    if not cells:
+        return None
+
+    cells.sort(key=lambda c: (c[1], c[0]))
+
+    # Group into rows
+    rows = []
+    cur_y, cur_row = None, []
+    for x, y, t in cells:
+        if cur_y is None or abs(y - cur_y) < 6:
+            cur_row.append((x, t))
+            cur_y = y
+        else:
+            if cur_row:
+                rows.append((cur_y, sorted(cur_row, key=lambda c: c[0])))
+            cur_row = [(x, t)]
+            cur_y = y
+    if cur_row:
+        rows.append((cur_y, sorted(cur_row, key=lambda c: c[0])))
+
+    # Find the header block with segment names (may span multiple lines)
+    # Look for rows with 2+ business segment indicators
+    segment_indicators = [
+        'banking', 'financial services', 'manufacturing', 'consumer',
+        'communication', 'media', 'technology', 'life sciences',
+        'healthcare', 'retail', 'energy', 'resources', 'utilities',
+        'insurance'  # Added for BFSI segment names
+    ]
+
+    # Find all header rows (consecutive rows with segment indicators)
+    # First pass: find rows with 2+ indicators (strong matches)
+    header_row_indices = []
+    for i, (y, row_cells) in enumerate(rows):
+        row_text = ' '.join(t for _, t in row_cells).lower()
+        indicators_found = sum(1 for ind in segment_indicators if ind in row_text)
+        if indicators_found >= 2:
+            header_row_indices.append(i)
+
+    # If we found strong matches, expand to include adjacent rows with 1+ indicators
+    # (handles multi-line headers where continuation lines have fewer indicators)
+    if header_row_indices:
+        expanded = set(header_row_indices)
+        for idx in header_row_indices:
+            # Check rows before and after
+            for offset in [-2, -1, 1, 2]:
+                neighbor = idx + offset
+                if 0 <= neighbor < len(rows):
+                    y, row_cells = rows[neighbor]
+                    row_text = ' '.join(t for _, t in row_cells).lower()
+                    indicators_found = sum(1 for ind in segment_indicators if ind in row_text)
+                    if indicators_found >= 1:
+                        expanded.add(neighbor)
+        header_row_indices = sorted(expanded)
+
+    # Combine consecutive header rows into a single header
+    if not header_row_indices:
+        return None
+
+    # Group consecutive header rows
+    header_groups = []
+    current_group = [header_row_indices[0]]
+    for idx in header_row_indices[1:]:
+        if idx == current_group[-1] + 1:
+            current_group.append(idx)
+        else:
+            header_groups.append(current_group)
+            current_group = [idx]
+    header_groups.append(current_group)
+
+    # Use the largest group (most consecutive header rows)
+    best_group = max(header_groups, key=len)
+    header_start = best_group[0]
+    header_end = best_group[-1]
+
+    # Combine header rows and extract segment names
+    # Use the first header row's X positions as column anchors
+    first_header_row = rows[header_start][1]  # (y, row_cells)
+    col_anchors = []
+    for x, t in first_header_row:
+        # Include all columns (even Total) as anchors for proper cell grouping
+        col_anchors.append(x)
+
+    # Group all header cells by nearest column anchor
+    header_cells_by_col = {anchor: [] for anchor in col_anchors}
+    for i in range(header_start, header_end + 1):
+        y, row_cells = rows[i]
+        for x, t in row_cells:
+            # Find nearest column anchor
+            if col_anchors:
+                nearest = min(col_anchors, key=lambda a: abs(x - a))
+                if abs(x - nearest) < 60:  # Within 60 points of anchor
+                    header_cells_by_col[nearest].append(t.strip())
+
+    # Combine text in each column to form segment names
+    segment_names = []
+    segment_x_positions = []
+    for anchor in sorted(header_cells_by_col.keys()):
+        combined = ' '.join(header_cells_by_col[anchor])
+        combined = ' '.join(combined.split())  # Normalize whitespace
+        combined_lower = combined.lower()
+
+        # Skip empty or very short entries
+        if len(combined) < 3:
+            continue
+
+        # Skip 'Total' column
+        combined_lower = combined.lower()
+        if combined_lower.strip() == 'total' or combined_lower.strip().startswith('total '):
+            continue
+
+        # Keep cells that look like segment names
+        is_segment = any(ind in combined_lower for ind in segment_indicators)
+        if is_segment or (len(combined.split()) >= 2 and len(combined) > 5):
+            segment_names.append(combined)
+            segment_x_positions.append(anchor)
+
+    if len(segment_names) < 2:
+        return None
+
+    header_row_idx = header_end  # Data starts after the last header row
+
+    # Map row labels to sections
+    row_section_map = {
+        'revenue from operations': 'revenue',
+        'segment revenue': 'revenue',
+        'revenue - gross': 'revenue',
+        'segment result': 'results',
+        'segment results': 'results',
+        'segment operating profit': 'results',
+        'operating profit': 'results',
+        'ebitda': 'results',
+        'segment assets': 'assets',
+        'segment liabilities': 'liabilities',
+    }
+
+    results = {}
+    source_pages = {}
+
+    # Process data rows after header
+    for i in range(header_row_idx + 1, len(rows)):
+        y, row_cells = rows[i]
+        row_text = ' '.join(t for _, t in row_cells).lower()
+
+        # Find the row label (leftmost text)
+        label_text = None
+        for x, t in row_cells:
+            if x < 200 and t.strip():
+                label_text = t.strip()
+                break
+
+        if not label_text:
+            continue
+
+        # Check if this row is a relevant metric
+        section = None
+        for keyword, sect in row_section_map.items():
+            if keyword in row_text:
+                section = sect
+                break
+
+        if section is None:
+            continue
+
+        # Extract values for each segment column using positional matching
+        data_cells = [(x, t) for x, t in row_cells if x >= 200]
+
+        if len(data_cells) >= len(segment_names):
+            # Match by position: first data cell = first segment, etc.
+            for j, seg_name in enumerate(segment_names):
+                if j < len(data_cells):
+                    val = parse_num(data_cells[j][1])
+                    if val is not None:
+                        _set_segment(results, section, seg_name, val, None)
+                        source_pages.setdefault(section, page_idx + 1)
+
     return (results, source_pages) if results else None
 
 def _extract_from_page(page, page_idx):
