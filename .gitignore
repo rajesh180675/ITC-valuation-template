@@ -1,4 +1,93 @@
+# Dependencies
 node_modules/
 dist/
+
+# Data directories
 public/data/annual_reports/
 scripts/__pycache__/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.pfx
+.aws/
+.azure/
+.gcp/
+
+# API Keys, tokens, and credentials
+.openclaude-profile.json
+.claude-profile.json
+credentials.json
+secrets.json
+config.secrets.json
+.htpasswd
+
+# Git
+.git/
+.gitignore
+
+# OS specific
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+.cache/
+.tmp/
+temp/
+
+# Generated files
+dist/
+build/
+*.tsbuildinfo
+
+# Local development
+.DS_Store
+*.orig
