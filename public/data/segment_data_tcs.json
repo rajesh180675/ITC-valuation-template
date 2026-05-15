@@ -39,7 +39,7 @@
       "FY2024": 3875.0,
       "FY2025": 5795.0
     },
-    "revenue|Americas": {
+    "revenue_geo|Americas": {
       "FY2005": 5708.42,
       "FY2006": 7568.8,
       "FY2007": 9796.25,
@@ -62,25 +62,7 @@
       "FY2024": 127939.0,
       "FY2025": 127870.0
     },
-    "revenue|Banking, Financial Services and Insurance": {
-      "FY2021": 61095.0,
-      "FY2023": 86127.0,
-      "FY2024": 86127.0,
-      "FY2025": 94597.0
-    },
-    "revenue|Communication, Media and Technology": {
-      "FY2021": 25978.0,
-      "FY2023": 37653.0,
-      "FY2024": 37653.0,
-      "FY2025": 45893.0
-    },
-    "revenue|Consumer Business": {
-      "FY2021": 26280.0,
-      "FY2023": 37506.0,
-      "FY2024": 37506.0,
-      "FY2025": 40197.0
-    },
-    "revenue|Europe": {
+    "revenue_geo|Europe": {
       "FY2005": 662.02,
       "FY2006": 916.42,
       "FY2007": 1529.45,
@@ -103,7 +85,7 @@
       "FY2024": 75624.0,
       "FY2025": 79487.0
     },
-    "revenue|India": {
+    "revenue_geo|India": {
       "FY2005": 1187.57,
       "FY2006": 1656.91,
       "FY2007": 1681.99,
@@ -126,19 +108,7 @@
       "FY2024": 13562.0,
       "FY2025": 22060.0
     },
-    "revenue|Life Sciences and Healthcare": {
-      "FY2021": 27128.0,
-      "FY2023": 24605.0,
-      "FY2024": 24605.0,
-      "FY2025": 26456.0
-    },
-    "revenue|Manufacturing": {
-      "FY2021": 16468.0,
-      "FY2023": 21236.0,
-      "FY2024": 21236.0,
-      "FY2025": 25170.0
-    },
-    "revenue|Others": {
+    "revenue_geo|Others": {
       "FY2005": 602.31,
       "FY2006": 1062.94,
       "FY2007": 1886.49,
@@ -161,7 +131,7 @@
       "FY2024": 23768.0,
       "FY2025": 25907.0
     },
-    "revenue|Rest of the world": {
+    "revenue_geo|Rest of the world": {
       "FY2007": 1886.49,
       "FY2008": 2582.39,
       "FY2009": 3127.61,
@@ -173,7 +143,7 @@
       "FY2015": 12725.29,
       "FY2016": 14933.7
     },
-    "revenue|UK": {
+    "revenue_geo|UK": {
       "FY2005": 1588.15,
       "FY2006": 2058.92,
       "FY2007": 3791.03,
@@ -186,6 +156,42 @@
       "FY2014": 14251.38,
       "FY2015": 15783.29,
       "FY2016": 17171.43
+    },
+    "revenue|Banking, Financial Services and Insurance": {
+      "FY2021": 61095.0,
+      "FY2023": 86127.0,
+      "FY2024": 86127.0,
+      "FY2025": 94597.0
+    },
+    "revenue|Communication, Media and Technology": {
+      "FY2021": 25978.0,
+      "FY2023": 37653.0,
+      "FY2024": 37653.0,
+      "FY2025": 45893.0
+    },
+    "revenue|Consumer Business": {
+      "FY2021": 26280.0,
+      "FY2023": 37506.0,
+      "FY2024": 37506.0,
+      "FY2025": 40197.0
+    },
+    "revenue|Life Sciences and Healthcare": {
+      "FY2021": 27128.0,
+      "FY2023": 24605.0,
+      "FY2024": 24605.0,
+      "FY2025": 26456.0
+    },
+    "revenue|Manufacturing": {
+      "FY2021": 16468.0,
+      "FY2023": 21236.0,
+      "FY2024": 21236.0,
+      "FY2025": 25170.0
+    },
+    "revenue|Others": {
+      "FY2021": 156949.0,
+      "FY2023": 18331.0,
+      "FY2024": 18331.0,
+      "FY2025": 23011.0
     }
   }
 }

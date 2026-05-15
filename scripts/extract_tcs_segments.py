@@ -175,7 +175,7 @@ def extract_geographic_revenue(pdf_path):
                 geo_section[name] = row_data
 
         if geo_section:
-            result['revenue'] = geo_section
+            result['revenue_geo'] = geo_section
             break
 
     doc.close()
