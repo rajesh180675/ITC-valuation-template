@@ -1,22 +1,13 @@
 import { useMemo } from 'react';
 import {
   Line, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, ComposedChart, Legend,
+  ComposedChart, Legend,
   Bar,
 } from 'recharts';
 import { TrendingUp, TrendingDown, Activity, Scale } from 'lucide-react';
 import { calculateRatios } from '@/utils/annualReportRatios';
 import type { AnnualReportYearData } from '@/utils/annualReportCashFlow';
-
-/* ── Chart Panel ───────────────────────────────────────────────────────── */
-function ChartPanel({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
-  return (
-    <div className="glass-card p-4">
-      <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">{icon} {title}</h3>
-      <ResponsiveContainer width="100%" height={260}>{children}</ResponsiveContainer>
-    </div>
-  );
-}
+import { ChartPanel } from './ChartPanel';
 
 /* ── Tab ──────────────────────────────────────────────────────────────────── */
 interface RatiosTabProps {
