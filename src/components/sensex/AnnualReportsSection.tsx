@@ -70,25 +70,12 @@ interface CompanyIndex {
  };
 }
 
-function findItem(items: { label: string; current?: number | null }[], key: string): number | null {
-  const m = items.find(i => i.label.toLowerCase().includes(key.toLowerCase()) && i.current !== null);
-  return m?.current ?? null;
-}
-
-/** Safe percentage helper - never returns 0 caused by null/0 division */
-function safePct(num: number | null, den: number | null): number | null {
-  if (num == null || den == null || den === 0) return null;
-  return Math.round((num / den) * 1000) / 10;
-}
-
-/** Safe subtraction - returns null if either operand is null */
-function safeSub(a: number | null, b: number | null): number | null {
-  if (a == null || b == null) return null;
-  return a - b;
-}
+/* helper functions extracted to ./utils.ts */
 
 import { KpiCard } from './KpiCard';
 import { ErrorBoundary } from './ErrorBoundary';
+import { findItem, safePct, safeSub } from './utils';
+import { LoadingSkeleton } from './LoadingSkeleton';
 
 /* ── Main Component (stable hook tree, no key-remount) ──────────────────── */
 export function AnnualReportsSection() {
@@ -399,9 +386,7 @@ export function AnnualReportsSection() {
         </div>
       )}
 
-      {!error && !yearsData && (
-        <div className="glass-card p-8 text-center text-gray-400 animate-pulse">Loading annual report data...</div>
-      )}
+      {!error && !yearsData && <LoadingSkeleton />}
 
       {/* Main content — only when data is loaded */}
       {!error && yearsData && (
