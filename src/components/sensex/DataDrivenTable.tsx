@@ -102,6 +102,10 @@ export function DataDrivenTable({ data, years, stmtType, commonSize }: {
   };
 
   const showYoy = stmtType === 'profitLoss' && years.length >= 2 && !commonSize;
+  // Cap YoY columns: only show YoY for the last 5 years to avoid 25-column overflow
+  const yoyYears = showYoy ? years.slice(-Math.min(5, years.length)).slice(1) : [];
+  // Index of first YoY year in the full years array
+  const yoyStartIdx = years.length - yoyYears.length - 1;
 
   return (
     <div className="glass-card p-5 overflow-x-auto">
@@ -124,8 +128,10 @@ export function DataDrivenTable({ data, years, stmtType, commonSize }: {
                 </th>
               );
             })}
-            {showYoy && years.slice(1).map(fy => (
-              <th key={`yoy-${fy}`} className="text-right py-2 px-2 text-gray-400 font-medium">YoY</th>
+            {showYoy && yoyYears.map(fy => (
+              <th key={`yoy-${fy}`} className="text-right py-2 px-2 text-gray-400 font-medium whitespace-nowrap">
+                {fy.replace('FY', "'")} YoY
+              </th>
             ))}
             {years.length >= 2 && <th className="text-right py-2 pl-2 text-gray-400 font-medium">CAGR</th>}
           </tr>
@@ -134,7 +140,7 @@ export function DataDrivenTable({ data, years, stmtType, commonSize }: {
           {groups.map((group, gi) => (
             <React.Fragment key={`g${gi}`}>
               {group.header && group.header !== 'OTHER' && (
-                <tr><td className="text-[11px] font-bold text-emerald-300 pt-3 pb-1 border-b border-emerald-500/20" colSpan={years.length + (showYoy ? years.length - 1 : 0) + 2}>{group.header}</td></tr>
+                <tr><td className="text-[11px] font-bold text-emerald-300 pt-3 pb-1 border-b border-emerald-500/20" colSpan={years.length + (showYoy ? yoyYears.length : 0) + 2}>{group.header}</td></tr>
               )}
               {group.rows.map((label, ri) => {
                 const vals = itemIndex[label];
@@ -164,8 +170,10 @@ export function DataDrivenTable({ data, years, stmtType, commonSize }: {
                         </td>
                       );
                     })}
-                    {showYoy && vals.slice(1).map((v, i) => {
-                      const prevVal = vals[i];
+                    {showYoy && yoyYears.map((fy, i) => {
+                      const fyIdx = years.indexOf(fy);
+                      const v = vals[fyIdx];
+                      const prevVal = vals[fyIdx - 1] ?? null;
                       const growth = yoyGrowth(v, prevVal);
                       return (
                         <td key={`yoy-${i}`} className={`text-right py-1 px-2 text-[11px] ${yoyClass(growth)}`}>

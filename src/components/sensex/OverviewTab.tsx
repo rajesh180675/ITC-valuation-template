@@ -31,8 +31,9 @@ function formatValue(n: number | null, suffix: string): string {
 
 /** Derive label text based on label name for unit decision */
 function deriveSuffix(label: string): string {
-  if (label.includes('CAGR') || label.includes('ROE') || label.includes('Margin') || label.includes('Conv') || label.includes('Turnover')) return '%';
-  return '';
+  if (label.includes('Turnover')) return 'x';
+  if (label.includes('CAGR') || label.includes('ROE') || label.includes('Margin') || label.includes('Conv')) return '%';
+  return '%';
 }
 
 /* ─── Sparkline (inline SVG, no deps) ──────────────────────────────────── */

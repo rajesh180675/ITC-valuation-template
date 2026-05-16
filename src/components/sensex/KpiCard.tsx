@@ -13,7 +13,12 @@ export function KpiCard({
   suffix?: string;
   className?: string;
 }) {
-  const valStr = value != null ? fmt(value) : '\u2014';
+  // If a suffix is given (%, x, etc.) the value is a plain ratio — format as a number, not ₹/Cr
+  const valStr = value != null
+    ? suffix
+      ? `${Math.abs(value) >= 1000 ? value.toLocaleString('en-IN', { maximumFractionDigits: 1 }) : value.toFixed(1)}`
+      : fmt(value)
+    : '—';
   let trendEl = null;
   if (trend != null && trend !== 0) {
     trendEl = (

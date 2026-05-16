@@ -280,7 +280,7 @@ export function BalanceSheetSideBySide({
                     style={{ paddingLeft: row.indent * 14 }}
                     title={row.label}
                   >
-                    {row.label}
+                    {row.label.replace(/\+$/, '')}
                   </td>
                   {row.vals.map((v, ci) => (
                     <td
