@@ -1,0 +1,120 @@
+{
+  "symbol": "HINDUNILVR",
+  "basis": "consolidated",
+  "company": "Hindustan Unilever Limited",
+  "currency": "INR Crore",
+  "source": "hul.co.in Annual Reports \u2014 Note 46 Segment Information (Ind AS 108)",
+  "segments": [
+    "Beauty & Personal Care",
+    "Foods",
+    "Foods & Refreshment",
+    "Home Care",
+    "Others",
+    "Personal Care",
+    "Refreshment"
+  ],
+  "years": [
+    "FY2017",
+    "FY2018",
+    "FY2020",
+    "FY2021",
+    "FY2022",
+    "FY2023",
+    "FY2024",
+    "FY2025"
+  ],
+  "segment_time_series": {
+    "revenue|Home Care": {
+      "FY2017": 11346.0,
+      "FY2018": 11626.0,
+      "FY2020": 13640.0,
+      "FY2021": 13957.0,
+      "FY2022": 16570.0,
+      "FY2023": 21223.0,
+      "FY2024": 21882.0,
+      "FY2025": 22958.0
+    },
+    "ebit|Home Care": {
+      "FY2017": 1260.0,
+      "FY2018": 1702.0,
+      "FY2020": 2559.0,
+      "FY2021": 2773.0,
+      "FY2022": 3183.0,
+      "FY2023": 3913.0,
+      "FY2024": 4127.0,
+      "FY2025": 4429.0
+    },
+    "revenue|Personal Care": {
+      "FY2017": 16432.0,
+      "FY2018": 16588.0,
+      "FY2025": 9166.0
+    },
+    "ebit|Personal Care": {
+      "FY2017": 3852.0,
+      "FY2018": 4205.0,
+      "FY2025": 1631.0
+    },
+    "revenue|Foods": {
+      "FY2017": 1124.0,
+      "FY2018": 1165.0,
+      "FY2025": 15294.0
+    },
+    "ebit|Foods": {
+      "FY2017": 85.0,
+      "FY2018": 99.0,
+      "FY2025": 2808.0
+    },
+    "revenue|Refreshment": {
+      "FY2017": 4848.0,
+      "FY2018": 5214.0
+    },
+    "ebit|Refreshment": {
+      "FY2017": 755.0,
+      "FY2018": 897.0
+    },
+    "revenue|Others": {
+      "FY2017": 1960.0,
+      "FY2018": 1630.0,
+      "FY2020": 1205.0,
+      "FY2023": 2459.0,
+      "FY2024": 2275.0,
+      "FY2025": 2180.0
+    },
+    "ebit|Others": {
+      "FY2017": 200.0,
+      "FY2018": 145.0,
+      "FY2020": 172.0,
+      "FY2023": 790.0,
+      "FY2024": 659.0,
+      "FY2025": 440.0
+    },
+    "revenue|Beauty & Personal Care": {
+      "FY2020": 17488.0,
+      "FY2021": 18038.0,
+      "FY2022": 19567.0,
+      "FY2023": 22022.0,
+      "FY2024": 22448.0
+    },
+    "ebit|Beauty & Personal Care": {
+      "FY2020": 4896.0,
+      "FY2021": 5134.0,
+      "FY2022": 5392.0,
+      "FY2023": 5647.0,
+      "FY2024": 5810.0
+    },
+    "revenue|Foods & Refreshment": {
+      "FY2020": 7450.0,
+      "FY2021": 13204.0,
+      "FY2022": 14105.0,
+      "FY2023": 14876.0,
+      "FY2024": 15291.0
+    },
+    "ebit|Foods & Refreshment": {
+      "FY2020": 1232.0,
+      "FY2021": 2189.0,
+      "FY2022": 2623.0,
+      "FY2023": 2662.0,
+      "FY2024": 2851.0
+    }
+  }
+}
