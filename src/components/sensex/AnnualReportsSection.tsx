@@ -1,7 +1,8 @@
 import { useEffect, useState, useMemo } from 'react';
 import {
  BookOpen, TrendingUp, PieChart, Layers, DollarSign, LineChart,
- Percent, Scale, Shield, AlertTriangle, Building2, Tag, Filter
+ Percent, Scale, Shield, AlertTriangle, Building2, Tag, Filter,
+ ShieldCheck, BarChart3, Calculator, Users, Gift, FileText
 } from 'lucide-react';
 import { OverviewTab } from './OverviewTab';
 import { RatiosTab } from './RatiosTab';
@@ -24,8 +25,14 @@ import { ChartsView } from './ChartsView';
 import { BalanceSheetSideBySide } from './BalanceSheetSideBySide';
 import { DataDrivenTable } from './DataDrivenTable';
 import { SegmentsView } from './SegmentsView';
+import { QualityTab } from './ar/tabs/QualityTab';
+import { ForecastsTab } from './ar/tabs/ForecastsTab';
+import { ValuationTab } from './ar/tabs/ValuationTab';
+import { PeersTab } from './ar/tabs/PeersTab';
+import { DividendsTab } from './ar/tabs/DividendsTab';
+import { ReportsTab } from './ar/tabs/ReportsTab';
 
-type Tab = 'overview' | 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts' | 'ratios';
+type Tab = 'overview' | 'pnl' | 'balanceSheet' | 'cashFlow' | 'segments' | 'charts' | 'ratios' | 'quality' | 'forecasts' | 'valuation' | 'peers' | 'dividends' | 'reports';
 
 const TABS: { id: Tab; label: string; icon: any }[] = [
   { id: 'overview', label: 'Overview', icon: BookOpen },
@@ -35,6 +42,12 @@ const TABS: { id: Tab; label: string; icon: any }[] = [
   { id: 'segments', label: 'Segments', icon: Layers },
   { id: 'charts', label: 'Charts', icon: LineChart },
   { id: 'ratios', label: 'Ratios', icon: Scale },
+  { id: 'quality', label: 'Quality', icon: ShieldCheck },
+  { id: 'forecasts', label: 'Forecasts', icon: BarChart3 },
+  { id: 'valuation', label: 'Valuation', icon: Calculator },
+  { id: 'peers', label: 'Peers', icon: Users },
+  { id: 'dividends', label: 'Dividends', icon: Gift },
+  { id: 'reports', label: 'Reports', icon: FileText },
 ];
 
 /* ── Company index types ──────────────────────────────────────────────────── */
@@ -143,7 +156,7 @@ export function AnnualReportsSection() {
   }, [activeTicker]);
 
   const years = useMemo(() => yearsData ? Object.keys(yearsData).sort() : [], [yearsData]);
-  const displayYears = getDisplayYears(selectedYears, years, tab);
+  const displayYears = getDisplayYears(selectedYears, years, tab as any);
 
  // Search + filter for company selector
  const activeCompanyName = useMemo(() => {
@@ -382,7 +395,7 @@ export function AnnualReportsSection() {
       {!error && yearsData && (
         <>
           {/* KPI cards — skip on overview and ratios (have their own) */}
-          {tab !== 'overview' && tab !== 'ratios' && latest && (
+          {(['pnl', 'balanceSheet', 'cashFlow', 'segments', 'charts'] as Tab[]).includes(tab) && latest && (
             <div className="flex gap-3 flex-wrap">
               {tab === 'cashFlow' ? (
                 <>
@@ -429,7 +442,7 @@ export function AnnualReportsSection() {
                 <t.icon size={16} /> {t.label}
               </button>
             ))}
-            {tab !== 'segments' && tab !== 'charts' && tab !== 'ratios' && (
+            {(tab === 'pnl' || tab === 'balanceSheet') && (
               <button onClick={() => setCommonSize(!commonSize)}
                 className={`ml-auto flex items-center gap-1.5 px-3 py-2 text-[11px] rounded-t-md transition-all ${
                   commonSize ? 'text-purple-300 bg-purple-500/10 border-b-2 border-purple-500' : 'text-gray-500 hover:text-gray-300'
@@ -472,6 +485,37 @@ export function AnnualReportsSection() {
                 selectedYears={selectedYears}
                 onPresetSelect={setCashFlowPreset}
               />
+            </ErrorBoundary>
+          )}
+
+          {tab === 'quality' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Quality analytics failed.</div>}>
+              <QualityTab yearsData={yearsData ?? {}} years={years} />
+            </ErrorBoundary>
+          )}
+          {tab === 'forecasts' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Forecast model failed.</div>}>
+              <ForecastsTab yearsData={yearsData ?? {}} years={years} />
+            </ErrorBoundary>
+          )}
+          {tab === 'valuation' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Valuation model failed.</div>}>
+              <ValuationTab yearsData={yearsData ?? {}} years={years} marketCapCr={activeCompanyEntry?.marketCapCr ?? null} />
+            </ErrorBoundary>
+          )}
+          {tab === 'peers' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Peer comparison failed.</div>}>
+              <PeersTab ticker={activeTicker} yearsData={yearsData ?? {}} years={years} sector={activeCompanyEntry?.sector ?? null} />
+            </ErrorBoundary>
+          )}
+          {tab === 'dividends' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Dividend analytics failed.</div>}>
+              <DividendsTab yearsData={yearsData ?? {}} years={years} />
+            </ErrorBoundary>
+          )}
+          {tab === 'reports' && (
+            <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Report index failed.</div>}>
+              <ReportsTab ticker={activeTicker} yearsData={yearsData ?? {}} years={years} reportMeta={reportMeta} />
             </ErrorBoundary>
           )}
           {(tab === 'pnl' || tab === 'balanceSheet') && (tab === 'balanceSheet' ? (
