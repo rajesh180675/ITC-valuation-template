@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDF_DIR  = os.path.join(BASE_DIR, "public", "data", "annual_reports", "BHARTIARTL")
 OUTPUT   = os.path.join(BASE_DIR, "public", "data", "segment_data_bhartiairtel.json")
 
-EXCLUDE = {"unallocated", "elimination", "adjustment", "total", "others", "other"}
+EXCLUDE = {"unallocated", "elimination", "adjustment", "total", "others", "other", "notes"}
 
 SEG_NORMALIZE = {
     "mobile services india":           "Mobile Services India",
@@ -73,6 +73,8 @@ def normalize_seg(raw):
     clean = re.sub(r"\s+", " ", clean).strip()
     cl = clean.lower()
     if any(ex == cl or ex in cl.split() for ex in EXCLUDE):
+        return None
+    if len(clean) > 60:  # junk line
         return None
     for alias, canon in SEG_NORMALIZE.items():
         if alias in cl:
