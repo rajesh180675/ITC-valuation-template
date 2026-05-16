@@ -12,6 +12,27 @@ function isExcludedDonutLabel(name: string) {
   return lower.includes('total') || lower.includes('elimination') || lower.includes('unallocated') || lower.includes('discontinued');
 }
 
+function segVal(series: Record<string, Record<string, number>> | null, prefix: string, seg: string, fy: string): number | undefined {
+  if (!series) return undefined;
+  const val = series[prefix + '|' + seg]?.[fy] ?? series[(prefix === 'results' ? 'ebit' : prefix) + '|' + seg]?.[fy];
+  return typeof val === 'number' ? val : undefined;
+}
+
+function segVals(series: Record<string, Record<string, number>> | null, prefix: string): [string, Record<string, number>][] {
+  if (!series) return [];
+  const direct = Object.entries(series).filter(([k]) => k.startsWith(prefix + '|'));
+  const alt = (prefix === 'results')
+    ? Object.entries(series).filter(([k]) => k.startsWith('ebit|'))
+    : [];
+  const seen = new Set<string>();
+  const merged: [string, Record<string, number>][] = [];
+  for (const [k, v] of [...direct, ...alt]) {
+    const name = k.split('|').slice(1).join('|');
+    if (!seen.has(name)) { seen.add(name); merged.push([name, v]); }
+  }
+  return merged;
+}
+
 function isCoreSegment(name: string) {
   const lower = name.toLowerCase();
   return !lower.includes('total') && !lower.includes('elimination') && !lower.includes('unallocated') && !lower.includes('discontinued');
@@ -78,8 +99,8 @@ export function SegmentsView({ segData }: { segData: any }) {
 
   // ROCE bar chart: results / assets for latest year
   const roceData = coreSegments.map(seg => {
-    const res = series['results|' + seg]?.[latestFy];
-    const ast = series['assets|' + seg]?.[latestFy];
+    const res = segVal(series, 'results', seg, latestFy);
+    const ast = segVal(series, 'assets', seg, latestFy);
     if (res == null || ast == null || ast === 0) return null;
     const roce = (res / ast) * 100;
     return { name: seg, roce: parseFloat(roce.toFixed(1)) };
@@ -87,8 +108,8 @@ export function SegmentsView({ segData }: { segData: any }) {
 
   // Margin scatter: revenue vs results for latest year
   const scatterData = coreSegments.map(seg => {
-    const rev = series['revenue|' + seg]?.[latestFy];
-    const res = series['results|' + seg]?.[latestFy];
+    const rev = segVal(series, 'revenue', seg, latestFy);
+    const res = segVal(series, 'results', seg, latestFy);
     if (typeof rev !== 'number' || isNaN(rev) || typeof res !== 'number' || isNaN(res)) return null;
     return { name: seg, revenue: rev, results: res };
   }).filter(Boolean);
@@ -100,7 +121,10 @@ export function SegmentsView({ segData }: { segData: any }) {
     .sort((a, b) => b.value - a.value);
 
   // Derived section labels from keys present in data
-  const sectionPrefixes = Array.from(new Set(Object.keys(series).map(k => k.split('|')[0]))).sort();
+  const sectionPrefixes = Array.from(new Set(Object.keys(series).map(k => {
+    const p = k.split('|')[0];
+    return p === 'ebit' ? 'results' : p;
+  }))).sort();
   const sectionLabels: Record<string, string> = {
     revenue: 'Segment Revenue',
     results: 'Segment Results',
@@ -207,7 +231,7 @@ export function SegmentsView({ segData }: { segData: any }) {
 
       {/* Tables per section */}
       {sectionPrefixes.map(prefix => {
-        const items = Object.entries(series).filter(([k]) => k.startsWith(prefix + '|')).sort();
+        const items = Object.entries(series).filter(([k]) => k.startsWith(prefix + '|') || (prefix === 'results' && k.startsWith('ebit|'))).sort();
         if (items.length === 0) return null;
         const title = sectionLabels[prefix] || prefix;
         return (
