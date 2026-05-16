@@ -17,6 +17,7 @@ SEG_ALIASES = {
     "oil and gas": "Oil and Gas",
     "oil & gas": "Oil and Gas",
     "organised retail": "Retail",
+    "organized retail": "Retail",
     "retail": "Retail",
     "digital services": "Digital Services",
     "financial services": "Financial Services",
@@ -26,7 +27,7 @@ SEG_ALIASES = {
 }
 KNOWN_SEGS = set(SEG_ALIASES.keys())
 # prefixes that need accumulation
-PARTIAL_PREFIXES = {'oil and', 'oil &', 'digital', 'organised', 'financial'}
+PARTIAL_PREFIXES = {'oil and', 'oil &', 'digital', 'organised', 'organized', 'financial'}
 
 def norm_seg(s):
     k = re.sub(r'\*+', '', s).strip().lower()
@@ -66,17 +67,16 @@ def extract_row_nums(tokens, start_idx, max_tokens=25):
     return nums
 
 def detect_is_paired(tokens, psi_idx, n_tokens=100):
-    """Pre-scan for year-pair headers (separate from segment name detection)."""
+    """Pre-scan for year-pair headers. Handles both hyphen and en-dash year formats."""
+    year_pat = re.compile(r'^\d{4}[-–\u2013]\d{2,4}$')
+    pair_line = re.compile(r'\d{4}[-–\u2013]\d{2}.*\d{4}[-–\u2013]\d{2}')
     for i in range(psi_idx, min(psi_idx + n_tokens, len(tokens))):
         t = tokens[i]
-        # Two year strings on one line: '2017-18 2016-17 ...'
-        if re.search(r'\d{4}-\d{2}.*\d{4}-\d{2}', t):
+        if pair_line.search(t):
             return True
-        # Two consecutive YYYY-YY tokens
-        if re.match(r'^\d{4}-\d{2,4}$', t):
-            if i + 1 < len(tokens) and re.match(r'^\d{4}-\d{2,4}$', tokens[i + 1]):
+        if year_pat.match(t):
+            if i + 1 < len(tokens) and year_pat.match(tokens[i + 1]):
                 return True
-        # Stop at table data rows
         if re.search(r'External Turnover', t, re.I):
             break
     return False
@@ -85,13 +85,22 @@ def detect_is_paired(tokens, psi_idx, n_tokens=100):
 def detect_segments(tokens, psi_idx):
     """
     Read segment column headers after PSI token.
-    Returns ordered_segs list. is_paired detected separately.
+    Anchors to 'Particulars' row if present (early ARs have long desc before headers).
     Handles split names like 'Oil and' + 'Gas'.
     """
     segs = []
     buf = ''
 
-    for i in range(psi_idx + 1, min(psi_idx + 60, len(tokens))):
+    # If 'Particulars' exists between PSI and External Turnover, start from there
+    start_idx = psi_idx + 1
+    for i in range(psi_idx + 1, min(psi_idx + 80, len(tokens))):
+        if tokens[i].lower().strip() == 'particulars':
+            start_idx = i + 1
+            break
+        if re.search(r'External Turnover', tokens[i], re.I):
+            break
+
+    for i in range(start_idx, min(start_idx + 60, len(tokens))):
         t = tokens[i]
         tl = t.strip().lower()
 
@@ -102,12 +111,13 @@ def detect_segments(tokens, psi_idx):
         # Skip meta tokens
         if re.match(r'^\(.*crore.*\)$', tl, re.I):
             continue
-        if tl in ('particulars', '(` in crore)', '(c in crore)', '(rs. in crore)'):
+        if tl in ('particulars', '(` in crore)', '(c in crore)', '(rs. in crore)',
+                  'sub-total', 'eliminations'):
             continue
         # Skip year tokens
-        if re.match(r'^\d{4}-\d{2,4}$', t):
+        if re.match(r'^\d{4}[-–]\d{2,4}$', t):
             continue
-        if re.search(r'\d{4}-\d{2}.*\d{4}-\d{2}', t):
+        if re.search(r'\d{4}[-–]\d{2}.*\d{4}[-–]\d{2}', t):
             continue
 
         # Accumulate multi-word names
@@ -134,7 +144,7 @@ def detect_segments(tokens, psi_idx):
             buf = candidate
             continue
 
-        # If buffer non-empty and this token doesn't extend a known prefix, flush
+        # Buffer flush
         if buf:
             bl = re.sub(r'\*+', '', buf).strip().lower()
             if bl in SEG_ALIASES:
@@ -178,8 +188,19 @@ def parse_segment_page(txt):
 
     ext_idx = next((i for i, t in enumerate(tokens) if i > psi_idx
                     and re.search(r'External Turnover', t, re.I)), None)
-    res_idx = next((i for i, t in enumerate(tokens) if i > psi_idx
-                    and re.search(r'Segment Result', t, re.I)), None)
+
+    # Segment Result may be split: "Segment" + "Result before" across tokens
+    res_idx = None
+    for i in range(psi_idx, len(tokens)):
+        t = tokens[i]
+        if re.search(r'Segment Result', t, re.I):
+            res_idx = i
+            break
+        # Split case: "Segment" on one line, "Result..." on next
+        if re.search(r'^Segment$', t, re.I) and i + 1 < len(tokens):
+            if re.search(r'^Result', tokens[i + 1], re.I):
+                res_idx = i
+                break
 
     out = {}
 
@@ -200,8 +221,9 @@ def parse_segment_page(txt):
         assign(nums, 'revenue', is_paired, work_segs)
 
     if res_idx is not None:
+        # Skip label tokens after "Segment Result" (e.g. "before Interest and", "Taxes")
         start = res_idx + 1
-        if start < len(tokens) and re.search(r'Interest|Tax', tokens[start], re.I):
+        while start < len(tokens) and not re.search(r'\d', tokens[start]):
             start += 1
         nums = extract_row_nums(tokens, start, max_tokens=30)
         assign(nums, 'ebit', is_paired, work_segs)
