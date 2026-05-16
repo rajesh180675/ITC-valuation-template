@@ -1,0 +1,127 @@
+{
+  "symbol": "WIPRO",
+  "basis": "consolidated",
+  "company": "Wipro Limited",
+  "currency": "INR_Cr",
+  "source": "NSE archives \u2014 Consolidated IFRS Financial Statements",
+  "segments": [
+    "IT Products",
+    "IT Services",
+    "IT Services APMEA",
+    "IT Services Americas 1",
+    "IT Services Americas 2",
+    "IT Services Europe"
+  ],
+  "years": [
+    "FY2014",
+    "FY2015",
+    "FY2016",
+    "FY2017",
+    "FY2019",
+    "FY2021",
+    "FY2022",
+    "FY2023",
+    "FY2024",
+    "FY2025"
+  ],
+  "segment_time_series": {
+    "revenue|IT Services Americas 1": {
+      "FY2014": 10603.5,
+      "FY2015": 11550.5,
+      "FY2016": 12814.7,
+      "FY2017": 13596.7,
+      "FY2023": 26127.0,
+      "FY2021": 17809.1,
+      "FY2024": 26823.0,
+      "FY2025": 28182.4
+    },
+    "revenue|IT Services Americas 2": {
+      "FY2014": 4113.0,
+      "FY2015": 4988.4,
+      "FY2016": 5835.8,
+      "FY2017": 8224.2,
+      "FY2023": 27837.4,
+      "FY2021": 17982.1,
+      "FY2024": 26948.2,
+      "FY2025": 27197.2
+    },
+    "revenue|IT Services Europe": {
+      "FY2014": 5889.3,
+      "FY2015": 6686.6,
+      "FY2016": 7951.4,
+      "FY2017": 8341.7,
+      "FY2023": 25684.5,
+      "FY2021": 16544.1,
+      "FY2024": 25392.7,
+      "FY2025": 24007.7
+    },
+    "revenue|IT Services APMEA": {
+      "FY2014": 6392.3,
+      "FY2015": 7122.8,
+      "FY2016": 7086.6,
+      "FY2017": 6888.3,
+      "FY2023": 10681.2,
+      "FY2021": 8246.2,
+      "FY2024": 10217.7,
+      "FY2025": 9435.1
+    },
+    "revenue|IT Services": {
+      "FY2014": 7442.3,
+      "FY2015": 10253.7,
+      "FY2016": 11342.2,
+      "FY2017": 11917.5,
+      "FY2019": 434.4,
+      "FY2023": 90330.1,
+      "FY2022": 218.6,
+      "FY2021": 60581.5,
+      "FY2024": 89381.6,
+      "FY2025": 88822.4
+    },
+    "revenue|IT Products": {
+      "FY2014": 5510.5,
+      "FY2015": 3416.0,
+      "FY2016": 3700.9,
+      "FY2017": 3875.6,
+      "FY2019": 434.4,
+      "FY2023": 604.7,
+      "FY2022": 218.6,
+      "FY2021": 768.5,
+      "FY2024": 412.7,
+      "FY2025": 269.2
+    },
+    "results|IT Services": {
+      "FY2015": 2680.1,
+      "FY2023": 15959.3,
+      "FY2022": 4282.0,
+      "FY2024": 16450.0,
+      "FY2025": 16179.6
+    },
+    "results|IT Products": {
+      "FY2015": 1056.5,
+      "FY2023": -17.6,
+      "FY2022": 4737.6,
+      "FY2024": -37.1,
+      "FY2025": -17.3
+    },
+    "results|IT Services Americas 1": {
+      "FY2023": 5155.5,
+      "FY2024": 5936.4,
+      "FY2025": 5818.6
+    },
+    "results|IT Services Americas 2": {
+      "FY2023": 5969.0,
+      "FY2024": 5916.3,
+      "FY2025": 6132.6
+    },
+    "results|IT Services Europe": {
+      "FY2023": 3766.7,
+      "FY2024": 3335.4,
+      "FY2025": 2943.4
+    },
+    "results|IT Services APMEA": {
+      "FY2023": 1068.1,
+      "FY2024": 1261.9,
+      "FY2025": 1285.0
+    }
+  }
+}
