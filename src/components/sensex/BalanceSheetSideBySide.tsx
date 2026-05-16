@@ -127,33 +127,75 @@ export function BalanceSheetSideBySide({ data, years, commonSize }: { data: Reco
     return v >= 100 ? fmtN(v, 0) : fmtN(v, 1);
   };
 
+  const showCagr = years.length >= 2;
+  // colSpan = label col + one col per year + optional CAGR col
+  const totalCols = 1 + years.length + (showCagr ? 1 : 0);
+
   const renderSideTable = (items: SideRow[], title: string) => (
     <div className="glass-card p-4 overflow-x-auto flex-1 min-w-[300px]">
       <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
         {title === 'ASSETS' ? <BookOpen size={14} className="text-emerald-400" /> : <TrendingUp size={14} className="text-blue-400" />}
         {title}
       </h3>
-      <table className="w-full text-xs tabular-nums">
+      <table className="w-full text-xs tabular-nums" style={{ minWidth: Math.max(360, 160 + years.length * 80) }}>
         <thead>
           <tr>
             <th className="text-left py-2 pr-4 text-gray-400 font-medium">Item</th>
-            {items[0]?.vals.map((_, i) => {
-              if (i !== items[0].vals.length - 1) return null;
-              return <th key={i} className="text-right py-2 px-2 text-gray-400 font-medium">{years[i]?.replace('FY', "FY '")}</th>;
-            })}
+            {years.map(fy => (
+              <th key={fy} className="text-right py-2 px-2 text-gray-400 font-medium whitespace-nowrap">
+                {fy.replace('FY', "FY '")}
+              </th>
+            ))}
+            {showCagr && <th className="text-right py-2 pl-2 text-gray-400 font-medium">CAGR</th>}
           </tr>
         </thead>
         <tbody>
           {items.map((row, ri) => {
             if (row.isSection) {
-              return <tr key={ri}><td className="text-[11px] font-bold text-emerald-300 pt-3 pb-1 border-b border-emerald-500/20" colSpan={2}>{row.label}</td></tr>;
+              return (
+                <tr key={ri}>
+                  <td
+                    className="text-[11px] font-bold text-emerald-300 pt-3 pb-1 border-b border-emerald-500/20"
+                    colSpan={totalCols}
+                  >
+                    {row.label}
+                  </td>
+                </tr>
+              );
             }
-            const lastVal = row.vals[row.vals.length - 1];
-            if (lastVal == null) return null;
+
+            // Skip rows with no data at all
+            if (row.vals.every(v => v == null)) return null;
+
+            // CAGR across years that have data
+            const validVals = row.vals.filter((v): v is number => v != null && v !== 0);
+            const firstVal = validVals[0];
+            const lastVal = validVals[validVals.length - 1];
+            const numYears = row.vals.filter(v => v != null).length;
+            let cagrStr = '';
+            if (firstVal && lastVal && firstVal > 0 && numYears >= 2) {
+              const rate = ((Math.abs(lastVal / firstVal)) ** (1 / (numYears - 1)) - 1) * (lastVal >= firstVal ? 1 : -1) * 100;
+              cagrStr = rate.toFixed(1) + '%';
+            }
+
             return (
               <tr key={ri} className="hover:bg-white/[0.03]">
-                <td className="py-1 pr-4 text-gray-300 text-[11px] truncate max-w-[200px]" style={{ paddingLeft: row.indent * 12 }}>{row.label}</td>
-                <td className="text-right py-1 px-2 text-[11px] text-white">{formatVal(lastVal)}</td>
+                <td
+                  className="py-1 pr-4 text-gray-300 text-[11px] truncate max-w-[200px]"
+                  style={{ paddingLeft: row.indent * 12 }}
+                >
+                  {row.label}
+                </td>
+                {row.vals.map((v, i) => (
+                  <td key={i} className={`text-right py-1 px-2 text-[11px] ${v != null ? 'text-white' : 'text-gray-600'}`}>
+                    {v != null ? formatVal(v) : '—'}
+                  </td>
+                ))}
+                {showCagr && (
+                  <td className={`text-right py-1 pl-2 text-[11px] ${cagrStr.startsWith('-') ? 'text-rose-400' : cagrStr ? 'text-emerald-400' : 'text-gray-600'}`}>
+                    {cagrStr || '—'}
+                  </td>
+                )}
               </tr>
             );
           })}
