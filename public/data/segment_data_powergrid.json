@@ -1,0 +1,25 @@
+{
+  "symbol": "POWERGRID",
+  "basis": "standalone",
+  "company": "Power Grid Corporation of India Limited",
+  "currency": "INR_Cr",
+  "source": "NSE Annual Reports \u2014 Segment Revenue (Standalone)",
+  "segments": [
+    "Consultancy",
+    "Transmission"
+  ],
+  "years": [
+    "FY2024",
+    "FY2025"
+  ],
+  "segment_time_series": {
+    "revenue|Transmission": {
+      "FY2024": 42313.38,
+      "FY2025": 41545.89
+    },
+    "revenue|Consultancy": {
+      "FY2024": 634.26,
+      "FY2025": 796.28
+    }
+  }
+}

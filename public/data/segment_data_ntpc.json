@@ -1,0 +1,52 @@
+{
+  "symbol": "NTPC",
+  "basis": "standalone",
+  "company": "NTPC Limited",
+  "currency": "INR_Cr",
+  "source": "NSE Annual Reports \u2014 Note 64 Operating Segments (Standalone)",
+  "segments": [
+    "Generation of energy",
+    "Others"
+  ],
+  "years": [
+    "FY2015",
+    "FY2016",
+    "FY2017",
+    "FY2018",
+    "FY2019",
+    "FY2020",
+    "FY2021",
+    "FY2022",
+    "FY2023",
+    "FY2024",
+    "FY2025"
+  ],
+  "segment_time_series": {
+    "revenue|Generation of energy": {
+      "FY2015": 72527.97,
+      "FY2016": 69932.13,
+      "FY2017": 77311.54,
+      "FY2018": 79906.71,
+      "FY2019": 86654.53,
+      "FY2020": 94093.66,
+      "FY2021": 95579.66,
+      "FY2022": 111296.51,
+      "FY2023": 157782.01,
+      "FY2024": 156175.4,
+      "FY2025": 164239.99
+    },
+    "revenue|Others": {
+      "FY2015": 72637.75,
+      "FY2016": 70049.18,
+      "FY2017": 77475.24,
+      "FY2018": 81529.09,
+      "FY2019": 89765.23,
+      "FY2020": 98968.14,
+      "FY2021": 100464.13,
+      "FY2022": 6180.08,
+      "FY2023": 7898.43,
+      "FY2024": 9776.94,
+      "FY2025": 11720.49
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "symbol": "CIPLA",
+  "basis": "consolidated",
+  "company": "Cipla Limited",
+  "currency": "INR_Cr",
+  "source": "NSE Annual Reports \u2014 Note 56 Segment Information (Consolidated)",
+  "segments": [
+    "New Ventures",
+    "Pharmaceuticals"
+  ],
+  "years": [
+    "FY2017",
+    "FY2018",
+    "FY2019",
+    "FY2020",
+    "FY2022",
+    "FY2023",
+    "FY2024",
+    "FY2025"
+  ],
+  "segment_time_series": {
+    "revenue|Pharmaceuticals": {
+      "FY2017": 1502.47,
+      "FY2018": 1966.48,
+      "FY2019": 16231.21,
+      "FY2020": 2574.17,
+      "FY2022": 3943.73,
+      "FY2023": 21999.43,
+      "FY2024": 6055.74,
+      "FY2025": 6872.29
+    },
+    "revenue|New Ventures": {
+      "FY2017": 1381.55,
+      "FY2018": 1861.21,
+      "FY2019": 160.45,
+      "FY2020": 2375.54,
+      "FY2022": 3781.74,
+      "FY2023": 4330.31,
+      "FY2024": 1111.72,
+      "FY2025": 6882.82
+    }
+  }
+}
