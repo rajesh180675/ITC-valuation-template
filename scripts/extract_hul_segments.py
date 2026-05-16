@@ -70,8 +70,9 @@ def find_seg_note_page(doc):
 def extract_hul_segments(txt):
     """
     Parse row-based segment table.
-    Each segment: name, [external, interseg, total] * 2 years
-    Revenue and Result are separate blocks.
+    Two formats:
+    A) Interleaved (FY2013-FY2018, FY2020+): seg_name then nums on next lines
+    B) Column-header (FY2019): all seg names listed, then all numbers below
     """
     tokens = [l.strip() for l in txt.split('\n') if l.strip()]
 
@@ -81,7 +82,7 @@ def extract_hul_segments(txt):
                 return i
         return None
 
-    rev_idx  = find_section(r'^Revenue$')
+    rev_idx  = find_section(r'^REVENUE$')
     res_idx  = find_section(r'^Result$', (rev_idx or 0) + 1) or find_section(r'^RESULT$', (rev_idx or 0) + 1)
 
     if rev_idx is None:
@@ -89,6 +90,81 @@ def extract_hul_segments(txt):
 
     out = {}
 
+    # --- Detect format B: segment names appear in a run after REVENUE header ---
+    # In format B, after REVENUE we see multiple segment names before any number
+    def detect_column_header_format(start_idx):
+        """Returns list of segment names if format B detected, else None."""
+        seg_names = []
+        i = start_idx + 1
+        while i < min(start_idx + 15, len(tokens)):
+            t = tokens[i]
+            seg = norm_seg(t)
+            v = parse_num(t)
+            if seg and v is None:
+                seg_names.append(seg)
+            elif re.match(r'^(TOTAL|Total)', t) and seg_names:
+                return seg_names  # found run of seg names before total
+            elif v is not None:
+                break  # numbers before total = format A
+            i += 1
+        return None
+
+    col_segs = detect_column_header_format(rev_idx)
+
+    if col_segs:
+        # Format B: collect number blocks after "Year ended..." lines
+        # Numbers come in groups of: external, '-', total per segment, repeated twice (curr+prior)
+        # We want the first group (current year) = first number per segment
+
+        # Find where numbers start (after the year header)
+        num_start = None
+        for i in range(rev_idx, min(rev_idx + 60, len(tokens))):
+            if parse_num(tokens[i]) is not None and parse_num(tokens[i]) > 100:
+                num_start = i
+                break
+        if num_start is None:
+            return {}
+
+        # Collect all numbers in sequence (3 per segment: ext, -, total)
+        all_nums = []
+        i = num_start
+        while i < min(num_start + 80, len(tokens)):
+            t = tokens[i]
+            v = parse_num(t)
+            if v is not None:
+                all_nums.append(v)
+            elif re.match(r'^[-–—]$', t):
+                all_nums.append(0.0)
+            elif re.search(r'[A-Za-z]{4,}', t) and 'Year ended' not in t and 'Intersegment' not in t:
+                break
+            i += 1
+
+        # Each segment = 3 tokens (external, interseg, total) → take first per segment
+        n_segs = len(col_segs)
+        for si, seg in enumerate(col_segs):
+            idx = si * 3  # external value for current year
+            if idx < len(all_nums):
+                out.setdefault(seg, {})['revenue'] = all_nums[idx]
+
+        # Find RESULT block numbers
+        if res_idx is not None:
+            # After RESULT header, skip segment labels and find numbers
+            res_num_start = None
+            for i in range(res_idx + n_segs + 2, min(res_idx + 25, len(tokens))):
+                v = parse_num(tokens[i])
+                if v is not None and v > 0:
+                    res_num_start = i
+                    break
+            if res_num_start is not None:
+                for si, seg in enumerate(col_segs):
+                    if res_num_start + si < len(tokens):
+                        v = parse_num(tokens[res_num_start + si])
+                        if v is not None:
+                            out.setdefault(seg, {})['ebit'] = v
+
+        return out
+
+    # Format A: interleaved
     def read_seg_block(start_idx, key):
         """Read segment rows: seg_name, num, '-', num, num, '-', num ..."""
         i = start_idx + 1
@@ -96,7 +172,6 @@ def extract_hul_segments(txt):
             t = tokens[i]
             seg = norm_seg(t)
             if not seg:
-                # Multi-token segment name (e.g. "Others (includes Exports," + "Consignment, etc.)")
                 candidate = t
                 if i + 1 < len(tokens):
                     candidate2 = (t + ' ' + tokens[i+1]).strip()
@@ -104,7 +179,6 @@ def extract_hul_segments(txt):
                     if seg2:
                         seg = seg2; i += 1
             if seg:
-                # Next tokens are the numbers
                 nums = []
                 j = i + 1
                 while j < len(tokens) and len(nums) < 6:
@@ -117,7 +191,7 @@ def extract_hul_segments(txt):
                         break
                     j += 1
                 if nums:
-                    out.setdefault(seg, {})[key] = nums[0]  # external current year
+                    out.setdefault(seg, {})[key] = nums[0]
                 i = j
             elif re.search(r'^(Total|TOTAL|Un-allocated|Operating|Finance)', t, re.I):
                 break
