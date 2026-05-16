@@ -93,10 +93,15 @@ export function buildProjection(
     const fcfe = fcff - (changeNwc * (1 - assumptions.targetDebtWeight))
     const dividend = netIncome * (assumptions.payoutRatio / 100)
     
-    // Capital structure evolution
-    const endingNetDebt = prevNetDebt - (fcff - dividend) // rough approximation
+    // Capital structure evolution -- balance-sheet identity TA = Equity + TotalLiabilities
+    // Net debt: positive FCFF after dividends pays down debt
+    const endingNetDebt = prevNetDebt - (fcff - dividend)
+    // Equity grows by retained earnings: net income minus dividends
     const endingEquity = prevEquity + netIncome - dividend
-    const endingTA = endingNetDebt + endingEquity
+    // Net Debt = Total Debt - Cash, so Total Debt = Net Debt + Cash
+    const endingCash = prevRevenue * 0.02 // assume 2% of revenue as cash buffer
+    const endingTotalDebt = endingNetDebt + endingCash
+    const endingTA = endingEquity + endingTotalDebt
     const endingIC = endingEquity + endingNetDebt
     const roicComputed = endingIC > 0 ? round((nopat / endingIC) * 100, 1) : 0
     const reinvestmentRateComputed = ebit > 0 ? round((capex / ebit) * 100, 1) : 0

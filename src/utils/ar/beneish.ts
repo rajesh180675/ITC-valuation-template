@@ -17,13 +17,13 @@ export interface BeneishYear {
   classification: 'conservative' | 'watch' | 'flagged' | 'unknown'
 }
 
-export function computeBeneish(data: { ar: number | null; sales: number | null; cogs: number | null; currentAssets: number | null; ppe: number | null; totalAssets: number | null; sga: number | null; depr: number | null; totalLiabs: number | null; wc: number | null }[]): BeneishYear[] {
+export function computeBeneish(data: { fy?: string; ar: number | null; sales: number | null; cogs: number | null; currentAssets: number | null; ppe: number | null; totalAssets: number | null; sga: number | null; depr: number | null; totalLiabs: number | null; wc: number | null }[]): BeneishYear[] {
   const results: BeneishYear[] = []
 
   for (let i = 1; i < data.length; i++) {
-    const fyCurr = `FY${i + 2010}` // placeholder year names
     const c = data[i]
     const p = data[i - 1]
+    const fyCurr = c.fy ?? `FY${i + 2010}` // use actual FY name when available
     if (!p || !c.totalAssets || p.totalAssets === 0) {
       results.push({
         fy: fyCurr, dsri: null, gmi: null, aqi: null, sgi: null,

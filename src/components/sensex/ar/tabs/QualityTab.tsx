@@ -43,6 +43,7 @@ function Card({ label, value, sub, tone = 'neutral' }: { label: string; value: s
 
 function beneishInput(rows: DerivedFinancialsRow[]) {
   return rows.map(r => ({
+    fy: r.fy,
     ar: r.receivables,
     sales: r.revenue,
     cogs: r.operatingExpenses,
