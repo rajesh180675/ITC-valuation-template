@@ -1,0 +1,60 @@
+{
+  "symbol": "SUNPHARMA",
+  "basis": "consolidated",
+  "company": "Sun Pharmaceutical Industries Limited",
+  "currency": "INR_Cr",
+  "source": "NSE Annual Reports \u2014 Note 52 Revenue by Geography (Consolidated)",
+  "segments": [
+    "Emerging Markets",
+    "India",
+    "Rest of World",
+    "United States"
+  ],
+  "years": [
+    "FY2017",
+    "FY2018",
+    "FY2019",
+    "FY2020",
+    "FY2021",
+    "FY2024",
+    "FY2025"
+  ],
+  "segment_time_series": {
+    "revenue|India": {
+      "FY2017": 8061.01,
+      "FY2018": 8410.2,
+      "FY2019": 7816.67,
+      "FY2020": 10186.27,
+      "FY2021": 10949.8,
+      "FY2024": 15396.76,
+      "FY2025": 17375.58
+    },
+    "revenue|United States": {
+      "FY2017": 13882.36,
+      "FY2018": 8863.54,
+      "FY2019": 10936.01,
+      "FY2020": 10938.7,
+      "FY2021": 10356.43,
+      "FY2024": 15885.61,
+      "FY2025": 17007.66
+    },
+    "revenue|Emerging Markets": {
+      "FY2017": 4907.42,
+      "FY2018": 5222.16,
+      "FY2019": 5869.8,
+      "FY2020": 6197.25,
+      "FY2021": 6405.3,
+      "FY2024": 9241.55,
+      "FY2025": 9955.97
+    },
+    "revenue|Rest of World": {
+      "FY2017": 3413.44,
+      "FY2018": 3570.04,
+      "FY2019": 4063.8,
+      "FY2020": 5002.95,
+      "FY2021": 5427.65,
+      "FY2024": 7234.53,
+      "FY2025": 7702.04
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "symbol": "TATASTEEL",
+  "basis": "consolidated",
+  "company": "Tata Steel Limited",
+  "currency": "INR_Cr",
+  "source": "NSE Annual Reports \u2014 Note 28 Revenue by Geography (Consolidated)",
+  "segments": [
+    "India",
+    "Outside India",
+    "Steel"
+  ],
+  "years": [
+    "FY2019",
+    "FY2020",
+    "FY2021",
+    "FY2022",
+    "FY2023",
+    "FY2024",
+    "FY2025"
+  ],
+  "segment_time_series": {
+    "revenue|Outside India": {
+      "FY2019": 49715.06,
+      "FY2020": 58777.12,
+      "FY2021": 48764.2,
+      "FY2022": 108086.59,
+      "FY2023": 116072.94,
+      "FY2024": 123982.93,
+      "FY2025": 126287.82
+    },
+    "revenue|Steel": {
+      "FY2019": 49715.06,
+      "FY2020": 58777.12,
+      "FY2021": 48764.2,
+      "FY2022": 66616.71,
+      "FY2023": 108086.59,
+      "FY2024": 123982.93,
+      "FY2025": 126287.82
+    },
+    "revenue|India": {
+      "FY2022": 108086.59,
+      "FY2023": 116072.94
+    }
+  }
+}

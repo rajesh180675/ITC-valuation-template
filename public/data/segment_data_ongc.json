@@ -1,0 +1,43 @@
+{
+  "symbol": "ONGC",
+  "basis": "standalone",
+  "company": "Oil and Natural Gas Corporation Limited",
+  "currency": "INR_Cr",
+  "source": "NSE Annual Reports \u2014 Note 44 Segment Revenue (Standalone)",
+  "segments": [
+    "Offshore",
+    "Onshore"
+  ],
+  "years": [
+    "FY2017",
+    "FY2018",
+    "FY2019",
+    "FY2020",
+    "FY2021",
+    "FY2022",
+    "FY2024",
+    "FY2025"
+  ],
+  "segment_time_series": {
+    "revenue|Offshore": {
+      "FY2017": 54381.44,
+      "FY2018": 58179.17,
+      "FY2019": 73015.47,
+      "FY2020": 63521.82,
+      "FY2021": 44475.71,
+      "FY2022": 48106.99,
+      "FY2024": 82608.78,
+      "FY2025": 95627.26
+    },
+    "revenue|Onshore": {
+      "FY2017": 23526.29,
+      "FY2018": 26824.93,
+      "FY2019": 36639.08,
+      "FY2020": 32691.79,
+      "FY2021": 23665.38,
+      "FY2022": 15908.87,
+      "FY2024": 19318.21,
+      "FY2025": 42219.03
+    }
+  }
+}
