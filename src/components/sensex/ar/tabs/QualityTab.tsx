@@ -46,11 +46,16 @@ function beneishInput(rows: DerivedFinancialsRow[]) {
     fy: r.fy,
     ar: r.receivables,
     sales: r.revenue,
-    cogs: r.operatingExpenses,
+    // COGS proxy: total expenses minus SG&A-type items. For screener data we
+    // approximate as (revenue - ebitda) which excludes D&A overhead.
+    cogs: r.revenue != null && r.ebitda != null ? r.revenue - r.ebitda : r.operatingExpenses,
     currentAssets: r.currentAssets,
     ppe: r.investedCapital,
     totalAssets: r.totalAssets,
-    sga: r.operatingExpenses,
+    // SG&A proxy: finance cost + depreciation (overhead items separate from pure COGS)
+    sga: r.financeCost != null && r.depreciation != null
+      ? r.financeCost + r.depreciation
+      : r.depreciation ?? r.financeCost,
     depr: r.depreciation,
     totalLiabs: r.totalAssets != null && r.equity != null ? r.totalAssets - r.equity : null,
     wc: r.workingCapital,

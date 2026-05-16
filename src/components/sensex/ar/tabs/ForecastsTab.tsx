@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, Info } from 'lucide-react';
 import type { AnnualReportYearData } from '@/utils/annualReportCashFlow';
 import { buildDerivedFinancials } from '@/utils/ar/derivedKPIs';
-import { buildProjection, type ProjectionAssumptions } from '@/utils/ar/projection';
+import { buildProjection } from '@/utils/ar/projection';
+import { deriveAssumptions } from '@/utils/ar/assumptions';
 
 interface ForecastsTabProps {
   yearsData: Record<string, AnnualReportYearData>;
@@ -12,29 +13,9 @@ interface ForecastsTabProps {
 const fmt = (v: number | null | undefined, d = 0) => v == null || !Number.isFinite(v) ? '—' : v.toLocaleString('en-IN', { maximumFractionDigits: d });
 const pct = (v: number | null | undefined, d = 1) => v == null || !Number.isFinite(v) ? '—' : `${v.toFixed(d)}%`;
 
-function defaultAssumptions(): ProjectionAssumptions {
-  return {
-    revenueGrowthYears: [8, 7, 6, 5, 4],
-    terminalGrowth: 4,
-    forecastYears: 5,
-    ebitdaMargin: [25, 25, 25, 25, 25],
-    daPctOfRevenue: [3, 3, 3, 3, 3],
-    taxRate: 25.17,
-    capexPctOfRevenue: [5, 5, 5, 5, 5],
-    nwcPctOfRevenue: [2, 2, 2, 2, 2],
-    netDebtToEbitdaTarget: 1,
-    payoutRatio: 35,
-    riskFreeRate: 7,
-    equityRiskPremium: 5.5,
-    beta: 1,
-    costOfDebt: 8.5,
-    targetDebtWeight: 0.3,
-  };
-}
-
 export function ForecastsTab({ yearsData, years }: ForecastsTabProps) {
   const history = useMemo(() => buildDerivedFinancials(yearsData, years), [yearsData, years]);
-  const assumptions = useMemo(() => defaultAssumptions(), []);
+  const assumptions = useMemo(() => deriveAssumptions(history), [history]);
   const projection = useMemo(() => buildProjection(history, assumptions), [history, assumptions]);
 
   if (history.length === 0 || projection.years.length === 0) {
@@ -50,9 +31,25 @@ export function ForecastsTab({ yearsData, years }: ForecastsTabProps) {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="glass-card p-4"><div className="text-xs text-gray-500">Base Revenue</div><div className="text-xl text-white font-semibold">₹{fmt(projection.startingValues.revenue)} Cr</div></div>
-        <div className="glass-card p-4"><div className="text-xs text-gray-500">Base EBITDA Margin</div><div className="text-xl text-white font-semibold">{pct(projection.startingValues.ebitdaMargin)}</div></div>
+        <div className="glass-card p-4"><div className="text-xs text-gray-500">Hist. EBITDA Margin</div><div className="text-xl text-white font-semibold">{pct(assumptions.ebitdaMargin[0])}</div><div className="text-[10px] text-gray-500 mt-1">5Y avg from actuals</div></div>
+        <div className="glass-card p-4"><div className="text-xs text-gray-500">Rev Growth Y1→Y5</div><div className="text-xl text-white font-semibold">{pct(assumptions.revenueGrowthYears[0])} → {pct(assumptions.revenueGrowthYears[4])}</div><div className="text-[10px] text-gray-500 mt-1">Tapered from hist. CAGR</div></div>
         <div className="glass-card p-4"><div className="text-xs text-gray-500">Cost of Equity</div><div className="text-xl text-white font-semibold">{pct(projection.costOfEquity)}</div></div>
-        <div className="glass-card p-4"><div className="text-xs text-gray-500">Terminal Growth</div><div className="text-xl text-white font-semibold">{pct(assumptions.terminalGrowth)}</div></div>
+      </div>
+
+      {/* Assumption summary */}
+      <div className="glass-card p-4 flex flex-wrap gap-3 text-[11px]">
+        <div className="flex items-center gap-1.5 text-gray-400"><Info size={12} className="text-blue-400" /> Assumptions seeded from {Math.min(5, history.length)}Y actuals:</div>
+        {[
+          ['Tax Rate', pct(assumptions.taxRate)],
+          ['Capex/Rev', pct(assumptions.capexPctOfRevenue[0])],
+          ['D&A/Rev', pct(assumptions.daPctOfRevenue[0])],
+          ['Terminal g', pct(assumptions.terminalGrowth)],
+          ['WACC', pct(projection.wacc)],
+        ].map(([k, v]) => (
+          <span key={k} className="px-2 py-0.5 rounded bg-gray-800 text-gray-300">
+            {k}: <span className="text-white font-mono">{v}</span>
+          </span>
+        ))}
       </div>
 
       <div className="glass-card p-4 overflow-x-auto">
@@ -66,13 +63,13 @@ export function ForecastsTab({ yearsData, years }: ForecastsTabProps) {
           </thead>
           <tbody>
             {[
-              ['Revenue', projection.years.map(y => `₹${fmt(y.revenue)} Cr`)],
-              ['EBITDA', projection.years.map(y => `₹${fmt(y.ebitda)} Cr`)],
-              ['EBIT', projection.years.map(y => `₹${fmt(y.ebit)} Cr`)],
-              ['NOPAT', projection.years.map(y => `₹${fmt(y.nopat)} Cr`)],
-              ['FCFF', projection.years.map(y => `₹${fmt(y.fcff)} Cr`)],
-              ['ROIC', projection.years.map(y => pct(y.roic))],
-              ['Reinvestment Rate', projection.years.map(y => pct(y.reinvestmentRate))],
+              ['Revenue (₹ Cr)', projection.years.map(y => fmt(y.revenue))],
+              ['EBITDA (₹ Cr)', projection.years.map(y => fmt(y.ebitda))],
+              ['EBIT (₹ Cr)', projection.years.map(y => fmt(y.ebit))],
+              ['NOPAT (₹ Cr)', projection.years.map(y => fmt(y.nopat))],
+              ['FCFF (₹ Cr)', projection.years.map(y => fmt(y.fcff))],
+              ['ROIC (%)', projection.years.map(y => pct(y.roic))],
+              ['Reinvestment Rate (%)', projection.years.map(y => pct(y.reinvestmentRate))],
             ].map(([label, values]) => (
               <tr key={label as string} className="border-b border-gray-900 hover:bg-white/[0.03]">
                 <td className="py-2 text-gray-300">{label}</td>

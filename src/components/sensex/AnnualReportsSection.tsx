@@ -455,12 +455,12 @@ export function AnnualReportsSection() {
           {/* Tab content */}
           {tab === 'overview' && (
             <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Chart rendering failed.</div>}>
-              <OverviewTab yearsData={yearsData ?? {}} years={years} segData={segData} />
+              <OverviewTab yearsData={yearsData ?? {}} years={displayYears} segData={segData} />
             </ErrorBoundary>
           )}
           {tab === 'ratios' && (
             <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Chart rendering failed.</div>}>
-              <RatiosTab yearsData={yearsData ?? {}} years={years} />
+              <RatiosTab yearsData={yearsData ?? {}} years={displayYears} />
             </ErrorBoundary>
           )}
           {tab === 'segments' && (
@@ -505,7 +505,7 @@ export function AnnualReportsSection() {
           )}
           {tab === 'peers' && (
             <ErrorBoundary fallback={<div className="glass-card p-6 text-center text-gray-400 text-sm">Peer comparison failed.</div>}>
-              <PeersTab ticker={activeTicker} yearsData={yearsData ?? {}} years={years} sector={activeCompanyEntry?.sector ?? null} />
+              <PeersTab ticker={activeTicker} yearsData={yearsData ?? {}} years={displayYears} sector={activeCompanyEntry?.sector ?? null} />
             </ErrorBoundary>
           )}
           {tab === 'dividends' && (

@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import { Calculator } from 'lucide-react';
+import { Calculator, Info } from 'lucide-react';
 import type { AnnualReportYearData } from '@/utils/annualReportCashFlow';
 import { buildDerivedFinancials } from '@/utils/ar/derivedKPIs';
-import { buildProjection, type ProjectionAssumptions } from '@/utils/ar/projection';
+import { buildProjection } from '@/utils/ar/projection';
+import { deriveAssumptions } from '@/utils/ar/assumptions';
 import { calculateDCF } from '@/utils/ar/valuationDCF';
 import { calculateRIM } from '@/utils/ar/valuationRIM';
 import { calculateEVA } from '@/utils/ar/valuationEVA';
@@ -16,16 +17,7 @@ interface ValuationTabProps {
 
 const fmt = (v: number | null | undefined, d = 0) => v == null || !Number.isFinite(v) ? '—' : v.toLocaleString('en-IN', { maximumFractionDigits: d });
 const ratio = (v: number | null | undefined, d = 1) => v == null || !Number.isFinite(v) ? '—' : `${v.toFixed(d)}x`;
-
-function assumptions(): ProjectionAssumptions {
-  return {
-    revenueGrowthYears: [8, 7, 6, 5, 4], terminalGrowth: 4, forecastYears: 5,
-    ebitdaMargin: [25, 25, 25, 25, 25], daPctOfRevenue: [3, 3, 3, 3, 3], taxRate: 25.17,
-    capexPctOfRevenue: [5, 5, 5, 5, 5], nwcPctOfRevenue: [2, 2, 2, 2, 2],
-    netDebtToEbitdaTarget: 1, payoutRatio: 35, riskFreeRate: 7, equityRiskPremium: 5.5,
-    beta: 1, costOfDebt: 8.5, targetDebtWeight: 0.3,
-  };
-}
+const pct = (v: number | null | undefined, d = 1) => v == null || !Number.isFinite(v) ? '—' : `${v.toFixed(d)}%`;
 
 function Card({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return <div className="glass-card p-4"><div className="text-xs text-gray-500">{label}</div><div className="text-2xl text-white font-semibold mt-1">{value}</div>{sub && <div className="text-[11px] text-gray-500 mt-1">{sub}</div>}</div>;
@@ -33,7 +25,7 @@ function Card({ label, value, sub }: { label: string; value: string; sub?: strin
 
 export function ValuationTab({ yearsData, years, marketCapCr }: ValuationTabProps) {
   const history = useMemo(() => buildDerivedFinancials(yearsData, years), [yearsData, years]);
-  const baseAssumptions = useMemo(() => assumptions(), []);
+  const baseAssumptions = useMemo(() => deriveAssumptions(history), [history]);
   const projection = useMemo(() => buildProjection(history, baseAssumptions), [history, baseAssumptions]);
   const latest = history[history.length - 1];
 
@@ -68,6 +60,24 @@ export function ValuationTab({ yearsData, years, marketCapCr }: ValuationTabProp
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-2 text-sm text-gray-300"><Calculator size={16} className="text-emerald-400" /> Valuation suite · DCF / RIM / EVA / Multiples</div>
+
+      {/* Assumption summary */}
+      <div className="glass-card p-3 flex flex-wrap gap-2 text-[11px]">
+        <div className="flex items-center gap-1.5 text-gray-400"><Info size={12} className="text-blue-400" /> Seeded from actuals:</div>
+        {[
+          ['EBITDA Margin', pct(baseAssumptions.ebitdaMargin[0])],
+          ['Rev Growth Y1', pct(baseAssumptions.revenueGrowthYears[0])],
+          ['Terminal g', pct(baseAssumptions.terminalGrowth)],
+          ['Tax Rate', pct(baseAssumptions.taxRate)],
+          ['WACC', pct(projection.wacc)],
+          ['Capex/Rev', pct(baseAssumptions.capexPctOfRevenue[0])],
+        ].map(([k, v]) => (
+          <span key={k} className="px-2 py-0.5 rounded bg-gray-800 text-gray-300">
+            {k}: <span className="text-white font-mono">{v}</span>
+          </span>
+        ))}
+      </div>
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <Card label="DCF Equity Value" value={`₹${fmt(dcf.equityValue)} Cr`} sub={`Per share proxy ₹${fmt(dcf.perShareValueINR, 2)}`} />
         <Card label="RIM Equity Value" value={`₹${fmt(rim.equityValue)} Cr`} sub={`Per share proxy ₹${fmt(rim.perShareValueINR, 2)}`} />
