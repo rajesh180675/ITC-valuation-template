@@ -56,8 +56,8 @@ describe('BalanceSheetSideBySide', () => {
     );
 
     expect(html).not.toContain('No balance sheet data');
-    expect(html).toContain('ASSETS');
-    expect(html).toContain('EQUITY &amp; LIABILITIES');
+    expect(html).toContain('Assets');
+    expect(html).toContain('Equity &amp; Liabilities');
     expect(html).toContain('Fixed Assets+');
     expect(html).toContain('Total Assets');
     expect(html).toContain('Equity Capital');

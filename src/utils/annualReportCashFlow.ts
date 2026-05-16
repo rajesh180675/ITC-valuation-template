@@ -112,7 +112,9 @@ export function cashFlowLabelKey(label: string): string {
 
 export function getDisplayYears(selectedYears: string[], years: string[], tab: AnnualReportTab): string[] {
   if (selectedYears.length > 0) return selectedYears;
-  return tab === 'cashFlow' ? years : years.slice(-5);
+  // Balance sheet and cash flow show the full available history by default
+  if (tab === 'cashFlow' || tab === 'balanceSheet') return years;
+  return years.slice(-5);
 }
 
 export function getYearPresetYears(preset: CashFlowPreset, years: string[]): string[] {

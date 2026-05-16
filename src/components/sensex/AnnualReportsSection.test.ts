@@ -8,7 +8,11 @@ describe('AnnualReportsSection year selection', () => {
     expect(getDisplayYears([], years, 'cashFlow')).toEqual(years);
   });
 
-  it('keeps other tabs on the recent window when no years are selected', () => {
+  it('defaults balance sheet to full history when no years are selected', () => {
+    expect(getDisplayYears([], years, 'balanceSheet')).toEqual(years);
+  });
+
+  it('keeps other tabs (pnl, charts, etc.) on the recent 5-year window when no years are selected', () => {
     expect(getDisplayYears([], years, 'pnl')).toEqual(['FY2021', 'FY2022', 'FY2023', 'FY2024', 'FY2025']);
   });
 
