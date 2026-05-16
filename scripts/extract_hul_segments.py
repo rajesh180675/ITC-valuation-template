@@ -19,6 +19,12 @@ SEG_NORM = {
     'foods': 'Foods',
     'refreshment': 'Refreshment',
     'others': 'Others',
+    # Pre-Ind AS (FY2013-FY2016) segment names
+    'soaps and detergents': 'Soaps & Detergents',
+    'soaps & detergents': 'Soaps & Detergents',
+    'personal products': 'Personal Products',
+    'beverages': 'Beverages',
+    'packaged foods': 'Packaged Foods',
 }
 
 def norm_seg(s):
@@ -42,19 +48,23 @@ def find_seg_note_page(doc):
     """Find page with segment information note (note number varies by year)."""
     for i in range(int(len(doc) * 0.4), len(doc)):
         txt = doc[i].get_text()
-        # Strict: note + home care + revenue on same page
+        # Post-Ind AS (FY2017+): note + home care + revenue
         if (re.search(r'(NOTE\s+\d+.*SEGMENT|SEGMENT INFORMATION)', txt, re.I)
                 and re.search(r'(Home [Cc]are|Personal [Cc]are|Beauty)', txt)
                 and re.search(r'Revenue', txt)):
             return i, txt
-        # Relaxed: segment note + home care definition (data may be on next page)
+        # Post-Ind AS relaxed: segment note + home care definition (data on next page)
         if (re.search(r'(NOTE\s+\d+.*SEGMENT|SEGMENT INFORMATION)', txt, re.I)
                 and re.search(r'Home [Cc]are include', txt)):
-            # Merge with next page
             if i + 1 < len(doc):
                 txt2 = txt + "\n" + doc[i + 1].get_text()
                 if re.search(r'Revenue', txt2):
                     return i, txt2
+        # Pre-Ind AS (FY2013-FY2016): "SEGMENT INFORMATION FOR THE YEAR ENDED" + Soaps
+        if (re.search(r'SEGMENT INFORMATION FOR THE YEAR ENDED', txt, re.I)
+                and re.search(r'(Soaps|Detergent)', txt)
+                and re.search(r'REVENUE', txt, re.I)):
+            return i, txt
     return None, None
 
 def extract_hul_segments(txt):

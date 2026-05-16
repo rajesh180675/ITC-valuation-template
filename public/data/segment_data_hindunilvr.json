@@ -6,14 +6,22 @@
   "source": "hul.co.in Annual Reports \u2014 Note 46 Segment Information (Ind AS 108)",
   "segments": [
     "Beauty & Personal Care",
+    "Beverages",
     "Foods",
     "Foods & Refreshment",
     "Home Care",
     "Others",
+    "Packaged Foods",
     "Personal Care",
-    "Refreshment"
+    "Personal Products",
+    "Refreshment",
+    "Soaps & Detergents"
   ],
   "years": [
+    "FY2013",
+    "FY2014",
+    "FY2015",
+    "FY2016",
     "FY2017",
     "FY2018",
     "FY2020",
@@ -24,6 +32,78 @@
     "FY2025"
   ],
   "segment_time_series": {
+    "revenue|Soaps & Detergents": {
+      "FY2013": 12701.82,
+      "FY2014": 13683.41,
+      "FY2015": 14876.61,
+      "FY2016": 15053.3
+    },
+    "ebit|Soaps & Detergents": {
+      "FY2013": 1615.53,
+      "FY2014": 1785.81,
+      "FY2015": 2033.65,
+      "FY2016": 2142.07
+    },
+    "revenue|Personal Products": {
+      "FY2013": 7471.66,
+      "FY2014": 8120.91,
+      "FY2015": 9006.53,
+      "FY2016": 9771.95
+    },
+    "ebit|Personal Products": {
+      "FY2013": 1948.86,
+      "FY2014": 2068.06,
+      "FY2015": 2424.35,
+      "FY2016": 2758.31
+    },
+    "revenue|Beverages": {
+      "FY2013": 2974.66,
+      "FY2014": 3311.86,
+      "FY2015": 3631.49,
+      "FY2016": 3880.85
+    },
+    "ebit|Beverages": {
+      "FY2013": 474.57,
+      "FY2014": 580.69,
+      "FY2015": 614.56,
+      "FY2016": 652.93
+    },
+    "revenue|Packaged Foods": {
+      "FY2013": 1505.74,
+      "FY2014": 1648.3,
+      "FY2015": 1891.8,
+      "FY2016": 2117.07
+    },
+    "ebit|Packaged Foods": {
+      "FY2013": 37.02,
+      "FY2014": 61.26,
+      "FY2015": 83.17,
+      "FY2016": 126.63
+    },
+    "revenue|Others": {
+      "FY2013": 1092.78,
+      "FY2014": 1156.3,
+      "FY2015": 1312.91,
+      "FY2016": 2332.44,
+      "FY2017": 1960.0,
+      "FY2018": 1630.0,
+      "FY2020": 1205.0,
+      "FY2023": 2459.0,
+      "FY2024": 2275.0,
+      "FY2025": 2180.0
+    },
+    "ebit|Others": {
+      "FY2013": -39.0,
+      "FY2014": -37.0,
+      "FY2015": -15.48,
+      "FY2016": 174.71,
+      "FY2017": 200.0,
+      "FY2018": 145.0,
+      "FY2020": 172.0,
+      "FY2023": 790.0,
+      "FY2024": 659.0,
+      "FY2025": 440.0
+    },
     "revenue|Home Care": {
       "FY2017": 11346.0,
       "FY2018": 11626.0,
@@ -71,22 +151,6 @@
     "ebit|Refreshment": {
       "FY2017": 755.0,
       "FY2018": 897.0
-    },
-    "revenue|Others": {
-      "FY2017": 1960.0,
-      "FY2018": 1630.0,
-      "FY2020": 1205.0,
-      "FY2023": 2459.0,
-      "FY2024": 2275.0,
-      "FY2025": 2180.0
-    },
-    "ebit|Others": {
-      "FY2017": 200.0,
-      "FY2018": 145.0,
-      "FY2020": 172.0,
-      "FY2023": 790.0,
-      "FY2024": 659.0,
-      "FY2025": 440.0
     },
     "revenue|Beauty & Personal Care": {
       "FY2020": 17488.0,
