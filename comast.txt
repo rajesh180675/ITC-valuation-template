@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<title>Economy API</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="/kommon/bin/sr.php?kall=webreserv&webres=bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="/kommon/bin/sr.php?kall=webreserv&webres=font.css">
+	<link rel="stylesheet" type="text/css" href="/kommon/bin/sr.php?kall=webreserv&webres=jquery-ui.css">
+	<script src="/kommon/bin/sr.php?kall=webreserv&webres=jquery4.min.js" language="JavaScript"></script>
+	<script src="/kommon/bin/sr.php?kall=webreserv&webres=popper4.min.js" language="JavaScript"></script>
+	<script src="/kommon/bin/sr.php?kall=webreserv&webres=bootstrap4.min.js" language="JavaScript"></script>
+	<script src="/kommon/bin/sr.php?kall=webreserv&webres=jquery-ui.min.js" language="JavaScript"></script>
+	<!--script src="/lib/frmajax.js?dt=20260515214218"></script-->
+	<script> $(function() { $("#sortable").sortable(); $("#sortable").disableSelection(); }); </script>
+	<script src="/kommon/bin/sr.php?kall=dlstream&streamfile=prelogin.js" language="JavaScript"></script>
+	<link rel="stylesheet" type="text/css" href="/kommon/bin/sr.php?kall=dlstream&streamfile=prelogin.css">
+	<link rel="stylesheet" href="/lib/economyapi.css?dt=20260515214218">
+	<script src="/lib/economyapi.js?dt=20260515214218"></script>
+	</head>
+    <body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="height:100%;width:100%;">
+    <tr><td>
+	<header class="navheader">
+    <div style="width:100%;">
+	<table>
+	    <tbody>
+		<tr>
+		    <td style="width: 42px !important; vertical-align: bottom;padding: 0rem 1rem; padding-top:13px; padding-bottom:12px;" id="site_logo" valign="bottom"><a href="/"><img src="/image/cmie.png"></a></td> 
+		    <td id="site_name" class="site-title" style="text-align:left; padding-bottom:0px; margin-bottom:0px;vertical-align: bottom;" valign="bottom" align="left">
+			<a class="site-title" href="/">Economy API</a>
+			</td>
+		    </tr>
+		</tbody>
+	    </table>
+	</div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top sticky" data-toggle="sticky-onscroll">
+	<span class="navbar-brand" style="margin:-4px;width:0px;">	<span style="margin-left:4px;"><a class="navbar-brand" href="/">Home</a></span>
+
+</span>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	    </button>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+		
+		</ul>
+	    <form class="form-inline my-2 my-lg-0">
+		<ul class="navbar-nav">
+		    
+
+		    
+		    </ul>
+		</form>
+	    </div>
+	</nav>
+    </header>
+
+
+	</td></tr>
+    <tr><td valign="top" style="height:100%;width:100%;padding:20px;">
+	<div class="container">
+    <div class="row">
+	<div class="col-12 col-sm-12 col-md-3 col-lg-3">
+	        <div class="border p-2 mb-4">
+	<div class="mb-1">
+	    <div style="padding: .10rem;">
+		<span style="padding-left: 7px;"><b>Economy API</b></span>
+		</div>
+	    </div>
+
+	    <div class="mb-1">
+		<div style="padding: .10rem;">
+		    <a class="site-link ##HIGHLIGHT##" href="/?section=intro">
+			<span style="font-size:22px;">&#10022;</span> Introduction
+			</a>
+		    </div>
+		</div>
+
+	    <div class="mb-1">
+		<div style="padding: .10rem;">
+		    <a class="site-link ##HIGHLIGHT##" href="/?section=apikey">
+			<span style="font-size:22px;">&#10022;</span> API Key
+			</a>
+		    </div>
+		</div>
+
+	    <div class="mb-1">
+		<div style="padding: .10rem;">
+		    <a class="site-link ##HIGHLIGHT##" xhref="/?section=example">
+			<span style="font-size:22px;">&#10022;</span> Examples
+			</a>
+		    </div>
+		</div>
+
+	    <div class="mb-1">
+		<div style="padding-left: 1rem;">
+		    <a class="site-link ##HIGHLIGHT##" href="/?section=example_php">
+			<span style="font-size:22px;">&#10022;</span> Using PHP
+			</a>
+		    </div>
+		</div>
+	    <div class="mb-1">
+		<div style="padding-left: 1rem;">
+		    <a class="site-link ##HIGHLIGHT##" href="/?section=example_js">
+			<span style="font-size:22px;">&#10022;</span> Using Javascript
+			</a>
+		    </div>
+		</div>
+	</div> 
+
+
+	    </div>
+	<div class="col-12 col-sm-12 col-md-9 col-lg-9">
+	    <div>
+		<div class="card">
+  <h5 class="card-header primary_color secondary_bg_color">Introduction to Economy API</h5>
+  <div class="card-body">
+    <!--h4 class="card-title">Title</h4-->
+    <p>Economy API provides a very simple interface by which the user can download the Company's Profile, Standalone and Consolidated data of one or more Companies.</p>
+    <p>One can download either latest data of multiple companies or last 5 years data of a single company. 3 hits shall be deducted per company.</p>
+    <p>To use this facility, you just need the Passkey and valid Company Codes. <a href="/kommon/bin/sr.php?kall=wdltxt&fnm=comast.txt"><i>Click here</i></a> to download the Company Master.</p>
+    <p>Output shall be in the form of a '.zip' file named 'Economyapi_yyyymmdd_hhmmss.zip'. The '.zip' file shall have one or more '.txt' files named as per the requested company. For Example :
+    <ul><li>If the user has requested the latest data of 'Reliance Industries Ltd.' and 'Tata Motors Ltd.' the filename shall be '196667_RELIANCE_INDUSTRIES_LTD__latest_username.txt' and '248093_TATA_MOTORS_LTD__latest_username.txt'.
+    <li>If the user has requested the last 5 years data of 'Reliance Industries Ltd.' the '.txt' filename will be '196667_RELIANCE_INDUSTRIES_LTD__last5yr_username.txt'.
+    <li>All errors are reported inside a file named 'ERROR.txt'. All 'Invalid credentials/usage agreement policy authorisation/NO live subscription/Invalid Company Codes' etc. are reported in this file.
+    </ul>
+    </p>
+    <p>For more information as to how to download the data refer to the <a href="?section=example_php"><i>Examples</i></a> section.</p>
+    <p></p>
+    </div>
+  </div>
+
+
+		</div>
+	    </div>
+	</div>
+    </div>
+
+
+	</td></tr>
+    <tr><td>
+	<div class="bg-dark bfooter">
+    <div class="text-center">
+	<p style="color:#FFFFFF; margin:0px; padding:0px; padding-top: 10px; padding-bottom: 10px;">A Product by <a class="footlink" href="http://www.cmie.com" target="_blank">Centre for Monitoring Indian Economy Pvt. Ltd.</a></p>
+	</div>
+    <div class="text-center">
+	<p style="color:#FFFFFF; margin:0px; padding:0px; padding-bottom: 10px;">Use of CMIE Product implies acceptance of the
+	    <a class="footlink" href="/kommon/bin/sr.php?kall=wagreepp&amp;tab=agree" style="text-decoration: underline">usage agreement</a> 
+	    &amp; 
+	    <a class="footlink" href="/kommon/bin/sr.php?kall=wsubscribe&amp;tab=2092" style="text-decoration: underline">privacy policy</a> &nbsp; &diams; &nbsp; 	<a class="footlink" href="http://register.cmie.com/kommon/bin/sr.php?kall=wfaq" target="_blank">FAQs</a>
+
+
+	    &nbsp; &diams; &nbsp;<a class="footlink" href="/kommon/bin/sr.php?kall=wdiagnosis">Diagnosis</a>
+	    </p>
+	</div>
+    </div>
+
+	<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+	    <div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+		    <div class="modal-header primary_bg_color">
+			<h4 class="modal-title">User Login</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+		    <div class="modal-body">
+			
+			<form id="loginform" class="form-horizontal" role="form" method="post" action="/kommon/bin/sr.php?kall=wlogin">
+			    <div class="input-group mb-2">
+				<input class="form-control" id="username" name="username" type="text" placeholder="Enter username" tabindex="1" autofocus>
+				</div>
+			    <div class="input-group mb-3">
+				<input class="form-control" id="pwd" name="password" type="password" placeholder="Enter password" tabindex="2" >
+				</div>
+			    <div class="input-group mb-2">
+				<button type="submit" class="btn btn-sm btn_primary" tabindex="3">Login</button> &nbsp; &nbsp;
+				<a class="site-link" href="/kommon/bin/sr.php?kall=wsubscribe&amp;tab=2030">Forgot Password</a> &nbsp; | &nbsp; <a class="site-link" href="/kommon/bin/sr.php?kall=wsubscribe&amp;tab=2000">Register</a>
+				</div>
+			    </form>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	    
+
+
+	</td></tr>
+    </table>
+
+	</body>
+    </html> 
+
