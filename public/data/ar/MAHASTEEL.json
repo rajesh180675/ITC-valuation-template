@@ -389,6 +389,11 @@
             "current": 83.0
           }
         ]
+      },
+      "metadata": {
+        "qualityFlags": [
+          "Unusual tax rate: 0/1 = 0.0%"
+        ]
       }
     },
     "FY2018": {
@@ -2163,6 +2168,8 @@
       "FY2024",
       "FY2025",
       "FY2026"
-    ]
+    ],
+    "reportingType": "nonFinancial",
+    "dataVersion": 2
   }
 }
