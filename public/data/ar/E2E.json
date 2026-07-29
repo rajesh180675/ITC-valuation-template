@@ -1,0 +1,111 @@
+{
+  "ticker": "E2E",
+  "years": {
+    "FY2026": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 246.0,
+          "totalExpensesCr": 119.0,
+          "operatingProfitCr": 126.0,
+          "otherIncomeCr": 34.0,
+          "financeCostCr": 12.0,
+          "depreciationCr": 169.0,
+          "pbtCr": -21.0,
+          "patCr": -16.0,
+          "epsRs": -0.76,
+          "dividendCr": 0.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 246.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 119.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 126.0
+          },
+          {
+            "label": "OPM %",
+            "current": 51.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 34.0
+          },
+          {
+            "label": "Interest",
+            "current": 12.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 169.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": -21.0
+          },
+          {
+            "label": "Tax %",
+            "current": -27.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": -16.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": -0.76
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 246.0,
+          "totalExpensesCr": 119.0,
+          "operatingProfitCr": 126.0,
+          "otherIncomeCr": 34.0,
+          "financeCostCr": 12.0,
+          "depreciationCr": 169.0,
+          "pbtCr": -21.0,
+          "patCr": -16.0,
+          "epsRs": -0.76,
+          "dividendCr": 0.0
+        },
+        "items": []
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 246.0,
+          "totalExpensesCr": 119.0,
+          "operatingProfitCr": 126.0,
+          "otherIncomeCr": 34.0,
+          "financeCostCr": 12.0,
+          "depreciationCr": 169.0,
+          "pbtCr": -21.0,
+          "patCr": -16.0,
+          "epsRs": -0.76,
+          "dividendCr": 0.0
+        },
+        "items": []
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-07-29T02:41:49.814849+00:00",
+    "source": "screener.in/E2E/consolidated",
+    "yearsCovered": [
+      "FY2026"
+    ],
+    "reportingType": "nonFinancial",
+    "dataVersion": 2
+  }
+}
