@@ -1,0 +1,111 @@
+{
+  "ticker": "VOGL",
+  "years": {
+    "FY2026": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 9606.0,
+          "totalExpensesCr": 6665.0,
+          "operatingProfitCr": 2941.0,
+          "otherIncomeCr": 555.0,
+          "financeCostCr": 650.0,
+          "depreciationCr": 3043.0,
+          "pbtCr": -197.0,
+          "patCr": -493.0,
+          "epsRs": -208.85,
+          "dividendCr": 0.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 9606.0
+          },
+          {
+            "label": "Expenses+",
+            "current": 6665.0
+          },
+          {
+            "label": "Operating Profit",
+            "current": 2941.0
+          },
+          {
+            "label": "OPM %",
+            "current": 31.0
+          },
+          {
+            "label": "Other Income+",
+            "current": 555.0
+          },
+          {
+            "label": "Interest",
+            "current": 650.0
+          },
+          {
+            "label": "Depreciation",
+            "current": 3043.0
+          },
+          {
+            "label": "Profit before tax",
+            "current": -197.0
+          },
+          {
+            "label": "Tax %",
+            "current": 150.0
+          },
+          {
+            "label": "Net Profit+",
+            "current": -493.0
+          },
+          {
+            "label": "EPS in Rs",
+            "current": -208.85
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 9606.0,
+          "totalExpensesCr": 6665.0,
+          "operatingProfitCr": 2941.0,
+          "otherIncomeCr": 555.0,
+          "financeCostCr": 650.0,
+          "depreciationCr": 3043.0,
+          "pbtCr": -197.0,
+          "patCr": -493.0,
+          "epsRs": -208.85,
+          "dividendCr": 0.0
+        },
+        "items": []
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 9606.0,
+          "totalExpensesCr": 6665.0,
+          "operatingProfitCr": 2941.0,
+          "otherIncomeCr": 555.0,
+          "financeCostCr": 650.0,
+          "depreciationCr": 3043.0,
+          "pbtCr": -197.0,
+          "patCr": -493.0,
+          "epsRs": -208.85,
+          "dividendCr": 0.0
+        },
+        "items": []
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-08-02T09:40:38.585839+00:00",
+    "source": "screener.in/VOGL/consolidated",
+    "yearsCovered": [
+      "FY2026"
+    ],
+    "reportingType": "nonFinancial",
+    "dataVersion": 2
+  }
+}

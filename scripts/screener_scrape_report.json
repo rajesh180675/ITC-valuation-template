@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-07-29T02:48:07.032482+00:00",
+  "timestamp": "2026-08-02T09:41:18.923026+00:00",
   "args": {
     "batch": "file",
     "workers": 2,
     "resume": true
   },
-  "total": 188,
-  "success": 21,
-  "fail": 166,
+  "total": 168,
+  "success": 6,
+  "fail": 161,
   "skipped": 1,
-  "elapsed_seconds": 403.33436346054077,
+  "elapsed_seconds": 533.2761883735657,
   "failures": [
     {
       "ticker": "AASTHA",
@@ -28,11 +28,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "AVADHSUGAR",
+      "ticker": "BOHRAIND",
       "error": "No financial tables found"
     },
     {
-      "ticker": "BOHRAIND",
+      "ticker": "AVADHSUGAR",
       "error": "No financial tables found"
     },
     {
@@ -56,11 +56,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "KROSS",
+      "ticker": "KSHINTL",
       "error": "No financial tables found"
     },
     {
-      "ticker": "KSHINTL",
+      "ticker": "KROSS",
       "error": "No financial tables found"
     },
     {
@@ -72,15 +72,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "KWIL",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "LAGNAM",
       "error": "No financial tables found"
     },
     {
-      "ticker": "LAL",
+      "ticker": "KWIL",
       "error": "No financial tables found"
     },
     {
@@ -88,11 +84,15 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "LAOPALA",
+      "ticker": "LAL",
       "error": "No financial tables found"
     },
     {
       "ticker": "LASA",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "LAOPALA",
       "error": "No financial tables found"
     },
     {
@@ -108,11 +108,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "LORDSCHLO",
+      "ticker": "LOTUSEYE",
       "error": "No financial tables found"
     },
     {
-      "ticker": "LOTUSEYE",
+      "ticker": "LORDSCHLO",
       "error": "No financial tables found"
     },
     {
@@ -124,15 +124,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "MACPOWER",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "MADRASFERT",
       "error": "No financial tables found"
     },
     {
-      "ticker": "MAGADSUGAR",
+      "ticker": "MACPOWER",
       "error": "No financial tables found"
     },
     {
@@ -140,11 +136,15 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "MANAKALUCO",
+      "ticker": "MAGADSUGAR",
       "error": "No financial tables found"
     },
     {
       "ticker": "MANBA",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "MANAKALUCO",
       "error": "No financial tables found"
     },
     {
@@ -256,10 +256,6 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "ORIENTLTD",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "ORISSAMINE",
       "error": "No financial tables found"
     },
@@ -324,15 +320,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "QUADFUTURE",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "PYRAMID",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "RAJMET",
       "error": "No financial tables found"
     },
     {
@@ -340,7 +328,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "RAMANEWS",
+      "ticker": "QUADFUTURE",
       "error": "No financial tables found"
     },
     {
@@ -348,7 +336,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "RAMBHAJO",
+      "ticker": "RAJMET",
       "error": "No financial tables found"
     },
     {
@@ -356,11 +344,15 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "RANASUG",
+      "ticker": "RAMANEWS",
       "error": "No financial tables found"
     },
     {
-      "ticker": "RBZJEWEL",
+      "ticker": "RAMBHAJO",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "RANASUG",
       "error": "No financial tables found"
     },
     {
@@ -368,7 +360,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "RELCHEMQ",
+      "ticker": "RBZJEWEL",
       "error": "No financial tables found"
     },
     {
@@ -376,7 +368,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "RHL",
+      "ticker": "RELCHEMQ",
       "error": "No financial tables found"
     },
     {
@@ -384,11 +376,15 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "ROLEXRINGS",
+      "ticker": "RHL",
       "error": "No financial tables found"
     },
     {
       "ticker": "ROML",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ROLEXRINGS",
       "error": "No financial tables found"
     },
     {
@@ -428,11 +424,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "SCPL",
+      "ticker": "SCODATUBES",
       "error": "No financial tables found"
     },
     {
-      "ticker": "SCODATUBES",
+      "ticker": "SCPL",
       "error": "No financial tables found"
     },
     {
@@ -452,15 +448,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "SHEKHAWATI",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "SHANTIGOLD",
       "error": "No financial tables found"
     },
     {
-      "ticker": "SHREERAMA",
+      "ticker": "SHEKHAWATI",
       "error": "No financial tables found"
     },
     {
@@ -468,11 +460,15 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "SHRINGARMS",
+      "ticker": "SHREERAMA",
       "error": "No financial tables found"
     },
     {
       "ticker": "SHREYANIND",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "SHRINGARMS",
       "error": "No financial tables found"
     },
     {
@@ -484,19 +480,19 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "SMLT",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "SKFINDUS",
       "error": "No financial tables found"
     },
     {
-      "ticker": "SOMICONVEY",
+      "ticker": "SMLT",
       "error": "No financial tables found"
     },
     {
       "ticker": "SNOWMAN",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "SOMICONVEY",
       "error": "No financial tables found"
     },
     {
@@ -516,11 +512,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "SRTL",
+      "ticker": "SRGHFL",
       "error": "No financial tables found"
     },
     {
-      "ticker": "SRGHFL",
+      "ticker": "SRTL",
       "error": "No financial tables found"
     },
     {
@@ -548,11 +544,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "THOMASCOTT",
+      "ticker": "TASTYBITE",
       "error": "No financial tables found"
     },
     {
-      "ticker": "TASTYBITE",
+      "ticker": "THOMASCOTT",
       "error": "No financial tables found"
     },
     {
@@ -572,15 +568,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "TRACXN",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "TNTELE",
       "error": "No financial tables found"
     },
     {
-      "ticker": "TTL",
+      "ticker": "TRACXN",
       "error": "No financial tables found"
     },
     {
@@ -588,7 +580,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "USK",
+      "ticker": "TTL",
       "error": "No financial tables found"
     },
     {
@@ -596,19 +588,15 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "USK",
+      "error": "No financial tables found"
+    },
+    {
       "ticker": "UTKARSHBNK",
       "error": "No financial tables found"
     },
     {
-      "ticker": "VAML",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "VCL",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VEDPOWER",
       "error": "No financial tables found"
     },
     {
@@ -636,23 +624,15 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "VISL",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "VIVIDHA",
       "error": "No financial tables found"
     },
     {
-      "ticker": "VOGL",
+      "ticker": "VRLLOG",
       "error": "No financial tables found"
     },
     {
       "ticker": "VSTL",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VRLLOG",
       "error": "No financial tables found"
     },
     {
@@ -668,11 +648,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "WONDERLA",
+      "ticker": "ZENITHEXPO",
       "error": "No financial tables found"
     },
     {
-      "ticker": "ZENITHEXPO",
+      "ticker": "WONDERLA",
       "error": "No financial tables found"
     }
   ]
