@@ -1,0 +1,111 @@
+{
+  "ticker": "NARMADA",
+  "years": {
+    "FY2026": {
+      "profitLoss": {
+        "kpIs": {
+          "revenueCr": 78.39,
+          "totalExpensesCr": 73.41,
+          "operatingProfitCr": 4.98,
+          "otherIncomeCr": 1.27,
+          "financeCostCr": 0.82,
+          "depreciationCr": 0.22,
+          "pbtCr": 5.21,
+          "patCr": 3.86,
+          "epsRs": 0.51,
+          "dividendCr": 0.0
+        },
+        "items": [
+          {
+            "label": "Sales+",
+            "current": 78.39
+          },
+          {
+            "label": "Expenses+",
+            "current": 73.41
+          },
+          {
+            "label": "Operating Profit",
+            "current": 4.98
+          },
+          {
+            "label": "OPM %",
+            "current": 6.35
+          },
+          {
+            "label": "Other Income+",
+            "current": 1.27
+          },
+          {
+            "label": "Interest",
+            "current": 0.82
+          },
+          {
+            "label": "Depreciation",
+            "current": 0.22
+          },
+          {
+            "label": "Profit before tax",
+            "current": 5.21
+          },
+          {
+            "label": "Tax %",
+            "current": 25.91
+          },
+          {
+            "label": "Net Profit+",
+            "current": 3.86
+          },
+          {
+            "label": "EPS in Rs",
+            "current": 0.51
+          },
+          {
+            "label": "Dividend Payout %",
+            "current": 0.0
+          }
+        ]
+      },
+      "balanceSheet": {
+        "kpIs": {
+          "revenueCr": 78.39,
+          "totalExpensesCr": 73.41,
+          "operatingProfitCr": 4.98,
+          "otherIncomeCr": 1.27,
+          "financeCostCr": 0.82,
+          "depreciationCr": 0.22,
+          "pbtCr": 5.21,
+          "patCr": 3.86,
+          "epsRs": 0.51,
+          "dividendCr": 0.0
+        },
+        "items": []
+      },
+      "cashFlow": {
+        "kpIs": {
+          "revenueCr": 78.39,
+          "totalExpensesCr": 73.41,
+          "operatingProfitCr": 4.98,
+          "otherIncomeCr": 1.27,
+          "financeCostCr": 0.82,
+          "depreciationCr": 0.22,
+          "pbtCr": 5.21,
+          "patCr": 3.86,
+          "epsRs": 0.51,
+          "dividendCr": 0.0
+        },
+        "items": []
+      }
+    }
+  },
+  "metadata": {
+    "schemaVersion": 2,
+    "generatedAt": "2026-08-17T04:23:11.478085+00:00",
+    "source": "screener.in/NARMADA/consolidated",
+    "yearsCovered": [
+      "FY2026"
+    ],
+    "reportingType": "nonFinancial",
+    "dataVersion": 2
+  }
+}

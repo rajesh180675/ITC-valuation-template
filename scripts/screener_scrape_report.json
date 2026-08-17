@@ -1,35 +1,251 @@
 {
-  "timestamp": "2026-08-08T21:37:03.441694+00:00",
+  "timestamp": "2026-08-17T04:28:44.573554+00:00",
   "args": {
     "batch": "file",
     "workers": 2,
     "resume": true
   },
-  "total": 172,
-  "success": 8,
-  "fail": 163,
+  "total": 300,
+  "success": 44,
+  "fail": 255,
   "skipped": 1,
-  "elapsed_seconds": 369.8311393260956,
+  "elapsed_seconds": 680.9506766796112,
   "failures": [
     {
       "ticker": "AASTHA",
       "error": "No financial tables found"
     },
     {
+      "ticker": "AAREYDRUGS",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ACGL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ACGL/"
+    },
+    {
+      "ticker": "ADDIND",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ADDIND/"
+    },
+    {
       "ticker": "AFIL",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "ADVIKCA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ADVIKCA/"
+    },
+    {
+      "ticker": "ALFREDHE",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ALFREDHE/"
+    },
+    {
+      "ticker": "ALUFLUOR",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ALUFLUOR/"
+    },
+    {
+      "ticker": "AMAL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/AMAL/"
+    },
+    {
+      "ticker": "ANSALBU",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ANSALBU/"
+    },
+    {
+      "ticker": "APOORVA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/APOORVA/"
+    },
+    {
+      "ticker": "ARDEE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ARCL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ARCL/"
     },
     {
       "ticker": "ARTNIRMAN",
       "error": "No financial tables found"
     },
     {
+      "ticker": "ARYAMAN",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ARYAMAN/"
+    },
+    {
+      "ticker": "ASIANTNE",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ASIANTNE/"
+    },
+    {
+      "ticker": "ASSAMENT",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ASSAMENT/"
+    },
+    {
       "ticker": "AVADHSUGAR",
       "error": "No financial tables found"
     },
     {
+      "ticker": "AUSTENG",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/AUSTENG/"
+    },
+    {
+      "ticker": "AVANCE",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/AVANCE/"
+    },
+    {
+      "ticker": "AXTEL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/AXTEL/"
+    },
+    {
+      "ticker": "AZADIND",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/AZADIND/"
+    },
+    {
+      "ticker": "BENARAS",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/BENARAS/"
+    },
+    {
+      "ticker": "BLUECLOUDS",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/BLUECLOUDS/"
+    },
+    {
       "ticker": "BOHRAIND",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "BPLPHARMA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/BPLPHARMA/"
+    },
+    {
+      "ticker": "BRAHMINFRA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/BRAHMINFRA/"
+    },
+    {
+      "ticker": "BRIGHTBR",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/BRIGHTBR/"
+    },
+    {
+      "ticker": "CFEL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/CFEL/"
+    },
+    {
+      "ticker": "CGVAK",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/CGVAK/"
+    },
+    {
+      "ticker": "CHEMCRUX",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/CHEMCRUX/"
+    },
+    {
+      "ticker": "COMPEAU",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/COMPEAU/"
+    },
+    {
+      "ticker": "CRAVATEX",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/CRAVATEX/"
+    },
+    {
+      "ticker": "CRSL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/CRSL/"
+    },
+    {
+      "ticker": "DEEP",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/DEEP/"
+    },
+    {
+      "ticker": "DHABRIYA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/DHABRIYA/"
+    },
+    {
+      "ticker": "DHATRE",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/DHATRE/"
+    },
+    {
+      "ticker": "EASTWEST",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/EASTWEST/"
+    },
+    {
+      "ticker": "EBIX",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/EBIX/"
+    },
+    {
+      "ticker": "ECORECO",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ECORECO/"
+    },
+    {
+      "ticker": "EKI",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/EKI/"
+    },
+    {
+      "ticker": "EMPIND",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/EMPIND/"
+    },
+    {
+      "ticker": "ENKEIWHEL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ENKEIWHEL/"
+    },
+    {
+      "ticker": "FREDUN",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/FREDUN/"
+    },
+    {
+      "ticker": "GLOBALE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "HAMPTON",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/HAMPTON/"
+    },
+    {
+      "ticker": "HAZOOR",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/HAZOOR/"
+    },
+    {
+      "ticker": "HINDADH",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/HINDADH/"
+    },
+    {
+      "ticker": "HBPOR",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/HBPOR/"
+    },
+    {
+      "ticker": "HINDALUMI",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/HINDALUMI/"
+    },
+    {
+      "ticker": "HRYNSHP",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/HRYNSHP/"
+    },
+    {
+      "ticker": "INDOKEM",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/INDOKEM/"
+    },
+    {
+      "ticker": "ISTLTD",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ISTLTD/"
+    },
+    {
+      "ticker": "ITL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ITL/"
+    },
+    {
+      "ticker": "JENBURPH",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/JENBURPH/"
+    },
+    {
+      "ticker": "JYOTIRES",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/JYOTIRES/"
+    },
+    {
+      "ticker": "KAKATCEM",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "KAMANWALA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/KAMANWALA/"
+    },
+    {
+      "ticker": "KANCOTEA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/KANCOTEA/"
     },
     {
       "ticker": "KHAICHEM",
@@ -38,6 +254,10 @@
     {
       "ticker": "KREBSBIO",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "KMCSHIL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/KMCSHIL/"
     },
     {
       "ticker": "KRISHANA",
@@ -56,7 +276,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "KSR",
+      "ticker": "KSE",
       "error": "No financial tables found"
     },
     {
@@ -64,7 +284,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "KWIL",
+      "ticker": "KSR",
       "error": "No financial tables found"
     },
     {
@@ -72,7 +292,19 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "KWIL",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "LADDERUP",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/LADDERUP/"
+    },
+    {
       "ticker": "LAGNAM",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "LAKSHMIMIL",
       "error": "No financial tables found"
     },
     {
@@ -88,15 +320,19 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "LEXUS",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "LASA",
       "error": "No financial tables found"
     },
     {
-      "ticker": "LGEINDIA",
+      "ticker": "LAXMIINDIA",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "LEENEE",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/LEENEE/"
+    },
+    {
+      "ticker": "LEXUS",
       "error": "No financial tables found"
     },
     {
@@ -104,15 +340,23 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "LOTUSEYE",
+      "ticker": "LGEINDIA",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "LKPSEC",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/LKPSEC/"
     },
     {
       "ticker": "LORDSCHLO",
       "error": "No financial tables found"
     },
     {
-      "ticker": "LPDC",
+      "ticker": "LOTUSCHO",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/LOTUSCHO/"
+    },
+    {
+      "ticker": "LOTUSEYE",
       "error": "No financial tables found"
     },
     {
@@ -120,7 +364,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "MADRASFERT",
+      "ticker": "LPDC",
       "error": "No financial tables found"
     },
     {
@@ -128,11 +372,19 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "MALUPAPER",
+      "ticker": "MADRASFERT",
       "error": "No financial tables found"
     },
     {
       "ticker": "MAGADSUGAR",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "MAKERSL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MAKERSL/"
+    },
+    {
+      "ticker": "MALUPAPER",
       "error": "No financial tables found"
     },
     {
@@ -148,7 +400,19 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "MANBRO",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MANBRO/"
+    },
+    {
       "ticker": "MANOMAY",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "MARALOVER",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "MASKINVEST",
       "error": "No financial tables found"
     },
     {
@@ -156,20 +420,44 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "MCL",
+      "error": "No financial tables found"
+    },
+    {
       "ticker": "MEDICO",
       "error": "No financial tables found"
     },
     {
-      "ticker": "MCL",
+      "ticker": "MEDICAPQ",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MEDICAPQ/"
+    },
+    {
+      "ticker": "MEIL",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "MIIL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MIIL/"
+    },
+    {
+      "ticker": "MINALIND",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MINALIND/"
+    },
+    {
+      "ticker": "MKEXIM",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MKEXIM/"
     },
     {
       "ticker": "MKPL",
       "error": "No financial tables found"
     },
     {
-      "ticker": "MEIL",
-      "error": "No financial tables found"
+      "ticker": "MLKFOOD",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MLKFOOD/"
+    },
+    {
+      "ticker": "MOHITE",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MOHITE/"
     },
     {
       "ticker": "MOKSH",
@@ -182,6 +470,18 @@
     {
       "ticker": "MOTISONS",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "MPDL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MPDL/"
+    },
+    {
+      "ticker": "MSL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MSL/"
+    },
+    {
+      "ticker": "MUKESHB",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/MUKESHB/"
     },
     {
       "ticker": "MUNJALSHOW",
@@ -216,19 +516,15 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "NARMADA",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "NIRAJISPAT",
-      "error": "No financial tables found"
-    },
-    {
       "ticker": "NDL",
       "error": "No financial tables found"
     },
     {
-      "ticker": "NITINSPIN",
+      "ticker": "NICCOPAR",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/NICCOPAR/"
+    },
+    {
+      "ticker": "NIRAJISPAT",
       "error": "No financial tables found"
     },
     {
@@ -236,11 +532,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "NORBTEAEXP",
+      "ticker": "NITINSPIN",
       "error": "No financial tables found"
     },
     {
-      "ticker": "NOVARTIND",
+      "ticker": "NORBTEAEXP",
       "error": "No financial tables found"
     },
     {
@@ -248,8 +544,36 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "NOVARTIND",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "ODIGMA",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "NTCIND",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/NTCIND/"
+    },
+    {
+      "ticker": "ODYCORP",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ODYCORP/"
+    },
+    {
       "ticker": "OMPOWER",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "ONEGLOBAL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ONEGLOBAL/"
+    },
+    {
+      "ticker": "ONIXSOLAR",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ONIXSOLAR/"
+    },
+    {
+      "ticker": "OPTIFIN",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/OPTIFIN/"
     },
     {
       "ticker": "ORIENTALTL",
@@ -260,16 +584,40 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "PAR",
-      "error": "No financial tables found"
+      "ticker": "ORIRAIL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/ORIRAIL/"
     },
     {
       "ticker": "ORISSAMINE",
       "error": "No financial tables found"
     },
     {
+      "ticker": "ORTINGLOBE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "PACIFICI",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/PACIFICI/"
+    },
+    {
+      "ticker": "PANCHMAHQ",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/PANCHMAHQ/"
+    },
+    {
+      "ticker": "PANORAMA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/PANORAMA/"
+    },
+    {
+      "ticker": "PAR",
+      "error": "No financial tables found"
+    },
+    {
       "ticker": "PARASPETRO",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "PARNAXLAB",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/PARNAXLAB/"
     },
     {
       "ticker": "PATELRMART",
@@ -280,8 +628,20 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "PBMPOLY",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/PBMPOLY/"
+    },
+    {
       "ticker": "PDMJEPAPER",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "PEARLPOLY",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "PERMAGN",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/PERMAGN/"
     },
     {
       "ticker": "PGHH",
@@ -292,11 +652,19 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "PNBGILTS",
+      "ticker": "PILITA",
       "error": "No financial tables found"
     },
     {
       "ticker": "PLASTIBLEN",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "PLAZACABLE",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "PNBGILTS",
       "error": "No financial tables found"
     },
     {
@@ -306,6 +674,14 @@
     {
       "ticker": "PODDARMENT",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "POEL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/POEL/"
+    },
+    {
+      "ticker": "POLYSPIN",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/POLYSPIN/"
     },
     {
       "ticker": "PONNIERODE",
@@ -324,19 +700,23 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "PYRAMID",
-      "error": "No financial tables found"
+      "ticker": "PRISMX",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/PRISMX/"
     },
     {
       "ticker": "PSB",
       "error": "No financial tables found"
     },
     {
-      "ticker": "RADHIKAJWE",
+      "ticker": "QUADFUTURE",
       "error": "No financial tables found"
     },
     {
-      "ticker": "QUADFUTURE",
+      "ticker": "PYRAMID",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "RADHIKAJWE",
       "error": "No financial tables found"
     },
     {
@@ -352,6 +732,10 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "RAMBHAJO",
+      "error": "No financial tables found"
+    },
+    {
       "ticker": "RAMAPHO",
       "error": "No financial tables found"
     },
@@ -360,7 +744,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "RAMBHAJO",
+      "ticker": "RBZJEWEL",
       "error": "No financial tables found"
     },
     {
@@ -368,7 +752,7 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "RBZJEWEL",
+      "ticker": "REGAAL",
       "error": "No financial tables found"
     },
     {
@@ -380,11 +764,11 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "RKDL",
+      "ticker": "RHL",
       "error": "No financial tables found"
     },
     {
-      "ticker": "RHL",
+      "ticker": "RKDL",
       "error": "No financial tables found"
     },
     {
@@ -400,8 +784,20 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "RRECL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/RRECL/"
+    },
+    {
+      "ticker": "RTSPOWR",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/RTSPOWR/"
+    },
+    {
       "ticker": "RUCHIRA",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "SAB",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SAB/"
     },
     {
       "ticker": "SAHLIBHFI",
@@ -410,6 +806,10 @@
     {
       "ticker": "SAHYADRI",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "SAICAPI",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SAICAPI/"
     },
     {
       "ticker": "SALONA",
@@ -432,6 +832,10 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "SAYAJIIND",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SAYAJIIND/"
+    },
+    {
       "ticker": "SCODATUBES",
       "error": "No financial tables found"
     },
@@ -448,24 +852,52 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "SEKURITIND",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SEKURITIND/"
+    },
+    {
       "ticker": "SGL",
       "error": "No financial tables found"
     },
     {
-      "ticker": "SHANTIGOLD",
-      "error": "No financial tables found"
+      "ticker": "SGLRES",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SGLRES/"
     },
     {
       "ticker": "SHANTIGEAR",
       "error": "No financial tables found"
     },
     {
-      "ticker": "SHEKHAWATI",
-      "error": "No financial tables found"
+      "ticker": "SGRL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SGRL/"
+    },
+    {
+      "ticker": "SHERVANI",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SHERVANI/"
     },
     {
       "ticker": "SHILCTECH",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "SHILGRAVQ",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SHILGRAVQ/"
+    },
+    {
+      "ticker": "SHIVAAGRO",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SHIVAAGRO/"
+    },
+    {
+      "ticker": "SHIVACEM",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SHIVACEM/"
+    },
+    {
+      "ticker": "SHIVAMILLS",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "SHRADDHA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SHRADDHA/"
     },
     {
       "ticker": "SHREERAMA",
@@ -480,15 +912,27 @@
       "error": "No financial tables found"
     },
     {
+      "ticker": "SHRJAGP",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SHRJAGP/"
+    },
+    {
+      "ticker": "SIEL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SIEL/"
+    },
+    {
       "ticker": "SIGIND",
       "error": "No financial tables found"
     },
     {
-      "ticker": "SKFINDUS",
-      "error": "No financial tables found"
+      "ticker": "SIMPLXREA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SIMPLXREA/"
     },
     {
       "ticker": "SINTERCOM",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "SKFINDUS",
       "error": "No financial tables found"
     },
     {
@@ -508,11 +952,15 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "SRD",
-      "error": "No financial tables found"
+      "ticker": "SPELS",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SPELS/"
     },
     {
       "ticker": "SPORTKING",
+      "error": "No financial tables found"
+    },
+    {
+      "ticker": "SRD",
       "error": "No financial tables found"
     },
     {
@@ -528,139 +976,59 @@
       "error": "No financial tables found"
     },
     {
-      "ticker": "STALLION",
-      "error": "No financial tables found"
+      "ticker": "SRIKPRIND",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SRIKPRIND/"
     },
     {
       "ticker": "STEELCAS",
       "error": "No financial tables found"
     },
     {
-      "ticker": "SWARAJENG",
-      "error": "No financial tables found"
+      "ticker": "STLSTRINF",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/STLSTRINF/"
+    },
+    {
+      "ticker": "SUMEDHA",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SUMEDHA/"
+    },
+    {
+      "ticker": "SUNLOC",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SUNLOC/"
+    },
+    {
+      "ticker": "SUNRAKSHAK",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SUNRAKSHAK/"
+    },
+    {
+      "ticker": "SUNSHIEL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SUNSHIEL/"
+    },
+    {
+      "ticker": "SUPTANERY",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SUPTANERY/"
     },
     {
       "ticker": "SURYODAY",
       "error": "No financial tables found"
     },
     {
-      "ticker": "TARAPUR",
+      "ticker": "SVGLOBAL",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SVGLOBAL/"
+    },
+    {
+      "ticker": "SWARAJENG",
       "error": "No financial tables found"
+    },
+    {
+      "ticker": "SWARNSAR",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SWARNSAR/"
+    },
+    {
+      "ticker": "SWISSMLTRY",
+      "error": "404 Client Error: Not Found for url: https://www.screener.in/company/SWISSMLTRY/"
     },
     {
       "ticker": "TAINWALCHM",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TASTYBITE",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "THOMASCOTT",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TIJARIA",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TIMEX",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TIPSFILMS",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TNPL",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TRACXN",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TNTELE",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TTL",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "TTKHLTCARE",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "UNIENTER",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "USK",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VCL",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "UTKARSHBNK",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VENKEYS",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VENUSPIPES",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VINNY",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VESUVIUS",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VINYLINDIA",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VISHWARAJ",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VIVIDHA",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VRLLOG",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "VSTL",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "WAAREEINDO",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "WALCHANNAG",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "WELSPLSOL",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "ZENITHEXPO",
-      "error": "No financial tables found"
-    },
-    {
-      "ticker": "WONDERLA",
       "error": "No financial tables found"
     }
   ]
